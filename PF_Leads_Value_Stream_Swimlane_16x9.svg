@@ -1,0 +1,237 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#475569"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title { font: 700 34px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 18px Arial, sans-serif; fill: #475569; }
+      .stage-title { font: 700 17px Arial, sans-serif; fill: #0f172a; }
+      .stage-sub { font: 400 13px Arial, sans-serif; fill: #64748b; }
+      .lane-title { font: 700 18px Arial, sans-serif; fill: #0f172a; }
+      .lane-sub { font: 400 12px Arial, sans-serif; fill: #64748b; }
+      .card-title { font: 700 15px Arial, sans-serif; fill: #0f172a; }
+      .card-text { font: 400 13px Arial, sans-serif; fill: #334155; }
+      .small { font: 400 12px Arial, sans-serif; fill: #475569; }
+      .tiny { font: 400 11px Arial, sans-serif; fill: #64748b; }
+      .road-title { font: 700 15px Arial, sans-serif; fill: #0f172a; }
+      .road-text { font: 400 12px Arial, sans-serif; fill: #334155; }
+      .line { stroke: #475569; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .thin-line { stroke: #94a3b8; stroke-width: 1.8; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#f8fafc"/>
+
+  <!-- Header -->
+  <text x="60" y="54" class="title">PF Leads Refactoring Value Stream</text>
+  <text x="60" y="84" class="subtitle">从 Lead 源头到顾问呈现与管理报表的端到端业务全景图 · 16:9 固定画布</text>
+  <rect x="1506" y="30" width="354" height="52" rx="14" fill="#0f172a"/>
+  <text x="1530" y="53" style="font:700 14px Arial,sans-serif;fill:white;">Target Vision</text>
+  <text x="1530" y="72" style="font:400 12px Arial,sans-serif;fill:#cbd5e1;">Clean leads · Configurable rules · Traceable outcomes</text>
+
+  <!-- Stage headers -->
+  <g filter="url(#shadow)">
+    <rect x="240" y="116" width="260" height="64" rx="14" fill="#dbeafe" stroke="#3b82f6"/>
+    <rect x="510" y="116" width="260" height="64" rx="14" fill="#e0f2fe" stroke="#0284c7"/>
+    <rect x="780" y="116" width="260" height="64" rx="14" fill="#fef3c7" stroke="#d97706"/>
+    <rect x="1050" y="116" width="260" height="64" rx="14" fill="#ede9fe" stroke="#7c3aed"/>
+    <rect x="1320" y="116" width="260" height="64" rx="14" fill="#ccfbf1" stroke="#0d9488"/>
+    <rect x="1590" y="116" width="270" height="64" rx="14" fill="#e5e7eb" stroke="#64748b"/>
+  </g>
+  <text x="260" y="143" class="stage-title">1. Lead Sources</text>
+  <text x="260" y="164" class="stage-sub">线索来源</text>
+  <text x="530" y="143" class="stage-title">2. Ingestion</text>
+  <text x="530" y="164" class="stage-sub">统一接入与标准化</text>
+  <text x="800" y="143" class="stage-title">3. Validation</text>
+  <text x="800" y="164" class="stage-sub">数据质量闸口</text>
+  <text x="1070" y="143" class="stage-title">4. Allocation</text>
+  <text x="1070" y="164" class="stage-sub">分配决策</text>
+  <text x="1340" y="143" class="stage-title">5. Enablement</text>
+  <text x="1340" y="164" class="stage-sub">富化与顾问赋能</text>
+  <text x="1610" y="143" class="stage-title">6. Visibility</text>
+  <text x="1610" y="164" class="stage-sub">业务呈现与管理闭环</text>
+
+  <!-- Swimlane backgrounds -->
+  <rect x="60" y="202" width="1800" height="148" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+  <rect x="60" y="362" width="1800" height="178" rx="16" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <rect x="60" y="552" width="1800" height="142" rx="16" fill="#fff7ed" stroke="#fed7aa"/>
+  <rect x="60" y="706" width="1800" height="132" rx="16" fill="#f8fafc" stroke="#cbd5e1"/>
+
+  <!-- Lane labels -->
+  <rect x="78" y="224" width="138" height="104" rx="12" fill="#e2e8f0"/>
+  <text x="96" y="255" class="lane-title">Business</text>
+  <text x="96" y="276" class="lane-title">Flow</text>
+  <text x="96" y="302" class="lane-sub">业务主流程</text>
+
+  <rect x="78" y="394" width="138" height="114" rx="12" fill="#e2e8f0"/>
+  <text x="96" y="427" class="lane-title">System</text>
+  <text x="96" y="448" class="lane-title">Processing</text>
+  <text x="96" y="474" class="lane-sub">后台处理能力</text>
+
+  <rect x="78" y="574" width="138" height="98" rx="12" fill="#fed7aa"/>
+  <text x="96" y="605" class="lane-title">Exception</text>
+  <text x="96" y="626" class="lane-title">&amp; Audit</text>
+  <text x="96" y="651" class="lane-sub">异常与审计</text>
+
+  <rect x="78" y="728" width="138" height="88" rx="12" fill="#e2e8f0"/>
+  <text x="96" y="762" class="lane-title">Governance</text>
+  <text x="96" y="788" class="lane-sub">规则治理能力</text>
+
+  <!-- Business flow cards -->
+  <g filter="url(#shadow)">
+    <rect x="250" y="232" width="230" height="86" rx="14" fill="#eff6ff" stroke="#60a5fa"/>
+    <rect x="520" y="232" width="230" height="86" rx="14" fill="#ecfeff" stroke="#22d3ee"/>
+    <rect x="790" y="232" width="230" height="86" rx="14" fill="#fffbeb" stroke="#f59e0b"/>
+    <rect x="1060" y="232" width="230" height="86" rx="14" fill="#f5f3ff" stroke="#8b5cf6"/>
+    <rect x="1330" y="232" width="230" height="86" rx="14" fill="#f0fdfa" stroke="#14b8a6"/>
+    <rect x="1600" y="232" width="240" height="86" rx="14" fill="#f8fafc" stroke="#64748b"/>
+  </g>
+  <text x="270" y="261" class="card-title">Lead enters PF Leads</text>
+  <text x="270" y="284" class="card-text">Everlytic / file / manual</text>
+  <text x="270" y="304" class="card-text">统一进入线索漏斗</text>
+
+  <text x="540" y="261" class="card-title">Standardise payload</text>
+  <text x="540" y="284" class="card-text">转成统一 Lead Record</text>
+  <text x="540" y="304" class="card-text">失败可重试、可通知</text>
+
+  <text x="810" y="261" class="card-title">Quality gate</text>
+  <text x="810" y="284" class="card-text">先判断是否可处理</text>
+  <text x="810" y="304" class="card-text">脏数据不进入分配</text>
+
+  <text x="1080" y="261" class="card-title">Assign to adviser</text>
+  <text x="1080" y="284" class="card-text">只分给合适顾问</text>
+  <text x="1080" y="304" class="card-text">支持优先级与规则</text>
+
+  <text x="1350" y="261" class="card-title">Adviser action</text>
+  <text x="1350" y="284" class="card-text">看到上下文和建议</text>
+  <text x="1350" y="304" class="card-text">使用模板快速跟进</text>
+
+  <text x="1620" y="261" class="card-title">Business visibility</text>
+  <text x="1620" y="284" class="card-text">运营看异常与效率</text>
+  <text x="1620" y="304" class="card-text">管理层看转化闭环</text>
+
+  <path d="M480 275 H520" class="line"/>
+  <path d="M750 275 H790" class="line"/>
+  <path d="M1020 275 H1060" class="line"/>
+  <path d="M1290 275 H1330" class="line"/>
+  <path d="M1560 275 H1600" class="line"/>
+
+  <!-- System processing cards -->
+  <g filter="url(#shadow)">
+    <rect x="250" y="392" width="230" height="108" rx="14" fill="#ffffff" stroke="#bfdbfe"/>
+    <rect x="520" y="392" width="230" height="108" rx="14" fill="#ffffff" stroke="#bae6fd"/>
+    <rect x="790" y="392" width="230" height="108" rx="14" fill="#ffffff" stroke="#fde68a"/>
+    <rect x="1060" y="392" width="230" height="108" rx="14" fill="#ffffff" stroke="#ddd6fe"/>
+    <rect x="1330" y="392" width="230" height="108" rx="14" fill="#ffffff" stroke="#99f6e4"/>
+    <rect x="1600" y="392" width="240" height="108" rx="14" fill="#ffffff" stroke="#cbd5e1"/>
+  </g>
+  <text x="270" y="419" class="card-title">Source adapters</text>
+  <text x="270" y="443" class="card-text">• Everlytic webhook</text>
+  <text x="270" y="463" class="card-text">• MADM batch file</text>
+  <text x="270" y="483" class="card-text">• SQS / manual creation</text>
+
+  <text x="540" y="419" class="card-title">Ingestion framework</text>
+  <text x="540" y="443" class="card-text">• Payload mapping</text>
+  <text x="540" y="463" class="card-text">• File retry / tracking</text>
+  <text x="540" y="483" class="card-text">• Record-level visibility</text>
+
+  <text x="810" y="419" class="card-title">Validation pipeline</text>
+  <text x="810" y="443" class="card-text">• Campaign / Name</text>
+  <text x="810" y="463" class="card-text">• Customer / PSI / Deceased</text>
+  <text x="810" y="483" class="card-text">• Same &amp; cross campaign dedup</text>
+
+  <text x="1080" y="419" class="card-title">Allocation engine</text>
+  <text x="1080" y="443" class="card-text">• Active / available adviser</text>
+  <text x="1080" y="463" class="card-text">• Opt-in / opt-out</text>
+  <text x="1080" y="483" class="card-text">• Hot lead prioritisation</text>
+
+  <text x="1350" y="419" class="card-title">Enablement services</text>
+  <text x="1350" y="443" class="card-text">• Maturity enrichment</text>
+  <text x="1350" y="463" class="card-text">• AI conversation guide</text>
+  <text x="1350" y="483" class="card-text">• Template library</text>
+
+  <text x="1620" y="419" class="card-title">Reporting services</text>
+  <text x="1620" y="443" class="card-text">• PFMI export views</text>
+  <text x="1620" y="463" class="card-text">• SLA and lead state</text>
+  <text x="1620" y="483" class="card-text">• Campaign performance</text>
+
+  <path d="M480 446 H520" class="thin-line"/>
+  <path d="M750 446 H790" class="thin-line"/>
+  <path d="M1020 446 H1060" class="thin-line"/>
+  <path d="M1290 446 H1330" class="thin-line"/>
+  <path d="M1560 446 H1600" class="thin-line"/>
+
+  <!-- Exception & audit cards -->
+  <g filter="url(#shadow)">
+    <rect x="250" y="583" width="500" height="80" rx="14" fill="#fff7ed" stroke="#fb923c"/>
+    <rect x="790" y="583" width="230" height="80" rx="14" fill="#fff1f2" stroke="#fb7185"/>
+    <rect x="1060" y="583" width="230" height="80" rx="14" fill="#fff7ed" stroke="#fb923c"/>
+    <rect x="1330" y="583" width="510" height="80" rx="14" fill="#f8fafc" stroke="#94a3b8"/>
+  </g>
+  <text x="270" y="612" class="card-title">File / ingestion failures</text>
+  <text x="270" y="636" class="card-text">失败原因、重试状态、通知 IT / Data team，避免整批阻断</text>
+
+  <text x="810" y="612" class="card-title">Validation exception</text>
+  <text x="810" y="636" class="card-text">Hard stop 或 risk</text>
+
+  <text x="1080" y="612" class="card-title">Allocation audit</text>
+  <text x="1080" y="636" class="card-text">记录分配原因与排除原因</text>
+
+  <text x="1350" y="612" class="card-title">Unified exception catalogue</text>
+  <text x="1350" y="636" class="card-text">标准 reason / category / is_hard_stop，支撑 PFMI 报表与运营分析</text>
+
+  <path d="M905 500 V583" class="thin-line"/>
+  <path d="M1175 500 V583" class="thin-line"/>
+  <path d="M1290 623 H1330" class="thin-line"/>
+
+  <!-- Governance row -->
+  <g filter="url(#shadow)">
+    <rect x="250" y="734" width="360" height="68" rx="14" fill="#ffffff" stroke="#cbd5e1"/>
+    <rect x="650" y="734" width="360" height="68" rx="14" fill="#ffffff" stroke="#cbd5e1"/>
+    <rect x="1050" y="734" width="360" height="68" rx="14" fill="#ffffff" stroke="#cbd5e1"/>
+    <rect x="1450" y="734" width="390" height="68" rx="14" fill="#ffffff" stroke="#cbd5e1"/>
+  </g>
+  <text x="270" y="761" class="card-title">Payload contract</text>
+  <text x="270" y="783" class="card-text">所有来源共享统一字段语义</text>
+  <text x="670" y="761" class="card-title">Rule registry</text>
+  <text x="670" y="783" class="card-text">规则元数据、依赖、顺序、启用状态</text>
+  <text x="1070" y="761" class="card-title">Rule management</text>
+  <text x="1070" y="783" class="card-text">业务配置分配规则并审计变更</text>
+  <text x="1470" y="761" class="card-title">Management feedback loop</text>
+  <text x="1470" y="783" class="card-text">用报表结果反向优化规则和 campaign</text>
+
+  <path d="M830 734 V500" class="thin-line"/>
+  <path d="M1230 734 V500" class="thin-line"/>
+
+  <!-- Roadmap -->
+  <rect x="60" y="872" width="1800" height="156" rx="18" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="84" y="904" style="font:700 22px Arial,sans-serif;fill:#0f172a;">Implementation Roadmap</text>
+  <text x="84" y="930" class="subtitle">建议按主链路风险从左到右推进：先稳入口和质量，再治理规则，最后提升顾问体验与管理闭环。</text>
+
+  <g filter="url(#shadow)">
+    <rect x="92" y="956" width="320" height="48" rx="12" fill="#dbeafe" stroke="#3b82f6"/>
+    <rect x="438" y="956" width="320" height="48" rx="12" fill="#fef3c7" stroke="#d97706"/>
+    <rect x="784" y="956" width="320" height="48" rx="12" fill="#ede9fe" stroke="#7c3aed"/>
+    <rect x="1130" y="956" width="320" height="48" rx="12" fill="#ccfbf1" stroke="#0d9488"/>
+    <rect x="1476" y="956" width="350" height="48" rx="12" fill="#e5e7eb" stroke="#64748b"/>
+  </g>
+  <text x="112" y="977" class="road-title">Phase 1 · Stabilise Intake</text>
+  <text x="112" y="995" class="road-text">标准 Payload、重试、失败通知</text>
+  <text x="458" y="977" class="road-title">Phase 2 · Quality Gate</text>
+  <text x="458" y="995" class="road-text">Validation pipeline、dedup、audit</text>
+  <text x="804" y="977" class="road-title">Phase 3 · Rule Governance</text>
+  <text x="804" y="995" class="road-text">Rule registry、exception catalogue</text>
+  <text x="1150" y="977" class="road-title">Phase 4 · Allocation + Enablement</text>
+  <text x="1150" y="995" class="road-text">顾问资格、Hot Lead、AI、模板库</text>
+  <text x="1496" y="977" class="road-title">Phase 5 · Management Loop</text>
+  <text x="1496" y="995" class="road-text">PFMI、SLA、Campaign、转化追踪</text>
+
+  <path d="M412 980 H438" class="thin-line"/>
+  <path d="M758 980 H784" class="thin-line"/>
+  <path d="M1104 980 H1130" class="thin-line"/>
+  <path d="M1450 980 H1476" class="thin-line"/>
+</svg>
