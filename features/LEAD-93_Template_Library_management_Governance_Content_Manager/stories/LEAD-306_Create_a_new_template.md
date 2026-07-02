@@ -75,7 +75,7 @@ Description (plain text, max 500 characters)
 Format (select : Emailer, Campaign)
 Tags (Content Type, Trigger; Financial Need, Lifecycle stage)
 Then the system captures and retains the inputs
-And format selection dynamically controls which content fields are displayed(could you please confirm that all these format: campaign, toolkit, infographic are keep existing design?) Only email and campaign will have same existing design- I am removing the rest, as I recall Tracey added this to a feature story.
+And format selection dynamically controls which content fields are displayed
 And changing the format clears incompatible content with user confirmation
 AC3: Save Draft Template
 Given the Content Manager has entered partial or complete information
@@ -83,7 +83,35 @@ When the Content Manager clicks Save Draft
 Then the system creates the template record in the database
 And assigns a unique template ID
 And the draft template becomes visible in the Templates Library to Content Managers
-Missing AC4：AC for Publish (should we add requried field check & whether can return back to draft after published?) Yes  please
+AC4: Publish Template with Validation
+Given the Content Manager is editing a Draft template and all content is complete
+When the Content Manager clicks "Publish"
+Then the system performs a pre-publish validation check on the following required fields:
+* * * * * * * Title (not empty, max 120 characters)
+Description (not empty, max 500 characters)
+Format (must be selected)
+Category (must be assigned)
+Subcategory (must be assigned)
+At least one Tag assigned
+Template content body is not empty
+If all required fields pass validation
+Then:
+* * * * The system updates the template status from Draft → Published
+The template becomes visible to Advisers
+A new version entry is created in the version history
+A success message is displayed: "Template [Title] has been published successfully"
+If one or more required fields fail validation
+Then:
+* * * * * The system blocks the publish action
+The system highlights each failed field with an inline error message (e.g., "Title is required", "Category must be assigned")
+A summary banner is displayed at the top: "X field(s) must be completed before publishing"
+The template remains in Draft status
+No version entry is created
+When the Content Manager clicks "Edit" on a Published template
+Then:
+* * * The system creates a working copy with status = Draft
+The previously published version remains visible to Advisers until the new Draft is re-published
+The Content Manager can modify content and re-publish following the same validation rules above
 AC5: Required Field Rules
 * Save Draft
 * * Allows partial completion

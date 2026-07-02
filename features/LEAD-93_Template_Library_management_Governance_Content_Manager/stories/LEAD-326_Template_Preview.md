@@ -24,7 +24,7 @@ The system must perform pre-publish validation to ensure all required fields are
 Flow: Select Template → Preview → System Validates → Show Validation Results → Confirm or Return to Edit
 
 * * The Content Manager goes to the Templates Library
-Selects a template with status Draft or In Review
+Selects a template with status Draft
  Open Preview
 * * The Content Manager clicks Preview (from detail page or action menu)
 The system opens the Preview screen
@@ -56,28 +56,25 @@ Fixes the issues
  If Validation Passes
 * * The system confirms that everything is valid
 The Content Manager can:
-* * * * Proceed to Publish
+* * * Proceed to Publish
 OR go back to edit if needed
-
  Final Outcome
 * The template is:
 * * * Verified for quality
 Displayed correctly
 Ready to be published for advisers
-Buiness Value:
-Ensure templates are correct, complete, and display properly before they are published, so advisers always receive high-quality and reliable content.
 
 
 ## 🎯 Acceptance Criteria (验收标准)
-* * * * * * * * * * * * The CM can preview any template in Draft  from the template detail page or the Action Menu.
+* * * * * * * * * * * The CM can preview any template in Draft  from the template detail page or the Action Menu.
 The preview must render the template exactly as it will appear to advisers, including formatting,  and layout.
 Supported file types must render correctly in preview:
-* * * pdf — embedded PDF viewer
+* * * .pdf — embedded PDF viewer
 .txt — formatted text display
 Unsupported file types must not render and must display an appropriate error message.
 Before publishing, the system must automatically validate:
-* * * * All mandatory fields are completed (Title, Description, Type, Category)
-At least one tag is applied 
+* * * * All mandatory fields are completed (Title, Description, Type)
+At least one tag per mandatory group (Content Type, Trigger Event, Lifecycle Stage, Financial Need)
 Template file is uploaded and not corrupted
 Template category is assigned
 If validation fails, the system must display specific error messages indicating which fields or rules are not met, and block publishing until all errors are resolved.
@@ -86,8 +83,7 @@ If validation passes, the CM can proceed to publish or return to editing.
 The preview must be read-only — no editing is allowed in preview mode.
 A "Back to Edit" button must be available to return to the editing screen from preview.
 Returning to edit must retain all previously entered data.
-On successful publish, template status changes from Draft/ Published.
-Only Content Managers can access preview for non-published templates.
+On successful publish, template status changes from Draft to Published
 
 
 ## 📋 Definition of Ready (DOR) Checklist

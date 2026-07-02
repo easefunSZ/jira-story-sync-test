@@ -93,7 +93,6 @@ Move existing templates into the new structured model
 - **[LEAD-300](stories/LEAD-300_Select_Assign_and_Edit_Tags.md)**: Select /Assign and Edit Tags *(状态: Analysis)*
 - **[LEAD-296](stories/LEAD-296_Delete_a_template.md)**: Delete a template *(状态: Analysis)*
 - **[LEAD-293](stories/LEAD-293_Create_a_category_subcategories.md)**: Create a category/ subcategories  *(状态: Analysis)*
-- **[LEAD-280](stories/LEAD-280_Template_versioning.md)**: Template versioning *(状态: Analysis)*
 - **[LEAD-279](stories/LEAD-279_Manage_Draft_Publish_Workflow.md)**: Manage Draft & Publish Workflow  *(状态: Analysis)*
 - **[LEAD-278](stories/LEAD-278_Edit_a_Published_template.md)**: Edit a Published template  *(状态: Analysis)*
 - **[LEAD-277](stories/LEAD-277_Template_data_model_and_validation_framework.md)**: Template data model and validation framework *(状态: Analysis)*

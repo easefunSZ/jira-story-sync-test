@@ -13,88 +13,77 @@
 
 ## 📖 Original Description
 As a Content Manager
-I want to reassign an existing template to a different category and/or one or more subcategories via drag-and-drop or manual selection
-So that templates remain correctly organised when content structure changes while enforcing the rule that a template belongs to only one category.
+I want to reassign an existing template to a different Category and/or Subcategories via the Edit Form
+So that templates remain correctly organised when content structure changes, while enforcing the rule that a template belongs to only one Category.
 Business Value
 Maintaining an accurate and well-organised template library is critical for Adviser productivity. As business needs evolve, templates may need to be reclassified
 Business rules
-A template belongs to only one category, but may belong to multiple subcategories within that category.
-Drag-and-drop should perform a move (not copy) operation and trigger a confirmation or subcategory selection step.
-When a template is dragged to a different Category:
-* * * *  The template is moved (not copied)
- Its previous Category is replaced
- All existing subcategories are cleared
- User must reselect subcategories for the new Category
-A template should appear only once in the tree (under its Category), but can appear in multiple Subcategories within that Category.
-
-Update UX -g iven a user drags a template to a new Category
-When the drop is completed; Then the system prompts the user to select subcategories before finalising
-
-b) drag & drop to another category
+* * * * A template belongs to exactly one Category, but may belong to multiple Subcategories within that Category.
+Template reassignment is performed via the Edit Form only. Drag-and-drop is reserved for directory sorting.
+Changing the Category clears all previously selected Subcategories — the user must reselect.
+Reassigning Category/Subcategory is a metadata change and does NOT trigger a status change (Published templates remain Published).
+User Journey
+* * * * * Content Manager navigates to the Templates Library.
+Selects an existing template and opens the Edit Form.
+Changes the Category dropdown — Subcategory selections are cleared automatically.
+Selects one or more Subcategories from the new Category.
+Clicks Save — the template is reassigned and the library placement is updated.
 
 
 ## 🎯 Acceptance Criteria (验收标准)
-1. Reassign Template via Drag-and-Drop (Move Only)
-Wven a template exists in Category A with one or more subcategories
-When the user drags and drops the template into Category B
-Then the template is moved to Category B
-And it is removed from Category A
-And all existing subcategories are cleared
-
-* Subcategory Reselection Required After Category Change
-Gven a template has been moved to a new Category
-When the reassignment completes
-Then the system requires the user to select one or more subcategories from the new Category
-And only subcategories belonging to the selected Category are available
-
-* Manual Reassignment via Edit Form
-* * * * *  Given a template exists
-When the user updates the Category via the edit form
-Then the template is assigned to the selected Category
-And all previously assigned subcategories are cleared
-And the user can select multiple subcategories from the selected Category
-
-* Category Constraint Enforcement
-* * * * given a template exists
+AC1: Reassign Category via Edit Form
+Given a template exists and is assigned to Category A with one or more Subcategories
+When the Content Manager opens the Edit Form and changes the Category to Category B
+Then:
+* * * * * The template is assigned to Category B
+The assignment to Category A is removed (move, not copy)
+All previously selected Subcategories (from Category A) are cleared
+The Subcategory list updates to show only Subcategories belonging to Category B
+The Content Manager must select at least one Subcategory from Category B before saving
+AC2: Reassign Subcategories Within Same Category
+Given a template is assigned to Category A with Subcategory X
+When the Content Manager opens the Edit Form and changes the Subcategory selection to Subcategory Y and Subcategory Z (without changing the Category)
+Then:
+* * * * The template remains in Category A
+The template is now assigned to Subcategory Y and Subcategory Z
+Subcategory X is removed
+The template appears under Subcategory Y and Subcategory Z in the library tree
+AC3: Category Constraint — Single Category Only
+Given a template exists
 When viewing or editing the template
-Then the template must have exactly one Category assigned
-And the system prevents assignment to multiple Categories
-* Multiple Ctageory assignamnet
-* * * iven a template belongs to a Category
-When the user selects subcategories
-Then the user can select one or more subcategories
-And all selected subcategories must belong to the same Category
-
-* Status Change on Reassignment
-* * * * Given ven a template is in Published status
-When the Category or Subcategory is changed
-Then the template status changes to Draft
-And the previously published version remains visible to Advisers
-*  Folder tree rendering
-* * * * * Given a template is assigned to a single Category and multiple Subcategories
-When the template library tree is displayed
-Then the template appears under each assigned subcategory within that Category
-And the template does not appear under any other Categories
-And the template is not duplicated as separate records
-
-* * 10.Version History Update``
-iven a template is reassigned
-When the change is saved
-Then a new version entry is created
-And the version history reflects the updated Category and Subcategories
-
-* Audit logging
-Given a template reassignment occurs
-When the change is completed
-Then the system logs:
-* * * * * * previous Category
-new Category
-previous Subcategories
-new Subcategories
-user who made the change
-timestamp
-
-
+Then:
+* * * The template must have exactly one Category assigned
+The Category field is a single-select dropdown (not multi-select)
+The system prevents assignment to multiple Categories
+AC4: Subcategory Multi-Select Within Category
+Given a template is assigned to a Category
+When the Content Manager selects Subcategories
+Then:
+* * * The Content Manager can select one or more Subcategories
+All selected Subcategories must belong to the same Category
+The Subcategory list only shows options belonging to the currently selected Category
+AC5: No Status Change on Reassignment
+Given a template is in Published status
+When the Content Manager changes the Category or Subcategories via the Edit Form
+Then:
+* * * The template status remains Published
+The template remains visible to Advisers with the updated Category/Subcategory placement
+No re-publish action is required
+Rationale: Category/Subcategory reassignment is a metadata change, not a content change. Triggering a status change would cause unnecessary disruption to Adviser access.
+AC6: Library Placement Update
+Given a template has been reassigned to a new Category and/or Subcategories
+When the changes are saved
+Then:
+* * * * The template appears in the Templates Library under the new Category
+The template appears under each selected Subcategory within that Category
+The template no longer appears under the old Category or its Subcategories
+The template is not duplicated as a separate record — it is a single template displayed in multiple Subcategory views
+AC7: Save Validation
+Given the Content Manager is editing a template's Category/Subcategory assignment
+When the Content Manager clicks Save
+Then:
+* * If a Category is selected but no Subcategory is selected → Save is blocked, inline validation message: "Please select at least one subcategory."
+If both Category and at least one Subcategory are selected → Save proceeds successfully
 
 
 ## 📋 Definition of Ready (DOR) Checklist

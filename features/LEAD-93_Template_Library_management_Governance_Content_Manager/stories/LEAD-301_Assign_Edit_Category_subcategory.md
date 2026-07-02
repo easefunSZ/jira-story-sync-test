@@ -58,19 +58,15 @@ Then:
 Subcategory selection is optional.
 The template can be saved without either being selected.
 The template status remains Draft.
-AC4: Submit for Review Validation
-Given the Content Manager clicks Publish
-When either:
-* * A Category has not been selected, or
-No Subcategory has been selected
+AC4: Drag-and-Drop Ordering for Categories and Subcategories
+Given the Content Manager is on the Template Library management page,
+When the user drags a Category or Subcategory to a new position,
 Then:
-* * Submission is blocked.
-Inline validation messages are displayed:
-* * "Please select a category."
-"Please select at least one subcategory."
-When both a Category and at least one Subcategory are selected
-Then:
-* Submission proceeds successfully.
+* * * * * Categories can be reordered among other Categories via drag-and-drop
+Subcategories can be reordered within the same parent Category via drag-and-drop
+Subcategories cannot be dragged to a different Category
+Templates cannot be dragged — only Categories and Subcategories support drag-and-drop
+The new display order is saved immediately and reflected in the Template Library for all users (including Advisers)
 AC5: Persistence & Library Placement
 Given a Category and one or more Subcategories are selected
 Then:
@@ -88,8 +84,7 @@ The template's placement in the Templates Library is updated accordingly.
 AC7: Editing Category or Subcategory on Published Templates
 Given a template is in Published status
 When the Content Manager changes the Category or selected Subcategories
-Then:
-* The template status changes to Draft
+Then the template status changes to Draft
 
 
 ## 📋 Definition of Ready (DOR) Checklist

@@ -12,3 +12,19 @@
 
 ---
 
+### 💬 评论人：Dan Yu (dan.yu@oldmutual.com)
+📅 **时间**：2026-07-02T06:18:17.470+0200
+
+Hi  Could you please review the content that uses non‑black colors? I have also added a "Discard Draft" action before publishing. Additionally, AC10 now covers the publish failure message. Please confirm whether this meets your requirements.
+
+
+---
+
+### 💬 评论人：Cisca Van Zyl (cvanzyl6@oldmutual.com)
+📅 **时间**：2026-07-02T08:50:40.588+0200
+
+ Than you, Happy just added a few words.
+
+
+---
+
