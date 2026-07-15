@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="920" viewBox="0 0 1500 920">
+  <title>LEAD-93 新建、保存草稿与发布：共同状态机与 To-Be 增量</title>
+  <desc>As-Is 与 To-Be 共用相同生命周期；差异集中在版本级 Metadata、发布校验和事务一致性。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#2563eb"/></marker>
+    <style>
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}
+      .section{font:700 19px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.label{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}
+      .body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}
+      .code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.state{stroke-width:1.7;rx:6}.decision{fill:#fff;stroke:#64748b;stroke-width:1.6}
+      .new{fill:#eef2ff;stroke:#6366f1}.draft{fill:#fff7db;stroke:#d69e2e}.schedule{fill:#e0f2fe;stroke:#0284c7}.active{fill:#dcfce7;stroke:#16a34a}
+      .same{fill:#ecfdf5;stroke:#16a34a;stroke-width:1.2;rx:5}.asis{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2;rx:5}.tobe{fill:#eff6ff;stroke:#60a5fa;stroke-width:1.2;rx:5}
+      .row{fill:#fff;stroke:#d8e0ea;stroke-width:1}.line{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#arrow)}
+      .blueLine{stroke:#2563eb;stroke-width:2;fill:none;marker-end:url(#arrowBlue)}.loop{stroke:#475569;stroke-width:1.5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+
+  <rect width="1500" height="920" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">场景 1：新建、保存草稿与发布</text>
+  <text x="60" y="78" class="sub">先明确共同状态机，再突出 LEAD-93 在状态流转外围新增的数据与校验。</text>
+
+  <rect x="60" y="105" width="1380" height="310" class="panel"/>
+  <text x="86" y="140" class="section">共同生命周期基线</text>
+  <rect x="1180" y="120" width="220" height="34" class="same"/>
+  <text x="1202" y="142" class="event">As-Is = To-Be，无状态变化</text>
+
+  <rect x="90" y="215" width="180" height="82" class="state new"/>
+  <text x="115" y="246" class="label">New Template</text>
+  <text x="115" y="271" class="body">V1 尚不存在</text>
+
+  <rect x="360" y="205" width="220" height="102" class="state draft"/>
+  <text x="385" y="236" class="label">Draft</text>
+  <text x="385" y="260" class="code">version_status = 3</text>
+  <text x="385" y="285" class="small">可保存 effective time，状态不变</text>
+
+  <polygon points="650,256 700,206 750,256 700,306" class="decision"/>
+  <text x="670" y="250" class="event">Publish</text>
+  <text x="663" y="270" class="small">生效时间？</text>
+
+  <rect x="835" y="290" width="210" height="90" class="state schedule"/>
+  <text x="860" y="321" class="label">Schedule</text>
+  <text x="860" y="345" class="code">version_status = 0</text>
+  <text x="860" y="367" class="small">等待定时任务</text>
+
+  <rect x="1150" y="205" width="220" height="102" class="state active"/>
+  <text x="1175" y="236" class="label">Active</text>
+  <text x="1175" y="260" class="code">version_status = 1</text>
+  <text x="1175" y="285" class="small">当前 Published 版本</text>
+
+  <path d="M270 256L360 256" class="line"/>
+  <text x="282" y="238" class="event">首次 Save Draft</text>
+  <path d="M450 205C450 168 535 168 550 205" class="loop"/>
+  <text x="404" y="160" class="event">再次 Save Draft：Update Draft</text>
+  <path d="M580 256L650 256" class="line"/>
+  <path d="M750 244C875 186 1045 186 1150 244" class="line"/>
+  <text x="860" y="185" class="event">现在 / 过去：立即生效</text>
+  <path d="M730 286L835 325" class="line"/>
+  <text x="755" y="304" class="event">未来</text>
+  <path d="M1045 335C1100 335 1110 282 1150 270" class="line"/>
+  <text x="1048" y="356" class="event">定时任务到点</text>
+  <path d="M940 380C940 405 470 405 470 307" class="line"/>
+  <rect x="625" y="380" width="310" height="24" fill="#fff"/>
+  <text x="650" y="398" class="event">Cancel Schedule：0 → 3，并清空时间</text>
+
+  <rect x="60" y="445" width="1380" height="420" class="panel"/>
+  <text x="86" y="480" class="section">真正的改造差异</text>
+  <text x="86" y="505" class="sub">状态值和流转触发点保持不变；以下能力随 LEAD-93 增加或加强。</text>
+
+  <rect x="86" y="530" width="210" height="52" class="asis"/>
+  <text x="111" y="562" class="label">处理环节</text>
+  <rect x="296" y="530" width="475" height="52" class="asis"/>
+  <text x="321" y="562" class="label">As-Is 基线</text>
+  <rect x="771" y="530" width="643" height="52" class="tobe"/>
+  <text x="796" y="562" class="label">To-Be 新增 / 修改</text>
+
+  <rect x="86" y="582" width="210" height="82" class="row"/>
+  <text x="111" y="616" class="label">Save Draft</text>
+  <text x="111" y="640" class="small">状态仍为 Draft</text>
+  <rect x="296" y="582" width="475" height="82" class="row"/>
+  <text x="321" y="612" class="body">保存 Template / Version 内容、附件引用与 effective time。</text>
+  <text x="321" y="638" class="body">Insert / Update 规则继续沿用现状。</text>
+  <rect x="771" y="582" width="643" height="82" class="tobe"/>
+  <text x="796" y="612" class="body">同时保存版本级 Category、Subcategory 与 Tag。</text>
+  <text x="796" y="638" class="body">内容、Version 与 Metadata 必须在同一事务内成功或回滚。</text>
+
+  <rect x="86" y="664" width="210" height="88" class="row"/>
+  <text x="111" y="700" class="label">Publish</text>
+  <text x="111" y="724" class="small">决定 Active / Schedule</text>
+  <rect x="296" y="664" width="475" height="88" class="row"/>
+  <text x="321" y="696" class="body">沿用现有发布入口、版本切换和 effective time 规则。</text>
+  <text x="321" y="722" class="small">现有校验细节仍待 C05 / C14 内网核对。</text>
+  <rect x="771" y="664" width="643" height="88" class="tobe"/>
+  <text x="796" y="692" class="body">新增 Category、Subcategory、4 个 Mandatory Tag 等发布校验。</text>
+  <text x="796" y="718" class="body">状态切换与版本级 Metadata 一致提交，校验失败不改变旧 Active。</text>
+  <text x="796" y="740" class="small">附件仍为可选；Preview 只展示正文和 Metadata。</text>
+
+  <rect x="86" y="752" width="210" height="82" class="row"/>
+  <text x="111" y="786" class="label">生效与可见性</text>
+  <text x="111" y="810" class="small">Active 才对业务生效</text>
+  <rect x="296" y="752" width="475" height="82" class="row"/>
+  <text x="321" y="782" class="body">Draft / Schedule 不影响当前 Active。</text>
+  <text x="321" y="808" class="body">Scheduler 到点后切换版本状态。</text>
+  <rect x="771" y="752" width="643" height="82" class="tobe"/>
+  <text x="796" y="782" class="body">Metadata 跟随 Version：Draft / Schedule 隔离，Active 后一并生效。</text>
+  <text x="796" y="808" class="body">只展示当前 Active Metadata；Expired 数据不提供查看入口。</text>
+
+  <path d="M745 505L1375 505" class="blueLine"/>
+  <text x="1060" y="495" class="event">差异集中在这里，而不是状态机</text>
+  <text x="86" y="893" class="small">未确认边界：真实 Service / Mapper、事务并发、Scheduler 与 API 错误响应仍由 C05-C08、C14 内网核对。</text>
+</svg>

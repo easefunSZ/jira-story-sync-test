@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+  <title>LEAD-93 编辑 Published：共同状态基线与 To-Be 差异</title>
+  <desc>复用第 3 章 As-Is 生命周期，突出 Working Copy 的版本级 Metadata、派生提示和事务一致性增量。</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 19px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.state{stroke-width:1.6;rx:6}.active{fill:#dcfce7;stroke:#16a34a}.draft{fill:#fff7db;stroke:#d69e2e}.schedule{fill:#e0f2fe;stroke:#0284c7}.expired{fill:#e8edf3;stroke:#64748b}.neutral{fill:#f8fafc;stroke:#94a3b8}.same{fill:#ecfdf5;stroke:#16a34a;stroke-width:1.2;rx:5}.asis{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2;rx:5}.tobe{fill:#eff6ff;stroke:#60a5fa;stroke-width:1.2;rx:5}.row{fill:#fff;stroke:#d8e0ea}.line{stroke:#475569;stroke-width:1.7;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1500" height="900" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">场景 2：编辑 Published、Discard 与重新发布</text>
+  <text x="60" y="78" class="sub">状态结果直接复用第 3.4 节 As-Is；LEAD-93 的差异发生在 Working Copy 承载的数据和操作反馈。</text>
+
+  <rect x="60" y="105" width="1380" height="340" class="panel"/>
+  <text x="86" y="140" class="section">共同状态基线：As-Is = To-Be</text>
+  <rect x="1180" y="120" width="220" height="34" class="same"/><text x="1202" y="142" class="event">不修改 version_status 规则</text>
+
+  <rect x="90" y="185" width="300" height="112" class="state neutral"/>
+  <text x="115" y="216" class="h">同一 email_code</text>
+  <text x="115" y="242" class="code">Active V1 = 1　+　Draft V2 = 3</text>
+  <text x="115" y="267" class="body">Active 继续对 Adviser 生效</text>
+  <text x="115" y="287" class="small">再次 Save Draft 只 Update V2</text>
+
+  <rect x="535" y="175" width="250" height="98" class="state active"/>
+  <text x="560" y="208" class="h">Discard Draft</text>
+  <text x="560" y="234" class="code">Draft V2 软删除</text>
+  <text x="560" y="256" class="small">Active V1 保持不变</text>
+
+  <rect x="535" y="315" width="250" height="98" class="state expired"/>
+  <text x="560" y="348" class="h">Publish Now</text>
+  <text x="560" y="374" class="code">V1：1 → 2</text>
+  <text x="560" y="396" class="code">V2：3 → 1</text>
+
+  <rect x="930" y="175" width="250" height="98" class="state schedule"/>
+  <text x="955" y="208" class="h">Publish Future</text>
+  <text x="955" y="234" class="code">V2：3 → 0</text>
+  <text x="955" y="256" class="small">Active V1 暂时保持</text>
+
+  <rect x="1170" y="315" width="220" height="98" class="state active"/>
+  <text x="1195" y="348" class="h">到点生效</text>
+  <text x="1195" y="374" class="code">V1：1 → 2</text>
+  <text x="1195" y="396" class="code">V2：0 → 1</text>
+
+  <path d="M390 220L535 220" class="line"/><text x="430" y="202" class="event">Discard</text>
+  <path d="M390 265C455 300 470 350 535 365" class="line"/><text x="420" y="332" class="event">Publish now</text>
+  <path d="M390 235C610 105 790 105 930 218" class="line"/><text x="650" y="127" class="event">Publish 选择未来时间</text>
+  <path d="M1180 225C1245 225 1275 265 1280 315" class="line"/><text x="1200" y="250" class="event">Scheduler</text>
+  <text x="815" y="430" class="small">Schedule 期间禁止 Save Draft；Cancel Schedule 将 V2：0 → 3，并清空 effective_from / effective_until。</text>
+
+  <rect x="60" y="475" width="1380" height="355" class="panel"/>
+  <text x="86" y="510" class="section">真正的改造差异</text>
+  <rect x="86" y="535" width="215" height="50" class="asis"/><text x="111" y="566" class="h">比较项</text>
+  <rect x="301" y="535" width="465" height="50" class="asis"/><text x="326" y="566" class="h">As-Is 基线</text>
+  <rect x="766" y="535" width="648" height="50" class="tobe"/><text x="791" y="566" class="h">To-Be 新增 / 修改</text>
+
+  <rect x="86" y="585" width="215" height="75" class="row"/><text x="111" y="617" class="h">Working Copy 数据</text><text x="111" y="640" class="small">Draft V2</text>
+  <rect x="301" y="585" width="465" height="75" class="row"/><text x="326" y="616" class="body">保存版本内容、附件引用和 effective time。</text><text x="326" y="640" class="small">Active V1 与 Draft V2 内容隔离。</text>
+  <rect x="766" y="585" width="648" height="75" class="tobe"/><text x="791" y="616" class="body">Draft V2 同时保存 Category、Subcategory 与 Tag。</text><text x="791" y="640" class="body">版本内容与 Metadata 同事务提交或回滚。</text>
+
+  <rect x="86" y="660" width="215" height="75" class="row"/><text x="111" y="692" class="h">Publish / Discard</text><text x="111" y="715" class="small">状态结果不变</text>
+  <rect x="301" y="660" width="465" height="75" class="row"/><text x="326" y="691" class="body">Publish 切换新旧 version；Discard 只移除 Draft。</text><text x="326" y="715" class="small">当前 Active 不受失败或 Discard 影响。</text>
+  <rect x="766" y="660" width="648" height="75" class="tobe"/><text x="791" y="691" class="body">Publish 增加 Metadata 完整性校验；Metadata 随 V2 生效。</text><text x="791" y="715" class="body">Discard 同步软删除 V2 的 Subcategory / Tag relations。</text>
+
+  <rect x="86" y="735" width="215" height="70" class="row"/><text x="111" y="768" class="h">页面提示</text><text x="111" y="790" class="small">由记录组合派生</text>
+  <rect x="301" y="735" width="465" height="70" class="row"/><text x="326" y="766" class="body">数据库已允许 Active + Draft 共存。</text><text x="326" y="790" class="small">不新增生命周期状态。</text>
+  <rect x="766" y="735" width="648" height="70" class="tobe"/><text x="791" y="766" class="body">页面显示 “Draft in Progress”，仍由 Active + Draft 推导。</text><text x="791" y="790" class="body">不新增 Published-with-Draft 状态列。</text>
+  <text x="86" y="862" class="small">未确认边界：事务/并发 C06-C07、API Contract C14。已确认：Discard 不清理附件，本期不新增 Audit。</text>
+</svg>

@@ -11,7 +11,6 @@ CREATE TEMPORARY TABLE tmp_lead93_category_seed (
 
 CREATE TEMPORARY TABLE tmp_lead93_template_mapping (
   email_code varchar(100) NOT NULL,
-  category_code varchar(50) NOT NULL,
   new_email_name varchar(200) DEFAULT NULL,
   new_description varchar(500) DEFAULT NULL,
   new_subject varchar(200) DEFAULT NULL,
@@ -20,18 +19,30 @@ CREATE TEMPORARY TABLE tmp_lead93_template_mapping (
   PRIMARY KEY (email_code)
 ) ENGINE=InnoDB;
 
+-- One row per Template Version that receives a main Category. The approved
+-- mapping must provide version explicitly; the script never copies one
+-- Template-level mapping to all historical versions by assumption.
+CREATE TEMPORARY TABLE tmp_lead93_version_category_mapping (
+  email_code varchar(100) NOT NULL,
+  version varchar(10) NOT NULL,
+  category_code varchar(50) NOT NULL,
+  PRIMARY KEY (email_code, version)
+) ENGINE=InnoDB;
+
 CREATE TEMPORARY TABLE tmp_lead93_subcategory_mapping (
   email_code varchar(100) NOT NULL,
+  version varchar(10) NOT NULL,
   subcategory_code varchar(50) NOT NULL,
-  PRIMARY KEY (email_code, subcategory_code)
+  PRIMARY KEY (email_code, version, subcategory_code)
 ) ENGINE=InnoDB;
 
 CREATE TEMPORARY TABLE tmp_lead93_tag_mapping (
   email_code varchar(100) NOT NULL,
+  version varchar(10) NOT NULL,
+  group_code varchar(50) NOT NULL,
   tag_code varchar(100) NOT NULL,
-  PRIMARY KEY (email_code, tag_code)
+  PRIMARY KEY (email_code, version, group_code)
 ) ENGINE=InnoDB;
 
 -- Convert the approved Category Framework and Template Tag Mapping files
 -- into INSERT statements for these temporary tables.
-

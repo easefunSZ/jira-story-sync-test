@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="840" viewBox="0 0 1500 840">
+  <title>LEAD-93 To-Be Preview and Unified Publish Validation</title>
+  <desc>Preview is a read-only temporary render path while Publish uses a shared strict validation service before state transition.</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 18px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.input{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.5;rx:6}.preview{fill:#f5f3ff;stroke:#8b5cf6;stroke-width:1.5;rx:6}.validate{fill:#e0f2fe;stroke:#0284c7;stroke-width:1.5;rx:6}.success{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5;rx:6}.fail{fill:#fff1f2;stroke:#e11d48;stroke-width:1.4;rx:6}.rule{fill:#fff7db;stroke:#d69e2e;stroke-width:1.2;rx:5}.line{stroke:#475569;stroke-width:1.7;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1500" height="840" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">To-Be：Preview 与统一 Publish Validation</text>
+  <text x="60" y="78" class="sub">Preview 和 Publish 可以读取同一编辑模型，但只有 Publish Validation 通过后才能进入状态更新事务。</text>
+
+  <rect x="60" y="110" width="1380" height="155" class="panel"/>
+  <text x="86" y="145" class="section">共同输入</text>
+  <rect x="135" y="175" width="480" height="62" class="input"/>
+  <text x="160" y="202" class="h">Draft Detail / Published Detail / Editor 临时内容</text>
+  <text x="160" y="224" class="small">正文 + Metadata + Format；可能包含尚未 Save Draft 的修改</text>
+  <rect x="885" y="175" width="480" height="62" class="input"/>
+  <text x="910" y="202" class="h">附件引用</text>
+  <text x="910" y="224" class="small">Publish 可校验；Preview 明确不读取、不下载、不渲染</text>
+
+  <rect x="60" y="295" width="650" height="440" class="panel"/>
+  <text x="86" y="330" class="section">Preview Path · 只读</text>
+  <rect x="105" y="370" width="255" height="88" class="preview"/>
+  <text x="130" y="403" class="h">Preview Request</text>
+  <text x="130" y="429" class="body">提交当前客户端临时模型</text>
+  <rect x="420" y="370" width="245" height="88" class="preview"/>
+  <text x="445" y="403" class="h">Validate for Render</text>
+  <text x="445" y="429" class="body">Schema / sanitize / model</text>
+  <rect x="250" y="515" width="290" height="95" class="preview"/>
+  <text x="275" y="548" class="h">Preview Result</text>
+  <text x="275" y="574" class="body">仅正文 + Metadata</text>
+  <text x="275" y="597" class="small">Back to Edit 保留编辑器临时内容</text>
+  <path d="M360 414L420 414" class="line"/><path d="M542 458C542 490 450 490 450 515" class="line"/>
+  <rect x="105" y="650" width="560" height="48" class="rule"/>
+  <text x="130" y="670" class="code">不持久化 · 不创建 version · 不修改 version_status</text>
+  <text x="130" y="690" class="small">复用现有 Renderer；入口/DTO/净化规则由 C16 回填</text>
+
+  <rect x="740" y="295" width="700" height="440" class="panel"/>
+  <text x="766" y="330" class="section">Publish Path · 严格校验后写状态</text>
+  <rect x="785" y="370" width="280" height="105" class="validate"/>
+  <text x="810" y="403" class="h">Unified Publish Validation</text>
+  <text x="810" y="429" class="body">Title / Description / Format / Body</text>
+  <text x="810" y="452" class="body">Category / Subcategory / 4 Mandatory Tags</text>
+  <rect x="1135" y="355" width="260" height="105" class="fail"/>
+  <text x="1160" y="388" class="h">Validation Failed</text>
+  <text x="1160" y="414" class="body">返回字段级错误并高亮</text>
+  <text x="1160" y="437" class="small">旧 Active / Draft 状态不变</text>
+  <rect x="930" y="545" width="300" height="105" class="success"/>
+  <text x="955" y="578" class="h">Validation Passed</text>
+  <text x="955" y="604" class="body">进入现有 Publish 状态事务</text>
+  <text x="955" y="627" class="small">立即 Active 或转 Schedule</text>
+  <path d="M1065 405L1135 405" class="line"/><text x="1081" y="387" class="event">Fail</text>
+  <path d="M925 475C925 510 1040 510 1040 545" class="line"/><text x="946" y="511" class="event">Pass</text>
+  <rect x="785" y="670" width="610" height="38" class="rule"/>
+  <text x="810" y="695" class="small">附件不必填且由前端校验；后端 Publish Validation 不新增附件校验。所有 Publish 入口调用同一业务校验能力。</text>
+
+  <path d="M375 237C375 285 230 310 230 370" class="line"/>
+  <path d="M615 206C760 206 800 310 845 370" class="line"/>
+  <path d="M1125 237C1125 295 1000 315 1000 370" class="line"/>
+  <text x="60" y="785" class="small">未确认边界：Preview 真实入口/DTO C16、正式 API Contract C14；已确认复用现有能力、附件前端校验且 Preview 不处理附件。</text>
+</svg>

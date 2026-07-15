@@ -1,3 +1,5 @@
+-- REVIEW GATE: Q5 must supply and approve the concrete migration mapping before
+-- this file can run. The SQL structure is retained for review only.
 UPDATE iic_msg_email_config c
 JOIN tmp_lead93_template_mapping m ON m.email_code = c.email_code
 SET c.email_name = COALESCE(NULLIF(m.new_email_name, ''), c.email_name),
@@ -6,7 +8,8 @@ SET c.email_name = COALESCE(NULLIF(m.new_email_name, ''), c.email_name),
     c.updated_date = CURRENT_TIMESTAMP
 WHERE c.status = 0;
 
--- Q6-gated deactivation; no effect unless explicitly enabled.
+-- Mapping-gated deactivation; no effect unless the approved migration mapping
+-- contains the action and the release variable is explicitly enabled.
 UPDATE iic_msg_email_config c
 JOIN tmp_lead93_template_mapping m ON m.email_code = c.email_code
 SET c.email_status = 0,
@@ -35,4 +38,3 @@ SET c.email_name = JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.email_name')),
     c.updated_by = @migration_user,
     c.updated_date = CURRENT_TIMESTAMP
 WHERE @lead93_rollback = 1;
-

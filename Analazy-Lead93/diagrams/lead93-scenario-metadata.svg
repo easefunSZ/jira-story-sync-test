@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+  <title>LEAD-93 Metadata 修改：As-Is 能力边界与 To-Be 差异</title>
+  <desc>不虚构 As-Is Metadata 状态机，明确现有字段归属，并突出 To-Be 按 version 保存和生效的差异。</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 19px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.box{stroke-width:1.5;rx:6}.master{fill:#f8fafc;stroke:#94a3b8}.version{fill:#fff7db;stroke:#d69e2e}.active{fill:#dcfce7;stroke:#16a34a}.draft{fill:#fff7db;stroke:#d69e2e}.schedule{fill:#e0f2fe;stroke:#0284c7}.gap{fill:#fff1f2;stroke:#e11d48}.tobe{fill:#eff6ff;stroke:#60a5fa;stroke-width:1.2;rx:5}.asis{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2;rx:5}.row{fill:#fff;stroke:#d8e0ea}.line{stroke:#475569;stroke-width:1.7;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1500" height="900" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">场景 4：Category、Subcategory 与 Tag Metadata 修改</text>
+  <text x="60" y="78" class="sub">As-Is 只陈述第 3 章已确认的数据归属；没有证据的 Metadata 保存路径不作为现状状态机。</text>
+
+  <rect x="60" y="105" width="1380" height="290" class="panel"/>
+  <text x="86" y="140" class="section">As-Is 证据基线</text>
+  <rect x="100" y="185" width="360" height="125" class="box master"/>
+  <text x="125" y="218" class="h">Template Master</text>
+  <text x="125" y="244" class="code">iic_msg_email_config</text>
+  <text x="125" y="269" class="body">email_name / description / is_campaign</text>
+  <text x="125" y="292" class="small">字段不随 version Publish 切换</text>
+
+  <rect x="570" y="185" width="390" height="125" class="box version"/>
+  <text x="595" y="218" class="h">Template Version</text>
+  <text x="595" y="244" class="code">iic_msg_email_config_version</text>
+  <text x="595" y="269" class="body">Email Subject / 正文 / 附件 / effective time</text>
+  <text x="595" y="292" class="small">Draft / Schedule / Active / Expired 生命周期</text>
+
+  <rect x="1070" y="185" width="300" height="125" class="box gap"/>
+  <text x="1095" y="218" class="h">结构化 Metadata 缺口</text>
+  <text x="1095" y="244" class="body">没有已确认的 Template Category、</text>
+  <text x="1095" y="267" class="body">Subcategory、Tag 版本关系。</text>
+  <text x="1095" y="292" class="small">不推测现有保存/生效路径</text>
+  <path d="M460 248L570 248" class="line"/><text x="486" y="230" class="event">email_code</text>
+  <path d="M960 248L1070 248" class="line"/><text x="984" y="230" class="event">LEAD-93 补齐</text>
+  <text x="100" y="360" class="small">生命周期基线仍按第 3.4 节：Metadata 操作不得创建新的 version_status，也不得改变 Deactivate/Delete 语义。</text>
+
+  <rect x="60" y="425" width="1380" height="405" class="panel"/>
+  <text x="86" y="460" class="section">To-Be 真正新增的版本级行为</text>
+  <rect x="100" y="495" width="350" height="112" class="box active"/>
+  <text x="125" y="528" class="h">Active V1 Metadata</text>
+  <text x="125" y="554" class="code">email_code + V1</text>
+  <text x="125" y="578" class="body">category_id + subcategory/tag relations</text>
+  <text x="125" y="599" class="small">当前 Published 分类</text>
+
+  <rect x="575" y="495" width="350" height="112" class="box draft"/>
+  <text x="600" y="528" class="h">Draft V2 Metadata</text>
+  <text x="600" y="554" class="code">email_code + V2</text>
+  <text x="600" y="578" class="body">独立保存，不覆盖 Active V1</text>
+  <text x="600" y="599" class="small">随 Save Draft 提交</text>
+
+  <rect x="1050" y="495" width="350" height="112" class="box schedule"/>
+  <text x="1075" y="528" class="h">Schedule V2 Metadata</text>
+  <text x="1075" y="554" class="code">email_code + V2</text>
+  <text x="1075" y="578" class="body">到 effective_from 前不影响 V1</text>
+  <text x="1075" y="599" class="small">到点后随 V2 一并生效</text>
+
+  <path d="M450 552L575 552" class="line"/><text x="476" y="534" class="event">创建 Working Copy</text>
+  <path d="M925 552L1050 552" class="line"/><text x="965" y="534" class="event">Publish future</text>
+
+  <rect x="100" y="650" width="390" height="125" class="tobe"/>
+  <text x="125" y="683" class="h">Published metadata-only 修改</text>
+  <text x="125" y="709" class="body">直接更新 Active version Metadata，保持状态 1。</text>
+  <text x="125" y="733" class="body">立即影响导航、Search/Filter 与 Adviser。</text>
+  <text x="125" y="757" class="small">已有 Draft 时不自动同步 Draft Metadata</text>
+
+  <rect x="555" y="650" width="390" height="125" class="tobe"/>
+  <text x="580" y="683" class="h">Draft / Publish</text>
+  <text x="580" y="709" class="body">Draft Metadata 只对 Draft 生效。</text>
+  <text x="580" y="733" class="body">Publish 后由目标 version Metadata 成为当前值。</text>
+  <text x="580" y="757" class="small">校验与关系写入纳入同一业务事务</text>
+
+  <rect x="1010" y="650" width="390" height="125" class="tobe"/>
+  <text x="1035" y="683" class="h">Draft 初始化</text>
+  <text x="1035" y="709" class="body">首次创建 Working Copy 时复制 Active Metadata。</text>
+  <text x="1035" y="733" class="body">保存后 Draft 与 Active 独立维护。</text>
+  <text x="1035" y="757" class="small">Expired Metadata 保留但不提供查看入口</text>
+  <text x="86" y="865" class="small">未确认边界：真实 Metadata API C14；版本归属、复制时点和展示范围均已确认。</text>
+</svg>

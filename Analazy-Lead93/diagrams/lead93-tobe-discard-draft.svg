@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="880" viewBox="0 0 1500 880">
+  <title>LEAD-93 To-Be Discard Draft Decision Tree</title>
+  <desc>Decision tree distinguishes unsaved editor changes, scheduled versions, published working copies, new drafts and idempotent no-draft requests.</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.start{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.5;rx:6}.decision{fill:#fff;stroke:#64748b;stroke-width:1.6}.front{fill:#f5f3ff;stroke:#8b5cf6;stroke-width:1.5;rx:6}.schedule{fill:#e0f2fe;stroke:#0284c7;stroke-width:1.5;rx:6}.delete{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5;rx:6}.keep{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5;rx:6}.none{fill:#e8edf3;stroke:#64748b;stroke-width:1.5;rx:6}.warn{fill:#fff1f2;stroke:#e11d48;stroke-width:1.2;rx:5}.line{stroke:#475569;stroke-width:1.7;fill:none;marker-end:url(#a)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1500" height="880" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">To-Be：Discard Draft 决策树</text>
+  <text x="60" y="78" class="sub">Discard 的删除范围取决于内容是否已持久化、是否为 Schedule，以及逻辑模板是否已有 Active。</text>
+  <rect x="60" y="110" width="1380" height="690" class="panel"/>
+
+  <rect x="100" y="155" width="250" height="75" class="start"/>
+  <text x="125" y="187" class="h">用户确认 Discard</text>
+  <text x="125" y="212" class="small">确认文案必须匹配当前场景</text>
+  <polygon points="470,192 530,132 590,192 530,252" class="decision"/>
+  <text x="493" y="187" class="event">已经</text><text x="486" y="207" class="small">Save Draft？</text>
+  <path d="M350 192L470 192" class="line"/>
+
+  <rect x="690" y="135" width="300" height="110" class="front"/>
+  <text x="715" y="168" class="h">否 · 仅前端临时修改</text>
+  <text x="715" y="194" class="body">丢弃编辑器内未保存内容</text>
+  <text x="715" y="218" class="small">不调用后端，不修改任何数据库记录</text>
+  <path d="M590 175L690 175" class="line"/><text x="620" y="157" class="event">否</text>
+
+  <polygon points="470,385 530,325 590,385 530,445" class="decision"/>
+  <text x="493" y="380" class="event">目标是</text><text x="490" y="400" class="small">Schedule 0？</text>
+  <path d="M530 252L530 325" class="line"/><text x="545" y="288" class="event">是</text>
+  <rect x="690" y="330" width="300" height="110" class="schedule"/>
+  <text x="715" y="363" class="h">是 · 不允许直接 Discard</text>
+  <text x="715" y="389" class="code">先 Cancel Schedule：0 → 3</text>
+  <text x="715" y="413" class="small">清空 effective_from / effective_until 后再操作</text>
+  <path d="M590 385L690 385" class="line"/><text x="620" y="367" class="event">是</text>
+
+  <polygon points="470,575 530,515 590,575 530,635" class="decision"/>
+  <text x="495" y="570" class="event">存在</text><text x="488" y="590" class="small">Active 1？</text>
+  <path d="M530 445L530 515" class="line"/><text x="545" y="480" class="event">Draft 3</text>
+
+  <rect x="690" y="510" width="330" height="130" class="delete"/>
+  <text x="715" y="543" class="h">是 · Published Working Copy</text>
+  <text x="715" y="569" class="body">软删除 Draft version + Subcategory/Tag relations</text>
+  <text x="715" y="593" class="body">移除 Draft 附件关联；Active Content/Metadata 保持</text>
+  <text x="715" y="617" class="small">返回 Published Detail 或 Template List</text>
+  <path d="M590 558L690 558" class="line"/><text x="620" y="540" class="event">是</text>
+
+  <rect x="1070" y="510" width="300" height="130" class="delete"/>
+  <text x="1095" y="543" class="h">否 · 新建且从未 Published</text>
+  <text x="1095" y="569" class="body">软删除 config + Draft version</text>
+  <text x="1095" y="593" class="body">同步软删除该 version relations</text>
+  <text x="1095" y="617" class="small">无 Active 需要保留；返回 Template List</text>
+  <path d="M530 635C530 700 1220 700 1220 640" class="line"/><text x="845" y="691" class="event">否</text>
+
+  <rect x="1070" y="330" width="300" height="110" class="none"/>
+  <text x="1095" y="363" class="h">幂等旁路 · 无有效 Draft</text>
+  <text x="1095" y="389" class="body">不执行删除，保持当前状态</text>
+  <text x="1095" y="413" class="small">幂等成功或明确 No Draft · Contract 待 C14</text>
+  <path d="M225 155L225 120L1220 120L1220 330" class="dash"/>
+  <rect x="790" y="109" width="270" height="22" fill="#fff"/>
+  <text x="810" y="126" class="event">后端重新查询未找到有效 Draft</text>
+  <path d="M840 440C840 480 590 480 590 558" class="line"/><text x="645" y="470" class="event">Cancel 后恢复 Draft 3</text>
+
+  <rect x="100" y="730" width="1270" height="42" class="warn"/>
+  <text x="125" y="757" class="small">附件边界已确认：Discard 不删除 S3 对象或 iic_msg_file_upload row，只软删除 Draft 与新增 Metadata relations。</text>
+  <text x="60" y="840" class="small">未确认边界：真实 Discard API 与幂等响应 C14。Discard 仅适用于 version_status = 3；本期不新增 Audit。</text>
+</svg>

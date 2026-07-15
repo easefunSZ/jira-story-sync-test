@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="850" viewBox="0 0 1500 850">
+  <title>LEAD-93 As-Is Published and Draft Tab Query</title>
+  <desc>Confirmed base conditions of current Published and Draft tabs, with unresolved selected-version behavior clearly separated.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 28px Arial,sans-serif;fill:#172033}.subtitle{font:400 15px Arial,sans-serif;fill:#526070}.panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}
+      .pub{fill:#dcfce7;stroke:#16a34a;stroke-width:1.6;rx:6}.draft{fill:#fff7db;stroke:#d69e2e;stroke-width:1.6;rx:6}.branch{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.4;rx:5}
+      .pending{fill:#fff1f2;stroke:#e11d48;stroke-width:1.5;stroke-dasharray:7 5;rx:6}.head{font:700 18px Arial,sans-serif;fill:#172033}.code{font:700 13px Arial,sans-serif;fill:#334155}
+      .text{font:400 13px Arial,sans-serif;fill:#334155}.note{font:400 12px Arial,sans-serif;fill:#526070}.line{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1500" height="850" fill="#f7f9fc"/>
+  <text x="60" y="54" class="title">As-Is 页面查询：Published 与 Draft 不是简单状态筛选</text>
+  <text x="60" y="82" class="subtitle">图中只固化已确认的基础条件；完整 Mapper 括号、Count 和 Draft 最终选版仍需内网代码证据。</text>
+
+  <rect x="60" y="115" width="650" height="610" class="panel"/>
+  <text x="90" y="155" class="head">Published Tab · 已确认硬编码条件</text>
+  <rect x="105" y="195" width="560" height="235" class="pub"/>
+  <text x="140" y="235" class="code">config.status = 0</text>
+  <text x="140" y="275" class="code">AND config.email_status = 1</text>
+  <text x="140" y="315" class="code">AND config.is_campaign != 1</text>
+  <text x="140" y="355" class="code">AND version.status = 0</text>
+  <text x="140" y="395" class="code">AND version.version_status = 1</text>
+  <path d="M385 430L385 500" class="line"/>
+  <rect x="165" y="500" width="440" height="100" class="branch"/>
+  <text x="195" y="537" class="head">结果语义</text>
+  <text x="195" y="568" class="text">Enabled、未删除、普通 Email 的 Active version</text>
+  <text x="195" y="591" class="note">现有代码保证同一 email_code 不出现多个 Active。</text>
+
+  <rect x="790" y="115" width="650" height="610" class="panel"/>
+  <text x="820" y="155" class="head">Draft Tab · 已确认三个 OR 分支</text>
+  <rect x="835" y="195" width="560" height="90" class="draft"/>
+  <text x="865" y="232" class="code">Branch 1：config.email_status = 0</text>
+  <text x="865" y="260" class="note">Disabled 模板也可能进入 Draft Tab</text>
+  <rect x="835" y="305" width="560" height="105" class="draft"/>
+  <text x="865" y="342" class="code">Branch 2：config.status = 0</text>
+  <text x="865" y="370" class="code">AND version_status IN (0, 3) AND version != 'V1'</text>
+  <rect x="835" y="430" width="560" height="105" class="draft"/>
+  <text x="865" y="467" class="code">Branch 3：version_status IN (0, 3)</text>
+  <text x="865" y="495" class="code">AND version = 'V1'</text>
+  <path d="M1115 535L1115 585" class="line"/>
+  <rect x="835" y="585" width="560" height="105" class="pending"/>
+  <text x="865" y="622" class="head">仍待 C03/C04 代码核对</text>
+  <text x="865" y="651" class="text">完整 OR 括号、软删除/tenant 条件、List/Count 一致性</text>
+  <text x="865" y="675" class="text">以及 Active + Draft/Schedule 共存时最终返回哪个 version</text>
+
+  <rect x="180" y="760" width="1140" height="55" class="branch"/>
+  <text x="215" y="793" class="text">关键理解：Draft Tab 同时承载 Disabled、Draft 和 Schedule 语义，因此 To-Be Search/Filter 不能把它简化为 version_status = 3。</text>
+</svg>

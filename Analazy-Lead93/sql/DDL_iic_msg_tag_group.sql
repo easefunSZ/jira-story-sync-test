@@ -13,8 +13,4 @@ CREATE TABLE IF NOT EXISTS iic_msg_tag_group (
   PRIMARY KEY (id) USING BTREE,
   UNIQUE KEY uk_tag_group_code (group_code),
   KEY idx_tag_group_status_sort (status, sort_order)
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin
-  ROW_FORMAT=DYNAMIC
-  COMMENT='Fixed Template tag groups';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC COMMENT='Fixed Template tag groups';

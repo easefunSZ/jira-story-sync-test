@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780">
+  <title>LEAD-93 As-Is Data Model</title>
+  <desc>Current template master, version, file and category tables and their known relationships.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #172033; }
+      .subtitle { font: 400 15px Arial, sans-serif; fill: #526070; }
+      .box { fill: #ffffff; stroke: #9aa7b8; stroke-width: 1.5; rx: 6; }
+      .head-blue { fill: #dbeafe; }
+      .head-green { fill: #dcfce7; }
+      .head-amber { fill: #fef3c7; }
+      .head-gray { fill: #e8edf3; }
+      .box-title { font: 700 18px Arial, sans-serif; fill: #172033; }
+      .label { font: 400 14px Arial, sans-serif; fill: #27364a; }
+      .note { font: 400 13px Arial, sans-serif; fill: #526070; }
+      .key { font: 700 14px Arial, sans-serif; fill: #1d4ed8; }
+      .line { stroke: #475569; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 1.5; stroke-dasharray: 7 5; fill: none; marker-end: url(#arrow); }
+      .tag { fill: #f1f5f9; stroke: #cbd5e1; rx: 4; }
+      .tag-text { font: 700 12px Arial, sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="780" fill="#f7f9fc"/>
+  <text x="70" y="58" class="title">As-Is 数据模型：现有 Template 存储结构</text>
+  <text x="70" y="86" class="subtitle">email_code 是贯穿查询、更新和业务关联的逻辑模板标识；当前没有数据库外键。</text>
+
+  <rect x="70" y="135" width="480" height="330" class="box"/>
+  <rect x="70" y="135" width="480" height="58" class="head-blue" rx="6"/>
+  <rect x="70" y="187" width="480" height="6" class="head-blue"/>
+  <text x="94" y="171" class="box-title">iic_msg_email_config</text>
+  <text x="94" y="220" class="key">email_code  ·  逻辑模板业务标识</text>
+  <text x="94" y="254" class="label">email_name / description  ·  名称与描述</text>
+  <text x="94" y="288" class="label">email_status  ·  0 Disabled / 1 Enabled</text>
+  <text x="94" y="322" class="label">status  ·  0 Valid / -1 Soft Deleted</text>
+  <text x="94" y="356" class="label">is_campaign  ·  0 Email / 1 Campaign</text>
+  <text x="94" y="390" class="label">module_code / scenario_code / audit fields</text>
+  <rect x="94" y="414" width="190" height="28" class="tag"/>
+  <text x="109" y="433" class="tag-text">Template Master / Header</text>
+
+  <rect x="820" y="135" width="510" height="400" class="box"/>
+  <rect x="820" y="135" width="510" height="58" class="head-green" rx="6"/>
+  <rect x="820" y="187" width="510" height="6" class="head-green"/>
+  <text x="844" y="171" class="box-title">iic_msg_email_config_version</text>
+  <text x="844" y="220" class="key">email_code + version  ·  版本定位</text>
+  <text x="844" y="254" class="label">version_status  ·  0 Schedule / 1 Active</text>
+  <text x="844" y="284" class="label">                         2 Expired / 3 Draft</text>
+  <text x="844" y="318" class="label">effective_from / effective_until</text>
+  <text x="844" y="352" class="label">title / email_content / text_content</text>
+  <text x="844" y="386" class="label">file_keys / thumbnail_key</text>
+  <text x="844" y="420" class="label">status  ·  version row soft-delete flag</text>
+  <rect x="844" y="454" width="190" height="28" class="tag"/>
+  <text x="859" y="473" class="tag-text">Template Content / Version</text>
+  <text x="844" y="507" class="note">同一 email_code 可有多个历史版本；业务代码保证</text>
+  <text x="844" y="527" class="note">同一时刻仅一个 Active version。</text>
+
+  <path d="M550 255 C660 255, 700 255, 820 255" class="line"/>
+  <rect x="632" y="222" width="118" height="28" class="tag"/>
+  <text x="648" y="241" class="tag-text">email_code</text>
+  <text x="637" y="277" class="note">1 logical template</text>
+  <text x="639" y="297" class="note">to N versions</text>
+
+  <rect x="820" y="600" width="510" height="125" class="box"/>
+  <rect x="820" y="600" width="510" height="48" class="head-amber" rx="6"/>
+  <rect x="820" y="642" width="510" height="6" class="head-amber"/>
+  <text x="844" y="631" class="box-title">iic_msg_file_upload</text>
+  <text x="844" y="678" class="label">file_key / file_name / file_type / size / obs_type / view_url</text>
+  <text x="844" y="705" class="note">S3 attachment；现状附件格式维持；最大 10 MB（10240 KB）</text>
+  <path d="M1075 535 L1075 600" class="dash"/>
+  <text x="1090" y="573" class="note">file_keys</text>
+
+  <rect x="70" y="560" width="480" height="165" class="box"/>
+  <rect x="70" y="560" width="480" height="48" class="head-gray" rx="6"/>
+  <rect x="70" y="602" width="480" height="6" class="head-gray"/>
+  <text x="94" y="591" class="box-title">iic_msg_category_config</text>
+  <text x="94" y="638" class="label">category_code / category_name / tenant_id / dae_country_code</text>
+  <text x="94" y="668" class="label">is_deleted / flag / audit fields</text>
+  <text x="94" y="700" class="note">现有消息类别配置；尚未形成 LEAD-93 的两级 Template taxonomy 关系。</text>
+
+  <path d="M310 465 L310 560" class="dash"/>
+  <text x="326" y="515" class="note">现状未确认直接关联</text>
+</svg>

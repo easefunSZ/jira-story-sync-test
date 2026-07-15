@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="860" viewBox="0 0 1500 860">
+  <title>LEAD-93 As-Is Record Ownership</title>
+  <desc>Confirmed ownership of template master fields and version fields, with an illustrative Active and Draft coexistence example.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 28px Arial,sans-serif;fill:#172033}.subtitle{font:400 15px Arial,sans-serif;fill:#526070}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.master{fill:#dbeafe;stroke:#3b82f6;stroke-width:1.7;rx:6}
+      .expired{fill:#e8edf3;stroke:#64748b;stroke-width:1.7;rx:6}.active{fill:#dcfce7;stroke:#16a34a;stroke-width:1.7;rx:6}.draft{fill:#fff7db;stroke:#d69e2e;stroke-width:1.7;rx:6}
+      .head{font:700 18px Arial,sans-serif;fill:#172033}.text{font:400 13px Arial,sans-serif;fill:#334155}.code{font:700 13px Arial,sans-serif;fill:#334155}
+      .note{font:400 12px Arial,sans-serif;fill:#526070}.event{font:700 12px Arial,sans-serif;fill:#334155}.line{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#arrow)}
+      .dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:7 5;fill:none;marker-end:url(#arrow)}.call{fill:#f8fafc;stroke:#cbd5e1;rx:5}
+    </style>
+  </defs>
+  <rect width="1500" height="860" fill="#f7f9fc"/>
+  <text x="60" y="54" class="title">As-Is 记录归属：一个 Template Master，多条 Version</text>
+  <text x="60" y="82" class="subtitle">下方 V1/V2/V3 仅用于解释字段归属和共存关系，不代表真实模板固定从这些版本开始。</text>
+
+  <rect x="60" y="115" width="1380" height="675" class="panel"/>
+  <rect x="105" y="165" width="420" height="250" class="master"/>
+  <text x="135" y="202" class="head">iic_msg_email_config · Master</text>
+  <text x="135" y="232" class="code">email_code = A</text>
+  <text x="135" y="266" class="text">email_name / description / is_campaign</text>
+  <text x="135" y="294" class="text">email_status：Enabled / Disabled</text>
+  <text x="135" y="322" class="text">status：Valid / Soft Deleted</text>
+  <text x="135" y="358" class="note">这些字段属于逻辑模板，不随 version_status 切换。</text>
+  <text x="135" y="382" class="note">Deactivate/Active 只修改 email_status。</text>
+
+  <rect x="650" y="145" width="710" height="480" class="panel"/>
+  <text x="680" y="182" class="head">iic_msg_email_config_version · Content Versions</text>
+  <rect x="685" y="220" width="200" height="240" class="expired"/>
+  <text x="712" y="255" class="head">V1 · Expired</text>
+  <text x="712" y="284" class="code">version_status = 2</text>
+  <text x="712" y="316" class="text">title / email_content</text>
+  <text x="712" y="342" class="text">file_keys</text>
+  <text x="712" y="368" class="text">effective_from</text>
+  <text x="712" y="394" class="text">effective_until = time</text>
+  <text x="712" y="430" class="note">历史内容仍保留</text>
+
+  <rect x="905" y="220" width="200" height="240" class="active"/>
+  <text x="932" y="255" class="head">V2 · Active</text>
+  <text x="932" y="284" class="code">version_status = 1</text>
+  <text x="932" y="316" class="text">title / email_content</text>
+  <text x="932" y="342" class="text">file_keys</text>
+  <text x="932" y="368" class="text">effective_from = now</text>
+  <text x="932" y="394" class="text">effective_until = NULL</text>
+  <text x="932" y="430" class="note">当前 Published 内容</text>
+
+  <rect x="1125" y="220" width="200" height="240" class="draft"/>
+  <text x="1152" y="255" class="head">V3 · Draft</text>
+  <text x="1152" y="284" class="code">version_status = 3</text>
+  <text x="1152" y="316" class="text">title / email_content</text>
+  <text x="1152" y="342" class="text">file_keys</text>
+  <text x="1152" y="368" class="text">未发布 Working Copy</text>
+  <text x="1152" y="430" class="note">不影响 V2 Active</text>
+
+  <path d="M525 270L650 270" class="line"/>
+  <text x="548" y="250" class="event">email_code = A</text>
+  <rect x="685" y="485" width="420" height="60" class="call"/>
+  <text x="715" y="510" class="event">发布结果示例：V1 已 Expired，V2 为当前 Active</text>
+  <text x="715" y="532" class="note">状态切换不改变 Master 的 email_status。</text>
+  <rect x="1125" y="485" width="200" height="60" class="call"/>
+  <text x="1148" y="510" class="event">V3 Draft 隔离</text>
+  <text x="1148" y="532" class="note">不影响当前 V2 Active</text>
+
+  <rect x="105" y="500" width="420" height="105" class="call"/>
+  <text x="135" y="535" class="head">操作影响边界</text>
+  <text x="135" y="565" class="text">Publish：更新 version_status 和 effective time</text>
+  <text x="135" y="589" class="text">Delete：config/version status 级联软删除</text>
+
+  <rect x="105" y="660" width="1220" height="82" class="call"/>
+  <text x="135" y="693" class="head">已确认结论</text>
+  <text x="135" y="720" class="text">Master 状态与 Version 生命周期是两套字段；Deactivate/Delete 都不会把 version_status 改成 Draft。</text>
+</svg>

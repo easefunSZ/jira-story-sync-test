@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="850" viewBox="0 0 1500 850">
+  <title>LEAD-93 To-Be Attachment Replacement Lifecycle</title>
+  <desc>Attachments remain optional and version-scoped through file_keys; validation is frontend-only and Discard does not clean S3 objects or file rows.</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 18px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.active{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5;rx:6}.draft{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5;rx:6}.expired{fill:#e8edf3;stroke:#64748b;stroke-width:1.5;rx:6}.file{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.4;rx:6}.success{fill:#eff6ff;stroke:#60a5fa;stroke-width:1.4;rx:6}.fail{fill:#fff1f2;stroke:#e11d48;stroke-width:1.3;rx:6}.pending{fill:#f5f3ff;stroke:#8b5cf6;stroke-width:1.4;rx:6}.rule{fill:#e0f2fe;stroke:#0284c7;stroke-width:1.2;rx:5}.line{stroke:#475569;stroke-width:1.7;fill:none;marker-end:url(#a)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1500" height="850" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">To-Be：Attachment Replacement 与保留边界</text>
+  <text x="60" y="78" class="sub">附件继续通过 version.file_keys 关联 S3 文件元数据；LEAD-93 不改变现有存储模型。</text>
+
+  <rect x="60" y="110" width="1380" height="160" class="panel"/>
+  <text x="86" y="145" class="section">共同规则</text>
+  <rect x="100" y="175" width="285" height="65" class="rule"/><text x="125" y="203" class="h">Email / Campaign 均可无附件</text><text x="125" y="226" class="small">不影响 Save Draft、Preview、Publish</text>
+  <rect x="460" y="175" width="285" height="65" class="rule"/><text x="485" y="203" class="h">单文件最大 10 MB</text><text x="485" y="226" class="small">size ≤ 10240 KB</text>
+  <rect x="820" y="175" width="285" height="65" class="rule"/><text x="845" y="203" class="h">格式维持现状</text><text x="845" y="226" class="small">明确排除多媒体 / 视频 / 音频</text>
+  <rect x="1180" y="175" width="220" height="65" class="rule"/><text x="1205" y="203" class="h">Preview 不处理附件</text><text x="1205" y="226" class="small">只展示正文和 Metadata</text>
+
+  <rect x="60" y="300" width="1380" height="300" class="panel"/>
+  <text x="86" y="335" class="section">编辑 Published Template：Active 与 Working Copy 附件隔离</text>
+  <rect x="100" y="375" width="310" height="105" class="active"/>
+  <text x="125" y="408" class="h">Active V1</text><text x="125" y="434" class="code">file_keys = A</text><text x="125" y="458" class="small">Adviser 当前使用 A</text>
+  <rect x="540" y="375" width="310" height="105" class="draft"/>
+  <text x="565" y="408" class="h">Draft V2 Working Copy</text><text x="565" y="434" class="code">file_keys = B</text><text x="565" y="458" class="small">新上传只关联 V2，不修改 V1</text>
+  <rect x="980" y="375" width="360" height="105" class="file"/>
+  <text x="1005" y="408" class="h">iic_msg_file_upload / S3</text><text x="1005" y="434" class="body">A 与 B 可同时存在</text><text x="1005" y="458" class="small">version.file_keys 继续保存逗号分隔 file_key</text>
+  <path d="M410 428L540 428" class="dash"/><text x="438" y="410" class="event">Edit + upload B</text>
+  <path d="M850 415L980 415" class="dash"/><path d="M410 455C650 540 850 540 980 455" class="dash"/>
+
+  <rect x="100" y="515" width="375" height="60" class="success"/>
+  <text x="125" y="541" class="h">Publish V2</text><text x="125" y="563" class="small">V1 Expired 仍保留 A；V2 Active 使用 B</text>
+  <rect x="560" y="515" width="375" height="60" class="success"/>
+  <text x="585" y="541" class="h">Discard V2</text><text x="585" y="563" class="small">移除 Draft 对 B 的关联；V1/A 保持不变</text>
+  <rect x="1020" y="515" width="320" height="60" class="fail"/>
+  <text x="1045" y="541" class="h">前端 Validation 失败</text><text x="1045" y="563" class="small">不提交请求，不更新 file_keys</text>
+
+  <rect x="60" y="630" width="1380" height="145" class="panel"/>
+  <text x="86" y="665" class="section">已确认的保留边界</text>
+  <rect x="100" y="695" width="1240" height="55" class="pending"/>
+  <text x="125" y="720" class="body">Discard 不删除 S3 对象，也不软删除 iic_msg_file_upload row；Publish 不新增物理清理、orphan 状态或后台清理任务。</text>
+  <text x="125" y="742" class="small">10 MB 和格式限制由前端校验；后端仅沿用现有 file_keys 写入方式。</text>
+  <text x="60" y="815" class="small">C10 仅回填真实附件 API 与 file_keys 赋值代码，不再决定本期校验或清理方案。</text>
+</svg>

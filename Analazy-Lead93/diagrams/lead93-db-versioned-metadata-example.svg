@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="930" viewBox="0 0 1500 930">
+  <title>LEAD-93 版本级 Metadata 数据实例</title>
+  <desc>以同一 email_code 下 Active V1 和 Draft V2 为例，展示 Metadata 随 version 隔离并在 Publish 时通过状态切换生效。</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 18px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.master{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.5;rx:6}.active{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5;rx:6}.draft{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5;rx:6}.expired{fill:#e8edf3;stroke:#64748b;stroke-width:1.5;rx:6}.metadata{fill:#eff6ff;stroke:#60a5fa;stroke-width:1.4;rx:6}.current{fill:#ecfdf5;stroke:#16a34a;stroke-width:1.2;rx:5}.history{fill:#f5f3ff;stroke:#8b5cf6;stroke-width:1.3;rx:6}.call{fill:#fff1f2;stroke:#e11d48;stroke-width:1.2;rx:5}.line{stroke:#475569;stroke-width:1.7;fill:none;marker-end:url(#a)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1500" height="930" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">版本级 Metadata 实例：为什么按 email_code + version 保存</text>
+  <text x="60" y="78" class="sub">以下 ID 和名称仅为示意；状态与数据归属规则为已确认设计。</text>
+
+  <rect x="470" y="105" width="560" height="100" class="master"/>
+  <text x="495" y="138" class="h">Template Master · iic_msg_email_config</text>
+  <text x="495" y="164" class="code">email_code = E10001</text>
+  <text x="495" y="187" class="body">email_name / description / is_campaign · 所有版本共用，不随 Publish 切换</text>
+
+  <rect x="60" y="235" width="1380" height="330" class="panel"/>
+  <text x="86" y="270" class="section">Publish 前：Draft V2 从 Active V1 初始化，随后各自维护 Metadata</text>
+
+  <rect x="100" y="305" width="350" height="105" class="active"/>
+  <text x="125" y="338" class="h">Version V1 · 当前 Published</text>
+  <text x="125" y="364" class="code">email_code=E10001, version=V1</text>
+  <text x="125" y="388" class="code">version_status = 1 · Active</text>
+  <rect x="100" y="430" width="350" height="105" class="metadata"/>
+  <text x="125" y="461" class="h">V1 Metadata Set A</text>
+  <text x="125" y="487" class="body">category_id = Category A</text>
+  <text x="125" y="510" class="body">Subcategory A1/A2 · 4 Mandatory Tags + Optional</text>
+  <path d="M275 410L275 430" class="line"/>
+
+  <rect x="575" y="305" width="350" height="105" class="draft"/>
+  <text x="600" y="338" class="h">Version V2 · Working Copy</text>
+  <text x="600" y="364" class="code">email_code=E10001, version=V2</text>
+  <text x="600" y="388" class="code">version_status = 3 · Draft</text>
+  <rect x="575" y="430" width="350" height="105" class="metadata"/>
+  <text x="600" y="461" class="h">V2 Metadata Set B</text>
+  <text x="600" y="487" class="body">category_id = Category B</text>
+  <text x="600" y="510" class="body">从 Set A 复制后编辑为 Set B；不反写 V1</text>
+  <path d="M750 410L750 430" class="line"/>
+
+  <rect x="1050" y="315" width="330" height="190" class="current"/>
+  <text x="1075" y="348" class="h">当前业务读取</text>
+  <text x="1075" y="378" class="body">Adviser / Published Tab</text>
+  <text x="1075" y="402" class="code">读取 V1 Content + Set A</text>
+  <text x="1075" y="432" class="body">Draft Tab / Edit</text>
+  <text x="1075" y="456" class="code">读取 V2 Content + Set B</text>
+  <text x="1075" y="484" class="small">修改 V2 不影响 V1</text>
+  <text x="930" y="296" class="event">读取规则由 version_status 选择目标 version</text>
+
+  <path d="M690 205L310 305" class="dash"/><path d="M810 205L735 305" class="dash"/>
+  <text x="455" y="225" class="small">1 logical template → N version rows</text>
+
+  <rect x="60" y="595" width="1380" height="265" class="panel"/>
+  <text x="86" y="630" class="section">Publish Now 后：不复制 Metadata，只切换原 version row 的状态</text>
+
+  <rect x="100" y="675" width="390" height="115" class="expired"/>
+  <text x="125" y="708" class="h">V1 · Expired</text>
+  <text x="125" y="734" class="code">version_status：1 → 2</text>
+  <text x="125" y="758" class="body">Set A 仍由 email_code + V1 关联</text>
+  <text x="125" y="780" class="small">数据保留；产品/API 不展示 Expired Metadata</text>
+
+  <rect x="570" y="675" width="390" height="115" class="active"/>
+  <text x="595" y="708" class="h">V2 · Active</text>
+  <text x="595" y="734" class="code">version_status：3 → 1</text>
+  <text x="595" y="758" class="body">Set B 仍由 email_code + V2 关联</text>
+  <text x="595" y="780" class="small">自然成为当前 Published Metadata</text>
+
+  <rect x="1040" y="675" width="360" height="115" class="history"/>
+  <text x="1065" y="708" class="h">关键结果</text>
+  <text x="1065" y="734" class="body">没有 Draft Metadata → Active Metadata 的复制动作。</text>
+  <text x="1065" y="758" class="body">没有独立 Metadata 生命周期状态。</text>
+  <text x="1065" y="780" class="small">Content 与 Metadata 始终以同一 version 对齐</text>
+
+  <rect x="490" y="708" width="80" height="48" fill="#fff" stroke="#cbd5e1" rx="5"/>
+  <text x="505" y="737" class="event">同一事务</text>
+  <rect x="100" y="810" width="1300" height="32" class="call"/>
+  <text x="125" y="831" class="small">预约发布同理：V2 先执行 3 → 0；在 effective_from 前继续读取 V1 + Set A，到点后 V1：1 → 2、V2：0 → 1，Set B 随 V2 生效。</text>
+  <text x="60" y="900" class="small">主 Category 存在 version.category_id；Subcategory/Tag 存在关系表。Discard/Delete 按 version 同步软删除对应关系，不会影响其他 version 的 Metadata。</text>
+</svg>

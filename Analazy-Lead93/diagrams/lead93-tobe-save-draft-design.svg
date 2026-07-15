@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="820" viewBox="0 0 1500 820">
+  <title>LEAD-93 To-Be Save Draft Implementation</title>
+  <desc>To-Be service flow, version row selection and transaction writes for Save Draft.</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .t{font:700 28px Arial;fill:#172033}.st{font:400 15px Arial;fill:#526070}.lane{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}
+      .lh{font:700 15px Arial;fill:#172033}.n{fill:#fff;stroke:#94a3b8;stroke-width:1.6;rx:6}.api{fill:#dbeafe;stroke:#3b82f6}.svc{fill:#eef2ff;stroke:#6366f1}.db{fill:#dcfce7;stroke:#16a34a}.dec{fill:#fff7db;stroke:#d69e2e}.err{fill:#fee2e2;stroke:#dc2626}
+      .nt{font:700 15px Arial;fill:#172033}.code{font:700 12px Arial;fill:#334155}.note{font:400 12px Arial;fill:#526070}.evt{font:700 12px Arial;fill:#334155}
+      .line{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#a)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#a)}
+      .tx{fill:#f3fbf5;stroke:#22a559;stroke-width:1.5;stroke-dasharray:8 5;rx:6}.txh{font:700 13px Arial;fill:#166534}
+    </style>
+  </defs>
+  <rect width="1500" height="820" fill="#f7f9fc"/>
+  <text x="60" y="54" class="t">To-Be 实现设计：Save Draft</text>
+  <text x="60" y="82" class="st">目标选版矩阵已确定；真实 Service/Mapper、Request/Response 和并发机制仍待 C05/C06/C14。</text>
+  <rect x="60" y="115" width="210" height="620" class="lane"/><text x="85" y="148" class="lh">Client / Controller</text>
+  <rect x="300" y="115" width="650" height="620" class="lane"/><text x="325" y="148" class="lh">Template Service</text>
+  <rect x="980" y="115" width="460" height="620" class="lane"/><text x="1005" y="148" class="lh">Persistence</text>
+
+  <rect x="90" y="190" width="150" height="78" class="n api"/><text x="112" y="222" class="nt">Save Draft API</text><text x="112" y="246" class="note">Request 待 C05/C14</text>
+  <rect x="340" y="180" width="230" height="95" class="n svc"/><text x="364" y="214" class="nt">Load Current State</text><text x="364" y="240" class="code">config + all valid versions</text><text x="364" y="261" class="note">并发/version control 待 C06</text>
+  <path d="M240 229L340 229" class="line"/>
+
+  <rect x="650" y="165" width="250" height="140" class="n dec"/><text x="674" y="198" class="nt">Select Target Version Row</text>
+  <text x="674" y="222" class="note">无 version → Insert V1 Draft</text><text x="674" y="242" class="note">已有 Draft → Update Draft</text><text x="674" y="262" class="note">Active 无 Draft → Insert next + copy metadata</text><text x="674" y="282" class="note">Schedule → 拒绝；必须先 Cancel</text>
+  <path d="M570 228L650 228" class="line"/>
+
+  <rect x="340" y="345" width="230" height="92" class="n svc"/><text x="364" y="378" class="nt">Normalize &amp; Validate</text><text x="364" y="404" class="note">Lenient Draft validation</text><text x="364" y="425" class="note">Mandatory Tag 缺失 → Unclassified</text>
+  <path d="M775 285C775 320 455 320 455 345" class="line"/>
+
+  <rect x="320" y="485" width="600" height="200" class="tx"/><text x="345" y="515" class="txh">ONE DATABASE TRANSACTION</text>
+  <rect x="345" y="540" width="170" height="95" class="n db"/><text x="367" y="572" class="nt">Master Write</text><text x="367" y="598" class="code">email_name / description</text><text x="367" y="620" class="note">email_code by backend</text>
+  <rect x="535" y="540" width="170" height="95" class="n db"/><text x="557" y="572" class="nt">Version Write</text><text x="557" y="598" class="code">subject / body / category</text><text x="557" y="620" class="note">新 Draft：复制 Active</text>
+  <rect x="725" y="540" width="170" height="95" class="n db"/><text x="747" y="572" class="nt">Relations Write</text><text x="747" y="598" class="code">subcategory + tags</text><text x="747" y="620" class="note">复制后应用本次修改</text>
+  <path d="M455 437L455 485" class="line"/>
+
+  <rect x="1020" y="190" width="380" height="105" class="n db"/><text x="1044" y="224" class="nt">Read Tables</text>
+  <text x="1044" y="250" class="code">iic_msg_email_config</text><text x="1044" y="271" class="code">iic_msg_email_config_version</text>
+  <path d="M570 205C600 170 620 160 650 160L950 160C990 160 990 220 1020 240" class="dash"/>
+  <rect x="1020" y="500" width="380" height="150" class="n db"/><text x="1044" y="534" class="nt">Atomic Writes</text>
+  <text x="1044" y="560" class="code">email_config + email_config_version</text><text x="1044" y="592" class="code">template_category_rel</text><text x="1044" y="623" class="code">template_tag_rel</text>
+  <path d="M920 585L1020 585" class="line"/>
+
+  <rect x="90" y="650" width="150" height="60" class="n api"/><text x="112" y="678" class="nt">Return Latest</text><text x="112" y="699" class="note">Response 待 C14</text>
+  <path d="M1020 635C960 715 300 715 240 682" class="line"/>
+  <rect x="1010" y="680" width="400" height="55" class="n err"/><text x="1034" y="703" class="note">任一步失败 → Transaction rollback；不允许部分成功。</text>
+  <text x="1034" y="724" class="note">门禁：真实实现 C05；并发事务 C06；Contract C14。</text>
+</svg>

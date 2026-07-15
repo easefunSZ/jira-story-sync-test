@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="880" viewBox="0 0 1500 880">
+  <title>LEAD-93 Deactivate 与 Delete：共同状态基线与 To-Be 差异</title>
+  <desc>复用第 3.4 节 Template 可用性与软删除泳道，突出 Delete 对新增版本关系表的级联软删除。</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 19px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.state{stroke-width:1.6;rx:6}.enabled{fill:#dcfce7;stroke:#16a34a}.disabled{fill:#fff7db;stroke:#d69e2e}.deleted{fill:#e8edf3;stroke:#64748b}.same{fill:#ecfdf5;stroke:#16a34a;stroke-width:1.2;rx:5}.asis{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2;rx:5}.tobe{fill:#eff6ff;stroke:#60a5fa;stroke-width:1.2;rx:5}.row{fill:#fff;stroke:#d8e0ea}.line{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#a)}.dash{stroke:#64748b;stroke-width:1.6;stroke-dasharray:6 5;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1500" height="880" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">场景 3：Deactivate、Active 与 Delete</text>
+  <text x="60" y="78" class="sub">上半部分与第 3.4 节 Template 可用性/软删除泳道一致；LEAD-93 不改变既有状态含义。</text>
+
+  <rect x="60" y="105" width="1380" height="315" class="panel"/>
+  <text x="86" y="140" class="section">共同状态基线：As-Is = To-Be</text>
+  <rect x="1160" y="120" width="240" height="34" class="same"/><text x="1182" y="142" class="event">version_status 始终保持原值</text>
+
+  <rect x="120" y="205" width="280" height="98" class="state enabled"/>
+  <text x="145" y="238" class="h">Enabled</text><text x="145" y="264" class="code">config.email_status = 1</text><text x="145" y="286" class="small">Active version 不变</text>
+  <rect x="610" y="205" width="280" height="98" class="state disabled"/>
+  <text x="635" y="238" class="h">Disabled</text><text x="635" y="264" class="code">config.email_status = 0</text><text x="635" y="286" class="small">Active version 仍为 version_status = 1</text>
+  <rect x="1110" y="205" width="280" height="98" class="state deleted"/>
+  <text x="1135" y="238" class="h">Soft Deleted</text><text x="1135" y="264" class="code">config/version.status → deleted</text><text x="1135" y="286" class="small">不重写任何 version_status</text>
+
+  <path d="M400 245L610 245" class="line"/><text x="470" y="226" class="event">Deactivate：1 → 0</text>
+  <path d="M610 286C545 340 465 340 400 286" class="line"/><text x="475" y="350" class="event">Active / Reactivate：0 → 1</text>
+  <path d="M890 254L1110 254" class="dash"/><text x="970" y="235" class="event">Delete</text>
+  <path d="M400 215C650 160 890 160 1110 215" class="dash"/><text x="675" y="174" class="event">Enabled 或 Disabled 均可按现有 Delete 路径软删除</text>
+  <text x="435" y="392" class="small">PRD “Published → Draft” 仅作为页面/业务展示映射，不表示 version_status：1 → 3。</text>
+
+  <rect x="60" y="450" width="1380" height="350" class="panel"/>
+  <text x="86" y="485" class="section">真正的改造差异</text>
+  <rect x="86" y="510" width="210" height="50" class="asis"/><text x="111" y="541" class="h">操作</text>
+  <rect x="296" y="510" width="475" height="50" class="asis"/><text x="321" y="541" class="h">As-Is 基线</text>
+  <rect x="771" y="510" width="643" height="50" class="tobe"/><text x="796" y="541" class="h">To-Be 新增 / 修改</text>
+
+  <rect x="86" y="560" width="210" height="72" class="row"/><text x="111" y="593" class="h">Deactivate / Active</text><text x="111" y="615" class="small">无核心变化</text>
+  <rect x="296" y="560" width="475" height="72" class="row"/><text x="321" y="591" class="body">只更新 config.email_status；version row 不变。</text><text x="321" y="615" class="small">Active 不重新执行 Publish Validation。</text>
+  <rect x="771" y="560" width="643" height="72" class="tobe"/><text x="796" y="591" class="body">保持 As-Is；新增 Metadata 不参与启停状态切换。</text><text x="796" y="615" class="body">页面继续由 config + version 组合派生。</text>
+
+  <rect x="86" y="632" width="210" height="82" class="row"/><text x="111" y="668" class="h">Delete</text><text x="111" y="692" class="small">唯一数据差异</text>
+  <rect x="296" y="632" width="475" height="82" class="row"/><text x="321" y="664" class="body">软删除 config 及全部 version。</text><text x="321" y="690" class="body">保留各 version 原 version_status。</text>
+  <rect x="771" y="632" width="643" height="82" class="tobe"/><text x="796" y="660" class="body">在现有级联范围中增加该模板全部 Subcategory / Tag relations。</text><text x="796" y="686" class="body">主 Category 在 version row 中，随 version 软删除；不删除 taxonomy 节点。</text><text x="796" y="706" class="small">本期不提供一键恢复。</text>
+
+  <rect x="86" y="714" width="210" height="60" class="row"/><text x="111" y="750" class="h">权限 / API</text>
+  <rect x="296" y="714" width="475" height="60" class="row"/><text x="321" y="750" class="body">现有实现细节待内网定位。</text>
+  <rect x="771" y="714" width="643" height="60" class="tobe"/><text x="796" y="750" class="body">复用方式仍待 C09 / C11 / C14；本期不新增通用 Audit。</text>
+  <text x="86" y="838" class="small">确定结论：Deactivate/Active 无状态机改造；Delete 只扩展新增版本关系数据的软删除范围。</text>
+</svg>

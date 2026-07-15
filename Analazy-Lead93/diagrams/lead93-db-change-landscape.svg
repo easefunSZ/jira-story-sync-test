@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="820" viewBox="0 0 1500 820">
+  <title>LEAD-93 数据库改造范围全景</title>
+  <desc>按 Existing Reused、Existing Changed 和 New 区分数据库表，并展示核心数据链路。</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 18px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .lane{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.reused{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.5;rx:6}.changed{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5;rx:6}.new{fill:#eff6ff;stroke:#60a5fa;stroke-width:1.5;rx:6}.support{fill:#f5f3ff;stroke:#8b5cf6;stroke-width:1.5;rx:6}.line{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#a)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#a)}
+    </style>
+  </defs>
+  <rect width="1500" height="820" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">LEAD-93 数据库改造范围全景</text>
+  <text x="60" y="78" class="sub">先看改造范围，再进入 ER 图和逐表字段；颜色表示表的改造类型，不表示生命周期状态。</text>
+
+  <rect x="60" y="105" width="1380" height="615" class="lane"/>
+  <rect x="90" y="130" width="180" height="34" class="reused"/><text x="111" y="152" class="event">灰色：Existing / Reused</text>
+  <rect x="290" y="130" width="190" height="34" class="changed"/><text x="311" y="152" class="event">黄色：Existing / Changed</text>
+  <rect x="500" y="130" width="150" height="34" class="new"/><text x="521" y="152" class="event">蓝色：New</text>
+  <rect x="670" y="130" width="180" height="34" class="support"/><text x="691" y="152" class="event">紫色：Migration Support</text>
+
+  <text x="100" y="210" class="section">Template Core</text>
+  <rect x="100" y="235" width="340" height="115" class="reused"/>
+  <text x="125" y="268" class="h">iic_msg_email_config</text>
+  <text x="125" y="294" class="body">Template Master · 逻辑模板</text>
+  <text x="125" y="318" class="small">复用 email_code、email_name、description、is_campaign</text>
+  <text x="125" y="338" class="small">不新增版本化字段</text>
+
+  <rect x="565" y="220" width="370" height="145" class="changed"/>
+  <text x="590" y="253" class="h">iic_msg_email_config_version</text>
+  <text x="590" y="279" class="body">Template Version · 内容和生命周期</text>
+  <text x="590" y="305" class="code">新增 category_id</text>
+  <text x="590" y="329" class="small">继续保存 title、正文、file_keys、effective time</text>
+  <text x="590" y="349" class="small">Metadata 的版本归属锚点：email_code + version</text>
+
+  <rect x="1070" y="235" width="300" height="115" class="reused"/>
+  <text x="1095" y="268" class="h">iic_msg_file_upload</text>
+  <text x="1095" y="294" class="body">S3 附件元数据</text>
+  <text x="1095" y="318" class="small">沿用 version.file_keys 的现有引用方式</text>
+  <text x="1095" y="338" class="small">本期不重构附件关系模型</text>
+
+  <path d="M440 290L565 290" class="line"/><text x="466" y="272" class="event">1:N · email_code</text>
+  <path d="M935 290L1070 290" class="dash"/><text x="970" y="272" class="event">file_keys</text>
+
+  <text x="100" y="420" class="section">Version-Aligned Metadata</text>
+  <rect x="100" y="445" width="350" height="125" class="changed"/>
+  <text x="125" y="478" class="h">iic_msg_category_config</text>
+  <text x="125" y="504" class="body">复用为 Category / Subcategory 两级树</text>
+  <text x="125" y="528" class="code">新增 parent_id、category_level、sort_order...</text>
+  <text x="125" y="550" class="small">主 Category 与 Subcategory 共用节点表</text>
+
+  <rect x="535" y="445" width="350" height="125" class="new"/>
+  <text x="560" y="478" class="h">iic_msg_template_category_rel</text>
+  <text x="560" y="504" class="body">Version → 多个 Subcategory</text>
+  <text x="560" y="530" class="code">email_code + version + subcategory_id</text>
+  <text x="560" y="550" class="small">主 Category 不在本表，直接存 version.category_id</text>
+
+  <rect x="970" y="415" width="185" height="92" class="new"/>
+  <text x="995" y="448" class="h">iic_msg_tag_group</text>
+  <text x="995" y="474" class="code">group_code</text>
+  <text x="995" y="494" class="small">分组与必填性</text>
+
+  <rect x="1215" y="415" width="185" height="92" class="new"/>
+  <text x="1240" y="448" class="h">iic_msg_tag_value</text>
+  <text x="1240" y="474" class="code">tag_code</text>
+  <text x="1240" y="494" class="small">固定 Tag 字典</text>
+
+  <rect x="970" y="535" width="430" height="105" class="new"/>
+  <text x="995" y="568" class="h">iic_msg_template_tag_rel</text>
+  <text x="995" y="594" class="body">Version → 每个 Group 最多一个 Tag Value</text>
+  <text x="995" y="620" class="code">email_code + version + group_code → tag_code</text>
+
+  <path d="M565 365C520 405 390 405 350 445" class="dash"/><text x="388" y="400" class="event">category_id → Category</text>
+  <path d="M750 365L710 445" class="dash"/><text x="724" y="407" class="event">1:N</text>
+  <path d="M450 507L535 507" class="dash"/><text x="468" y="489" class="event">subcategory_id</text>
+  <path d="M935 330C1120 350 1180 455 1180 535" class="dash"/><text x="1020" y="365" class="event">Version 1:N Tag Relations</text>
+  <path d="M1155 461L1215 461" class="dash"/><text x="1168" y="443" class="event">1:N</text>
+  <path d="M1062 507L1080 535" class="dash"/>
+  <path d="M1307 507L1285 535" class="dash"/>
+
+  <rect x="100" y="620" width="785" height="70" class="support"/>
+  <text x="125" y="650" class="h">iic_msg_template_migration_snapshot</text>
+  <text x="125" y="674" class="body">上线前保存 Config / Version JSON 快照，仅用于 Migration 验证与受控回滚，不参与运行时查询。</text>
+
+  <rect x="970" y="665" width="430" height="35" class="new"/>
+  <text x="995" y="688" class="event">核心新增关系均按 email_code + version 对齐</text>
+  <text x="60" y="760" class="small">关系说明：图中箭头表示业务数据依赖；本方案不新增物理 FK/check constraint，完整性由 Service、Transaction 和 Migration Validation 保证。</text>
+</svg>

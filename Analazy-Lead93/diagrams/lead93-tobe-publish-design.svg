@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="850" viewBox="0 0 1500 850">
+  <title>LEAD-93 To-Be Publish Implementation</title>
+  <desc>To-Be immediate and scheduled publish design with validation and atomic status updates.</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .t{font:700 28px Arial;fill:#172033}.st{font:400 15px Arial;fill:#526070}.lane{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.lh{font:700 15px Arial;fill:#172033}
+      .n{fill:#fff;stroke:#94a3b8;stroke-width:1.6;rx:6}.api{fill:#dbeafe;stroke:#3b82f6}.svc{fill:#eef2ff;stroke:#6366f1}.db{fill:#dcfce7;stroke:#16a34a}.dec{fill:#fff7db;stroke:#d69e2e}.old{fill:#e8edf3;stroke:#64748b}.err{fill:#fee2e2;stroke:#dc2626}
+      .nt{font:700 15px Arial;fill:#172033}.code{font:700 12px Arial;fill:#334155}.note{font:400 12px Arial;fill:#526070}.evt{font:700 12px Arial;fill:#334155}.line{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#a)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#a)}
+      .tx{fill:#f3fbf5;stroke:#22a559;stroke-width:1.5;stroke-dasharray:8 5;rx:6}.txh{font:700 13px Arial;fill:#166534}
+    </style>
+  </defs>
+  <rect width="1500" height="850" fill="#f7f9fc"/>
+  <text x="60" y="54" class="t">To-Be 实现设计：Publish Now / Schedule Publish</text>
+  <text x="60" y="82" class="st">To-Be 状态结果与原子性已确定；并发/事务/Scheduler/Response 实现分别待 C06/C07/C08/C14。</text>
+  <rect x="60" y="115" width="230" height="660" class="lane"/><text x="85" y="148" class="lh">API</text>
+  <rect x="320" y="115" width="620" height="660" class="lane"/><text x="345" y="148" class="lh">Template Service</text>
+  <rect x="970" y="115" width="470" height="660" class="lane"/><text x="995" y="148" class="lh">Version Tables / Scheduler</text>
+  <rect x="90" y="190" width="170" height="75" class="n api"/><text x="114" y="221" class="nt">Publish Request</text><text x="114" y="245" class="note">email_code + target version</text>
+  <rect x="355" y="180" width="230" height="95" class="n svc"/><text x="379" y="214" class="nt">Strong Validation</text><text x="379" y="240" class="note">Title / Description / Format / Category</text><text x="379" y="261" class="note">Subcategory / 4 Tags / Body</text>
+  <path d="M260 227L355 227" class="line"/>
+  <rect x="655" y="180" width="230" height="95" class="n dec"/><text x="679" y="214" class="nt">Effective Time?</text><text x="679" y="240" class="code">now or future</text><text x="679" y="261" class="note">validation fail → no state update</text>
+  <path d="M585 227L655 227" class="line"/>
+
+  <rect x="345" y="345" width="565" height="155" class="tx"/><text x="370" y="375" class="txh">IMMEDIATE PUBLISH TRANSACTION</text>
+  <rect x="375" y="400" width="230" height="75" class="n old"/><text x="399" y="430" class="nt">Old Active → Expired</text><text x="399" y="454" class="code">1 → 2；until = now</text>
+  <rect x="635" y="400" width="240" height="75" class="n db"/><text x="659" y="430" class="nt">Target Draft → Active</text><text x="659" y="454" class="code">3 → 1；from=now；until=NULL</text>
+  <path d="M720 275C720 315 625 315 625 345" class="line"/><text x="647" y="318" class="evt">Publish now</text>
+
+  <rect x="345" y="560" width="250" height="90" class="n db"/><text x="369" y="593" class="nt">Save Schedule</text><text x="369" y="619" class="code">target version_status = 0</text><text x="369" y="640" class="note">effective_from &gt; now</text>
+  <path d="M790 275C790 525 470 525 470 560" class="line"/><text x="654" y="520" class="evt">Future time</text>
+  <rect x="650" y="560" width="260" height="90" class="n dec"/><text x="674" y="593" class="nt">Cancel Schedule</text><text x="674" y="619" class="code">0 → 3；clear from / until</text><text x="674" y="640" class="note">恢复同一 Draft；旧 Active 不变</text>
+  <path d="M595 605L650 605" class="line"/><text x="600" y="590" class="evt">Cancel</text>
+  <rect x="1020" y="335" width="370" height="110" class="n svc"/><text x="1044" y="368" class="nt">changeVersionStatusByEffectiveFrom()</text><text x="1044" y="394" class="note">扫描已到 effective_from 的 Schedule</text><text x="1044" y="416" class="note">事务/并发/重试/时区待 C08；不新增 Redis lock</text>
+  <path d="M470 650L470 670L970 670L970 390L1020 390" class="line"/>
+  <rect x="1020" y="520" width="370" height="135" class="tx"/><text x="1044" y="550" class="txh">SCHEDULE ACTIVATION TRANSACTION</text>
+  <text x="1044" y="582" class="code">Old Active: 1 → 2；effective_until = now</text><text x="1044" y="608" class="code">Scheduled: 0 → 1；effective_from = now</text><text x="1044" y="634" class="code">effective_until = NULL</text>
+  <path d="M1205 445L1205 520" class="line"/>
+
+  <rect x="90" y="690" width="170" height="55" class="n api"/><text x="114" y="718" class="nt">Success / Error</text><text x="114" y="739" class="note">Response 待 C14</text>
+  <path d="M345 470C300 470 300 717 260 717" class="line"/>
+  <rect x="345" y="690" width="565" height="55" class="n err"/><text x="369" y="714" class="note">Schedule 期间 Save Draft 被拒绝；取消后才可编辑。其他事务失败时旧 Active 保持不变。</text>
+  <text x="369" y="734" class="note">并发机制/冲突字段待 C06；错误响应待 C14，不预设 version token。</text>
+</svg>

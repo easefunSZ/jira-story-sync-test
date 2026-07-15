@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="930" viewBox="0 0 1500 930">
+  <title>LEAD-93 页面状态派生：As-Is 查询基线与 To-Be 差异</title>
+  <desc>复用第 3.5 节 Published/Draft Tab 查询语义，突出新增筛选和 Draft in Progress 派生展示。</desc>
+  <defs>
+    <style>
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 19px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.published{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5;rx:6}.draft{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5;rx:6}.pending{fill:#fff1f2;stroke:#e11d48;stroke-width:1.2;rx:5}.asis{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2;rx:5}.tobe{fill:#eff6ff;stroke:#60a5fa;stroke-width:1.2;rx:5}.row{fill:#fff;stroke:#d8e0ea}.same{fill:#ecfdf5;stroke:#16a34a;stroke-width:1.2;rx:5}
+    </style>
+  </defs>
+  <rect width="1500" height="930" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">场景 5：页面 Tab、筛选与派生状态</text>
+  <text x="60" y="78" class="sub">As-Is 条件与第 3.5 节保持一致；To-Be 在既有 Tab 语义上叠加筛选与展示，不重定义选版。</text>
+
+  <rect x="60" y="105" width="1380" height="345" class="panel"/>
+  <text x="86" y="140" class="section">As-Is 页面查询基线</text>
+  <rect x="1180" y="120" width="220" height="34" class="same"/><text x="1202" y="142" class="event">To-Be 必须保留此基线</text>
+
+  <rect x="90" y="180" width="570" height="205" class="published"/>
+  <text x="115" y="214" class="h">Published Tab · 已确认硬编码条件</text>
+  <text x="115" y="244" class="code">config.status = 0</text>
+  <text x="115" y="270" class="code">AND config.email_status = 1</text>
+  <text x="115" y="296" class="code">AND config.is_campaign != 1</text>
+  <text x="115" y="322" class="code">AND version.status = 0</text>
+  <text x="115" y="348" class="code">AND version.version_status = 1</text>
+  <text x="390" y="348" class="small">→ Enabled、未删除普通 Email 的 Active version</text>
+
+  <rect x="710" y="180" width="690" height="205" class="draft"/>
+  <text x="735" y="214" class="h">Draft Tab · 已确认三个 OR 分支</text>
+  <text x="735" y="244" class="code">Branch 1：config.email_status = 0</text>
+  <text x="735" y="274" class="code">OR Branch 2：config.status = 0 AND version_status IN (0,3) AND version != 'V1'</text>
+  <text x="735" y="304" class="code">OR Branch 3：version_status IN (0,3) AND version = 'V1'</text>
+  <text x="735" y="334" class="body">Draft Tab 同时承载 Disabled、Draft 与 Schedule 语义。</text>
+  <text x="735" y="360" class="small">完整括号、软删除/tenant 条件、List/Count 和最终选版仍待 C03/C04。</text>
+  <rect x="90" y="400" width="1310" height="30" class="pending"/>
+  <text x="112" y="420" class="small">证据边界：To-Be Search/Filter 不得用新 SQL 猜测或覆盖上述待确认的 As-Is Mapper 行为。</text>
+
+  <rect x="60" y="480" width="1380" height="380" class="panel"/>
+  <text x="86" y="515" class="section">真正的改造差异</text>
+  <rect x="86" y="540" width="210" height="50" class="asis"/><text x="111" y="571" class="h">比较项</text>
+  <rect x="296" y="540" width="475" height="50" class="asis"/><text x="321" y="571" class="h">As-Is 基线</text>
+  <rect x="771" y="540" width="643" height="50" class="tobe"/><text x="796" y="571" class="h">To-Be 新增 / 修改</text>
+
+  <rect x="86" y="590" width="210" height="78" class="row"/><text x="111" y="624" class="h">Tab 基础查询</text><text x="111" y="647" class="small">保持现有语义</text>
+  <rect x="296" y="590" width="475" height="78" class="row"/><text x="321" y="620" class="body">Published 只取 Active；Draft 使用三个 OR 分支。</text><text x="321" y="646" class="small">Draft 不是 version_status = 3 的简单筛选。</text>
+  <rect x="771" y="590" width="643" height="78" class="tobe"/><text x="796" y="620" class="body">保留 Tab base query，再叠加 LEAD-93 Filter。</text><text x="796" y="646" class="body">不得改变 List/Count 和最终选版规则。</text>
+
+  <rect x="86" y="668" width="210" height="86" class="row"/><text x="111" y="704" class="h">Search / Filter</text><text x="111" y="728" class="small">新增能力</text>
+  <rect x="296" y="668" width="475" height="86" class="row"/><text x="321" y="700" class="body">无 LEAD-93 Category / Tag 组合过滤。</text><text x="321" y="726" class="small">Published 当前硬编码排除 is_campaign = 1。</text>
+  <rect x="771" y="668" width="643" height="86" class="tobe"/><text x="796" y="696" class="body">要求 is_campaign 类型参数；增加 Category、Subcategory、Tag 与 Keyword。</text><text x="796" y="722" class="body">同维度 OR/ANY、跨维度 AND；Published Tab 不开放 Status Filter。</text><text x="796" y="744" class="small">Campaign 最终入口/页面仍为待业务确认项，不在本图假设。</text>
+
+  <rect x="86" y="754" width="210" height="80" class="row"/><text x="111" y="790" class="h">派生展示</text><text x="111" y="813" class="small">不新增状态列</text>
+  <rect x="296" y="754" width="475" height="80" class="row"/><text x="321" y="785" class="body">Active + Draft 可在同一 email_code 下共存。</text><text x="321" y="811" class="small">Adviser 只读取 Enabled + Active。</text>
+  <rect x="771" y="754" width="643" height="80" class="tobe"/><text x="796" y="785" class="body">由 Active + Draft 组合显示 “Draft in Progress”。</text><text x="796" y="811" class="body">Draft/Schedule 及其 Metadata 对 Adviser 不可见。</text>
+  <text x="86" y="895" class="small">未确认边界：Published/Draft 完整 SQL 与返回 version 规则 C02-C04；Active/Deactivate 页面调用链 C09。</text>
+</svg>

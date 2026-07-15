@@ -8,14 +8,13 @@ JOIN iic_msg_email_config_version v
 CROSS JOIN iic_msg_tag_group g
 WHERE c.status = 0
   AND c.email_status = 1
-  AND c.is_campaign <> 1
   AND g.status = 0
   AND g.is_mandatory = 1
   AND NOT EXISTS (
     SELECT 1
     FROM iic_msg_template_tag_rel r
     WHERE r.email_code = c.email_code
+      AND r.version = v.version
       AND r.group_code = g.group_code
       AND r.status = 0
   );
-

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="820" viewBox="0 0 1500 820">
+  <title>LEAD-93 To-Be Edit Published Implementation</title>
+  <desc>To-Be edit routing for content and metadata changes on a published template.</desc>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .t{font:700 28px Arial;fill:#172033}.st{font:400 15px Arial;fill:#526070}.n{fill:#fff;stroke:#94a3b8;stroke-width:1.6;rx:6}.active{fill:#dcfce7;stroke:#16a34a}.draft{fill:#fff7db;stroke:#d69e2e}.svc{fill:#eef2ff;stroke:#6366f1}.db{fill:#dbeafe;stroke:#3b82f6}.del{fill:#fee2e2;stroke:#dc2626}.pending{fill:#fffaf0;stroke:#d69e2e;stroke-dasharray:7 5}
+      .nt{font:700 15px Arial;fill:#172033}.code{font:700 12px Arial;fill:#334155}.note{font:400 12px Arial;fill:#526070}.evt{font:700 12px Arial;fill:#334155}.line{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#a)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#a)}
+      .band{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.bh{font:700 17px Arial;fill:#172033}
+    </style>
+  </defs>
+  <rect width="1500" height="820" fill="#f7f9fc"/>
+  <text x="60" y="54" class="t">To-Be 实现设计：Edit Published Template</text>
+  <text x="60" y="82" class="st">版本归属、Draft 初始化复制和生效边界已确认；具体 API、选版与事务仍受 C 项门禁。</text>
+  <rect x="60" y="115" width="1380" height="620" class="band"/>
+  <rect x="100" y="180" width="230" height="95" class="n active"/><text x="124" y="214" class="nt">Load Published Template</text><text x="124" y="240" class="code">Active version_status = 1</text><text x="124" y="261" class="note">Adviser 继续读取该版本</text>
+  <rect x="430" y="180" width="230" height="95" class="n svc"/><text x="454" y="214" class="nt">Classify Change</text><text x="454" y="240" class="code">content or metadata</text><text x="454" y="261" class="note">后端按字段白名单校验</text>
+  <path d="M330 227L430 227" class="line"/>
+
+  <text x="110" y="340" class="bh">Content / Subject / Optional Attachment Branch</text>
+  <rect x="100" y="375" width="230" height="100" class="n draft"/><text x="124" y="409" class="nt">Create / Update Draft</text><text x="124" y="435" class="code">same email_code, next version</text><text x="124" y="457" class="note">矩阵已定；真实实现待 C05</text>
+  <path d="M500 275C500 335 215 335 215 375" class="line"/><text x="336" y="305" class="evt">Content change</text>
+  <rect x="430" y="375" width="230" height="100" class="n svc"/><text x="454" y="409" class="nt">Save / Preview / Validate</text><text x="454" y="435" class="note">Save Draft → working copy</text><text x="454" y="457" class="note">Publish → 调用图 9-2 流程</text>
+  <path d="M330 425L430 425" class="line"/>
+  <rect x="760" y="375" width="230" height="100" class="n active"/><text x="784" y="409" class="nt">Publish Success</text><text x="784" y="435" class="code">old Active → Expired</text><text x="784" y="457" class="code">Draft → Active</text>
+  <path d="M660 425L760 425" class="line"/>
+  <rect x="1100" y="375" width="250" height="100" class="n del"/><text x="1124" y="409" class="nt">Discard Working Copy</text><text x="1124" y="435" class="code">soft-delete Draft + relations</text><text x="1124" y="457" class="note">Published Active 不变</text>
+  <path d="M550 475C550 520 1225 520 1225 475" class="dash"/>
+
+  <text x="110" y="575" class="bh">Category / Subcategory / Tag Metadata Branch</text>
+  <rect x="100" y="610" width="260" height="85" class="n db"/><text x="124" y="643" class="nt">Validate Metadata</text><text x="124" y="669" class="note">category hierarchy / tag validity</text><text x="124" y="690" class="note">service-enforced integrity</text>
+  <path d="M590 275C590 555 230 555 230 610" class="line"/><text x="372" y="530" class="evt">Metadata change</text>
+  <rect x="440" y="610" width="310" height="85" class="n db"/><text x="464" y="643" class="nt">Update Target Version</text><text x="464" y="669" class="code">category_id + version relations</text><text x="464" y="690" class="note">Active 立即生效；Draft 隔离</text>
+  <path d="M360 652L440 652" class="line"/>
+  <rect x="830" y="610" width="260" height="85" class="n active"/><text x="854" y="643" class="nt">Keep Active</text><text x="854" y="669" class="code">version_status unchanged</text><text x="854" y="690" class="note">Adviser 搜索/分类立即更新</text>
+  <path d="M750 652L830 652" class="line"/>
+  <rect x="1160" y="595" width="230" height="110" class="n pending"/><text x="1184" y="628" class="nt">Master Fields</text><text x="1184" y="654" class="note">email_name / description /</text><text x="1184" y="676" class="note">is_campaign 独立修改；</text><text x="1184" y="697" class="note">本期不提供历史值回放。</text>
+  <text x="100" y="775" class="st">Schedule 先 Cancel 为 Draft 再编辑；实现门禁：C05/C08 入口，C06/C07 事务，C14 Contract。</text>
+</svg>
