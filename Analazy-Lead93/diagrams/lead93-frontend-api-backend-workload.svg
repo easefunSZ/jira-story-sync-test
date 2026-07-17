@@ -1,0 +1,227 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1260" viewBox="0 0 1900 1260">
+  <title>LEAD-93 前后端交付与后端工作量图</title>
+  <desc>从页面操作、接口、后端工作包和数据表四个视角展示 LEAD-93 的开发边界。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
+    </marker>
+    <style>
+      .title { font: 700 30px Arial, sans-serif; fill: #172033; }
+      .subtitle { font: 400 15px Arial, sans-serif; fill: #526070; }
+      .head { fill: #e8edf3; stroke: #94a3b8; stroke-width: 1.4; rx: 6; }
+      .headText { font: 700 17px Arial, sans-serif; fill: #172033; }
+      .band { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.3; rx: 6; }
+      .front { fill: #fff7ed; stroke: #ea8a2f; stroke-width: 1.5; rx: 6; }
+      .apiChanged { fill: #dbeafe; stroke: #3b82f6; stroke-width: 1.5; rx: 6; }
+      .apiNew { fill: #dcfce7; stroke: #22a559; stroke-width: 1.5; rx: 6; }
+      .backend { fill: #eef2ff; stroke: #6366f1; stroke-width: 1.5; rx: 6; }
+      .data { fill: #ecfdf5; stroke: #10b981; stroke-width: 1.5; rx: 6; }
+      .neutral { fill: #f1f5f9; stroke: #94a3b8; stroke-width: 1.4; rx: 6; }
+      .script { fill: #fef3c7; stroke: #d69e2e; stroke-width: 1.5; rx: 6; }
+      .boxTitle { font: 700 15px Arial, sans-serif; fill: #172033; }
+      .body { font: 400 13px Arial, sans-serif; fill: #334155; }
+      .code { font: 600 12px Arial, sans-serif; fill: #334155; }
+      .small { font: 400 12px Arial, sans-serif; fill: #526070; }
+      .rowTitle { font: 700 14px Arial, sans-serif; fill: #334155; }
+      .line { stroke: #475569; stroke-width: 1.7; fill: none; marker-end: url(#arrow); }
+      .dash { stroke: #64748b; stroke-width: 1.5; stroke-dasharray: 7 5; fill: none; marker-end: url(#arrow); }
+      .summary { fill: #ffffff; stroke: #64748b; stroke-width: 1.5; rx: 6; }
+      .summaryHead { fill: #172033; rx: 6; }
+      .summaryTitle { font: 700 17px Arial, sans-serif; fill: #ffffff; }
+      .summaryLabel { font: 700 14px Arial, sans-serif; fill: #172033; }
+      .summaryText { font: 400 12px Arial, sans-serif; fill: #475569; }
+      .count { font: 700 22px Arial, sans-serif; fill: #2563eb; }
+      .note { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.2; rx: 6; }
+    </style>
+  </defs>
+
+  <rect width="1900" height="1260" fill="#f7f9fc"/>
+  <text x="60" y="55" class="title">LEAD-93 前后端交付与后端工作量图</text>
+  <text x="60" y="84" class="subtitle">从左向右阅读：页面做什么 → 前端调用哪个接口 → 后端实现哪些逻辑 → 数据落在哪里。</text>
+  <text x="60" y="108" class="subtitle">接口版本：增强/新增能力使用 v2；5 个完全不变接口复用 v1；完整字段以接口约定为准。</text>
+
+  <rect x="60" y="135" width="240" height="48" class="head"/><text x="82" y="166" class="headText">1. 页面操作</text>
+  <rect x="330" y="135" width="360" height="48" class="head"/><text x="352" y="166" class="headText">2. 前端调用的接口</text>
+  <rect x="720" y="135" width="430" height="48" class="head"/><text x="742" y="166" class="headText">3. 后端工作包</text>
+  <rect x="1180" y="135" width="330" height="48" class="head"/><text x="1202" y="166" class="headText">4. 数据库影响</text>
+
+  <!-- Row 1 -->
+  <rect x="45" y="198" width="1480" height="148" class="band"/>
+  <text x="60" y="221" class="rowTitle">链路 A · 列表、详情、搜索与筛选</text>
+  <rect x="60" y="236" width="240" height="88" class="front"/>
+  <text x="82" y="265" class="boxTitle">已发布 / 草稿页</text>
+  <text x="82" y="288" class="body">搜索、分类、子分类、标签</text>
+  <text x="82" y="310" class="body">列表和详情返回同一版本</text>
+  <rect x="330" y="236" width="360" height="88" class="apiChanged"/>
+  <text x="352" y="261" class="boxTitle">修改现有查询接口</text>
+  <text x="352" y="283" class="code">EX-01 v2 POST /queryList</text>
+  <text x="352" y="303" class="code">EX-02 v2 POST /templateList</text>
+  <text x="510" y="283" class="code">EX-03 v2 POST /detail</text>
+  <text x="510" y="303" class="code">EX-04 v2 POST /published/detail</text>
+  <rect x="720" y="236" width="430" height="88" class="backend"/>
+  <text x="742" y="261" class="boxTitle">选版与两阶段查询改造</text>
+  <text x="742" y="284" class="body">保留页签基础查询 → 按结果版本过滤元数据</text>
+  <text x="742" y="306" class="body">处理总数、去重、分页、排序和详情组装</text>
+  <rect x="1180" y="236" width="330" height="88" class="data"/>
+  <text x="1202" y="261" class="boxTitle">现有表 + 新关系表查询</text>
+  <text x="1202" y="283" class="code">iic_msg_email_config(_version)</text>
+  <text x="1202" y="303" class="code">category_rel / tag_rel / taxonomy</text>
+  <path d="M300 280L330 280" class="line"/><path d="M690 280L720 280" class="line"/><path d="M1150 280L1180 280" class="line"/>
+
+  <!-- Row 2 -->
+  <rect x="45" y="359" width="1480" height="148" class="band"/>
+  <text x="60" y="382" class="rowTitle">链路 B · 新建、复制、保存草稿与发布</text>
+  <rect x="60" y="397" width="240" height="88" class="front"/>
+  <text x="82" y="426" class="boxTitle">模板编辑页</text>
+  <text x="82" y="449" class="body">保存草稿 / 立即发布</text>
+  <text x="82" y="471" class="body">未来发布 / 复制创建 / 放弃</text>
+  <rect x="330" y="397" width="360" height="88" class="apiChanged"/>
+  <text x="352" y="422" class="boxTitle">修改现有写接口</text>
+  <text x="352" y="444" class="code">EX-05 v2 POST /add</text>
+  <text x="352" y="464" class="code">EX-09 v2 POST /version/add</text>
+  <text x="510" y="444" class="code">EX-10 v2 POST /version/update</text>
+  <text x="510" y="464" class="code">EX-11 v2 POST /version/delete</text>
+  <rect x="720" y="397" width="430" height="88" class="backend"/>
+  <text x="742" y="422" class="boxTitle">版本写入与生命周期事务</text>
+  <text x="742" y="445" class="body">选定/创建 V(N) → 校验正文和元数据 → 原子写入</text>
+  <text x="742" y="467" class="body">兼容 Draft / Schedule / Active / Expired 现有状态</text>
+  <rect x="1180" y="397" width="330" height="88" class="data"/>
+  <text x="1202" y="422" class="boxTitle">版本内容和元数据同事务</text>
+  <text x="1202" y="444" class="code">email_config_version.category_id</text>
+  <text x="1202" y="464" class="code">subcategory_rel / tag_rel</text>
+  <path d="M300 441L330 441" class="line"/><path d="M690 441L720 441" class="line"/><path d="M1150 441L1180 441" class="line"/>
+
+  <!-- Row 3 -->
+  <rect x="45" y="520" width="1480" height="148" class="band"/>
+  <text x="60" y="543" class="rowTitle">链路 C · 单独修改已生效模板的分类和标签</text>
+  <rect x="60" y="558" width="240" height="88" class="front"/>
+  <text x="82" y="587" class="boxTitle">元数据编辑</text>
+  <text x="82" y="610" class="body">不修改正文或生命周期</text>
+  <text x="82" y="632" class="body">指定模板和版本</text>
+  <rect x="330" y="558" width="360" height="88" class="apiNew"/>
+  <text x="352" y="583" class="boxTitle">新增元数据和标签查询接口</text>
+  <text x="352" y="605" class="code">NEW-07 PUT /template/{emailCode}/</text>
+  <text x="352" y="625" class="code">version/{version}/metadata</text>
+  <text x="548" y="625" class="code">NEW-06 v2 GET /tag/taxonomy</text>
+  <rect x="720" y="558" width="430" height="88" class="backend"/>
+  <text x="742" y="583" class="boxTitle">版本元数据快照全量替换</text>
+  <text x="742" y="606" class="body">校验分类归属、标签组、节点状态和版本状态</text>
+  <text x="742" y="628" class="body">修改当前生效版本时执行已发布完整性校验</text>
+  <rect x="1180" y="558" width="330" height="88" class="data"/>
+  <text x="1202" y="583" class="boxTitle">指定版本的分类和标签快照</text>
+  <text x="1202" y="605" class="code">version.category_id</text>
+  <text x="1202" y="625" class="code">category_rel / tag_rel</text>
+  <path d="M300 602L330 602" class="line"/><path d="M690 602L720 602" class="line"/><path d="M1150 602L1180 602" class="line"/>
+
+  <!-- Row 4 -->
+  <rect x="45" y="681" width="1480" height="148" class="band"/>
+  <text x="60" y="704" class="rowTitle">链路 D · 分类和子分类管理</text>
+  <rect x="60" y="719" width="240" height="88" class="front"/>
+  <text x="82" y="748" class="boxTitle">分类管理页</text>
+  <text x="82" y="771" class="body">新增 / 批量新增 / 重命名</text>
+  <text x="82" y="793" class="body">排序 / 查询两级分类树</text>
+  <rect x="330" y="719" width="360" height="88" class="apiNew"/>
+  <text x="352" y="744" class="boxTitle">新增分类管理接口</text>
+  <text x="352" y="766" class="code">NEW-01 tree · NEW-02 create · NEW-03 update</text>
+  <text x="352" y="786" class="code">NEW-05 reorder · NEW-08 subcategories/batch</text>
+  <rect x="720" y="719" width="430" height="88" class="backend"/>
+  <text x="742" y="744" class="boxTitle">两级树规则与批量原子写入</text>
+  <text x="742" y="767" class="body">校验层级、有效名称全局唯一、父子归属和排序范围</text>
+  <text x="742" y="789" class="body">批量创建 1-5 条，任一失败整体回滚</text>
+  <rect x="1180" y="719" width="330" height="88" class="data"/>
+  <text x="1202" y="744" class="boxTitle">新增模板专用分类表</text>
+  <text x="1202" y="766" class="code">iic_msg_email_category</text>
+  <text x="1202" y="786" class="body">两级树、排序、软删除、同名重建</text>
+  <path d="M300 763L330 763" class="line"/><path d="M690 763L720 763" class="line"/><path d="M1150 763L1180 763" class="line"/>
+
+  <!-- Row 5 -->
+  <rect x="45" y="842" width="1480" height="148" class="band"/>
+  <text x="60" y="865" class="rowTitle">链路 E · 分类影响查询、迁移并删除</text>
+  <rect x="60" y="880" width="240" height="88" class="front"/>
+  <text x="82" y="909" class="boxTitle">删除确认和目标选择</text>
+  <text x="82" y="932" class="body">查看受影响模板和版本数</text>
+  <text x="82" y="954" class="body">选择目标分类后提交</text>
+  <rect x="330" y="880" width="360" height="88" class="apiNew"/>
+  <text x="352" y="905" class="boxTitle">新增影响查询和迁移删除接口</text>
+  <text x="352" y="927" class="code">NEW-09 GET /category/{id}/delete-impact</text>
+  <text x="352" y="947" class="code">NEW-04 POST /category/{id}/delete-and-reassign</text>
+  <rect x="720" y="880" width="430" height="88" class="backend"/>
+  <text x="742" y="905" class="boxTitle">跨版本迁移与软删除事务</text>
+  <text x="742" y="928" class="body">重新查询并锁定 Active / Draft / Schedule 受影响版本</text>
+  <text x="742" y="950" class="body">迁移元数据 → 校验影响行数 → 软删除；失败整体回滚</text>
+  <rect x="1180" y="880" width="330" height="88" class="data"/>
+  <text x="1202" y="905" class="boxTitle">跨表更新</text>
+  <text x="1202" y="927" class="code">email_category / version</text>
+  <text x="1202" y="947" class="code">category_rel；tag_rel 不改</text>
+  <path d="M300 924L330 924" class="line"/><path d="M690 924L720 924" class="line"/><path d="M1150 924L1180 924" class="line"/>
+
+  <!-- Row 6 -->
+  <rect x="45" y="1003" width="1480" height="148" class="band"/>
+  <text x="60" y="1026" class="rowTitle">链路 F · 数据库变更与一次性数据迁移</text>
+  <rect x="60" y="1041" width="240" height="88" class="neutral"/>
+  <text x="82" y="1070" class="boxTitle">无前端页面操作</text>
+  <text x="82" y="1093" class="body">部署前执行</text>
+  <text x="82" y="1115" class="body">不是运行时用户流程</text>
+  <rect x="330" y="1041" width="360" height="88" class="neutral"/>
+  <text x="352" y="1070" class="boxTitle">不新增运行时接口</text>
+  <text x="352" y="1093" class="body">表结构、初始化、映射和校验</text>
+  <text x="352" y="1115" class="body">均通过审核后的数据库脚本执行</text>
+  <rect x="720" y="1041" width="430" height="88" class="script"/>
+  <text x="742" y="1070" class="boxTitle">数据库脚本交付包</text>
+  <text x="742" y="1093" class="body">表结构 → 标签/分类初始化 → 版本映射</text>
+  <text x="742" y="1115" class="body">快照 → 迁移日志 → 一致性校验 → 受控回退</text>
+  <rect x="1180" y="1041" width="330" height="88" class="script"/>
+  <text x="1202" y="1070" class="boxTitle">1 张现有表扩展 + 5 张新业务表</text>
+  <text x="1202" y="1093" class="body">另含一次性迁移暂存、快照和日志</text>
+  <text x="1202" y="1115" class="body">不进入运行时模板业务模型</text>
+  <path d="M300 1085L330 1085" class="dash"/><path d="M690 1085L720 1085" class="dash"/><path d="M1150 1085L1180 1085" class="dash"/>
+
+  <!-- Workload summary -->
+  <rect x="1545" y="135" width="310" height="1016" class="summary"/>
+  <rect x="1545" y="135" width="310" height="58" class="summaryHead"/>
+  <text x="1570" y="171" class="summaryTitle">后端工作量主要来源</text>
+
+  <text x="1570" y="233" class="count">01</text><text x="1618" y="230" class="summaryLabel">查询不是简单加字段</text>
+  <text x="1570" y="255" class="summaryText">需保留页签选版语义，再做版本级</text>
+  <text x="1570" y="273" class="summaryText">分类/标签过滤、去重、总数和排序。</text>
+  <path d="M1570 294L1830 294" stroke="#e2e8f0"/>
+
+  <text x="1570" y="337" class="count">02</text><text x="1618" y="334" class="summaryLabel">写入涉及版本状态机</text>
+  <text x="1570" y="359" class="summaryText">保存草稿、立即发布、未来发布和</text>
+  <text x="1570" y="377" class="summaryText">复制创建共用现有选版规则。</text>
+  <path d="M1570 398L1830 398" stroke="#e2e8f0"/>
+
+  <text x="1570" y="441" class="count">03</text><text x="1618" y="438" class="summaryLabel">新增 9 个候选接口</text>
+  <text x="1570" y="463" class="summaryText">覆盖分类树、增改排序、批量新增、</text>
+  <text x="1570" y="481" class="summaryText">标签查询、元数据和迁移删除。</text>
+  <path d="M1570 502L1830 502" stroke="#e2e8f0"/>
+
+  <text x="1570" y="545" class="count">04</text><text x="1618" y="542" class="summaryLabel">有 4 类关键事务</text>
+  <text x="1570" y="567" class="summaryText">版本写入、元数据全量替换、分类</text>
+  <text x="1570" y="585" class="summaryText">迁移并删除、模板/版本级联软删除。</text>
+  <path d="M1570 606L1830 606" stroke="#e2e8f0"/>
+
+  <text x="1570" y="649" class="count">05</text><text x="1618" y="646" class="summaryLabel">数据模型改造</text>
+  <text x="1570" y="671" class="summaryText">扩展 1 张现有版本表，新增 5 张</text>
+  <text x="1570" y="689" class="summaryText">运行时业务表及其索引和约束。</text>
+  <path d="M1570 710L1830 710" stroke="#e2e8f0"/>
+
+  <text x="1570" y="753" class="count">06</text><text x="1618" y="750" class="summaryLabel">一次性数据迁移</text>
+  <text x="1570" y="775" class="summaryText">不只是初始化数据，还包含映射、快照、</text>
+  <text x="1570" y="793" class="summaryText">执行日志、一致性校验和受控回退。</text>
+
+  <rect x="1570" y="842" width="260" height="170" class="note"/>
+  <text x="1590" y="874" class="summaryLabel">这张图解决两个问题</text>
+  <text x="1590" y="903" class="summaryText">前端：每个页面操作调用什么接口？</text>
+  <text x="1590" y="929" class="summaryText">后端：接口背后需要改哪些查询、</text>
+  <text x="1590" y="947" class="summaryText">事务、状态和数据结构？</text>
+  <text x="1590" y="980" class="summaryText">不用“接口数量”代替真实工作量。</text>
+
+  <rect x="1570" y="1035" width="260" height="85" class="note"/>
+  <text x="1590" y="1065" class="summaryLabel">估时展示方式</text>
+  <text x="1590" y="1088" class="summaryText">在工作包表中分别填写后端人天，</text>
+  <text x="1590" y="1106" class="summaryText">本图不在未确认前填入估时数字。</text>
+
+  <rect x="45" y="1174" width="1810" height="50" class="note"/>
+  <text x="68" y="1205" class="small">边界说明：EX-09 保持 Add Version 语义；Copy and Create 见 COPY-01，暂不计入当前 24 个接口；v1/v2 共享业务数据。</text>
+</svg>

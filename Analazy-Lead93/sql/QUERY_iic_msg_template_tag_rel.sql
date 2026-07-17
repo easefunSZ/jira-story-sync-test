@@ -11,10 +11,10 @@ LEFT JOIN iic_msg_tag_value v
 WHERE r.status = 0
   AND (ev.id IS NULL OR v.id IS NULL OR v.group_code <> r.group_code);
 
--- More than one active Tag Value in one group for one Template Version;
--- expected 0 rows. The unique key prevents this after deployment.
-SELECT email_code, version, group_code, COUNT(*) AS tag_count
+-- Duplicate active relation for the same Tag Value; expected 0 rows. Multiple
+-- different tag_code values in one Group are valid.
+SELECT email_code, version, group_code, tag_code, COUNT(*) AS duplicate_count
 FROM iic_msg_template_tag_rel
 WHERE status = 0
-GROUP BY email_code, version, group_code
+GROUP BY email_code, version, group_code, tag_code
 HAVING COUNT(*) > 1;

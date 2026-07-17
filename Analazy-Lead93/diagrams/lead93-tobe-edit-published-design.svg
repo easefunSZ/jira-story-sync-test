@@ -18,7 +18,7 @@
   <path d="M330 227L430 227" class="line"/>
 
   <text x="110" y="340" class="bh">Content / Subject / Optional Attachment Branch</text>
-  <rect x="100" y="375" width="230" height="100" class="n draft"/><text x="124" y="409" class="nt">Create / Update Draft</text><text x="124" y="435" class="code">same email_code, next version</text><text x="124" y="457" class="note">矩阵已定；真实实现待 C05</text>
+  <rect x="100" y="375" width="230" height="100" class="n draft"/><text x="124" y="409" class="nt">新建 / 更新草稿</text><text x="124" y="435" class="code">相同 email_code，下一版本</text><text x="124" y="457" class="note">按已确认的选版矩阵处理</text>
   <path d="M500 275C500 335 215 335 215 375" class="line"/><text x="336" y="305" class="evt">Content change</text>
   <rect x="430" y="375" width="230" height="100" class="n svc"/><text x="454" y="409" class="nt">Save / Preview / Validate</text><text x="454" y="435" class="note">Save Draft → working copy</text><text x="454" y="457" class="note">Publish → 调用图 9-2 流程</text>
   <path d="M330 425L430 425" class="line"/>
@@ -35,5 +35,5 @@
   <rect x="830" y="610" width="260" height="85" class="n active"/><text x="854" y="643" class="nt">Keep Active</text><text x="854" y="669" class="code">version_status unchanged</text><text x="854" y="690" class="note">Adviser 搜索/分类立即更新</text>
   <path d="M750 652L830 652" class="line"/>
   <rect x="1160" y="595" width="230" height="110" class="n pending"/><text x="1184" y="628" class="nt">Master Fields</text><text x="1184" y="654" class="note">email_name / description /</text><text x="1184" y="676" class="note">is_campaign 独立修改；</text><text x="1184" y="697" class="note">本期不提供历史值回放。</text>
-  <text x="100" y="775" class="st">Schedule 先 Cancel 为 Draft 再编辑；实现门禁：C05/C08 入口，C06/C07 事务，C14 Contract。</text>
+  <text x="100" y="775" class="st">预约版本必须先取消预约并恢复为草稿，然后才能编辑。</text>
 </svg>

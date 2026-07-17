@@ -62,7 +62,7 @@
   <text x="1048" y="356" class="event">定时任务到点</text>
   <path d="M940 380C940 405 470 405 470 307" class="line"/>
   <rect x="625" y="380" width="310" height="24" fill="#fff"/>
-  <text x="650" y="398" class="event">Cancel Schedule：0 → 3，并清空时间</text>
+  <text x="625" y="398" class="event">Save Draft：0 → 3 并保留时间；或 Version Delete 软删除</text>
 
   <rect x="60" y="445" width="1380" height="420" class="panel"/>
   <text x="86" y="480" class="section">真正的改造差异</text>
@@ -90,7 +90,7 @@
   <text x="111" y="724" class="small">决定 Active / Schedule</text>
   <rect x="296" y="664" width="475" height="88" class="row"/>
   <text x="321" y="696" class="body">沿用现有发布入口、版本切换和 effective time 规则。</text>
-  <text x="321" y="722" class="small">现有校验细节仍待 C05 / C14 内网核对。</text>
+  <text x="321" y="722" class="small">保留现有版本冲突检测，并增加分类和标签完整性校验。</text>
   <rect x="771" y="664" width="643" height="88" class="tobe"/>
   <text x="796" y="692" class="body">新增 Category、Subcategory、4 个 Mandatory Tag 等发布校验。</text>
   <text x="796" y="718" class="body">状态切换与版本级 Metadata 一致提交，校验失败不改变旧 Active。</text>
@@ -108,5 +108,5 @@
 
   <path d="M745 505L1375 505" class="blueLine"/>
   <text x="1060" y="495" class="event">差异集中在这里，而不是状态机</text>
-  <text x="86" y="893" class="small">未确认边界：真实 Service / Mapper、事务并发、Scheduler 与 API 错误响应仍由 C05-C08、C14 内网核对。</text>
+  <text x="86" y="893" class="small">保持项：现有版本选择、Scheduler 与 Version Conflict；新增项：版本 Metadata 保存和完整 Publish Validation。</text>
 </svg>

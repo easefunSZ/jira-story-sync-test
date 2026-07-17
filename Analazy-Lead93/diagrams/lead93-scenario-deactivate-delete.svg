@@ -44,7 +44,7 @@
   <rect x="771" y="632" width="643" height="82" class="tobe"/><text x="796" y="660" class="body">在现有级联范围中增加该模板全部 Subcategory / Tag relations。</text><text x="796" y="686" class="body">主 Category 在 version row 中，随 version 软删除；不删除 taxonomy 节点。</text><text x="796" y="706" class="small">本期不提供一键恢复。</text>
 
   <rect x="86" y="714" width="210" height="60" class="row"/><text x="111" y="750" class="h">权限 / API</text>
-  <rect x="296" y="714" width="475" height="60" class="row"/><text x="321" y="750" class="body">现有实现细节待内网定位。</text>
-  <rect x="771" y="714" width="643" height="60" class="tobe"/><text x="796" y="750" class="body">复用方式仍待 C09 / C11 / C14；本期不新增通用 Audit。</text>
+  <rect x="296" y="714" width="475" height="60" class="row"/><text x="321" y="750" class="body">复用现有停用和级联软删除行为。</text>
+  <rect x="771" y="714" width="643" height="60" class="tobe"/><text x="796" y="750" class="body">复用现有接口和权限机制；本期不新增通用审计日志。</text>
   <text x="86" y="838" class="small">确定结论：Deactivate/Active 无状态机改造；Delete 只扩展新增版本关系数据的软删除范围。</text>
 </svg>

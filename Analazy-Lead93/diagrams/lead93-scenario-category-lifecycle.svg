@@ -1,75 +1,60 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="910" viewBox="0 0 1500 910">
-  <title>LEAD-93 Category 生命周期：As-Is 证据边界与 To-Be 新能力</title>
-  <desc>现有系统只有可复用通用 Category 表，没有可证明的 Template 两级 taxonomy 状态机；To-Be 能力整体为新增。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+  <title>LEAD-93 Category 生命周期：As-Is 与 PRD v1.1 To-Be</title>
+  <desc>As-Is Template Management 没有 Category 模型；To-Be 新增专用表、原子批量创建和迁移后删除。</desc>
   <defs>
-    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
     <style>
-      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 19px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
-      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.box{stroke-width:1.5;rx:6}.asis{fill:#f8fafc;stroke:#94a3b8}.gap{fill:#fff1f2;stroke:#e11d48}.active{fill:#dcfce7;stroke:#16a34a}.check{fill:#e0f2fe;stroke:#0284c7}.decision{fill:#fff;stroke:#64748b;stroke-width:1.6}.blocked{fill:#fff7db;stroke:#d69e2e}.deleted{fill:#e8edf3;stroke:#64748b}.rule{fill:#eff6ff;stroke:#60a5fa;stroke-width:1.2;rx:5}.line{stroke:#475569;stroke-width:1.7;fill:none;marker-end:url(#a)}
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 19px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.label{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.asis{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.5}.new{fill:#e0f2fe;stroke:#0284c7;stroke-width:1.5}.validate{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5}.success{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}.fail{fill:#fff1f2;stroke:#e11d48;stroke-width:1.5}.history{fill:#f1f5f9;stroke:#64748b;stroke-width:1.5}.edge{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#arrow)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#arrow)}
     </style>
   </defs>
-  <rect width="1500" height="910" fill="#f7f9fc"/>
-  <text x="60" y="50" class="title">场景 6：Category / Subcategory 生命周期</text>
-  <text x="60" y="78" class="sub">本场景不是状态机改造，而是新增 Template taxonomy 能力；As-Is 部分只保留第 3 章可证明的事实。</text>
+  <rect width="1500" height="900" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">Category / Subcategory 生命周期：变化在哪里</text>
+  <text x="60" y="78" class="sub">PRD v1.1 新增两条后端原子能力；Template 版本状态机本身不改变。</text>
 
-  <rect x="60" y="105" width="1380" height="225" class="panel"/>
-  <text x="86" y="140" class="section">As-Is 证据基线</text>
-  <rect x="100" y="180" width="500" height="105" class="box asis"/>
-  <text x="125" y="213" class="h">iic_msg_category_config 已存在</text>
-  <text x="125" y="239" class="body">已有通用 category_code / category_name / is_deleted 等字段。</text>
-  <text x="125" y="263" class="small">本方案复用该表，不表示现有系统已有 Template taxonomy。</text>
-  <rect x="750" y="180" width="590" height="105" class="box gap"/>
-  <text x="775" y="213" class="h">现状能力缺口</text>
-  <text x="775" y="239" class="body">没有已确认的 Template 两级层级、版本关系、引用保护与删除状态机。</text>
-  <text x="775" y="263" class="small">因此不绘制虚构的 As-Is Create / Edit / Delete 流程。</text>
-  <path d="M600 232L750 232" class="line"/><text x="636" y="214" class="event">复用表，新增规则</text>
+  <rect x="60" y="110" width="1380" height="165" rx="6" class="panel"/>
+  <text x="88" y="145" class="section">As-Is 证据边界</text>
+  <rect x="100" y="175" width="500" height="70" rx="6" class="asis"/>
+  <text x="125" y="204" class="h">Template Category 不存在</text><text x="125" y="228" class="body">没有 Category/Subcategory 表、关系或管理流程。</text>
+  <rect x="760" y="175" width="580" height="70" rx="6" class="asis"/>
+  <text x="785" y="204" class="h">没有可复用的 As-Is 状态机</text><text x="785" y="228" class="body">批量创建、版本 Metadata 关系和 Reassign-and-Delete 都是新增能力。</text>
+  <path d="M600 210L760 210" class="edge"/><text x="642" y="193" class="label">从零新增</text>
 
-  <rect x="60" y="360" width="1380" height="465" class="panel"/>
-  <text x="86" y="395" class="section">To-Be：整体新增的 Category 生命周期</text>
+  <rect x="60" y="310" width="665" height="510" rx="6" class="panel"/>
+  <text x="88" y="350" class="section">To-Be A：批量创建 Subcategory</text>
+  <rect x="105" y="395" width="230" height="82" rx="6" class="new"/>
+  <text x="130" y="426" class="h">提交 1-5 条</text><text x="130" y="451" class="body">同一 Parent Category</text>
+  <rect x="420" y="395" width="240" height="82" rx="6" class="validate"/>
+  <text x="445" y="426" class="h">整批预校验</text><text x="445" y="451" class="body">层级、有效 Parent、批内/全局重名</text>
+  <path d="M335 436L420 436" class="edge"/>
+  <rect x="420" y="535" width="240" height="88" rx="6" class="success"/>
+  <text x="445" y="568" class="h">单事务批量 Insert</text><text x="445" y="594" class="body">全部成功后统一 Commit</text>
+  <path d="M540 477L540 535" class="edge"/><text x="553" y="511" class="label">全部通过</text>
+  <rect x="105" y="535" width="230" height="88" rx="6" class="fail"/>
+  <text x="130" y="568" class="h">整批失败</text><text x="130" y="594" class="body">不创建部分节点</text>
+  <path d="M420 455C365 500 300 500 220 535" class="edge"/><text x="292" y="505" class="label">任一失败</text>
+  <rect x="105" y="680" width="555" height="82" rx="6" class="success"/>
+  <text x="130" y="712" class="h">创建后立即可用</text><text x="130" y="738" class="body">Tree、编辑下拉框和 Search Filter 同步展示；软删除名称可重新创建。</text>
+  <path d="M540 623L540 655L382 655L382 680" class="edge"/>
 
-  <rect x="90" y="455" width="250" height="105" class="box active"/>
-  <text x="115" y="488" class="h">Active Node</text>
-  <text x="115" y="514" class="code">is_deleted=0 AND level IN (1,2)</text>
-  <text x="115" y="538" class="small">Create / Rename / 同级 Reorder</text>
-
-  <rect x="430" y="455" width="260" height="105" class="box check"/>
-  <text x="455" y="488" class="h">Delete Validation</text>
-  <text x="455" y="514" class="body">检查 Category 与有效 Subcategory</text>
-  <text x="455" y="538" class="small">锁定节点并检查 Template 引用</text>
-
-  <polygon points="755,507 800,462 845,507 800,552" class="decision"/>
-  <text x="777" y="501" class="event">存在</text>
-  <text x="770" y="521" class="small">阻塞引用？</text>
-
-  <rect x="940" y="415" width="250" height="105" class="box blocked"/>
-  <text x="965" y="448" class="h">Blocked</text>
-  <text x="965" y="474" class="code">Active / Draft / Schedule 引用</text>
-  <text x="965" y="498" class="small">保持节点 Active，返回业务错误</text>
-
-  <rect x="940" y="575" width="250" height="112" class="box deleted"/>
-  <text x="965" y="608" class="h">Soft Deleted</text>
-  <text x="965" y="634" class="code">无阻塞引用，或仅 Expired 引用</text>
-  <text x="965" y="658" class="small">一级节点级联软删有效子节点</text>
-  <text x="965" y="679" class="small">记录 deleted_by/date；保留原 ID/Name</text>
-
-  <rect x="1220" y="575" width="180" height="112" class="box active"/>
-  <text x="1235" y="608" class="h">同名可重建</text>
-  <text x="1235" y="634" class="body">唯一性只检查</text>
-  <text x="1235" y="657" class="body">未删除节点</text>
-  <text x="1235" y="679" class="small">生成新 Snowflake code</text>
-
-  <path d="M340 507L430 507" class="line"/><text x="366" y="489" class="event">Delete</text>
-  <path d="M690 507L755 507" class="line"/>
-  <path d="M832 485L940 462" class="line"/><text x="866" y="456" class="event">是</text>
-  <path d="M832 529L940 620" class="line"/><text x="872" y="565" class="event">否</text>
-  <path d="M1190 630L1220 630" class="line"/>
-  <text x="940" y="548" class="small">迁移阻塞引用后，由管理员重新发起 Delete。</text>
-
-  <rect x="100" y="725" width="405" height="65" class="rule"/>
-  <text x="125" y="753" class="h">层级与唯一性</text><text x="125" y="776" class="small">仅两级；有效节点名称全局唯一；Subcategory parent 必须有效。</text>
-  <rect x="548" y="725" width="405" height="65" class="rule"/>
-  <text x="573" y="753" class="h">引用保护</text><text x="573" y="776" class="small">Disabled 仍计入；Expired 不阻止；不开放历史 Metadata 查看。</text>
-  <rect x="996" y="725" width="404" height="65" class="rule"/>
-  <text x="1021" y="753" class="h">明确不做</text><text x="1021" y="776" class="small">不新增 FK/check；不隐式迁移模板；不提供恢复接口。</text>
-  <text x="86" y="862" class="small">未确认边界：权限 C11、API Contract C14、现有表复用代码 C17；LEAD-307 删除留痕已确定，不新增独立 Audit。</text>
+  <rect x="775" y="310" width="665" height="510" rx="6" class="panel"/>
+  <text x="803" y="350" class="section">To-Be B：Reassign-and-Delete</text>
+  <rect x="820" y="395" width="245" height="82" rx="6" class="new"/>
+  <text x="845" y="426" class="h">选择源节点和目标</text><text x="845" y="451" class="body">目标 Category / Subcategory</text>
+  <rect x="1145" y="395" width="245" height="82" rx="6" class="validate"/>
+  <text x="1170" y="426" class="h">锁定并校验</text><text x="1170" y="451" class="body">源、目标、受影响 versions</text>
+  <path d="M1065 436L1145 436" class="edge"/>
+  <rect x="1145" y="535" width="245" height="95" rx="6" class="new"/>
+  <text x="1170" y="566" class="h">迁移 Metadata</text><text x="1170" y="591" class="code">Active / Draft / Schedule</text><text x="1170" y="613" class="small">不改变 version_status / Tags</text>
+  <path d="M1267 477L1267 535" class="edge"/>
+  <rect x="820" y="535" width="245" height="95" rx="6" class="history"/>
+  <text x="845" y="566" class="h">Expired 历史版本</text><text x="845" y="591" class="body">不迁移，保留原 Metadata</text><text x="845" y="613" class="small">本期产品不展示历史 Metadata</text>
+  <path d="M1145 452C1085 490 1015 500 942 535" class="dash"/><text x="995" y="500" class="label">排除</text>
+  <rect x="1145" y="685" width="245" height="82" rx="6" class="success"/>
+  <text x="1170" y="716" class="h">迁移成功后软删除</text><text x="1170" y="741" class="body">记录 deleted_by / deleted_date</text>
+  <path d="M1267 630L1267 685" class="edge"/>
+  <rect x="820" y="685" width="245" height="82" rx="6" class="fail"/>
+  <text x="845" y="716" class="h">任一步失败</text><text x="845" y="741" class="body">事务回滚，源节点保持有效</text>
+  <path d="M1145 605C1090 650 1025 660 942 685" class="edge"/>
+  <text x="60" y="865" class="small">核心差异：旧方案“引用即阻止删除”已取消；PRD v1.1 基线采用后端原子迁移后删除。</text>
 </svg>

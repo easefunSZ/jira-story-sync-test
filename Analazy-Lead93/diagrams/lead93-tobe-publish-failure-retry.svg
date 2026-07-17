@@ -1,76 +1,49 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="850" viewBox="0 0 1500 850">
-  <title>LEAD-93 To-Be Publish Failure Retry and Version Conflict</title>
-  <desc>Publish distinguishes validation failure, version conflict and transactional failure; retry always rereads and revalidates.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="820" viewBox="0 0 1500 820">
+  <title>LEAD-93 Publish Failure Retry and Existing Version Conflict</title>
+  <desc>Publish revalidates persisted data, reuses the existing version conflict check, and commits lifecycle changes atomically.</desc>
   <defs>
-    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
     <style>
-      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.event{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
-      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.step{fill:#e0f2fe;stroke:#0284c7;stroke-width:1.5;rx:6}.tx{fill:#eff6ff;stroke:#60a5fa;stroke-width:1.5;rx:6}.fail{fill:#fff1f2;stroke:#e11d48;stroke-width:1.4;rx:6}.conflict{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5;rx:6}.success{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5;rx:6}.retry{fill:#f5f3ff;stroke:#8b5cf6;stroke-width:1.5;rx:6}.decision{fill:#fff;stroke:#64748b;stroke-width:1.6}.line{stroke:#475569;stroke-width:1.7;fill:none;marker-end:url(#a)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#a)}
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.label{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.step{fill:#e0f2fe;stroke:#0284c7;stroke-width:1.5}.decision{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5}.tx{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5}.success{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}.fail{fill:#fff1f2;stroke:#e11d48;stroke-width:1.5}.retry{fill:#f5f3ff;stroke:#8b5cf6;stroke-width:1.5}.edge{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#arrow)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#arrow)}
     </style>
   </defs>
-  <rect width="1500" height="850" fill="#f7f9fc"/>
-  <text x="60" y="50" class="title">To-Be：Publish Failure、Version Conflict 与 Retry</text>
-  <text x="60" y="78" class="sub">失败发生在不同阶段，恢复动作也不同；任何 Retry 都必须重新读取最新状态并重新执行 Validation。</text>
-  <rect x="60" y="110" width="1380" height="650" class="panel"/>
+  <rect width="1500" height="820" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">Publish Failure、Retry 与现有 Version Conflict</text>
+  <text x="60" y="78" class="sub">不新增锁或 token；复用现有冲突检测。历史 Template 重新发布时也执行完整 PRD v1.1 校验。</text>
+  <rect x="60" y="110" width="1380" height="610" rx="6" class="panel"/>
 
-  <rect x="90" y="175" width="230" height="85" class="step"/>
-  <text x="115" y="208" class="h">Publish Request</text>
-  <text x="115" y="234" class="small">Now 或 Future</text>
-  <rect x="410" y="175" width="260" height="85" class="step"/>
-  <text x="435" y="208" class="h">读取最新 Version 状态</text>
-  <text x="435" y="234" class="small">不能信任旧页面快照</text>
-  <rect x="760" y="175" width="260" height="85" class="step"/>
-  <text x="785" y="208" class="h">Unified Validation</text>
-  <text x="785" y="234" class="small">内容 + Metadata + 可选附件</text>
-  <polygon points="1130,217 1180,167 1230,217 1180,267" class="decision"/>
-  <text x="1155" y="212" class="event">Pass?</text>
-  <path d="M320 217L410 217" class="line"/><path d="M670 217L760 217" class="line"/><path d="M1020 217L1130 217" class="line"/>
+  <rect x="90" y="170" width="220" height="86" rx="6" class="step"/>
+  <text x="115" y="203" class="h">Publish Request</text><text x="115" y="229" class="body">Now / Future</text>
+  <rect x="365" y="170" width="250" height="86" rx="6" class="step"/>
+  <text x="390" y="203" class="h">读取最新持久化状态</text><text x="390" y="229" class="body">目标 Draft + 当前 Active</text>
+  <rect x="670" y="170" width="285" height="86" rx="6" class="decision"/>
+  <text x="695" y="203" class="h">完整 Published Validation</text><text x="695" y="229" class="body">内容、Metadata、主表必填字段</text>
+  <rect x="1010" y="170" width="300" height="86" rx="6" class="decision"/>
+  <text x="1035" y="203" class="h">Existing Version Conflict Check</text><text x="1035" y="229" class="body">复用现有状态/影响行数检测</text>
+  <path d="M310 213L365 213" class="edge"/><path d="M615 213L670 213" class="edge"/><path d="M955 213L1010 213" class="edge"/>
 
-  <rect x="1090" y="325" width="280" height="105" class="fail"/>
-  <text x="1115" y="358" class="h">Validation Failure</text>
-  <text x="1115" y="384" class="body">返回字段级错误</text>
-  <text x="1115" y="407" class="small">Draft 保留；旧 Active 不变；未开启事务</text>
-  <path d="M1210 255L1210 325" class="line"/><text x="1225" y="292" class="event">Fail</text>
+  <rect x="670" y="340" width="285" height="95" rx="6" class="fail"/>
+  <text x="695" y="373" class="h">Validation Failure</text><text x="695" y="399" class="body">字段级错误；Draft / 旧 Active 不变</text><text x="695" y="421" class="small">未进入写事务</text>
+  <path d="M812 256L812 340" class="edge"/><text x="826" y="302" class="label">Fail</text>
 
-  <rect x="760" y="325" width="260" height="105" class="conflict"/>
-  <text x="785" y="358" class="h">Version Conflict Check</text>
-  <text x="785" y="384" class="body">现有 version control 检测竞争</text>
-  <text x="785" y="407" class="small">冲突字段/错误响应待 C06/C14</text>
-  <path d="M1150 250C1110 290 950 290 950 325" class="line"/><text x="1030" y="286" class="event">Pass</text>
+  <rect x="1010" y="340" width="300" height="95" rx="6" class="fail"/>
+  <text x="1035" y="373" class="h">Version Conflict</text><text x="1035" y="399" class="body">不创建/覆盖版本；提示刷新</text><text x="1035" y="421" class="small">Copy and Create 是否复用该规则见 COPY-01</text>
+  <path d="M1160 256L1160 340" class="edge"/><text x="1174" y="302" class="label">Conflict</text>
 
-  <rect x="410" y="325" width="260" height="105" class="tx"/>
-  <text x="435" y="358" class="h">Publish Transaction</text>
-  <text x="435" y="384" class="body">旧 Active / 目标 version / Metadata</text>
-  <text x="435" y="407" class="small">状态和时间字段原子提交</text>
-  <path d="M760 377L670 377" class="line"/><text x="700" y="359" class="event">No conflict</text>
+  <rect x="365" y="340" width="250" height="95" rx="6" class="tx"/>
+  <text x="390" y="373" class="h">Publish Transaction</text><text x="390" y="399" class="body">旧 Active / 目标 version / 时间字段</text><text x="390" y="421" class="small">原子提交；不产生部分发布</text>
+  <path d="M1040 246C960 300 700 300 490 340" class="edge"/><text x="742" y="293" class="label">No Conflict</text>
+  <rect x="90" y="340" width="220" height="95" rx="6" class="success"/>
+  <text x="115" y="373" class="h">Publish Success</text><text x="115" y="399" class="body">Now → Active</text><text x="115" y="421" class="body">Future → Schedule</text>
+  <path d="M365 387L310 387" class="edge"/>
 
-  <rect x="90" y="325" width="230" height="105" class="success"/>
-  <text x="115" y="358" class="h">Publish Success</text>
-  <text x="115" y="384" class="body">Now：目标 Active</text>
-  <text x="115" y="407" class="body">Future：目标 Schedule</text>
-  <path d="M410 377L320 377" class="line"/><text x="340" y="359" class="event">Commit</text>
-
-  <rect x="410" y="505" width="260" height="105" class="fail"/>
-  <text x="435" y="538" class="h">Transaction Failure</text>
-  <text x="435" y="564" class="body">数据库 / 网络 / 下游失败</text>
-  <text x="435" y="587" class="small">整体回滚；Draft 与旧 Active 保持</text>
-  <path d="M540 430L540 505" class="line"/><text x="555" y="468" class="event">Exception</text>
-
-  <rect x="760" y="505" width="260" height="105" class="conflict"/>
-  <text x="785" y="538" class="h">Conflict Result</text>
-  <text x="785" y="564" class="body">不得覆盖他人最新版本</text>
-  <text x="785" y="587" class="small">前端恢复方式待 C06/C14</text>
-  <path d="M890 430L890 505" class="line"/><text x="905" y="468" class="event">Conflict</text>
-
-  <rect x="1090" y="505" width="280" height="105" class="retry"/>
-  <text x="1115" y="538" class="h">Retry Publish</text>
-  <text x="1115" y="564" class="code">重新读取 → 重新 Validation</text>
-  <text x="1115" y="587" class="small">禁止直接重放旧事务</text>
-  <path d="M670 558L1090 558" class="dash"/><path d="M1020 558L1090 558" class="dash"/><path d="M1230 430L1230 505" class="dash"/>
-  <path d="M1230 505C1230 690 540 690 540 260" class="dash"/><text x="810" y="680" class="event">用户修正或确认后，回到最新状态读取</text>
-
-  <rect x="90" y="645" width="540" height="65" class="retry"/>
-  <text x="115" y="675" class="h">共同安全结果</text>
-  <text x="115" y="699" class="small">Validation/Conflict/Transaction 任一失败均不得产生部分发布；旧 Active 持续在线。</text>
-  <text x="60" y="805" class="small">未确认边界：version control 字段与编辑锁 C06、事务入口 C07、正式错误 Contract C14；本期不新增 Publish Audit。</text>
+  <rect x="365" y="520" width="250" height="95" rx="6" class="fail"/>
+  <text x="390" y="553" class="h">Transaction Failure</text><text x="390" y="579" class="body">整体回滚；Draft / 旧 Active 不变</text><text x="390" y="601" class="small">记录现有错误日志</text>
+  <path d="M490 435L490 520" class="edge"/><text x="504" y="481" class="label">Exception</text>
+  <rect x="760" y="520" width="300" height="95" rx="6" class="retry"/>
+  <text x="785" y="553" class="h">Retry</text><text x="785" y="579" class="body">重新读取 → 重新校验 → 重新检测冲突</text><text x="785" y="601" class="small">禁止直接重放旧事务</text>
+  <path d="M615 567L760 567" class="dash"/><path d="M1160 435C1160 485 1080 505 980 520" class="dash"/>
+  <path d="M910 520C910 475 490 475 490 256" class="dash"/>
+  <text x="60" y="770" class="small">本期不新增 Publish Audit、revision token、编辑锁、Redis lock 或 requestId；只保持并回归验证现有 Version Conflict 行为。</text>
 </svg>

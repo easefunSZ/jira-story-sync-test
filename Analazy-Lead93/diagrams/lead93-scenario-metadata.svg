@@ -40,7 +40,7 @@
   <rect x="100" y="495" width="350" height="112" class="box active"/>
   <text x="125" y="528" class="h">Active V1 Metadata</text>
   <text x="125" y="554" class="code">email_code + V1</text>
-  <text x="125" y="578" class="body">category_id + subcategory/tag relations</text>
+  <text x="125" y="578" class="body">category_id + subcategory / multi-tag relations</text>
   <text x="125" y="599" class="small">当前 Published 分类</text>
 
   <rect x="575" y="495" width="350" height="112" class="box draft"/>
@@ -75,5 +75,5 @@
   <text x="1035" y="709" class="body">首次创建 Working Copy 时复制 Active Metadata。</text>
   <text x="1035" y="733" class="body">保存后 Draft 与 Active 独立维护。</text>
   <text x="1035" y="757" class="small">Expired Metadata 保留但不提供查看入口</text>
-  <text x="86" y="865" class="small">未确认边界：真实 Metadata API C14；版本归属、复制时点和展示范围均已确认。</text>
+  <text x="86" y="865" class="small">已确认：新增元数据更新接口，全量替换指定版本的快照；模板重新分配复用该接口。</text>
 </svg>

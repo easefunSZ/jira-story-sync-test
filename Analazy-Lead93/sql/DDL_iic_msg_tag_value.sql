@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS iic_msg_tag_value (
   tag_name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   is_default tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否为组内 Draft 默认值',
   sort_order int NOT NULL DEFAULT 0,
-  source_batch_id varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   status int NOT NULL DEFAULT 0 COMMENT '0有效，-1删除',
   created_by varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'system',
   created_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

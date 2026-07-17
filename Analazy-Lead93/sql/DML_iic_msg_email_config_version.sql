@@ -3,7 +3,7 @@ UPDATE iic_msg_email_config_version v
 JOIN tmp_lead93_version_category_mapping m
   ON m.email_code = v.email_code
  AND m.version = v.version
-JOIN iic_msg_category_config c
+JOIN iic_msg_email_category c
   ON c.category_code = m.category_code
  AND c.category_level = 1
  AND c.is_deleted = 0
@@ -26,6 +26,7 @@ WHERE v.version_status = 1
 UPDATE iic_msg_email_config_version v
 JOIN iic_msg_template_migration_snapshot s
   ON s.record_type = 'VERSION'
+ AND s.action_type = 'UPDATE'
  AND s.record_id = v.id
  AND s.source_batch_id = @migration_batch_id
 SET v.title = NULLIF(JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.title')), 'null'),

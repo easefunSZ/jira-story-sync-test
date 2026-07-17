@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1160" viewBox="0 0 1600 1160">
-  <title>LEAD-93 To-Be 逻辑 ER 图</title>
-  <desc>展示 Template Master、Version、Category、Subcategory relation、Tag taxonomy、Tag relation、附件与 migration snapshot 的逻辑关系。无新增物理外键。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1080" viewBox="0 0 1600 1080">
+  <title>LEAD-93 目标逻辑数据关系图</title>
+  <desc>展示模板主记录、版本、分类、子分类关系、标签体系、标签关系与附件的运行时逻辑关系。不新增物理外键。</desc>
   <defs>
     <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
     <style>
@@ -8,15 +8,15 @@
       .table{fill:#fff;stroke:#94a3b8;stroke-width:1.5;rx:6}.changed{fill:#fffdf5;stroke:#d69e2e;stroke-width:1.7;rx:6}.new{fill:#f7fbff;stroke:#60a5fa;stroke-width:1.7;rx:6}.support{fill:#faf7ff;stroke:#8b5cf6;stroke-width:1.5;rx:6}.headReused{fill:#e8edf3}.headChanged{fill:#fff1bd}.headNew{fill:#dbeafe}.headSupport{fill:#ede9fe}.rule{stroke:#cbd5e1;stroke-width:1}.logical{stroke:#475569;stroke-width:1.6;stroke-dasharray:7 5;fill:none;marker-end:url(#a)}.legacy{stroke:#e11d48;stroke-width:1.5;stroke-dasharray:3 5;fill:none;marker-end:url(#a)}
     </style>
   </defs>
-  <rect width="1600" height="1160" fill="#f7f9fc"/>
-  <text x="60" y="50" class="title">LEAD-93 To-Be 逻辑 ER 图</text>
-  <text x="60" y="78" class="sub">只展示设计决策所需的关键字段。所有关系均为逻辑关联，没有新增物理 FK/check constraint。</text>
+  <rect width="1600" height="1080" fill="#f7f9fc"/>
+  <text x="60" y="50" class="title">LEAD-93 目标逻辑数据关系图</text>
+  <text x="60" y="78" class="sub">只展示评审所需的关键字段。所有关系均为逻辑关联，没有新增数据库外键或检查约束。</text>
   <line x1="60" y1="105" x2="1540" y2="105" stroke="#cbd5e1"/>
-  <path d="M80 132L155 132" class="logical"/><text x="170" y="136" class="note">逻辑关联 · Service / Transaction 保证</text>
+  <path d="M80 132L155 132" class="logical"/><text x="170" y="136" class="note">逻辑关联 · 服务层和事务保证</text>
   <path d="M430 132L505 132" class="legacy"/><text x="520" y="136" class="note">现有非规范化引用 · 本期保持</text>
   <text x="835" y="136" class="pk">PK</text><text x="865" y="136" class="note">主键</text>
   <text x="935" y="136" class="uk">UK/BK</text><text x="990" y="136" class="note">唯一键 / 业务键</text>
-  <text x="1150" y="136" class="newf">NEW</text><text x="1195" y="136" class="note">LEAD-93 新增字段</text>
+  <text x="1150" y="136" class="newf">新增</text><text x="1195" y="136" class="note">LEAD-93 新增字段</text>
 
   <rect x="70" y="180" width="360" height="230" class="table"/>
   <rect x="70" y="180" width="360" height="46" class="headReused"/>
@@ -24,11 +24,11 @@
   <line x1="70" y1="226" x2="430" y2="226" class="rule"/>
   <text x="92" y="251" class="pk">PK  id</text>
   <text x="92" y="274" class="uk">BK  email_code</text>
-  <text x="92" y="297" class="field">email_name · Template Title</text>
+  <text x="92" y="297" class="field">email_name · 模板标题</text>
   <text x="92" y="320" class="field">description</text>
   <text x="92" y="343" class="field">is_campaign</text>
-  <text x="92" y="366" class="field">email_status · Enabled / Disabled</text>
-  <text x="92" y="389" class="field">status · soft delete</text>
+  <text x="92" y="366" class="field">email_status · 启用 / 停用</text>
+  <text x="92" y="389" class="field">status · 软删除</text>
 
   <rect x="600" y="165" width="410" height="280" class="changed"/>
   <rect x="600" y="165" width="410" height="46" class="headChanged"/>
@@ -36,13 +36,13 @@
   <line x1="600" y1="211" x2="1010" y2="211" class="rule"/>
   <text x="622" y="236" class="pk">PK  id</text>
   <text x="622" y="259" class="uk">LK  email_code + version</text>
-  <text x="622" y="282" class="newf">NEW  category_id · 主 Category</text>
+  <text x="622" y="282" class="newf">新增  category_id · 主分类</text>
   <text x="622" y="305" class="field">version_status · 0/1/2/3</text>
-  <text x="622" y="328" class="field">title · Email Subject</text>
+  <text x="622" y="328" class="field">title · 邮件主题</text>
   <text x="622" y="351" class="field">email_content / text_content</text>
   <text x="622" y="374" class="field">effective_from / effective_until</text>
-  <text x="622" y="397" class="field">file_keys · comma-separated file_key</text>
-  <text x="622" y="420" class="field">status · soft delete</text>
+  <text x="622" y="397" class="field">file_keys · 逗号分隔的 file_key</text>
+  <text x="622" y="420" class="field">status · 软删除</text>
 
   <rect x="1220" y="190" width="310" height="205" class="table"/>
   <rect x="1220" y="190" width="310" height="46" class="headReused"/>
@@ -55,19 +55,19 @@
   <text x="1242" y="353" class="field">obs_type · AWS_S3</text>
   <text x="1242" y="376" class="field">view_url</text>
 
-  <rect x="70" y="510" width="380" height="280" class="changed"/>
-  <rect x="70" y="510" width="380" height="46" class="headChanged"/>
-  <text x="92" y="539" class="h">iic_msg_category_config</text>
+  <rect x="70" y="510" width="380" height="280" class="new"/>
+  <rect x="70" y="510" width="380" height="46" class="headNew"/>
+  <text x="92" y="539" class="h">新增 · iic_msg_email_category</text>
   <line x1="70" y1="556" x2="450" y2="556" class="rule"/>
   <text x="92" y="581" class="pk">PK  id</text>
-  <text x="92" y="604" class="uk">BK  category_code · Snowflake</text>
+  <text x="92" y="604" class="uk">BK  category_code · 雪花编码</text>
   <text x="92" y="627" class="field">category_name / normalized_name</text>
-  <text x="92" y="650" class="newf">NEW  parent_id · self reference</text>
-  <text x="92" y="673" class="newf">NEW  category_level · 1 / 2</text>
-  <text x="92" y="696" class="newf">NEW  sort_order / description</text>
+  <text x="92" y="650" class="field">parent_id · 自关联</text>
+  <text x="92" y="673" class="field">category_level · 1 / 2</text>
+  <text x="92" y="696" class="field">sort_order / description</text>
   <text x="92" y="719" class="field">is_deleted</text>
-  <text x="92" y="742" class="newf">NEW  generated unique columns</text>
-  <text x="92" y="765" class="newf">NEW  source_batch_id / deleted_by / deleted_date</text>
+  <text x="92" y="742" class="field">active_normalized_name · 生成唯一键</text>
+  <text x="92" y="765" class="field">deleted_by / deleted_date</text>
 
   <rect x="540" y="535" width="400" height="220" class="new"/>
   <rect x="540" y="535" width="400" height="46" class="headNew"/>
@@ -78,10 +78,10 @@
   <text x="562" y="652" class="field">email_code</text>
   <text x="562" y="675" class="field">version</text>
   <text x="562" y="698" class="field">subcategory_id</text>
-  <text x="562" y="721" class="field">status · soft delete</text>
-  <text x="562" y="744" class="field">source_batch_id / maintenance fields</text>
+  <text x="562" y="721" class="field">status · 软删除</text>
+  <text x="562" y="744" class="field">created_by/date · updated_by/date</text>
 
-  <rect x="1030" y="485" width="245" height="190" class="new"/>
+  <rect x="1030" y="485" width="245" height="230" class="new"/>
   <rect x="1030" y="485" width="245" height="46" class="headNew"/>
   <text x="1052" y="514" class="h">iic_msg_tag_group</text>
   <line x1="1030" y1="531" x2="1275" y2="531" class="rule"/>
@@ -89,9 +89,11 @@
   <text x="1052" y="579" class="uk">UK  group_code</text>
   <text x="1052" y="602" class="field">group_name</text>
   <text x="1052" y="625" class="field">is_mandatory / sort_order</text>
-  <text x="1052" y="648" class="field">status / source_batch_id</text>
+  <text x="1052" y="648" class="field">status</text>
+  <text x="1052" y="671" class="field">created_by / created_date</text>
+  <text x="1052" y="694" class="field">updated_by / updated_date</text>
 
-  <rect x="1320" y="485" width="245" height="190" class="new"/>
+  <rect x="1320" y="485" width="245" height="230" class="new"/>
   <rect x="1320" y="485" width="245" height="46" class="headNew"/>
   <text x="1342" y="514" class="h">iic_msg_tag_value</text>
   <line x1="1320" y1="531" x2="1565" y2="531" class="rule"/>
@@ -99,41 +101,33 @@
   <text x="1342" y="579" class="uk">UK  tag_code</text>
   <text x="1342" y="602" class="field">group_code</text>
   <text x="1342" y="625" class="field">tag_name / is_default</text>
-  <text x="1342" y="648" class="field">status / source_batch_id</text>
+  <text x="1342" y="648" class="field">status</text>
+  <text x="1342" y="671" class="field">created_by / created_date</text>
+  <text x="1342" y="694" class="field">updated_by / updated_date</text>
 
   <rect x="1030" y="755" width="535" height="230" class="new"/>
   <rect x="1030" y="755" width="535" height="46" class="headNew"/>
   <text x="1052" y="784" class="h">iic_msg_template_tag_rel</text>
   <line x1="1030" y1="801" x2="1565" y2="801" class="rule"/>
   <text x="1052" y="826" class="pk">PK  id</text>
-  <text x="1052" y="849" class="uk">UK  email_code + version + group_code</text>
+  <text x="1052" y="849" class="uk">UK  email_code + version + group_code + tag_code</text>
   <text x="1052" y="872" class="field">email_code / version</text>
   <text x="1052" y="895" class="field">group_code</text>
   <text x="1052" y="918" class="field">tag_code</text>
-  <text x="1052" y="941" class="field">status · soft delete</text>
-  <text x="1052" y="964" class="field">source_batch_id / maintenance fields</text>
-
-  <rect x="70" y="865" width="680" height="180" class="support"/>
-  <rect x="70" y="865" width="680" height="46" class="headSupport"/>
-  <text x="92" y="894" class="h">iic_msg_template_migration_snapshot · 非运行时 ER 关系</text>
-  <line x1="70" y1="911" x2="750" y2="911" class="rule"/>
-  <text x="92" y="936" class="pk">PK  id</text>
-  <text x="92" y="959" class="uk">UK  source_batch_id + record_type + record_id</text>
-  <text x="92" y="982" class="field">email_code / snapshot_json</text>
-  <text x="92" y="1005" class="note">保存 Config / Version migration 前快照；仅用于验证和受控回滚。</text>
-  <text x="92" y="1028" class="note">不参与 Template List、Detail、Publish 或 Search 运行时查询。</text>
+  <text x="1052" y="941" class="field">status · 软删除</text>
+  <text x="1052" y="964" class="field">created_by/date · updated_by/date</text>
 
   <path d="M430 285L600 285" class="logical"/><text x="457" y="266" class="card">1</text><text x="570" y="266" class="card">N</text><text x="480" y="306" class="rel">email_code</text>
   <path d="M1010 350C1100 350 1130 300 1220 300" class="legacy"/><text x="1040" y="330" class="rel">0..N file_keys → file_key</text>
-  <path d="M600 300C515 330 485 545 450 590" class="logical"/><text x="510" y="405" class="rel">N versions → 1 primary Category</text>
+  <path d="M600 300C515 330 485 545 450 590" class="logical"/><text x="510" y="405" class="rel">N 个版本 → 1 个主分类</text>
   <path d="M765 445L765 535" class="logical"/><text x="778" y="484" class="card">1:N</text><text x="790" y="508" class="rel">email_code + version</text>
   <path d="M450 645L540 645" class="logical"/><text x="468" y="628" class="card">1:N</text><text x="470" y="668" class="rel">subcategory_id</text>
-  <path d="M150 510C150 455 360 455 360 510" class="logical"/><text x="205" y="470" class="rel">parent_id · 1:N self</text>
-  <path d="M1010 410C980 520 980 700 1030 780" class="logical"/><text x="865" y="705" class="rel">Version 1:N Tag Relations</text>
+  <path d="M150 510C150 455 360 455 360 510" class="logical"/><text x="205" y="470" class="rel">parent_id · 1:N 自关联</text>
+  <path d="M1010 410C980 520 980 700 1030 780" class="logical"/><text x="865" y="705" class="rel">版本 1:N 标签关系</text>
   <path d="M1275 580L1320 580" class="logical"/><text x="1284" y="562" class="card">1:N</text>
-  <path d="M1152 675L1152 755" class="logical"/><text x="1165" y="716" class="rel">group_code</text>
-  <path d="M1442 675L1442 755" class="logical"/><text x="1455" y="716" class="rel">tag_code</text>
+  <path d="M1152 715L1152 755" class="logical"/><text x="1165" y="741" class="rel">group_code</text>
+  <path d="M1442 715L1442 755" class="logical"/><text x="1455" y="741" class="rel">tag_code</text>
 
-  <rect x="60" y="1080" width="1480" height="45" fill="#fff1f2" stroke="#e11d48" rx="5"/>
-  <text x="85" y="1108" class="note">重要：图中 1:N/N:1 是业务基数，不代表数据库已有 FK。关系存在性、节点层级、每组单选和 Mandatory Tag 完整性均由 Service 与事务保证。</text>
+  <rect x="60" y="1010" width="1480" height="45" fill="#fff1f2" stroke="#e11d48" rx="5"/>
+  <text x="85" y="1038" class="note">重要：图中 1:N/N:1 是业务基数，不代表数据库存在外键。关系、节点层级、标签组多选和必填标签完整性均由服务层与事务保证。</text>
 </svg>

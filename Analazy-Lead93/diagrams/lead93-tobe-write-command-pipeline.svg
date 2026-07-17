@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="820" viewBox="0 0 1500 820">
+  <title>LEAD-93 目标统一写入流程</title>
+  <desc>保存草稿、发布、删除、启用和停用共用的命令识别、选版、校验、事务写入和失败处理流程。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 29px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.chip{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.4}.input{fill:#f8fafc;stroke:#94a3b8;stroke-width:1.4}.step{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5}.validate{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5}.tx{fill:#f0fdf4;stroke:#22c55e;stroke-width:1.5}.fail{fill:#fff1f2;stroke:#e11d48;stroke-width:1.4}.line{stroke:#475569;stroke-width:1.7;fill:none;marker-end:url(#arrow)}.dash{stroke:#e11d48;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1500" height="820" fill="#f7f9fc"/>
+  <text x="60" y="52" class="title">LEAD-93 目标统一写入流程</text>
+  <text x="60" y="80" class="sub">场景差异由命令参数和状态矩阵决定；持久化顺序、校验和事务失败语义保持统一。</text>
+
+  <rect x="60" y="105" width="1380" height="105" rx="6" class="panel"/>
+  <text x="85" y="136" class="h">操作</text>
+  <rect x="190" y="130" width="160" height="48" rx="5" class="input"/><text x="226" y="159" class="chip">保存草稿</text>
+  <rect x="375" y="130" width="160" height="48" rx="5" class="input"/><text x="408" y="159" class="chip">立即发布</text>
+  <rect x="560" y="130" width="160" height="48" rx="5" class="input"/><text x="586" y="159" class="chip">未来发布</text>
+  <rect x="745" y="130" width="160" height="48" rx="5" class="input"/><text x="779" y="159" class="chip">删除版本</text>
+  <rect x="930" y="130" width="160" height="48" rx="5" class="input"/><text x="965" y="159" class="chip">删除模板</text>
+  <rect x="1115" y="130" width="235" height="48" rx="5" class="input"/><text x="1167" y="159" class="chip">启用 / 停用</text>
+
+  <rect x="60" y="245" width="1380" height="265" rx="6" class="panel"/>
+  <text x="85" y="278" class="h">统一处理流程</text>
+  <rect x="95" y="320" width="205" height="105" rx="6" class="step"/>
+  <text x="120" y="350" class="h">1. 识别命令</text><text x="120" y="376" class="body">解析明确业务意图</text><text x="120" y="400" class="small">禁止以字段差异猜命令</text>
+  <rect x="340" y="320" width="205" height="105" rx="6" class="step"/>
+  <text x="365" y="350" class="h">2. 读取最新状态</text><text x="365" y="376" class="body">主记录 + 版本集合</text><text x="365" y="400" class="small">忽略客户端旧状态推断</text>
+  <rect x="585" y="320" width="205" height="105" rx="6" class="step"/>
+  <text x="610" y="350" class="h">3. 定位目标版本</text><text x="610" y="376" class="body">按选版矩阵处理</text><text x="610" y="400" class="small">新增 / 更新 / 拒绝</text>
+  <rect x="830" y="320" width="205" height="105" rx="6" class="validate"/>
+  <text x="855" y="350" class="h">4. 操作级校验</text><text x="855" y="376" class="body">状态 · 分类标签 · 完整性</text><text x="855" y="400" class="small">失败时尚未写数据库</text>
+  <rect x="1075" y="320" width="270" height="105" rx="6" class="tx"/>
+  <text x="1100" y="350" class="h">5. 单事务写入</text><text x="1100" y="376" class="body">主记录 / 版本 / 关系</text><text x="1100" y="400" class="small">状态切换或软删除</text>
+  <path d="M300 372L340 372" class="line"/><path d="M545 372L585 372" class="line"/><path d="M790 372L830 372" class="line"/><path d="M1035 372L1075 372" class="line"/>
+
+  <rect x="60" y="545" width="905" height="215" rx="6" class="panel"/>
+  <text x="85" y="578" class="h">事务写入范围</text>
+  <rect x="95" y="610" width="250" height="100" rx="6" class="tx"/>
+  <text x="120" y="640" class="h">主记录 / 版本</text><text x="120" y="666" class="body">主表字段 · 内容 · 时间</text><text x="120" y="690" class="small">version_status / status</text>
+  <rect x="385" y="610" width="250" height="100" rx="6" class="tx"/>
+  <text x="410" y="640" class="h">版本元数据</text><text x="410" y="666" class="body">category_id · 子分类</text><text x="410" y="690" class="small">标签组多选关系</text>
+  <rect x="675" y="610" width="250" height="100" rx="6" class="tx"/>
+  <text x="700" y="640" class="h">提交结果</text><text x="700" y="666" class="body">返回最新持久化状态</text><text x="700" y="690" class="small">任何写入失败整体回滚</text>
+  <path d="M345 660L385 660" class="line"/><path d="M635 660L675 660" class="line"/>
+  <path d="M1210 425L1210 485L800 485L800 610" class="line"/>
+
+  <rect x="1005" y="545" width="435" height="215" rx="6" class="fail"/>
+  <text x="1030" y="578" class="h">失败处理</text>
+  <text x="1030" y="615" class="body">校验失败</text><text x="1185" y="615" class="small">返回字段级错误 · 不进入事务</text>
+  <text x="1030" y="650" class="body">事务失败</text><text x="1185" y="650" class="small">整体回滚 · 保留草稿 / 旧生效版本</text>
+  <text x="1030" y="685" class="body">重试</text><text x="1185" y="685" class="small">重新读取状态并重新校验</text>
+  <text x="1030" y="720" class="body">并发处理</text><text x="1185" y="720" class="small">沿用现状 · 不新增乐观锁</text>
+  <path d="M932 425L932 485L1222 485L1222 545" class="dash"/>
+  <text x="60" y="795" class="small">发布不复制元数据；保存草稿不因未来生效时间生成预约状态；删除版本不修改 version_status。</text>
+</svg>

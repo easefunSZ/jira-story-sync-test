@@ -29,6 +29,7 @@ WHERE @lead93_apply_deactivate = 1
 UPDATE iic_msg_email_config c
 JOIN iic_msg_template_migration_snapshot s
   ON s.record_type = 'CONFIG'
+ AND s.action_type = 'UPDATE'
  AND s.record_id = c.id
  AND s.source_batch_id = @migration_batch_id
 SET c.email_name = JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.email_name')),

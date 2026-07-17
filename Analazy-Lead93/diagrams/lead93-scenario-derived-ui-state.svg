@@ -30,9 +30,9 @@
   <text x="735" y="274" class="code">OR Branch 2：config.status = 0 AND version_status IN (0,3) AND version != 'V1'</text>
   <text x="735" y="304" class="code">OR Branch 3：version_status IN (0,3) AND version = 'V1'</text>
   <text x="735" y="334" class="body">Draft Tab 同时承载 Disabled、Draft 与 Schedule 语义。</text>
-  <text x="735" y="360" class="small">完整括号、软删除/tenant 条件、List/Count 和最终选版仍待 C03/C04。</text>
+  <text x="735" y="360" class="small">命中后返回最大数字版本 V(N)，保持现有选版结果。</text>
   <rect x="90" y="400" width="1310" height="30" class="pending"/>
-  <text x="112" y="420" class="small">证据边界：To-Be Search/Filter 不得用新 SQL 猜测或覆盖上述待确认的 As-Is Mapper 行为。</text>
+  <text x="112" y="420" class="small">证据边界：选版结果已确认；To-Be Search/Filter 必须保持该结果，并从真实 Mapper 扩展而不是覆盖。</text>
 
   <rect x="60" y="480" width="1380" height="380" class="panel"/>
   <text x="86" y="515" class="section">真正的改造差异</text>
@@ -51,5 +51,5 @@
   <rect x="86" y="754" width="210" height="80" class="row"/><text x="111" y="790" class="h">派生展示</text><text x="111" y="813" class="small">不新增状态列</text>
   <rect x="296" y="754" width="475" height="80" class="row"/><text x="321" y="785" class="body">Active + Draft 可在同一 email_code 下共存。</text><text x="321" y="811" class="small">Adviser 只读取 Enabled + Active。</text>
   <rect x="771" y="754" width="643" height="80" class="tobe"/><text x="796" y="785" class="body">由 Active + Draft 组合显示 “Draft in Progress”。</text><text x="796" y="811" class="body">Draft/Schedule 及其 Metadata 对 Adviser 不可见。</text>
-  <text x="86" y="895" class="small">未确认边界：Published/Draft 完整 SQL 与返回 version 规则 C02-C04；Active/Deactivate 页面调用链 C09。</text>
+  <text x="86" y="895" class="small">已发布页和草稿页继续沿用现有选版、排序和分页语义；启用与停用行为保持不变。</text>
 </svg>

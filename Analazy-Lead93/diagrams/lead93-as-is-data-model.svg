@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1400" height="780" viewBox="0 0 1400 780">
   <title>LEAD-93 As-Is Data Model</title>
-  <desc>Current template master, version, file and category tables and their known relationships.</desc>
+  <desc>Current Template Management master, version and file relationships.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
       <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
@@ -72,14 +72,4 @@
   <path d="M1075 535 L1075 600" class="dash"/>
   <text x="1090" y="573" class="note">file_keys</text>
 
-  <rect x="70" y="560" width="480" height="165" class="box"/>
-  <rect x="70" y="560" width="480" height="48" class="head-gray" rx="6"/>
-  <rect x="70" y="602" width="480" height="6" class="head-gray"/>
-  <text x="94" y="591" class="box-title">iic_msg_category_config</text>
-  <text x="94" y="638" class="label">category_code / category_name / tenant_id / dae_country_code</text>
-  <text x="94" y="668" class="label">is_deleted / flag / audit fields</text>
-  <text x="94" y="700" class="note">现有消息类别配置；尚未形成 LEAD-93 的两级 Template taxonomy 关系。</text>
-
-  <path d="M310 465 L310 560" class="dash"/>
-  <text x="326" y="515" class="note">现状未确认直接关联</text>
 </svg>

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="850" viewBox="0 0 1500 850">
   <title>LEAD-93 As-Is Published and Draft Tab Query</title>
-  <desc>Confirmed base conditions of current Published and Draft tabs, with unresolved selected-version behavior clearly separated.</desc>
+  <desc>Confirmed base conditions and selected-version behavior of current Published and Draft tabs, with only full mapper implementation details left for code verification.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
     <style>
@@ -12,7 +12,7 @@
   </defs>
   <rect width="1500" height="850" fill="#f7f9fc"/>
   <text x="60" y="54" class="title">As-Is 页面查询：Published 与 Draft 不是简单状态筛选</text>
-  <text x="60" y="82" class="subtitle">图中只固化已确认的基础条件；完整 Mapper 括号、Count 和 Draft 最终选版仍需内网代码证据。</text>
+  <text x="60" y="82" class="subtitle">基础条件和最终选版结果均已确认；本图只展示页签语义和选版结果。</text>
 
   <rect x="60" y="115" width="650" height="610" class="panel"/>
   <text x="90" y="155" class="head">Published Tab · 已确认硬编码条件</text>
@@ -40,10 +40,10 @@
   <text x="865" y="467" class="code">Branch 3：version_status IN (0, 3)</text>
   <text x="865" y="495" class="code">AND version = 'V1'</text>
   <path d="M1115 535L1115 585" class="line"/>
-  <rect x="835" y="585" width="560" height="105" class="pending"/>
-  <text x="865" y="622" class="head">仍待 C03/C04 代码核对</text>
-  <text x="865" y="651" class="text">完整 OR 括号、软删除/tenant 条件、List/Count 一致性</text>
-  <text x="865" y="675" class="text">以及 Active + Draft/Schedule 共存时最终返回哪个 version</text>
+  <rect x="835" y="585" width="560" height="105" class="branch"/>
+  <text x="865" y="622" class="head">已确认结果语义</text>
+  <text x="865" y="651" class="text">命中 Draft Tab 范围后返回最大数字版本 V(N)</text>
+  <text x="865" y="675" class="text">列表和总数查询必须使用相同的页签条件和选版规则</text>
 
   <rect x="180" y="760" width="1140" height="55" class="branch"/>
   <text x="215" y="793" class="text">关键理解：Draft Tab 同时承载 Disabled、Draft 和 Schedule 语义，因此 To-Be Search/Filter 不能把它简化为 version_status = 3。</text>

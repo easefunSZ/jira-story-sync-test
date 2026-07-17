@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <title>LEAD-93 Jira Story 与 Solution 覆盖矩阵</title>
+  <desc>十三个 Jira Story 与数据库、版本流程、Metadata、Taxonomy、校验事务、Search、API 和 Migration 设计模块的覆盖关系。</desc>
+  <style>
+    .title{font:700 29px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.h{font:700 14px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.section{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.story{font:600 12px Arial,"Microsoft YaHei",sans-serif;fill:#253247}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.grid{stroke:#d8e0ea;stroke-width:1}.outer{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.header{fill:#e8eef7}.odd{fill:#fff}.even{fill:#f8fafc}.primary{fill:#2563eb;stroke:#1d4ed8;stroke-width:1}.secondary{fill:#fff;stroke:#2563eb;stroke-width:2}
+  </style>
+  <rect width="1600" height="900" fill="#f7f9fc"/>
+  <text x="60" y="52" class="title">LEAD-93 Jira Story → To-Be Solution 覆盖矩阵</text>
+  <text x="60" y="80" class="sub">从 Story 定位设计模块，也可从设计模块反查覆盖 Story；明细和实施产物见第 5.3 节追踪表。</text>
+  <circle cx="1265" cy="73" r="8" class="primary"/><text x="1282" y="78" class="small">主要解决方案</text>
+  <circle cx="1415" cy="73" r="8" class="secondary"/><text x="1432" y="78" class="small">复用 / 间接影响</text>
+
+  <rect x="60" y="120" width="1480" height="708" rx="6" class="outer"/>
+  <rect x="60" y="120" width="1480" height="83" rx="6" class="header"/>
+  <text x="85" y="154" class="h">Jira Story</text><text x="85" y="179" class="small">需求来源</text>
+  <text x="490" y="151" text-anchor="middle" class="h">Database</text><text x="490" y="177" text-anchor="middle" class="section">第 7 章</text>
+  <text x="630" y="151" text-anchor="middle" class="h">Version Flow</text><text x="630" y="177" text-anchor="middle" class="section">8.2-8.3</text>
+  <text x="770" y="151" text-anchor="middle" class="h">Metadata</text><text x="770" y="177" text-anchor="middle" class="section">8.4</text>
+  <text x="910" y="151" text-anchor="middle" class="h">Taxonomy</text><text x="910" y="177" text-anchor="middle" class="section">8.5</text>
+  <text x="1050" y="151" text-anchor="middle" class="h">Validation / Tx</text><text x="1050" y="177" text-anchor="middle" class="section">8.6-8.7</text>
+  <text x="1190" y="151" text-anchor="middle" class="h">Search</text><text x="1190" y="177" text-anchor="middle" class="section">第 9 章</text>
+  <text x="1330" y="151" text-anchor="middle" class="h">API</text><text x="1330" y="177" text-anchor="middle" class="section">第 10 章</text>
+  <text x="1470" y="151" text-anchor="middle" class="h">Migration</text><text x="1470" y="177" text-anchor="middle" class="section">第 11 章</text>
+
+  <rect x="60" y="203" width="1480" height="48" class="odd"/><rect x="60" y="251" width="1480" height="48" class="even"/>
+  <rect x="60" y="299" width="1480" height="48" class="odd"/><rect x="60" y="347" width="1480" height="48" class="even"/>
+  <rect x="60" y="395" width="1480" height="48" class="odd"/><rect x="60" y="443" width="1480" height="48" class="even"/>
+  <rect x="60" y="491" width="1480" height="48" class="odd"/><rect x="60" y="539" width="1480" height="48" class="even"/>
+  <rect x="60" y="587" width="1480" height="48" class="odd"/><rect x="60" y="635" width="1480" height="48" class="even"/>
+  <rect x="60" y="683" width="1480" height="48" class="odd"/><rect x="60" y="731" width="1480" height="48" class="even"/>
+  <rect x="60" y="779" width="1480" height="48" class="odd"/>
+
+  <path d="M420 120V828M560 120V828M700 120V828M840 120V828M980 120V828M1120 120V828M1260 120V828M1400 120V828" class="grid"/>
+  <path d="M60 203H1540M60 251H1540M60 299H1540M60 347H1540M60 395H1540M60 443H1540M60 491H1540M60 539H1540M60 587H1540M60 635H1540M60 683H1540M60 731H1540M60 779H1540M60 827H1540" class="grid"/>
+
+  <text x="85" y="232" class="story">LEAD-277 · Data Model &amp; Validation</text>
+  <text x="85" y="280" class="story">LEAD-293 · Create Category/Subcategories</text>
+  <text x="85" y="328" class="story">LEAD-306 · Create New Template</text>
+  <text x="85" y="376" class="story">LEAD-307 · Delete Category/Subcategory</text>
+  <text x="85" y="424" class="story">LEAD-301 · Assign &amp; Edit Category</text>
+  <text x="85" y="472" class="story">LEAD-276 · Template Reassignment</text>
+  <text x="85" y="520" class="story">LEAD-278 · Edit Published Template</text>
+  <text x="85" y="568" class="story">LEAD-300 · Select/Assign/Edit Tags</text>
+  <text x="85" y="616" class="story">LEAD-279 · Draft &amp; Publish Workflow</text>
+  <text x="85" y="664" class="story">LEAD-296 · Delete Template</text>
+  <text x="85" y="712" class="story">LEAD-326 · Template Preview</text>
+  <text x="85" y="760" class="story">LEAD-327 · Search &amp; Filter</text>
+  <text x="85" y="808" class="story">LEAD-328 · Data Migration</text>
+
+  <!-- LEAD-277 -->
+  <circle cx="490" cy="227" r="9" class="primary"/><circle cx="770" cy="227" r="9" class="secondary"/><circle cx="1050" cy="227" r="9" class="primary"/><circle cx="1330" cy="227" r="9" class="secondary"/>
+  <!-- LEAD-293 -->
+  <circle cx="490" cy="275" r="9" class="secondary"/><circle cx="910" cy="275" r="9" class="primary"/><circle cx="1330" cy="275" r="9" class="primary"/>
+  <!-- LEAD-306 -->
+  <circle cx="490" cy="323" r="9" class="secondary"/><circle cx="630" cy="323" r="9" class="primary"/><circle cx="770" cy="323" r="9" class="primary"/><circle cx="1050" cy="323" r="9" class="primary"/><circle cx="1330" cy="323" r="9" class="primary"/>
+  <!-- LEAD-307 -->
+  <circle cx="490" cy="371" r="9" class="secondary"/><circle cx="910" cy="371" r="9" class="primary"/><circle cx="1050" cy="371" r="9" class="primary"/><circle cx="1330" cy="371" r="9" class="primary"/>
+  <!-- LEAD-301 -->
+  <circle cx="770" cy="419" r="9" class="primary"/><circle cx="910" cy="419" r="9" class="secondary"/><circle cx="1050" cy="419" r="9" class="secondary"/><circle cx="1330" cy="419" r="9" class="primary"/>
+  <!-- LEAD-276 -->
+  <circle cx="770" cy="467" r="9" class="primary"/><circle cx="910" cy="467" r="9" class="secondary"/><circle cx="1050" cy="467" r="9" class="secondary"/><circle cx="1330" cy="467" r="9" class="primary"/>
+  <!-- LEAD-278 -->
+  <circle cx="630" cy="515" r="9" class="primary"/><circle cx="770" cy="515" r="9" class="primary"/><circle cx="1050" cy="515" r="9" class="secondary"/><circle cx="1330" cy="515" r="9" class="secondary"/>
+  <!-- LEAD-300 -->
+  <circle cx="490" cy="563" r="9" class="primary"/><circle cx="770" cy="563" r="9" class="primary"/><circle cx="910" cy="563" r="9" class="primary"/><circle cx="1050" cy="563" r="9" class="primary"/><circle cx="1190" cy="563" r="9" class="secondary"/><circle cx="1330" cy="563" r="9" class="primary"/>
+  <!-- LEAD-279 -->
+  <circle cx="630" cy="611" r="9" class="primary"/><circle cx="770" cy="611" r="9" class="secondary"/><circle cx="1050" cy="611" r="9" class="primary"/><circle cx="1330" cy="611" r="9" class="primary"/>
+  <!-- LEAD-296 -->
+  <circle cx="630" cy="659" r="9" class="primary"/><circle cx="770" cy="659" r="9" class="secondary"/><circle cx="1050" cy="659" r="9" class="primary"/><circle cx="1330" cy="659" r="9" class="primary"/>
+  <!-- LEAD-326 -->
+  <circle cx="770" cy="707" r="9" class="secondary"/><circle cx="1050" cy="707" r="9" class="secondary"/><circle cx="1330" cy="707" r="9" class="secondary"/>
+  <!-- LEAD-327 -->
+  <circle cx="490" cy="755" r="9" class="secondary"/><circle cx="770" cy="755" r="9" class="secondary"/><circle cx="910" cy="755" r="9" class="secondary"/><circle cx="1190" cy="755" r="9" class="primary"/><circle cx="1330" cy="755" r="9" class="primary"/>
+  <!-- LEAD-328 -->
+  <circle cx="490" cy="803" r="9" class="primary"/><circle cx="770" cy="803" r="9" class="primary"/><circle cx="910" cy="803" r="9" class="primary"/><circle cx="1050" cy="803" r="9" class="secondary"/><circle cx="1470" cy="803" r="9" class="primary"/>
+
+  <text x="60" y="870" class="small">矩阵表示设计覆盖关系，不替代 Jira AC。正式实现依据为第 5.3 节追踪表、对应 To-Be 章节、API Contract 与 SQL 文件。</text>
+</svg>

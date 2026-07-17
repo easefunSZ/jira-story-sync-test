@@ -10,7 +10,7 @@
   </defs>
   <rect width="1500" height="840" fill="#f7f9fc"/>
   <text x="60" y="50" class="title">To-Be：Preview 与统一 Publish Validation</text>
-  <text x="60" y="78" class="sub">Preview 和 Publish 可以读取同一编辑模型，但只有 Publish Validation 通过后才能进入状态更新事务。</text>
+  <text x="60" y="78" class="sub">Preview 完全复用现状；Publish Validation 内嵌现有 Publish API，不新增独立接口。</text>
 
   <rect x="60" y="110" width="1380" height="155" class="panel"/>
   <text x="86" y="145" class="section">共同输入</text>
@@ -36,7 +36,7 @@
   <path d="M360 414L420 414" class="line"/><path d="M542 458C542 490 450 490 450 515" class="line"/>
   <rect x="105" y="650" width="560" height="48" class="rule"/>
   <text x="130" y="670" class="code">不持久化 · 不创建 version · 不修改 version_status</text>
-  <text x="130" y="690" class="small">复用现有 Renderer；入口/DTO/净化规则由 C16 回填</text>
+  <text x="130" y="690" class="small">完全复用现有 Renderer、入口、DTO 与净化规则</text>
 
   <rect x="740" y="295" width="700" height="440" class="panel"/>
   <text x="766" y="330" class="section">Publish Path · 严格校验后写状态</text>
@@ -60,5 +60,5 @@
   <path d="M375 237C375 285 230 310 230 370" class="line"/>
   <path d="M615 206C760 206 800 310 845 370" class="line"/>
   <path d="M1125 237C1125 295 1000 315 1000 370" class="line"/>
-  <text x="60" y="785" class="small">未确认边界：Preview 真实入口/DTO C16、正式 API Contract C14；已确认复用现有能力、附件前端校验且 Preview 不处理附件。</text>
+  <text x="60" y="785" class="small">已确认：Preview API/实现保持现状且不处理附件；Publish Validation 是原 Publish API 内部步骤。正式错误表达按公共 Contract 对齐。</text>
 </svg>

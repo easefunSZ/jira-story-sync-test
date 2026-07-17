@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <style>
+      .bg{fill:#f7f9fc}.title{font:700 30px Arial,"PingFang SC",sans-serif;fill:#172033}.sub{font:16px Arial,"PingFang SC",sans-serif;fill:#5b6573}
+      .band{fill:#ffffff;stroke:#c8d2df;stroke-width:2}.head93{fill:#e9f2fb}.head308{fill:#eaf7ef}.headOpen{fill:#fff4e6}
+      .h{font:700 20px Arial,"PingFang SC",sans-serif;fill:#1f4d78}.h2{font:700 18px Arial,"PingFang SC",sans-serif;fill:#166534}
+      .text{font:15px Arial,"PingFang SC",sans-serif;fill:#263548}.small{font:13px Arial,"PingFang SC",sans-serif;fill:#5b6573}
+      .pill93{fill:#2e74b5}.pill308{fill:#218559}.pillOpen{fill:#c26a12}.pillText{font:700 13px Arial,"PingFang SC",sans-serif;fill:white}
+      .arrow{stroke:#718096;stroke-width:2.5;fill:none;marker-end:url(#arrow)}.dash{stroke:#c26a12;stroke-width:2;stroke-dasharray:8 6;fill:none;marker-end:url(#arrowOpen)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#718096"/></marker>
+    <marker id="arrowOpen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#c26a12"/></marker>
+  </defs>
+  <rect class="bg" width="1600" height="900"/>
+  <text x="60" y="60" class="title">LEAD-93 生产侧与 LEAD-308 消费侧：能力对齐</text>
+  <text x="60" y="92" class="sub">蓝色为 LEAD-93 已提供并冻结的基础；绿色为 LEAD-308 的 Adviser 增量；橙色为不能猜测的 Contract 冻结项。</text>
+
+  <rect x="60" y="135" width="430" height="670" rx="8" class="band"/>
+  <rect x="60" y="135" width="430" height="70" rx="8" class="head93"/>
+  <text x="90" y="178" class="h">LEAD-93 Template Management</text>
+  <rect x="90" y="235" width="370" height="95" rx="6" fill="#f5f9fd" stroke="#9bbbd8"/>
+  <text x="110" y="265" class="text">Master + Version 生命周期</text><text x="110" y="291" class="small">Draft / Schedule / Active / Expired</text><text x="110" y="315" class="small">Publish / Deactivate / Delete</text>
+  <rect x="90" y="350" width="370" height="105" rx="6" fill="#f5f9fd" stroke="#9bbbd8"/>
+  <text x="110" y="380" class="text">版本级 Metadata</text><text x="110" y="406" class="small">iic_msg_email_category</text><text x="110" y="430" class="small">Subcategory / Tag relation by email_code + version</text>
+  <rect x="90" y="475" width="370" height="105" rx="6" fill="#f5f9fd" stroke="#9bbbd8"/>
+  <text x="110" y="505" class="text">Web v2 Read Contract</text><text x="110" y="531" class="small">EX-01 Published List · EX-04 Adviser Detail</text><text x="110" y="555" class="small">NEW-01 Category Tree · NEW-06 Tag Taxonomy</text>
+  <rect x="90" y="600" width="370" height="90" rx="6" fill="#f5f9fd" stroke="#9bbbd8"/>
+  <text x="110" y="630" class="text">Existing Renderer / Attachment</text><text x="110" y="656" class="small">Preview 渲染正文，不加载附件</text>
+  <rect x="90" y="715" width="90" height="30" rx="15" class="pill93"/><text x="110" y="735" class="pillText">复用基础</text>
+
+  <rect x="585" y="135" width="430" height="670" rx="8" class="band"/>
+  <rect x="585" y="135" width="430" height="70" rx="8" class="head308"/>
+  <text x="615" y="178" class="h2">LEAD-308 Adviser Template Library</text>
+  <rect x="615" y="235" width="370" height="95" rx="6" fill="#f4fbf7" stroke="#9ccbb1"/>
+  <text x="635" y="265" class="text">Published-only Visibility Guard</text><text x="635" y="291" class="small">只读当前 Active；不显示 Working Copy</text><text x="635" y="315" class="small">权限 / tenant / country 后端强制</text>
+  <rect x="615" y="350" width="370" height="105" rx="6" fill="#f4fbf7" stroke="#9ccbb1"/>
+  <text x="635" y="380" class="text">Discover Experience</text><text x="635" y="406" class="small">Card · Category · Search · 4 Tag Filters</text><text x="635" y="430" class="small">Chips · Clear All · Sort · Pagination</text>
+  <rect x="615" y="475" width="370" height="105" rx="6" fill="#f4fbf7" stroke="#9ccbb1"/>
+  <text x="635" y="505" class="text">Preview / Context</text><text x="635" y="531" class="small">EX-04 重读 Active；正文 + Metadata</text><text x="635" y="555" class="small">不渲染 PDF/TXT/图片或媒体附件</text>
+  <rect x="615" y="600" width="370" height="90" rx="6" fill="#f4fbf7" stroke="#9ccbb1"/>
+  <text x="635" y="630" class="text">Use Template</text><text x="635" y="656" class="small">按 isCampaign 进入 Email / Campaign 下游</text>
+  <rect x="615" y="715" width="90" height="30" rx="15" class="pill308"/><text x="635" y="735" class="pillText">308 增量</text>
+
+  <rect x="1110" y="135" width="430" height="670" rx="8" class="band"/>
+  <rect x="1110" y="135" width="430" height="70" rx="8" class="headOpen"/>
+  <text x="1140" y="178" class="h" fill="#9a4f08">开发前按功能冻结</text>
+  <rect x="1140" y="235" width="370" height="95" rx="6" fill="#fffaf3" stroke="#e1b47d"/>
+  <text x="1160" y="265" class="text">List Contract</text><text x="1160" y="291" class="small">Email/Campaign 是否混合</text><text x="1160" y="315" class="small">Thumbnail 与 Card 增量字段</text>
+  <rect x="1140" y="350" width="370" height="105" rx="6" fill="#fffaf3" stroke="#e1b47d"/>
+  <text x="1160" y="380" class="text">Facet / Sort</text><text x="1160" y="406" class="small">Category/Tag Count 口径与 API</text><text x="1160" y="430" class="small">Most Relevant · Published Date</text>
+  <rect x="1140" y="475" width="370" height="105" rx="6" fill="#fffaf3" stroke="#e1b47d"/>
+  <text x="1160" y="505" class="text">Use Template 下游</text><text x="1160" y="531" class="small">Email Composer Route / API / Payload</text><text x="1160" y="555" class="small">Campaign Entry / API / Error</text>
+  <rect x="1140" y="600" width="370" height="90" rx="6" fill="#fffaf3" stroke="#e1b47d"/>
+  <text x="1160" y="630" class="text">范围与文档</text><text x="1160" y="656" class="small">Mobile 范围 · 修正 PRD Preview AC</text>
+  <rect x="1140" y="715" width="90" height="30" rx="15" class="pillOpen"/><text x="1158" y="735" class="pillText">待确认</text>
+
+  <path d="M490 282 L585 282" class="arrow"/><path d="M490 402 L585 402" class="arrow"/><path d="M490 525 L585 525" class="arrow"/><path d="M490 645 L585 645" class="arrow"/>
+  <path d="M1015 282 L1110 282" class="dash"/><path d="M1015 402 L1110 402" class="dash"/><path d="M1015 525 L1110 525" class="dash"/><path d="M1015 645 L1110 645" class="dash"/>
+
+  <text x="60" y="855" class="small">结论：308 不复制 93 的生产能力；已冻结的读契约直接复用，只有真实增量进入 Pending Delta。</text>
+</svg>

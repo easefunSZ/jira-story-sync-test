@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="820" viewBox="0 0 1500 820">
-  <title>LEAD-93 As-Is State Flow</title>
-  <desc>Current version lifecycle and independent template availability and soft delete controls.</desc>
+  <title>LEAD-93 现状状态流转</title>
+  <desc>当前版本生命周期与模板启停、软删除控制相互独立。</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
       <path d="M0,0 L0,6 L9,3 z" fill="#475569"/>
@@ -29,46 +29,46 @@
   </defs>
 
   <rect width="1500" height="820" fill="#f7f9fc"/>
-  <text x="60" y="54" class="title">As-Is 状态流转：版本生命周期与模板可用性分离</text>
-  <text x="60" y="82" class="subtitle">上方只描述 version_status；下方描述 config.email_status 和 soft-delete status，两者不会互相代替。</text>
+  <text x="60" y="54" class="title">现状状态流转：版本生命周期与模板可用性分离</text>
+  <text x="60" y="82" class="subtitle">上方只描述 version_status；下方描述 config.email_status 和软删除 status，三个状态维度不会互相代替。</text>
 
   <rect x="60" y="115" width="1380" height="405" class="lane"/>
   <text x="86" y="150" class="lane-title">泳道 A · iic_msg_email_config_version.version_status</text>
   <line x1="86" y1="166" x2="1414" y2="166" class="divider"/>
 
   <rect x="105" y="215" width="250" height="130" class="state draft"/>
-  <text x="135" y="253" class="state-title">Draft</text>
+  <text x="135" y="253" class="state-title">草稿</text>
   <text x="135" y="279" class="state-code">version_status = 3</text>
   <text x="135" y="308" class="state-note">不参与自动状态流转</text>
-  <text x="135" y="329" class="state-note">Save Draft 可保存时间，仍保持 Draft</text>
+  <text x="135" y="329" class="state-note">保存草稿可保存时间，仍保持草稿</text>
 
   <rect x="475" y="215" width="250" height="130" class="state schedule"/>
-  <text x="505" y="253" class="state-title">Schedule</text>
+  <text x="505" y="253" class="state-title">预约</text>
   <text x="505" y="279" class="state-code">version_status = 0</text>
-  <text x="505" y="308" class="state-note">effective_from &gt; now</text>
+  <text x="505" y="308" class="state-note">effective_from &gt; 当前时间</text>
   <text x="505" y="329" class="state-note">effective_until 未设置</text>
 
   <rect x="845" y="215" width="250" height="130" class="state active"/>
-  <text x="875" y="253" class="state-title">Active</text>
+  <text x="875" y="253" class="state-title">生效</text>
   <text x="875" y="279" class="state-code">version_status = 1</text>
-  <text x="875" y="308" class="state-note">effective_from = now</text>
+  <text x="875" y="308" class="state-note">effective_from = 当前时间</text>
   <text x="875" y="329" class="state-note">effective_until = NULL</text>
 
   <rect x="1215" y="215" width="190" height="130" class="state expired"/>
-  <text x="1245" y="253" class="state-title">Expired</text>
+  <text x="1245" y="253" class="state-title">过期</text>
   <text x="1245" y="279" class="state-code">version_status = 2</text>
   <text x="1245" y="308" class="state-note">保留 effective_from</text>
-  <text x="1245" y="329" class="state-note">effective_until = now</text>
+  <text x="1245" y="329" class="state-note">effective_until = 当前时间</text>
 
   <path d="M355 250 C400 210, 430 210, 475 250" class="line"/>
-  <text x="365" y="193" class="event">Publish 选择未来时间</text>
-  <text x="365" y="211" class="event">Draft 3 → Schedule 0</text>
+  <text x="365" y="193" class="event">发布时选择未来时间</text>
+  <text x="365" y="211" class="event">草稿 3 → 预约 0</text>
 
   <path d="M475 325 C435 370, 395 370, 355 325" class="line"/>
-  <text x="365" y="378" class="event">Cancel Schedule：0 → 3；清空 from / until</text>
+  <text x="330" y="378" class="event">保存草稿：预约 0 → 草稿 3；保留生效时间</text>
 
   <path d="M355 305 C530 405, 720 405, 845 305" class="line"/>
-  <text x="610" y="408" class="event">立即 Publish：Draft 3 → Active 1</text>
+  <text x="610" y="408" class="event">立即发布：草稿 3 → 生效 1</text>
 
   <path d="M725 280 L845 280" class="line"/>
   <rect x="720" y="174" width="440" height="32" class="callout"/>
@@ -79,32 +79,37 @@
   <text x="1102" y="266" class="event">或定时任务触发</text>
 
   <rect x="835" y="430" width="580" height="58" class="callout"/>
-  <text x="860" y="454" class="state-note">Publish 已确认结果：旧 Active 1 → Expired 2；目标 Draft 3 → Active 1；</text>
-  <text x="860" y="476" class="state-note">同步更新 effective time。代码保证一个 email_code 仅一个 Active；事务入口待 C07。</text>
+  <text x="860" y="454" class="state-note">发布结果：旧生效版本 1 → 过期 2；目标草稿 3 → 生效 1；</text>
+  <text x="860" y="476" class="state-note">同步更新生效时间。系统保证一个 email_code 仅有一个生效版本。</text>
+  <rect x="105" y="408" width="650" height="100" class="callout"/>
+  <text x="130" y="434" class="state-note">保存草稿选版：生效版本无草稿 → 新建 V(N+1) 草稿，原生效版本不变；</text>
+  <text x="130" y="456" class="state-note">仅过期版本且无草稿 → 复用 V(N)，2 → 3，并保留 effective_from / effective_until；</text>
+  <text x="130" y="478" class="state-note">预约版本 → 复用 V(N)，0 → 3 并保留时间；或通过版本删除软删除记录，</text>
+  <text x="130" y="500" class="state-note">保留 version_status = 0 和时间字段。两条预约取消路径均保持旧生效版本。</text>
 
   <rect x="60" y="555" width="1380" height="205" class="lane"/>
-  <text x="86" y="590" class="lane-title">泳道 B · Template 可用性与软删除控制</text>
+  <text x="86" y="590" class="lane-title">泳道 B · 模板可用性与软删除控制</text>
   <line x1="86" y1="606" x2="1414" y2="606" class="divider"/>
 
   <rect x="115" y="642" width="290" height="82" class="state control"/>
-  <text x="145" y="675" class="state-title">Enabled</text>
+  <text x="145" y="675" class="state-title">已启用</text>
   <text x="145" y="702" class="state-code">config.email_status = 1</text>
 
   <rect x="555" y="642" width="290" height="82" class="state control"/>
-  <text x="585" y="675" class="state-title">Disabled</text>
+  <text x="585" y="675" class="state-title">已停用</text>
   <text x="585" y="702" class="state-code">config.email_status = 0</text>
 
   <rect x="1060" y="642" width="300" height="82" class="state deleted"/>
-  <text x="1090" y="675" class="state-title">Soft Deleted</text>
-  <text x="1090" y="702" class="state-code">config/version.status → deleted</text>
+  <text x="1090" y="675" class="state-title">已软删除</text>
+  <text x="1090" y="702" class="state-code">主记录/版本 status → -1</text>
 
   <path d="M405 676 L555 676" class="line"/>
-  <text x="438" y="657" class="event">Deactivate</text>
+  <text x="438" y="657" class="event">停用</text>
   <path d="M555 706 C505 750 455 750 405 706" class="line"/>
-  <text x="440" y="748" class="event">Active / Reactivate</text>
+  <text x="440" y="748" class="event">启用 / 重新启用</text>
   <path d="M845 676 L1060 676" class="dash"/>
-  <text x="920" y="657" class="event">Delete</text>
+  <text x="920" y="657" class="event">删除</text>
   <path d="M405 650 C650 610 850 610 1060 650" class="dash"/>
-  <text x="665" y="625" class="event">Enabled 或 Disabled 均按现有 Delete 逻辑级联软删除</text>
-  <text x="1082" y="746" class="state-note">Deactivate / Delete 均不修改 version_status</text>
+  <text x="665" y="625" class="event">已启用或已停用均按现有删除逻辑级联软删除</text>
+  <text x="1082" y="746" class="state-note">停用和删除均不修改 version_status</text>
 </svg>

@@ -41,7 +41,7 @@ CREATE TEMPORARY TABLE tmp_lead93_tag_mapping (
   version varchar(10) NOT NULL,
   group_code varchar(50) NOT NULL,
   tag_code varchar(100) NOT NULL,
-  PRIMARY KEY (email_code, version, group_code)
+  PRIMARY KEY (email_code, version, group_code, tag_code)
 ) ENGINE=InnoDB;
 
 -- Convert the approved Category Framework and Template Tag Mapping files

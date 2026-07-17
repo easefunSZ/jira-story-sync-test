@@ -5,7 +5,7 @@ LEFT JOIN iic_msg_email_config_version v
   ON v.email_code = r.email_code
  AND v.version = r.version
  AND v.status = 0
-LEFT JOIN iic_msg_category_config s
+LEFT JOIN iic_msg_email_category s
   ON s.id = r.subcategory_id
  AND s.category_level = 2
  AND s.is_deleted = 0

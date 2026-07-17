@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
-  <title>LEAD-93 Gap Analysis</title>
-  <desc>Comparison of current capabilities, requirement gaps and target changes.</desc>
+  <title>LEAD-93 现状、需求差异与目标方案</title>
+  <desc>对比当前能力、新需求差异和本期目标改造。</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
       <path d="M0,0 L0,6 L9,3 z" fill="#64748b"/>
@@ -26,85 +26,85 @@
   </defs>
 
   <rect width="1500" height="900" fill="#f7f9fc"/>
-  <text x="60" y="54" class="title">Gap Analysis：从现状到 LEAD-93 目标能力</text>
-  <text x="60" y="82" class="subtitle">核心策略已确认；图中 Q/C 编号表示尚未关闭的业务或内网实现门禁。</text>
+  <text x="60" y="54" class="title">变化边界：从现状到 LEAD-93 目标能力</text>
+  <text x="60" y="82" class="subtitle">核心策略已确认；图中 Q 编号表示尚未关闭的业务问题。</text>
 
   <rect x="60" y="120" width="400" height="720" class="column"/>
   <rect x="60" y="120" width="400" height="62" class="as-head" rx="6"/>
   <rect x="60" y="176" width="400" height="6" class="as-head"/>
-  <text x="86" y="158" class="header">As-Is · 当前系统</text>
+  <text x="86" y="158" class="header">当前系统</text>
 
   <rect x="550" y="120" width="400" height="720" class="column"/>
   <rect x="550" y="120" width="400" height="62" class="gap-head" rx="6"/>
   <rect x="550" y="176" width="400" height="6" class="gap-head"/>
-  <text x="576" y="158" class="header">Gap · 需求差异</text>
+  <text x="576" y="158" class="header">需求差异</text>
 
   <rect x="1040" y="120" width="400" height="720" class="column"/>
   <rect x="1040" y="120" width="400" height="62" class="to-head" rx="6"/>
   <rect x="1040" y="176" width="400" height="6" class="to-head"/>
-  <text x="1066" y="158" class="header">To-Be · 本期方案</text>
+  <text x="1066" y="158" class="header">本期目标方案</text>
 
   <rect x="80" y="210" width="360" height="112" class="cell"/>
-  <text x="100" y="240" class="row-title">Category</text>
-  <text x="100" y="266" class="text">已有 iic_msg_category_config，</text>
-  <text x="100" y="287" class="text">但不是 Template 两级分类模型。</text>
+  <text x="100" y="240" class="row-title">分类</text>
+  <text x="100" y="266" class="text">模板管理没有专用分类表，</text>
+  <text x="100" y="287" class="text">也没有两级分类管理流程。</text>
   <rect x="570" y="210" width="360" height="112" class="gap-cell"/>
-  <text x="590" y="240" class="row-title">缺少可管理的两级 taxonomy</text>
-  <text x="590" y="266" class="text">Category / Subcategory 创建、编辑、</text>
+  <text x="590" y="240" class="row-title">缺少可管理的两级分类体系</text>
+  <text x="590" y="266" class="text">分类 / 子分类创建、编辑、</text>
   <text x="590" y="287" class="text">排序、软删除及模板归类。</text>
   <rect x="1060" y="210" width="360" height="112" class="to-cell"/>
-  <text x="1080" y="240" class="row-title">改造 iic_msg_category_config</text>
-  <text x="1080" y="266" class="text">增加 parent_id、level、sort_order 等；</text>
-  <text x="1080" y="287" class="text">level=1/2 定界；不新增 flag namespace。</text>
+  <text x="1080" y="240" class="row-title">新增 iic_msg_email_category</text>
+  <text x="1080" y="266" class="text">模板专用 parent_id、level、sort_order；</text>
+  <text x="1080" y="287" class="text">分类/子分类全局有效名称唯一。</text>
 
   <rect x="80" y="342" width="360" height="112" class="cell"/>
-  <text x="100" y="372" class="row-title">Tag</text>
-  <text x="100" y="398" class="text">当前 Template 无固定标签体系，</text>
+  <text x="100" y="372" class="row-title">标签</text>
+  <text x="100" y="398" class="text">当前模板无固定标签体系，</text>
   <text x="100" y="419" class="text">也无模板与标签的结构化关系。</text>
   <rect x="570" y="342" width="360" height="112" class="gap-cell"/>
-  <text x="590" y="372" class="row-title">缺少固定 Tag Taxonomy</text>
-  <text x="590" y="398" class="text">4 个必填组 + 2 个可选组；Draft</text>
-  <text x="590" y="419" class="text">必填组默认 Unclassified。</text>
+  <text x="590" y="372" class="row-title">缺少固定标签体系</text>
+  <text x="590" y="398" class="text">4 个必填组 + 2 个可选组；草稿</text>
+  <text x="590" y="419" class="text">必填组默认 Unclassified（未分类）。</text>
   <rect x="1060" y="342" width="360" height="112" class="to-cell"/>
-  <text x="1080" y="372" class="row-title">新增 Tag 字典与关系表</text>
-  <text x="1080" y="398" class="text">SQL 固定 seed；以后仅 DB 脚本维护；</text>
+  <text x="1080" y="372" class="row-title">新增标签字典与关系表</text>
+  <text x="1080" y="398" class="text">数据库脚本固定初始化；以后仍由脚本维护；</text>
   <text x="1080" y="419" class="text">按 email_code + version 保存标签。</text>
 
   <rect x="80" y="474" width="360" height="112" class="cell"/>
-  <text x="100" y="504" class="row-title">Search / Filter</text>
-  <text x="100" y="530" class="text">Published 与 Draft Tab 已有复杂、</text>
+  <text x="100" y="504" class="row-title">搜索与筛选</text>
+  <text x="100" y="530" class="text">已发布与草稿页已有复杂、</text>
   <text x="100" y="551" class="text">硬编码状态过滤规则。</text>
   <rect x="570" y="474" width="360" height="112" class="gap-cell"/>
-  <text x="590" y="504" class="row-title">需要 Category / Tag 等组合过滤</text>
-  <text x="590" y="530" class="text">同时不能改变现有 Tab 返回语义，</text>
+  <text x="590" y="504" class="row-title">需要分类、标签等组合过滤</text>
+  <text x="590" y="530" class="text">同时不能改变现有页签返回语义，</text>
   <text x="590" y="551" class="text">且结果需按 email_code 去重。</text>
   <rect x="1060" y="474" width="360" height="112" class="to-cell"/>
-  <text x="1080" y="504" class="row-title">复用 Tab Base Query 后扩展</text>
-  <text x="1080" y="530" class="text">先锁定 Published / Draft 基础集合，</text>
-  <text x="1080" y="551" class="text">读取 version.category_id；选版待 C02-C04。</text>
+  <text x="1080" y="504" class="row-title">复用页签基础查询后扩展</text>
+  <text x="1080" y="530" class="text">先锁定已发布 / 草稿基础集合，</text>
+  <text x="1080" y="551" class="text">读取 version.category_id；沿用已确认的选版规则。</text>
 
   <rect x="80" y="606" width="360" height="112" class="cell"/>
-  <text x="100" y="636" class="row-title">Template Lifecycle</text>
-  <text x="100" y="662" class="text">Draft / Schedule / Active / Expired</text>
-  <text x="100" y="683" class="text">及 Deactivate / Delete 已有逻辑。</text>
+  <text x="100" y="636" class="row-title">模板生命周期</text>
+  <text x="100" y="662" class="text">草稿 / 预约 / 生效 / 过期</text>
+  <text x="100" y="683" class="text">及停用 / 删除已有逻辑。</text>
   <rect x="570" y="606" width="360" height="112" class="gap-cell"/>
-  <text x="590" y="636" class="row-title">生命周期无 Gap；仅需接入 metadata</text>
-  <text x="590" y="662" class="text">Save Draft 保存时间但仍是 Draft；Publish</text>
-  <text x="590" y="683" class="text">才进入 Schedule。新 metadata 必须按版本隔离。</text>
+  <text x="590" y="636" class="row-title">生命周期不变；仅需接入元数据</text>
+  <text x="590" y="662" class="text">生效版本新建草稿；过期/预约复用 V(N)</text>
+  <text x="590" y="683" class="text">并保留时间。新元数据必须按版本隔离。</text>
   <rect x="1060" y="606" width="360" height="112" class="to-cell"/>
   <text x="1080" y="636" class="row-title">完整保留现有生命周期行为</text>
-  <text x="1080" y="662" class="text">Save Draft/Publish/Cancel/Scheduler 均不改；</text>
-  <text x="1080" y="683" class="text">仅把 Category/Tag 与目标 version 原子保存。</text>
+  <text x="1080" y="662" class="text">保留保存草稿、版本删除和定时任务；</text>
+  <text x="1080" y="683" class="text">不新增取消预约接口，仅接入目标版本元数据。</text>
 
   <rect x="80" y="738" width="360" height="78" class="cell"/>
-  <text x="100" y="768" class="row-title">Migration</text>
-  <text x="100" y="794" class="text">现有模板尚无新 taxonomy 映射。</text>
+  <text x="100" y="768" class="row-title">数据迁移</text>
+  <text x="100" y="794" class="text">现有模板尚无新分类和标签映射。</text>
   <rect x="570" y="738" width="360" height="78" class="gap-cell"/>
   <text x="590" y="768" class="row-title">需要一次性分类、标签与去重映射</text>
-  <text x="590" y="794" class="text">PO / BA 仍需确认 79 个模板映射。</text>
+  <text x="590" y="794" class="text">产品负责人 / 业务分析仍需确认 79 个模板映射。</text>
   <rect x="1060" y="738" width="360" height="78" class="to-cell"/>
-  <text x="1080" y="768" class="row-title">DBA 执行幂等 SQL</text>
-  <text x="1080" y="794" class="text">seed → mapping → validation → report。</text>
+  <text x="1080" y="768" class="row-title">数据库管理员执行幂等脚本</text>
+  <text x="1080" y="794" class="text">初始化 → 映射 → 校验 → 报告。</text>
 
   <path d="M460 265 L550 265" class="arrow"/>
   <path d="M950 265 L1040 265" class="arrow"/>
@@ -116,5 +116,5 @@
   <path d="M950 661 L1040 661" class="arrow"/>
   <path d="M460 777 L550 777" class="arrow"/>
   <path d="M950 777 L1040 777" class="arrow"/>
-  <text x="60" y="875" class="small">剩余业务/数据门禁：Q5 延至上线数据准备、Q6 Campaign 入口；代码门禁：C02-C18。未核对的 API/错误码不能作为实施事实。</text>
+  <text x="60" y="875" class="small">待确认项：BUS-01 上线数据、BUS-02 营销邮件入口、COPY-01 Copy and Create；详见登记册。</text>
 </svg>

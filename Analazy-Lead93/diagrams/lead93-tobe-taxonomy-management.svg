@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="900" viewBox="0 0 1500 900">
+  <title>LEAD-93 目标分类与标签管理边界</title>
+  <desc>分类由内容管理员通过接口管理，标签由数据库管理员通过脚本受控维护并以只读接口提供；两者通过元数据接口关联到具体模板版本。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
+    <style>
+      .title{font:700 29px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.section{font:700 19px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.category{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5}.tag{fill:#eff6ff;stroke:#3b82f6;stroke-width:1.5}.service{fill:#e0f2fe;stroke:#0284c7;stroke-width:1.5}.db{fill:#f0fdf4;stroke:#22c55e;stroke-width:1.5}.guard{fill:#fff1f2;stroke:#e11d48;stroke-width:1.4}.line{stroke:#475569;stroke-width:1.7;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1500" height="900" fill="#f7f9fc"/>
+  <text x="60" y="52" class="title">LEAD-93 目标分类与标签管理边界</text>
+  <text x="60" y="80" class="sub">分类是运行时可管理树；标签是固定字典。写入模板元数据时必须重新校验。</text>
+
+  <rect x="60" y="115" width="665" height="515" rx="6" class="panel"/>
+  <text x="90" y="155" class="section">分类 / 子分类 · 页面管理</text>
+  <rect x="110" y="190" width="260" height="72" rx="6" class="category"/>
+  <text x="135" y="220" class="h">内容管理页面</text><text x="135" y="244" class="body">新增 · 批量新增 · 重命名 · 排序 · 删除</text>
+  <rect x="415" y="190" width="260" height="72" rx="6" class="category"/>
+  <text x="440" y="220" class="h">分类接口</text><text x="440" y="244" class="body">运行时写接口 · 权限保护</text>
+  <path d="M370 226L415 226" class="line"/>
+
+  <rect x="110" y="305" width="565" height="88" rx="6" class="service"/>
+  <text x="135" y="335" class="h">分类服务</text>
+  <text x="135" y="359" class="body">两级层次 · 全局重名 · 1-5 条原子创建 · 同级排序</text>
+  <text x="135" y="381" class="small">新增专用表；category_code 由后端雪花算法生成</text>
+  <path d="M545 262L545 305" class="line"/>
+
+  <rect x="110" y="435" width="270" height="112" rx="6" class="guard"/>
+  <text x="135" y="465" class="h">迁移并删除</text>
+  <text x="135" y="490" class="body">迁移生效 / 草稿 / 预约版本</text>
+  <text x="135" y="514" class="small">过期版本不迁移 · 失败整体回滚</text>
+  <rect x="420" y="435" width="255" height="112" rx="6" class="db"/>
+  <text x="445" y="465" class="h">分类树</text>
+  <text x="445" y="490" class="code">新增 · iic_msg_email_category</text>
+  <text x="445" y="514" class="small">迁移成功后级联软删除</text>
+  <path d="M392 393L245 435" class="line"/><path d="M392 393L547 435" class="line"/>
+  <text x="110" y="590" class="small">有效节点：is_deleted = 0 且 category_level IN (1,2)</text>
+
+  <rect x="775" y="115" width="665" height="515" rx="6" class="panel"/>
+  <text x="805" y="155" class="section">标签组 / 标签值 · 数据库管理员受控维护</text>
+  <rect x="825" y="190" width="250" height="72" rx="6" class="tag"/>
+  <text x="850" y="220" class="h">数据库管理脚本</text><text x="850" y="244" class="body">初始化 · 新增 · 修改 · 停用</text>
+  <rect x="1120" y="190" width="270" height="72" rx="6" class="guard"/>
+  <text x="1145" y="220" class="h">引用预检查</text><text x="1145" y="244" class="body">存在引用或必填规则时阻止停用</text>
+  <path d="M1075 226L1120 226" class="line"/>
+
+  <rect x="825" y="305" width="565" height="88" rx="6" class="db"/>
+  <text x="850" y="335" class="h">固定标签字典</text>
+  <text x="850" y="359" class="code">iic_msg_tag_group · iic_msg_tag_value</text>
+  <text x="850" y="381" class="small">6 个标签组 · tag_code 全局唯一 · 4 个必填“未分类”值</text>
+  <path d="M1255 262L1255 305" class="line"/>
+
+  <rect x="825" y="435" width="270" height="112" rx="6" class="service"/>
+  <text x="850" y="465" class="h">只读标签查询接口</text>
+  <text x="850" y="490" class="body">只返回有效标签组和标签值</text>
+  <text x="850" y="514" class="small">无标签管理页面和写接口</text>
+  <rect x="1135" y="435" width="255" height="112" rx="6" class="tag"/>
+  <text x="1160" y="465" class="h">模板页面</text>
+  <text x="1160" y="490" class="body">每个标签组多选</text>
+  <text x="1160" y="514" class="small">搜索时同组使用“或者”</text>
+  <path d="M1107 393L960 435" class="line"/><path d="M1095 491L1135 491" class="line"/>
+  <text x="825" y="590" class="small">维护方式：首次固定初始化；以后只能通过审核后的数据库脚本</text>
+
+  <rect x="60" y="670" width="1380" height="170" rx="6" class="panel"/>
+  <text x="90" y="707" class="section">模板版本分配 · 分类和标签在这里汇合</text>
+  <rect x="130" y="735" width="300" height="70" rx="6" class="db"/>
+  <text x="155" y="764" class="h">版本分类</text><text x="155" y="788" class="code">version.category_id + subcategory_rel</text>
+  <rect x="590" y="735" width="320" height="70" rx="6" class="service"/>
+  <text x="615" y="764" class="h">元数据接口 / 服务</text><text x="615" y="788" class="body">校验分类和标签 · 同事务全量快照</text>
+  <rect x="1070" y="735" width="300" height="70" rx="6" class="db"/>
+  <text x="1095" y="764" class="h">版本标签</text><text x="1095" y="788" class="code">group_code + tag_code 关系</text>
+  <path d="M590 770L430 770" class="line"/><path d="M910 770L1070 770" class="line"/>
+  <path d="M392 630L392 690L750 690L750 735" class="line"/><path d="M1107 630L1107 690L750 690L750 735" class="line"/>
+  <text x="60" y="875" class="small">分类删除由后端原子迁移后软删；标签停用前必须处理有效引用，必填标签组及默认值不得停用。</text>
+</svg>

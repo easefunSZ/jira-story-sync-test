@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1520" height="900" viewBox="0 0 1520 900">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#526079"/></marker>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #172033; }
+      .sub { font: 400 15px Arial, sans-serif; fill: #526079; }
+      .head { font: 700 17px Arial, sans-serif; fill: #172033; }
+      .text { font: 400 14px Arial, sans-serif; fill: #354052; }
+      .small { font: 400 13px Arial, sans-serif; fill: #526079; }
+      .preview { fill: #eef6ff; stroke: #6b9fdf; stroke-width: 2; }
+      .use { fill: #fff7ed; stroke: #e9a34f; stroke-width: 2; }
+      .shared { fill: #eefbf3; stroke: #67ad82; stroke-width: 2; }
+      .error { fill: #fff1f2; stroke: #db7d88; stroke-width: 2; }
+      .line { stroke: #526079; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1520" height="900" fill="#f8fafc"/>
+  <text x="60" y="58" class="title">Preview 与 Use Template：共享入口、明确分流</text>
+  <text x="60" y="88" class="sub">Preview 不加载附件；Use Template 可在下游初始化阶段按既有机制加载附件，两者不是同一能力。</text>
+
+  <rect x="570" y="125" width="380" height="110" rx="8" class="shared"/>
+  <text x="600" y="160" class="head">用户从 Card / Detail 选择操作</text>
+  <text x="600" y="190" class="text">请求只携带 email_code，不信任页面缓存 version</text>
+  <text x="600" y="214" class="small">服务端重新校验 Adviser 权限与 Published 可见性</text>
+
+  <rect x="570" y="285" width="380" height="120" rx="8" class="shared"/>
+  <text x="600" y="320" class="head">Resolve Latest Active Version</text>
+  <text x="600" y="350" class="text">config 有效且启用 + version_status = 1</text>
+  <text x="600" y="376" class="text">读取该 version 对齐的 Category / Tags</text>
+
+  <path d="M760 235 V285" class="line"/>
+
+  <rect x="100" y="485" width="520" height="250" rx="8" class="preview"/>
+  <text x="135" y="525" class="head">Preview 路径</text>
+  <text x="135" y="560" class="text">1. 复用现有 Renderer 处理 Active 正文</text>
+  <text x="135" y="590" class="text">2. 返回 Title、Description、Category、Subcategory、Tags、Format</text>
+  <text x="135" y="620" class="text">3. 只读、不持久化、不修改任何状态</text>
+  <text x="135" y="650" class="text">4. 不读取、不下载、不渲染 file_keys 附件</text>
+  <text x="135" y="680" class="text">5. PDF / TXT / 图片 / 媒体附件均不支持 Preview</text>
+  <text x="135" y="712" class="small">关闭后前端恢复搜索、筛选、排序、页码与滚动位置</text>
+
+  <rect x="900" y="485" width="520" height="250" rx="8" class="use"/>
+  <text x="935" y="525" class="head">Use Template 路径</text>
+  <text x="935" y="560" class="text">1. 再次确认当前仍存在可见 Active version</text>
+  <text x="935" y="590" class="text">2. is_campaign = 0：初始化 Email Composer</text>
+  <text x="935" y="620" class="text">3. is_campaign = 1：初始化 Campaign Builder</text>
+  <text x="935" y="650" class="text">4. 下游可加载正文、正文图片和附件引用</text>
+  <text x="935" y="680" class="text">5. 初始化失败时停留原页面并返回可重试错误</text>
+  <text x="935" y="712" class="small">Campaign 入口、Payload 与附件加载 Contract 仍待确认</text>
+
+  <path d="M760 405 V445 H360 V485" class="line"/>
+  <path d="M760 405 V445 H1160 V485" class="line"/>
+  <text x="480" y="435" class="small">Preview</text>
+  <text x="1010" y="435" class="small">Use Template</text>
+
+  <rect x="530" y="785" width="460" height="70" rx="8" class="error"/>
+  <text x="560" y="815" class="head">无 Active / 已停用 / 已删除</text>
+  <text x="560" y="840" class="text">返回业务不可用错误，前端刷新当前列表；不得回退使用旧页面版本。</text>
+  <path d="M760 405 V785" class="line"/>
+</svg>

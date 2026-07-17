@@ -42,5 +42,5 @@
   <rect x="100" y="695" width="1240" height="55" class="pending"/>
   <text x="125" y="720" class="body">Discard 不删除 S3 对象，也不软删除 iic_msg_file_upload row；Publish 不新增物理清理、orphan 状态或后台清理任务。</text>
   <text x="125" y="742" class="small">10 MB 和格式限制由前端校验；后端仅沿用现有 file_keys 写入方式。</text>
-  <text x="60" y="815" class="small">C10 仅回填真实附件 API 与 file_keys 赋值代码，不再决定本期校验或清理方案。</text>
+  <text x="60" y="815" class="small">本期复用现有附件接口和 file_keys 写入方式，不新增附件清理机制。</text>
 </svg>

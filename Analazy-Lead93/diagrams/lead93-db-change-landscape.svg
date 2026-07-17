@@ -42,10 +42,10 @@
   <path d="M935 290L1070 290" class="dash"/><text x="970" y="272" class="event">file_keys</text>
 
   <text x="100" y="420" class="section">Version-Aligned Metadata</text>
-  <rect x="100" y="445" width="350" height="125" class="changed"/>
-  <text x="125" y="478" class="h">iic_msg_category_config</text>
-  <text x="125" y="504" class="body">复用为 Category / Subcategory 两级树</text>
-  <text x="125" y="528" class="code">新增 parent_id、category_level、sort_order...</text>
+  <rect x="100" y="445" width="350" height="125" class="new"/>
+  <text x="125" y="478" class="h">NEW · iic_msg_email_category</text>
+  <text x="125" y="504" class="body">新增 Template 专用两级分类树</text>
+  <text x="125" y="528" class="code">parent_id、category_level、sort_order...</text>
   <text x="125" y="550" class="small">主 Category 与 Subcategory 共用节点表</text>
 
   <rect x="535" y="445" width="350" height="125" class="new"/>
@@ -66,8 +66,8 @@
 
   <rect x="970" y="535" width="430" height="105" class="new"/>
   <text x="995" y="568" class="h">iic_msg_template_tag_rel</text>
-  <text x="995" y="594" class="body">Version → 每个 Group 最多一个 Tag Value</text>
-  <text x="995" y="620" class="code">email_code + version + group_code → tag_code</text>
+  <text x="995" y="594" class="body">Version → 每个 Group 可关联多个 Tag Value</text>
+  <text x="995" y="620" class="code">email_code + version + group_code + tag_code</text>
 
   <path d="M565 365C520 405 390 405 350 445" class="dash"/><text x="388" y="400" class="event">category_id → Category</text>
   <path d="M750 365L710 445" class="dash"/><text x="724" y="407" class="event">1:N</text>
@@ -78,8 +78,8 @@
   <path d="M1307 507L1285 535" class="dash"/>
 
   <rect x="100" y="620" width="785" height="70" class="support"/>
-  <text x="125" y="650" class="h">iic_msg_template_migration_snapshot</text>
-  <text x="125" y="674" class="body">上线前保存 Config / Version JSON 快照，仅用于 Migration 验证与受控回滚，不参与运行时查询。</text>
+  <text x="125" y="650" class="h">Migration Support：Snapshot + Execution Log</text>
+  <text x="125" y="674" class="body">Snapshot 保存修改前数据；Log 保存一次性执行结果。二者均不参与运行时 Template 查询。</text>
 
   <rect x="970" y="665" width="430" height="35" class="new"/>
   <text x="995" y="688" class="event">核心新增关系均按 email_code + version 对齐</text>

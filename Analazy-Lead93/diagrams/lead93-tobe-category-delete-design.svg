@@ -1,73 +1,45 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="820" viewBox="0 0 1500 820">
-  <title>LEAD-93 To-Be Category Delete Design</title>
-  <desc>Reference-protected soft delete for Category and Subcategory.</desc>
+  <title>LEAD-93 目标分类迁移并删除流程</title>
+  <desc>后端在一个事务中先迁移受影响的业务版本，再软删除分类节点。</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0 0L0 6L9 3z" fill="#475569"/></marker>
     <style>
-      .title{font:700 28px Arial;fill:#172033}.subtitle{font:400 15px Arial;fill:#526070}.lane{fill:#fff;stroke:#cbd5e1;stroke-width:1.5;rx:6}.laneTitle{font:700 18px Arial;fill:#172033}
-      .node{fill:#fff;stroke:#94a3b8;stroke-width:1.6;rx:6}.request{fill:#dbeafe;stroke:#3b82f6}.decision{fill:#fff7d6;stroke:#d69e2e}.success{fill:#dcfce7;stroke:#16a34a}.blocked{fill:#fee2e2;stroke:#dc2626}.noteBox{fill:#eef2ff;stroke:#6366f1}
-      .nodeTitle{font:700 15px Arial;fill:#172033}.code{font:700 12px Arial;fill:#334155}.note{font:400 12px Arial;fill:#526070}.warn{font:700 12px Arial;fill:#991b1b}.edge{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#arrow)}.label{font:700 12px Arial;fill:#334155}
+      .title{font:700 28px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.sub{font:400 15px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.h{font:700 15px Arial,"Microsoft YaHei",sans-serif;fill:#172033}.body{font:400 13px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.small{font:400 12px Arial,"Microsoft YaHei",sans-serif;fill:#526070}.code{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}.label{font:700 12px Arial,"Microsoft YaHei",sans-serif;fill:#334155}
+      .panel{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.request{fill:#dbeafe;stroke:#3b82f6;stroke-width:1.5}.step{fill:#e0f2fe;stroke:#0284c7;stroke-width:1.5}.guard{fill:#fff7db;stroke:#d69e2e;stroke-width:1.5}.success{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}.fail{fill:#fff1f2;stroke:#e11d48;stroke-width:1.5}.history{fill:#f1f5f9;stroke:#64748b;stroke-width:1.5}.edge{stroke:#475569;stroke-width:1.8;fill:none;marker-end:url(#arrow)}.dash{stroke:#64748b;stroke-width:1.5;stroke-dasharray:6 5;fill:none;marker-end:url(#arrow)}
     </style>
   </defs>
   <rect width="1500" height="820" fill="#f7f9fc"/>
-  <text x="60" y="54" class="title">To-Be 实现设计：Category / Subcategory Delete</text>
-  <text x="60" y="82" class="subtitle">引用保护、级联软删除和 LEAD-307 删除留痕已确定；真实权限与 API Contract 仍待内网核对。</text>
+  <text x="60" y="52" class="title">目标方案：分类 / 子分类迁移并删除</text>
+  <text x="60" y="80" class="sub">一个后端命令、一个数据库事务：先迁移仍在使用的版本，再软删除分类节点。</text>
+  <rect x="60" y="115" width="1380" height="585" rx="6" class="panel"/>
 
-  <rect x="60" y="120" width="1380" height="570" class="lane"/>
-  <text x="88" y="158" class="laneTitle">Category Delete Capability · Endpoint / Contract 待 C14</text>
+  <rect x="90" y="180" width="235" height="105" rx="6" class="request"/>
+  <text x="115" y="212" class="h">1. 查看影响并提交命令</text><text x="115" y="238" class="code">查询数量 → 提交目标节点</text><text x="115" y="262" class="small">正式命令重新查询，不信任预览</text>
+  <rect x="385" y="180" width="245" height="105" rx="6" class="guard"/>
+  <text x="410" y="212" class="h">2. 锁定分类节点</text><text x="410" y="238" class="body">源节点 / 子节点 / 目标节点</text><text x="410" y="262" class="small">固定 ID 顺序，全部必须有效</text>
+  <rect x="690" y="180" width="260" height="105" rx="6" class="guard"/>
+  <text x="715" y="212" class="h">3. 锁定受影响版本</text><text x="715" y="238" class="code">version_status IN (0,1,3)</text><text x="715" y="262" class="small">冻结 email_code + version 清单</text>
+  <rect x="1010" y="180" width="335" height="105" rx="6" class="step"/>
+  <text x="1035" y="212" class="h">4. 迁移元数据</text><text x="1035" y="238" class="body">替换主分类 / 子分类关系</text><text x="1035" y="262" class="small">标签、主表字段、version_status 均不变</text>
+  <path d="M325 232L385 232" class="edge"/><path d="M630 232L690 232" class="edge"/><path d="M950 232L1010 232" class="edge"/>
 
-  <rect x="95" y="220" width="210" height="100" class="node request"/>
-  <text x="120" y="252" class="nodeTitle">Delete Request</text>
-  <text x="120" y="278" class="code">category id + operator</text>
-  <text x="120" y="300" class="note">校验 Content Manager 权限</text>
+  <rect x="1010" y="390" width="335" height="105" rx="6" class="guard"/>
+  <text x="1035" y="422" class="h">5. 校验准确结果</text><text x="1035" y="448" class="body">版本行数、关系集合、目标层级</text><text x="1035" y="472" class="small">更新 0 行或数量不符均视为冲突</text>
+  <rect x="690" y="390" width="260" height="105" rx="6" class="success"/>
+  <text x="715" y="422" class="h">6. 软删除节点</text><text x="715" y="448" class="body">一级：父 + 子；二级：本节点</text><text x="715" y="472" class="small">记录 deleted_by / deleted_date</text>
+  <rect x="385" y="390" width="245" height="105" rx="6" class="success"/>
+  <text x="410" y="422" class="h">7. 提交事务</text><text x="410" y="448" class="body">分类树和筛选排除源节点</text><text x="410" y="472" class="small">软删除名称可重新创建</text>
+  <path d="M1177 285L1177 390" class="edge"/><path d="M1010 442L950 442" class="edge"/><path d="M690 442L630 442" class="edge"/>
 
-  <rect x="380" y="205" width="240" height="130" class="node decision"/>
-  <text x="405" y="238" class="nodeTitle">Load &amp; Lock Node</text>
-  <text x="405" y="264" class="code">is_deleted=0 AND level IN (1,2)</text>
-  <text x="405" y="286" class="code">SELECT ... FOR UPDATE</text>
-  <text x="405" y="308" class="note">Not Found 的 HTTP/error code 待 C14</text>
+  <rect x="90" y="390" width="235" height="105" rx="6" class="history"/>
+  <text x="115" y="422" class="h">过期版本</text><text x="115" y="448" class="body">不进入迁移清单</text><text x="115" y="472" class="small">原元数据保留</text>
+  <path d="M820 285C720 340 380 330 207 390" class="dash"/><text x="485" y="342" class="label">version_status = 2</text>
 
-  <path d="M305 270L380 270" class="edge"/>
-
-  <rect x="700" y="180" width="270" height="155" class="node decision"/>
-  <text x="725" y="214" class="nodeTitle">Reference Validation</text>
-  <text x="725" y="241" class="code">Level 1: main + all child refs</text>
-  <text x="725" y="265" class="code">Level 2: selected node refs</text>
-  <text x="725" y="289" class="note">Active/Draft/Schedule 阻止删除</text>
-  <text x="725" y="313" class="note">Disabled 仍计入；Expired 不阻止</text>
-  <path d="M620 270L700 270" class="edge"/>
-
-  <rect x="1080" y="165" width="285" height="145" class="node blocked"/>
-  <text x="1105" y="200" class="nodeTitle">Blocked: Category In Use</text>
-  <text x="1105" y="228" class="warn">HTTP / error code 待 C14</text>
-  <text x="1105" y="251" class="note">Category / Subcategory 保持不变</text>
-  <text x="1105" y="276" class="note">可返回引用类型/数量，Contract 待确认</text>
-  <path d="M970 225L1080 225" class="edge"/>
-  <text x="1000" y="211" class="label">has reference</text>
-
-  <rect x="710" y="440" width="260" height="135" class="node success"/>
-  <text x="735" y="474" class="nodeTitle">Cascade Soft Delete</text>
-  <text x="735" y="502" class="code">Level 1: parent + all children</text>
-  <text x="735" y="526" class="code">Level 2: selected node only</text>
-  <text x="735" y="550" class="note">记录 deleted_by / deleted_date</text>
-  <path d="M835 335L835 440" class="edge"/>
-  <text x="848" y="392" class="label">no reference</text>
-
-  <rect x="1080" y="430" width="285" height="155" class="node noteBox"/>
-  <text x="1105" y="464" class="nodeTitle">Commit &amp; Deletion Retention</text>
-  <text x="1105" y="491" class="code">Success response 待 C14</text>
-  <text x="1105" y="515" class="note">保留 ID/Name；写 deleted_by/date</text>
-  <text x="1105" y="538" class="note">Tree/Search 立即排除该节点</text>
-  <text x="1105" y="561" class="note">Expired 不阻止；不提供历史 Metadata 查看</text>
-  <path d="M970 507L1080 507" class="edge"/>
-
-  <rect x="95" y="425" width="475" height="175" class="node noteBox"/>
-  <text x="120" y="460" class="nodeTitle">Concurrency Contract</text>
-  <text x="120" y="490" class="note">新增/更新 Template Category relation 时也必须锁定目标 Category row。</text>
-  <text x="120" y="516" class="note">Delete 与 relation write 通过数据库行锁串行，避免“检查后新增引用”。</text>
-  <text x="120" y="542" class="note">不新增 Redis lock；事务失败整体回滚。</text>
-  <text x="120" y="568" class="note">一级 Category 无任何模板引用时，父子节点在同一事务级联软删除。</text>
-
-  <text x="95" y="724" class="subtitle">数据引用：version.category_id + Subcategory relation；Active/Draft/Schedule 阻止，Expired 不阻止。</text>
-  <text x="95" y="748" class="subtitle">已删除名称可重建；门禁仅剩 C11/C14/C17 权限、Contract 与复用能力；不新增独立 Audit。</text>
+  <rect x="1010" y="560" width="335" height="90" rx="6" class="fail"/>
+  <text x="1035" y="592" class="h">失败或版本冲突</text><text x="1035" y="618" class="body">整体回滚；元数据和源节点均保持不变</text>
+  <path d="M1177 495L1177 560" class="edge"/><text x="1192" y="532" class="label">任一校验失败</text>
+  <rect x="90" y="560" width="860" height="90" rx="6" class="request"/>
+  <text x="115" y="592" class="h">分级处理规则</text>
+  <text x="115" y="618" class="body">一级：目标分类不得位于待删除子树，子分类快照全量替换。二级：目标子分类必须属于原父分类，其他有效同级关系保留。</text>
+  <text x="60" y="755" class="sub">删除节点保留 deleted_by / deleted_date；正式错误码在接口约定中冻结。</text>
 </svg>
