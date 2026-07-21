@@ -1,55 +1,36 @@
-INSERT INTO iic_msg_tag_value
-  (group_code, tag_code, tag_name, is_default, sort_order,
-   status, created_by, updated_by)
-VALUES
-  ('CONTENT_TYPE', 'CONTENT_TYPE_UNCLASSIFIED', 'Unclassified', 1, 0, 0, @migration_user, @migration_user),
-  ('TRIGGER', 'TRIGGER_UNCLASSIFIED', 'Unclassified', 1, 0, 0, @migration_user, @migration_user),
-  ('LIFECYCLE_STAGE', 'LIFECYCLE_STAGE_UNCLASSIFIED', 'Unclassified', 1, 0, 0, @migration_user, @migration_user),
-  ('FINANCIAL_NEED', 'FINANCIAL_NEED_UNCLASSIFIED', 'Unclassified', 1, 0, 0, @migration_user, @migration_user)
-ON DUPLICATE KEY UPDATE
-  group_code = VALUES(group_code),
-  tag_name = VALUES(tag_name),
-  is_default = VALUES(is_default),
-  status = 0,
-  updated_by = VALUES(updated_by),
-  updated_date = CURRENT_TIMESTAMP;
-
--- Controlled maintenance template: deactivate one Tag Value only when it is
--- not a Mandatory Group default and is not referenced by an Active, Draft, or
--- Schedule Template Version. When the variable is non-NULL, a guarded update
--- that affects 0 rows must be treated as a failed maintenance action.
-UPDATE iic_msg_tag_value v
-JOIN iic_msg_tag_group g ON g.group_code = v.group_code
-SET v.status = -1,
-    v.updated_by = @migration_user,
-    v.updated_date = CURRENT_TIMESTAMP
-WHERE v.tag_code = @tag_code_to_deactivate
-  AND v.status = 0
-  AND NOT (g.is_mandatory = 1 AND v.is_default = 1)
-  AND NOT EXISTS (
-    SELECT 1
-    FROM iic_msg_template_tag_rel r
-    JOIN iic_msg_email_config_version ev
-      ON ev.email_code = r.email_code
-     AND ev.version = r.version
-     AND ev.status = 0
-    WHERE r.tag_code = v.tag_code
-      AND r.status = 0
-      AND ev.version_status IN (0, 1, 3)
-  );
-
-UPDATE iic_msg_tag_value v
-JOIN iic_msg_template_migration_snapshot s ON s.source_batch_id = @migration_batch_id AND s.record_type = 'TAG_VALUE' AND s.record_key = v.tag_code AND s.action_type = 'UPDATE'
-SET v.group_code = JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.group_code')),
-    v.tag_name = JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.tag_name')),
-    v.is_default = CAST(JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.is_default')) AS UNSIGNED),
-    v.sort_order = CAST(JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.sort_order')) AS SIGNED),
-    v.status = CAST(JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.status')) AS SIGNED),
-    v.updated_by = @migration_user,
-    v.updated_date = CURRENT_TIMESTAMP
-WHERE @lead93_rollback = 1;
-
-UPDATE iic_msg_tag_value v
-JOIN iic_msg_template_migration_snapshot s ON s.source_batch_id = @migration_batch_id AND s.record_type = 'TAG_VALUE' AND s.record_key = v.tag_code AND s.action_type = 'INSERT'
-SET v.status = -1, v.updated_by = @migration_user, v.updated_date = CURRENT_TIMESTAMP
-WHERE @lead93_rollback = 1;
+-- Initial values combine Tag_Taxonomy_with_Descriptions.xlsx with the values
+-- already used by Final_Template_Tag_Mapping_Business_Review v1.0.xlsx.
+-- Descriptions absent from both approved inputs remain NULL.
+INSERT INTO iic_msg_tag_value (group_code, tag_code, tag_name, description, sort_order)
+VALUES ('CONTENT_TYPE', 'CONTENT_TYPE_EMAIL', 'Email', 'Standard email communication', 10),
+       ('CONTENT_TYPE', 'CONTENT_TYPE_VIDEO', 'Video', 'Video-based content', 20),
+       ('CONTENT_TYPE', 'CONTENT_TYPE_INFOGRAPHIC', 'Infographic', 'Visual informational content', 30),
+       ('TRIGGER', 'TRIGGER_BIRTHDAY', 'Birthday', 'Client birthday communication trigger', 10),
+       ('TRIGGER', 'TRIGGER_MARRIAGE', 'Marriage', 'Client marriage life event', 20),
+       ('TRIGGER', 'TRIGGER_BIRTH_NEW_CHILD', 'Birth / New Child', 'New child life event', 30),
+       ('TRIGGER', 'TRIGGER_RETIREMENT', 'Retirement', 'Client retirement milestone', 40),
+       ('TRIGGER', 'TRIGGER_ANNUAL_REVIEW', 'Annual Review', 'Scheduled annual financial review', 50),
+       ('TRIGGER', 'TRIGGER_TAX_SEASON', 'Tax Season', 'Tax period engagement', 60),
+       ('TRIGGER', 'TRIGGER_FESTIVE_SEASON', 'Festive Season', 'End-of-year seasonal communication', 70),
+       ('TRIGGER', 'TRIGGER_ADVISER_ACTIVITY', 'Adviser Activity', NULL, 80),
+       ('TRIGGER', 'TRIGGER_AWARENESS_MONTHS', 'Awareness Months', NULL, 90),
+       ('TRIGGER', 'TRIGGER_DEATH_BEREAVEMENT', 'Death / Bereavement', NULL, 100),
+       ('TRIGGER', 'TRIGGER_FATHERS_DAY', 'Father’s Day', NULL, 110),
+       ('TRIGGER', 'TRIGGER_NEW_ADVISER_INTRODUCTION', 'New Adviser Introduction', NULL, 120),
+       ('TRIGGER', 'TRIGGER_SPECIAL_OFFER', 'Special Offer', NULL, 130),
+       ('LIFECYCLE_STAGE', 'LIFECYCLE_STAGE_PROSPECT', 'Prospect', 'Potential new client', 10),
+       ('LIFECYCLE_STAGE', 'LIFECYCLE_STAGE_EXISTING_CLIENT', 'Existing Client', 'Current client', 20),
+       ('LIFECYCLE_STAGE', 'LIFECYCLE_STAGE_RETENTION', 'Retention', 'Client retention focus', 30),
+       ('LIFECYCLE_STAGE', 'LIFECYCLE_STAGE_NEW_CLIENT', 'New Client', NULL, 40),
+       ('LIFECYCLE_STAGE', 'LIFECYCLE_STAGE_REVIEW', 'Review', NULL, 50),
+       ('FINANCIAL_NEED', 'FINANCIAL_NEED_PROTECT', 'Protect', 'Insurance and risk protection needs', 10),
+       ('FINANCIAL_NEED', 'FINANCIAL_NEED_GROW_WEALTH', 'Grow Wealth', 'Investment and wealth growth', 20),
+       ('FINANCIAL_NEED', 'FINANCIAL_NEED_SAVE', 'Save', 'Savings and short-term goals', 30),
+       ('FINANCIAL_NEED', 'FINANCIAL_NEED_AWARENESS', 'Awareness', NULL, 40),
+       ('FINANCIAL_NEED', 'FINANCIAL_NEED_ENGAGEMENT', 'Engagement', NULL, 50),
+       ('FINANCIAL_NEED', 'FINANCIAL_NEED_FINANCIAL_EDUCATION', 'Financial Education', NULL, 60),
+       ('FINANCIAL_NEED', 'FINANCIAL_NEED_MANAGE_LIFE_CHANGES', 'Manage Life Changes', NULL, 70),
+       ('FINANCIAL_NEED', 'FINANCIAL_NEED_PLAN_RETIREMENT', 'Plan Retirement', NULL, 80),
+       ('PROPOSITION_SOURCE', 'PROPOSITION_SOURCE_OM_BANK', 'OM Bank', 'OM Bank offering related', 10),
+       ('PROPOSITION_SOURCE', 'PROPOSITION_SOURCE_REWARDS', 'Rewards', 'Rewards programme related', 20)
+ON DUPLICATE KEY UPDATE group_code = VALUES(group_code), tag_name = VALUES(tag_name), description = VALUES(description), sort_order = VALUES(sort_order);

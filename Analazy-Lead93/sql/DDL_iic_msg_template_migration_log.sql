@@ -1,1 +1,14 @@
-CREATE TABLE IF NOT EXISTS iic_msg_template_migration_log (id bigint unsigned NOT NULL AUTO_INCREMENT, source_batch_id varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL, record_key varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'BATCH or email_code|version', email_code varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL, version varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL, migration_action varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL, action_reason varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL, before_version_status int DEFAULT NULL, after_version_status int DEFAULT NULL, execution_result varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'STARTED, SUCCESS or FAILED', affected_rows int NOT NULL DEFAULT 0, error_message varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL, executed_by varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'system', executed_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id) USING BTREE, UNIQUE KEY uk_template_migration_log (source_batch_id, record_key, migration_action), KEY idx_template_migration_log_result (source_batch_id, execution_result), KEY idx_template_migration_log_email (email_code, version)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC COMMENT='LEAD-93 one-time migration execution log; not runtime audit';
+CREATE TABLE IF NOT EXISTS iic_msg_template_migration_log (
+  id bigint unsigned NOT NULL AUTO_INCREMENT,
+  batch_id varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  execution_status varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'STARTED, SUCCESS or FAILED',
+  total_count int NOT NULL DEFAULT 0,
+  success_count int NOT NULL DEFAULT 0,
+  failed_count int NOT NULL DEFAULT 0,
+  error_message varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  executed_by varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'system',
+  started_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  completed_date datetime DEFAULT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uk_template_migration_log_batch (batch_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='LEAD-93 one-time migration batch log; not runtime audit';

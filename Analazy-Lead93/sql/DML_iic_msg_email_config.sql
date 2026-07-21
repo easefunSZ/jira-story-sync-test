@@ -26,16 +26,11 @@ WHERE @lead93_apply_deactivate = 1
   AND c.status = 0
   AND m.migration_action IN ('DEACTIVATE_DUPLICATE', 'DEACTIVATE_OUTDATED');
 
+-- Assign the approved current main Category once per Template.
 UPDATE iic_msg_email_config c
-JOIN iic_msg_template_migration_snapshot s
-  ON s.record_type = 'CONFIG'
- AND s.action_type = 'UPDATE'
- AND s.record_id = c.id
- AND s.source_batch_id = @migration_batch_id
-SET c.email_name = JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.email_name')),
-    c.description = NULLIF(JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.description')), 'null'),
-    c.email_status = CAST(JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.email_status')) AS SIGNED),
-    c.status = CAST(JSON_UNQUOTE(JSON_EXTRACT(s.snapshot_json, '$.status')) AS SIGNED),
+JOIN tmp_lead93_template_category_mapping m ON m.email_code = c.email_code
+JOIN iic_msg_email_category category_node ON category_node.category_name = m.category_name AND category_node.parent_id IS NULL AND category_node.is_deleted = 0
+SET c.category_id = category_node.id,
     c.updated_by = @migration_user,
     c.updated_date = CURRENT_TIMESTAMP
-WHERE @lead93_rollback = 1;
+WHERE c.status = 0;

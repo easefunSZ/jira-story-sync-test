@@ -1,5 +1,4 @@
--- LEAD-93 one-time DDL: Published list filtering and stable sorting.
--- Candidate index: approve for deployment only after EXPLAIN against the
--- confirmed inner-network Published/Draft List and Count SQL.
-ALTER TABLE iic_msg_email_config
-  ADD KEY idx_email_config_published (status, email_status, is_campaign, updated_date, email_code);
+-- LEAD-93 one-time DDL: store the current main Category and Copy source on the Template master.
+ALTER TABLE iic_msg_email_config ADD COLUMN category_id bigint unsigned DEFAULT NULL COMMENT '当前主 Category ID；关联 iic_msg_email_category.id';
+ALTER TABLE iic_msg_email_config ADD COLUMN copy_from_email_code varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Copy and Create 来源 email_code；仅用于管理端发布提醒';
+ALTER TABLE iic_msg_email_config ADD KEY idx_email_config_category (category_id, status, email_status, is_campaign);

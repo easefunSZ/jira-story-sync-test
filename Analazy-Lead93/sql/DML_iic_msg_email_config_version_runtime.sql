@@ -1,51 +1,8 @@
 -- LEAD-93 runtime version mapper templates. This file is not part of the DBA
 -- deployment sequence.
 
--- Initialize the main Category after the existing Save Draft flow has inserted
--- a new Working Copy version from the current Active version. Run in the same
--- transaction as the Draft insert and relation copies below.
-UPDATE iic_msg_email_config_version draft
-JOIN iic_msg_email_config_version active
-  ON active.email_code = draft.email_code
- AND active.version = :active_version
- AND active.status = 0
- AND active.version_status = 1
-SET draft.category_id = active.category_id,
-    draft.updated_by = :operator,
-    draft.updated_date = CURRENT_TIMESTAMP
-WHERE draft.email_code = :email_code
-  AND draft.version = :draft_version
-  AND draft.status = 0
-  AND draft.version_status = 3;
-
--- The service must require affected_rows = 1. This initialization runs only
--- when a new Draft Working Copy is inserted, not when updating an existing Draft.
-
--- Metadata Update API: replace the primary Category for one explicit version.
--- The service validates Draft/Active completeness before this statement and
--- executes it in the same transaction as both relation replacements.
-UPDATE iic_msg_email_config_version
-SET category_id = :category_id,
-    updated_by = :operator,
-    updated_date = CURRENT_TIMESTAMP
-WHERE email_code = :email_code
-  AND version = :version
-  AND status = 0
-  AND version_status IN (1, 3);
-
--- Require affected_rows = 1. A Draft may pass category_id = NULL; an Active
--- version must pass a valid level-1 Category and complete Published metadata.
-
--- Save Draft when the selected row is Expired. Reuse V(N), change only the
--- lifecycle state here, and preserve effective_from/effective_until.
-UPDATE iic_msg_email_config_version
-SET version_status = 3,
-    updated_by = :operator,
-    updated_date = CURRENT_TIMESTAMP
-WHERE email_code = :email_code
-  AND version = :version
-  AND status = 0
-  AND version_status = 2;
+-- Category/Subcategory/Tag are Template-level current attributes and therefore
+-- are not copied, replaced or deleted by Version lifecycle operations.
 
 -- Save Draft when the selected row is Scheduled. Reuse V(N), change 0 -> 3,
 -- and preserve effective_from/effective_until. The existing Save Draft mapper
@@ -70,6 +27,15 @@ WHERE email_code = :email_code
   AND status = 0
   AND version_status = 0;
 
--- Each branch must require affected_rows = 1. A zero-row result is handled by
+-- Each UPDATE branch must require affected_rows = 1. A zero-row result is handled by
 -- the existing Version Conflict path. LEAD-93 adds no revision token, edit-lock
 -- column, Redis lock, or new conflict mechanism.
+
+-- Copy and Create: insert the independent Template B V1 Draft after its config
+-- row has been inserted. file_keys/thumbnail_key are reference values only; this
+-- operation does not copy S3 objects or iic_msg_file_upload rows.
+INSERT INTO iic_msg_email_config_version (module_code, scenario_code, email_code, version, effective_way, effective_from, effective_until, title, edit_mode, email_content, text_content, version_status, tenant_id, created_by, created_date, updated_by, updated_date, status, file_keys, thumbnail_key, dae_country_code)
+VALUES (:module_code, :scenario_code, :new_email_code, 'V1', NULL, NULL, NULL, :title, :edit_mode, :email_content, :text_content, 3, :tenant_id, :operator, CURRENT_TIMESTAMP, :operator, CURRENT_TIMESTAMP, 0, :file_keys, :thumbnail_key, :dae_country_code);
+
+-- Require affected_rows = 1. The config Insert, this Insert, Metadata relation
+-- Inserts and CREATE History Insert are one transaction and roll back together.

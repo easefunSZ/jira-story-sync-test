@@ -1,46 +1,26 @@
--- LEAD-93 runtime Category mapper templates. This file is not part of the DBA
--- deployment sequence. Service validation and transaction handling are required.
+-- Runtime Category mapper templates. Service validation and transaction handling are required.
 
--- Create Category/Subcategory. category_code is a backend-generated Snowflake
--- ID converted to varchar; the frontend neither supplies nor edits it.
-INSERT INTO iic_msg_email_category
-  (tenant_id, category_code, category_name, normalized_name, description,
-   parent_id, category_level, sort_order, is_deleted,
-   created_by, updated_by, dae_country_code)
-VALUES
-  (:tenant_id, :backend_snowflake_category_code, :category_name,
-   LOWER(TRIM(:category_name)), :description, :parent_id, :category_level,
-   :sort_order, 0, :operator, :operator, :dae_country_code);
+-- Create Category/Subcategory. A NULL parent_id creates a Category; a non-NULL
+-- parent_id must resolve to an active level-1 Category.
+INSERT INTO iic_msg_email_category (category_name, description, parent_id, sort_order, is_deleted, created_by, updated_by)
+VALUES (:category_name, :description, :parent_id, :sort_order, 0, :operator, :operator);
 
--- Batch-create 1-5 Subcategories under one active parent. The service must
--- validate the complete batch before executing this one multi-row statement.
--- MyBatis/DAO expands one VALUES tuple per request item and supplies a distinct
--- backend Snowflake code. Any duplicate or insert failure rolls back the batch.
-INSERT INTO iic_msg_email_category
-  (tenant_id, category_code, category_name, normalized_name, description,
-   parent_id, category_level, sort_order, is_deleted,
-   created_by, updated_by, dae_country_code)
-VALUES
-  (:tenant_id, :snowflake_code_1, :name_1, LOWER(TRIM(:name_1)), :description_1, :parent_id, 2, :sort_order_1, 0, :operator, :operator, :dae_country_code),
-  (:tenant_id, :snowflake_code_2, :name_2, LOWER(TRIM(:name_2)), :description_2, :parent_id, 2, :sort_order_2, 0, :operator, :operator, :dae_country_code);
+-- Batch-create 1-5 Subcategories under one active parent. MyBatis/DAO expands
+-- exactly one tuple per request item after validating the complete batch.
+INSERT INTO iic_msg_email_category (category_name, description, parent_id, sort_order, is_deleted, created_by, updated_by)
+VALUES (:name_1, :description_1, :parent_id, :sort_order_1, 0, :operator, :operator),
+       (:name_2, :description_2, :parent_id, :sort_order_2, 0, :operator, :operator);
 
--- The second tuple above is illustrative. Generate exactly 1-5 tuples and
--- require affected_rows = submitted item count. Never loop independent commits.
-
--- Rename/Edit one active Template taxonomy node. The generated unique column
--- rejects a normalized-name conflict with another active node.
+-- Rename or edit one active node.
 UPDATE iic_msg_email_category
-SET category_name = :category_name,
-    normalized_name = LOWER(TRIM(:category_name)),
-    description = :description,
-    updated_by = :operator,
-    updated_date = CURRENT_TIMESTAMP
-WHERE id = :category_id
-  AND category_level IN (1, 2)
-  AND is_deleted = 0;
+SET category_name = :category_name, description = :description, updated_by = :operator, updated_date = CURRENT_TIMESTAMP
+WHERE id = :category_id AND is_deleted = 0;
 
--- Reorder mapper template. MyBatis/DAO expands the CASE and IN placeholders
--- for the complete sibling set after validating level, parent and duplicate IDs.
+-- Reorder a complete sibling set. A NULL :parent_id addresses level-1 nodes.
+-- The Service first locks and compares the complete active sibling ID set,
+-- rejects duplicates/cross-parent/stale requests, then assigns dense positions
+-- 1..N in the submitted order. Do not use MySQL changed-row count as the only
+-- success condition because unchanged positions may report 0 changed rows.
 UPDATE iic_msg_email_category
 SET sort_order = CASE id
       WHEN :node_id_1 THEN :sort_order_1
@@ -50,12 +30,13 @@ SET sort_order = CASE id
     updated_by = :operator,
     updated_date = CURRENT_TIMESTAMP
 WHERE id IN (:node_id_1, :node_id_2)
-  AND category_level = :category_level
-  AND is_deleted = 0
-  AND (
-    (:category_level = 1 AND parent_id IS NULL)
-    OR (:category_level = 2 AND parent_id = :parent_id)
-  );
+  AND parent_id <=> :parent_id
+  AND is_deleted = 0;
 
--- The service must lock and verify the complete sibling set before this update.
--- MySQL affected_rows may be lower when a submitted sort_order is unchanged.
+-- After UPDATE, re-read and compare the authoritative order before commit.
+SELECT id, sort_order
+FROM iic_msg_email_category
+WHERE parent_id <=> :parent_id AND is_deleted = 0
+ORDER BY sort_order, id;
+
+-- The service locks and verifies the complete sibling set before reordering.

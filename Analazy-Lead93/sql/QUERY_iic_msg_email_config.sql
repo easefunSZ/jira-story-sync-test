@@ -2,13 +2,17 @@
 -- Cross-dimension filters use AND. Add one Tag EXISTS block per selected group.
 --
 -- REVIEW STATUS:
--- - Confirmed deltas in this file: is_campaign is mandatory; metadata joins use
---   email_code + result version; same-dimension multi-select uses OR/ANY;
---   Keyword excludes Category/Subcategory Name.
--- - Do not deploy the Draft query until the existing Mapper's selected-version
---   rule is filled in from C03/C04.
--- - Template Title is iic_msg_email_config.email_name. Email Subject is
---   iic_msg_email_config_version.title and is not substituted for Title.
+-- - Confirmed deltas in this file: is_campaign is mandatory; Category/Tag
+--   metadata is current Template-level data keyed by email_code;
+--   same-dimension multi-select uses OR/ANY;
+--   Keyword matches Template Name, Email Subject, Description and Tag Name;
+--   Category/Subcategory Name remains excluded.
+-- - Draft/Admin returns one row per email_code and selects the greatest numeric
+--   V(N). Never compare version strings lexicographically (V10 must be newer
+--   than V9).
+-- - Template Name is iic_msg_email_config.email_name. Email Subject is
+--   iic_msg_email_config_version.title. The PRD requires both fields in the
+--   same keyword search scope.
 
 -- Published Search / Filter: first page distinct email_code values.
 WITH published_scope AS (
@@ -31,36 +35,32 @@ published_filtered AS (
     ON rv.email_code = s.email_code
    AND rv.version = s.result_version
    AND rv.status = 0
-  WHERE (:category_id IS NULL OR rv.category_id = :category_id)
+  WHERE (:category_id IS NULL OR c.category_id = :category_id)
     /* Optional Subcategory ANY:
     AND EXISTS (
       SELECT 1 FROM iic_msg_template_category_rel cr
       WHERE cr.email_code = s.email_code
-        AND cr.version = s.result_version
-        AND cr.status = 0
         AND cr.subcategory_id IN (:subcategory_ids)
     ) */
     /* Optional Tag Group ANY; repeat per selected group:
     AND EXISTS (
       SELECT 1 FROM iic_msg_template_tag_rel tr
+      JOIN iic_msg_tag_value tv ON tv.tag_code = tr.tag_code
       WHERE tr.email_code = s.email_code
-        AND tr.version = s.result_version
-        AND tr.status = 0
-        AND tr.group_code = :group_code
+        AND tv.group_code = :group_code
         AND tr.tag_code IN (:tag_codes_in_group)
     ) */
     AND (
       :keyword IS NULL OR :keyword = ''
       OR c.email_name LIKE CONCAT('%', :keyword, '%') ESCAPE '\\'
+      OR rv.title LIKE CONCAT('%', :keyword, '%') ESCAPE '\\'
       OR c.description LIKE CONCAT('%', :keyword, '%') ESCAPE '\\'
       OR EXISTS (
         SELECT 1
         FROM iic_msg_template_tag_rel tr
         JOIN iic_msg_tag_value tv
-          ON tv.tag_code = tr.tag_code AND tv.status = 0
+          ON tv.tag_code = tr.tag_code
         WHERE tr.email_code = s.email_code
-          AND tr.version = s.result_version
-          AND tr.status = 0
           AND tv.tag_name LIKE CONCAT('%', :keyword, '%') ESCAPE '\\'
       )
     )
@@ -71,19 +71,29 @@ FROM published_filtered
 ORDER BY sort_updated_date DESC, email_code DESC
 LIMIT :limit OFFSET :offset;
 
--- Draft Search / Filter: preserve the three confirmed OR branches.
-WITH draft_scope AS (
-  -- Candidate versions only. C03/C04 must confirm which candidate the existing
-  -- List/Detail Mapper returns when multiple rows coexist.
-  SELECT DISTINCT c.email_code, v.version AS result_version
+-- Draft Search / Filter: preserve the three confirmed OR branches, then select
+-- exactly one result version per email_code by greatest numeric V(N).
+WITH draft_candidates AS (
+  SELECT c.email_code,
+         v.version AS result_version,
+         ROW_NUMBER() OVER (
+           PARTITION BY c.email_code
+           ORDER BY CAST(SUBSTRING(v.version, 2) AS UNSIGNED) DESC, v.id DESC
+         ) AS version_rank
   FROM iic_msg_email_config c
   JOIN iic_msg_email_config_version v ON v.email_code = c.email_code
   WHERE c.is_campaign = :is_campaign
+    AND v.status = 0
     AND (
       c.email_status = 0
       OR (c.status = 0 AND v.version_status IN (0, 3) AND v.version <> 'V1')
       OR (v.version_status IN (0, 3) AND v.version = 'V1')
     )
+),
+draft_scope AS (
+  SELECT email_code, result_version
+  FROM draft_candidates
+  WHERE version_rank = 1
 ),
 draft_filtered AS (
   SELECT s.email_code, s.result_version,
@@ -94,20 +104,19 @@ draft_filtered AS (
     ON rv.email_code = s.email_code
    AND rv.version = s.result_version
    AND rv.status = 0
-  WHERE (:category_id IS NULL OR rv.category_id = :category_id)
+  WHERE (:category_id IS NULL OR c.category_id = :category_id)
     /* Insert the same optional Subcategory/Tag EXISTS blocks as Published. */
     AND (
       :keyword IS NULL OR :keyword = ''
       OR c.email_name LIKE CONCAT('%', :keyword, '%') ESCAPE '\\'
+      OR rv.title LIKE CONCAT('%', :keyword, '%') ESCAPE '\\'
       OR c.description LIKE CONCAT('%', :keyword, '%') ESCAPE '\\'
       OR EXISTS (
         SELECT 1
         FROM iic_msg_template_tag_rel tr
         JOIN iic_msg_tag_value tv
-          ON tv.tag_code = tr.tag_code AND tv.status = 0
+          ON tv.tag_code = tr.tag_code
         WHERE tr.email_code = s.email_code
-          AND tr.version = s.result_version
-          AND tr.status = 0
           AND tv.tag_name LIKE CONCAT('%', :keyword, '%') ESCAPE '\\'
       )
     )
@@ -125,3 +134,31 @@ LIMIT :limit OFFSET :offset;
 -- Append to the existing detail mapper to preserve page order:
 -- AND existing_result.email_code IN (:paged_email_codes)
 -- ORDER BY FIELD(existing_result.email_code, :paged_email_codes);
+
+-- Template Title uniqueness in one main Category. Run only after the service
+-- validates the 5-120 length and character whitelist and category_id is present.
+-- Exclude the current logical Template so its Active and Draft rows do not
+-- conflict with each other. Active/Draft/Schedule references block reuse;
+-- Expired-only history does not. Expected 0 rows before Save/Publish/Active
+-- Metadata Update.
+SELECT c.email_code, v.version, v.version_status
+FROM iic_msg_email_config c
+JOIN iic_msg_email_config_version v
+  ON v.email_code = c.email_code
+ AND v.status = 0
+ AND v.version_status IN (0, 1, 3)
+WHERE c.status = 0
+  AND c.category_id = :category_id
+  AND LOWER(TRIM(c.email_name)) = LOWER(TRIM(:email_name))
+  AND (:email_code IS NULL OR c.email_code <> :email_code)
+LIMIT 1;
+
+-- Admin Template Detail only: expose the Copy source so the frontend can show
+-- a non-blocking reminder immediately before publishing B. Ordinary list APIs,
+-- Adviser Detail, filters, lifecycle selection, and Version History must not use
+-- or return this field.
+SELECT c.copy_from_email_code
+FROM iic_msg_email_config c
+WHERE c.email_code = :email_code
+  AND c.status = 0
+LIMIT 1;

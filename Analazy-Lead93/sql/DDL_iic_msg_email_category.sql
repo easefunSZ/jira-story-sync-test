@@ -1,13 +1,9 @@
 -- LEAD-93 one-time DDL: dedicated Email Template Category/Subcategory table.
 CREATE TABLE IF NOT EXISTS iic_msg_email_category (
   id bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-  tenant_id varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '租户 ID',
-  category_code varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '后端 Snowflake 业务编码',
   category_name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'Category/Subcategory 名称',
-  normalized_name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'trim/lower 后名称',
   description varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类别描述',
   parent_id bigint unsigned DEFAULT NULL COMMENT '父 Category ID；一级节点为 NULL',
-  category_level tinyint unsigned NOT NULL COMMENT '1 Category，2 Subcategory',
   sort_order int NOT NULL DEFAULT 0 COMMENT '同级排序',
   is_deleted tinyint unsigned NOT NULL DEFAULT 0 COMMENT '0 有效，1 已软删除',
   created_by varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'SYSTEM' COMMENT '创建人',
@@ -16,10 +12,6 @@ CREATE TABLE IF NOT EXISTS iic_msg_email_category (
   updated_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   deleted_by varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除人',
   deleted_date datetime DEFAULT NULL COMMENT '删除时间',
-  dae_country_code varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '国家编码',
-  active_normalized_name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci GENERATED ALWAYS AS (CASE WHEN is_deleted = 0 THEN normalized_name ELSE NULL END) STORED COMMENT '有效节点全局名称唯一键',
-  PRIMARY KEY (id) USING BTREE,
-  UNIQUE KEY uk_email_category_code (category_code),
-  UNIQUE KEY uk_email_category_active_name (active_normalized_name),
-  KEY idx_email_category_tree (category_level, is_deleted, parent_id, sort_order)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC COMMENT='Email Template Category/Subcategory';
+  PRIMARY KEY (id),
+  KEY idx_email_category_tree (is_deleted, parent_id, sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='Email Template Category/Subcategory';
