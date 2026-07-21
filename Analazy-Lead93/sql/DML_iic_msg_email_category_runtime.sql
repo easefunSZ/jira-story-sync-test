@@ -2,14 +2,14 @@
 
 -- Create Category/Subcategory. A NULL parent_id creates a Category; a non-NULL
 -- parent_id must resolve to an active level-1 Category.
-INSERT INTO iic_msg_email_category (category_name, description, parent_id, sort_order, is_deleted, created_by, updated_by)
-VALUES (:category_name, :description, :parent_id, :sort_order, 0, :operator, :operator);
+INSERT INTO iic_msg_email_category (category_code, category_name, description, parent_id, sort_order, is_deleted, created_by, updated_by)
+VALUES (:category_code, :category_name, :description, :parent_id, :sort_order, 0, :operator, :operator);
 
 -- Batch-create 1-5 Subcategories under one active parent. MyBatis/DAO expands
 -- exactly one tuple per request item after validating the complete batch.
-INSERT INTO iic_msg_email_category (category_name, description, parent_id, sort_order, is_deleted, created_by, updated_by)
-VALUES (:name_1, :description_1, :parent_id, :sort_order_1, 0, :operator, :operator),
-       (:name_2, :description_2, :parent_id, :sort_order_2, 0, :operator, :operator);
+INSERT INTO iic_msg_email_category (category_code, category_name, description, parent_id, sort_order, is_deleted, created_by, updated_by)
+VALUES (:category_code_1, :name_1, :description_1, :parent_id, :sort_order_1, 0, :operator, :operator),
+       (:category_code_2, :name_2, :description_2, :parent_id, :sort_order_2, 0, :operator, :operator);
 
 -- Rename or edit one active node.
 UPDATE iic_msg_email_category

@@ -8,6 +8,7 @@ WHERE operation_id = :operation_id;
 -- before reassignment; after_snapshot contains the replacement current values.
 SELECT h.email_code,
        JSON_UNQUOTE(JSON_EXTRACT(h.before_snapshot, '$.templateName')) AS template_name,
+       h.changed_fields,
        h.before_snapshot,
        h.after_snapshot,
        h.changed_by,

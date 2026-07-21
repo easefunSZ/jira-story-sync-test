@@ -40,14 +40,16 @@ published_filtered AS (
     AND EXISTS (
       SELECT 1 FROM iic_msg_template_category_rel cr
       WHERE cr.email_code = s.email_code
+        AND cr.status = 0
         AND cr.subcategory_id IN (:subcategory_ids)
     ) */
     /* Optional Tag Group ANY; repeat per selected group:
     AND EXISTS (
       SELECT 1 FROM iic_msg_template_tag_rel tr
-      JOIN iic_msg_tag_value tv ON tv.tag_code = tr.tag_code
+      JOIN iic_msg_tag_value tv ON tv.tag_code = tr.tag_code AND tv.group_code = tr.group_code AND tv.status = 0
       WHERE tr.email_code = s.email_code
-        AND tv.group_code = :group_code
+        AND tr.status = 0
+        AND tr.group_code = :group_code
         AND tr.tag_code IN (:tag_codes_in_group)
     ) */
     AND (
@@ -59,8 +61,9 @@ published_filtered AS (
         SELECT 1
         FROM iic_msg_template_tag_rel tr
         JOIN iic_msg_tag_value tv
-          ON tv.tag_code = tr.tag_code
+          ON tv.tag_code = tr.tag_code AND tv.group_code = tr.group_code AND tv.status = 0
         WHERE tr.email_code = s.email_code
+          AND tr.status = 0
           AND tv.tag_name LIKE CONCAT('%', :keyword, '%') ESCAPE '\\'
       )
     )
@@ -115,8 +118,9 @@ draft_filtered AS (
         SELECT 1
         FROM iic_msg_template_tag_rel tr
         JOIN iic_msg_tag_value tv
-          ON tv.tag_code = tr.tag_code
+          ON tv.tag_code = tr.tag_code AND tv.group_code = tr.group_code AND tv.status = 0
         WHERE tr.email_code = s.email_code
+          AND tr.status = 0
           AND tv.tag_name LIKE CONCAT('%', :keyword, '%') ESCAPE '\\'
       )
     )

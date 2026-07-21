@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS iic_msg_email_template_change_history (
   operation_id varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '一次业务操作标识；批量迁移可对应多个 Template',
   email_code varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Template 业务标识',
   change_type varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'CREATE/BASIC_INFO/METADATA/STATUS/CATEGORY_REASSIGNMENT/DELETE',
+  changed_fields json DEFAULT NULL COMMENT '本次实际修改字段数组；包含 field、beforeValue、afterValue',
   before_snapshot json DEFAULT NULL COMMENT '修改前完整 Template 级快照',
   after_snapshot json DEFAULT NULL COMMENT '修改后完整 Template 级快照',
   changed_by varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '操作人',

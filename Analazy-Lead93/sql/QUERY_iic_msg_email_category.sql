@@ -71,7 +71,7 @@ SELECT COUNT(DISTINCT template.email_code) AS affected_template_count,
        COUNT(DISTINCT CASE WHEN version.version_status = 0 THEN template.email_code END) AS schedule_count
 FROM iic_msg_email_config template
 JOIN iic_msg_email_config_version version ON version.email_code = template.email_code AND version.status = 0 AND version.version_status IN (0, 1, 3)
-LEFT JOIN iic_msg_template_category_rel relation ON relation.email_code = template.email_code
+LEFT JOIN iic_msg_template_category_rel relation ON relation.email_code = template.email_code AND relation.status = 0
 LEFT JOIN iic_msg_email_category subcategory ON subcategory.id = relation.subcategory_id
 WHERE template.status = 0
   AND (template.category_id = :source_category_id OR subcategory.parent_id = :source_category_id);
@@ -84,7 +84,7 @@ SELECT COUNT(DISTINCT template.email_code) AS affected_template_count,
 FROM iic_msg_template_category_rel relation
 JOIN iic_msg_email_config template ON template.email_code = relation.email_code AND template.status = 0
 JOIN iic_msg_email_config_version version ON version.email_code = template.email_code AND version.status = 0 AND version.version_status IN (0, 1, 3)
-WHERE relation.subcategory_id = :source_subcategory_id;
+WHERE relation.subcategory_id = :source_subcategory_id AND relation.status = 0;
 
 -- Lock target Category/Subcategories. The Service derives each node's level
 -- from parent_id and validates source/target hierarchy rules.
@@ -100,7 +100,7 @@ FOR UPDATE;
 SELECT DISTINCT template.email_code
 FROM iic_msg_email_config template
 JOIN iic_msg_email_config_version version ON version.email_code = template.email_code AND version.status = 0 AND version.version_status IN (0, 1, 3)
-LEFT JOIN iic_msg_template_category_rel relation ON relation.email_code = template.email_code
+LEFT JOIN iic_msg_template_category_rel relation ON relation.email_code = template.email_code AND relation.status = 0
 LEFT JOIN iic_msg_email_category subcategory ON subcategory.id = relation.subcategory_id
 WHERE template.status = 0
   AND (template.category_id = :source_category_id OR subcategory.parent_id = :source_category_id)
@@ -111,7 +111,7 @@ SELECT DISTINCT template.email_code
 FROM iic_msg_template_category_rel relation
 JOIN iic_msg_email_config template ON template.email_code = relation.email_code AND template.status = 0
 JOIN iic_msg_email_config_version version ON version.email_code = template.email_code AND version.status = 0 AND version.version_status IN (0, 1, 3)
-WHERE relation.subcategory_id = :source_subcategory_id
+WHERE relation.subcategory_id = :source_subcategory_id AND relation.status = 0
 ORDER BY template.email_code;
 
 -- Deleted nodes referenced by current Metadata of a Template with an
@@ -126,4 +126,5 @@ SELECT DISTINCT relation.email_code, relation.subcategory_id
 FROM iic_msg_template_category_rel relation
 JOIN iic_msg_email_config template ON template.email_code = relation.email_code AND template.status = 0
 JOIN iic_msg_email_config_version version ON version.email_code = template.email_code AND version.status = 0 AND version.version_status IN (0, 1, 3)
-JOIN iic_msg_email_category node ON node.id = relation.subcategory_id AND node.is_deleted = 1;
+JOIN iic_msg_email_category node ON node.id = relation.subcategory_id AND node.is_deleted = 1
+WHERE relation.status = 0;

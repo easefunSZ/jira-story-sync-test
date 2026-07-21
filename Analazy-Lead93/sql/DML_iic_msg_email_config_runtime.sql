@@ -10,3 +10,22 @@ VALUES (:module_code, :scenario_code, :new_email_code, :email_name, :description
 
 -- Require affected_rows = 1. Do not retry this statement with another generated
 -- email_code inside the same request after any downstream write has failed.
+
+-- Update mutable Template-level business fields. Capture the complete before
+-- snapshot first and insert change history after all Metadata writes succeed.
+UPDATE iic_msg_email_config
+SET email_name = :email_name,
+    description = :description,
+    channel = :channel,
+    channel_name = :channel_name,
+    is_custom_branding = :is_custom_branding,
+    is_campaign = :is_campaign,
+    category_id = :category_id,
+    updated_by = :operator,
+    updated_date = CURRENT_TIMESTAMP
+WHERE email_code = :email_code AND status = 0;
+
+-- Extend the existing Template Delete transaction with relation soft deletion.
+-- The existing config/version soft-delete statements remain unchanged.
+UPDATE iic_msg_template_category_rel SET status = -1, updated_by = :operator, updated_date = CURRENT_TIMESTAMP WHERE email_code = :email_code AND status = 0;
+UPDATE iic_msg_template_tag_rel SET status = -1, updated_by = :operator, updated_date = CURRENT_TIMESTAMP WHERE email_code = :email_code AND status = 0;

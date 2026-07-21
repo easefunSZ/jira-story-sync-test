@@ -1,10 +1,12 @@
 -- Session-scoped staging tables populated from approved business mapping files.
 CREATE TEMPORARY TABLE tmp_lead93_category_seed (
+  category_code varchar(50) NOT NULL,
   category_name varchar(100) NOT NULL,
   description varchar(500) DEFAULT NULL,
+  parent_category_code varchar(50) DEFAULT NULL,
   parent_category_name varchar(100) DEFAULT NULL,
   sort_order int NOT NULL DEFAULT 0,
-  PRIMARY KEY (category_name)
+  PRIMARY KEY (category_code)
 ) ENGINE=InnoDB;
 
 CREATE TEMPORARY TABLE tmp_lead93_template_mapping (
@@ -33,7 +35,7 @@ CREATE TEMPORARY TABLE tmp_lead93_subcategory_mapping (
 
 CREATE TEMPORARY TABLE tmp_lead93_tag_mapping (
   email_code varchar(100) NOT NULL,
-  group_code varchar(50) NOT NULL,
+  group_code varchar(100) NOT NULL,
   tag_code varchar(100) NOT NULL,
   PRIMARY KEY (email_code, group_code, tag_code)
 ) ENGINE=InnoDB;

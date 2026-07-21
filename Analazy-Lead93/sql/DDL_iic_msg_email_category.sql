@@ -1,6 +1,7 @@
 -- LEAD-93 one-time DDL: dedicated Email Template Category/Subcategory table.
 CREATE TABLE IF NOT EXISTS iic_msg_email_category (
   id bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  category_code varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '后端生成的业务编码',
   category_name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'Category/Subcategory 名称',
   description varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类别描述',
   parent_id bigint unsigned DEFAULT NULL COMMENT '父 Category ID；一级节点为 NULL',
@@ -12,6 +13,7 @@ CREATE TABLE IF NOT EXISTS iic_msg_email_category (
   updated_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   deleted_by varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除人',
   deleted_date datetime DEFAULT NULL COMMENT '删除时间',
-  PRIMARY KEY (id),
+  PRIMARY KEY (id) USING BTREE,
+  UNIQUE KEY uk_email_category_code (category_code),
   KEY idx_email_category_tree (is_deleted, parent_id, sort_order)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='Email Template Category/Subcategory';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = DYNAMIC COMMENT = 'Email Template Category/Subcategory';
