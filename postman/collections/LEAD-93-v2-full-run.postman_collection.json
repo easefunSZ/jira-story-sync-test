@@ -1,0 +1,3859 @@
+{
+  "info": {
+    "_postman_id": "cf4deabd-177a-4b87-a102-f38a589ada27",
+    "name": "LEAD-93 v2 Contract - Full Sequential Run",
+    "description": "One-click QA regression for all 28 v2 endpoints. It discovers Category and Tag fixtures, creates isolated source/target Categories and Templates, derives every runtime identifier from API responses, uses a dynamic future schedule time, and removes all temporary data at the end. Keep request order unchanged and set enableWriteTests=true.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 Independent Queries",
+      "description": "Read-only APIs with no test-data dependency. Any failure stops the main run before data creation.",
+      "item": [
+        {
+          "name": "01 Load Channel List",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/channelList",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Channel list is available', function () { pm.expect(json.data).to.be.an('array'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 Initial Published List",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isCampaign\": false,\n  \"keyword\": \"\",\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Initial published list is readable', function () { pm.expect(json.data.dataList).to.be.an('array'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 Initial Draft Admin List",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/templateList",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isCampaign\": false,\n  \"keyword\": \"\",\n  \"tab\": \"DRAFT\",\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Initial Draft/Admin list is readable', function () { pm.expect(json.data.dataList).to.be.an('array'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 Preflight - Category Tree and Initialise Run",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/tree"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "['sourceCategoryId','sourceSubcategoryId','targetCategoryId','targetSubcategoryId','unusedCategoryId','testEmailCode','copyEmailCode','initialRootOrderJson','testTagGroupsJson','sourceCategoryDeleted'].forEach(key => pm.environment.unset(key));",
+                  "const runId = `${Date.now()}${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;",
+                  "pm.environment.set('runId', runId);",
+                  "pm.environment.set('testEmailName', `LEAD93 QA ${runId}`);",
+                  "const future = new Date(Date.now() + 26 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' ');",
+                  "pm.environment.set('futureEffectiveFrom', future);"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Category tree is available', function () { pm.expect(json.data).to.be.an('array'); });",
+                  "if (json.responseCode === '00000000') { const order = json.data.map((item, index) => ({categoryId: String(item.id ?? item.categoryId), sortOrder: index + 1})); pm.environment.set('initialRootOrderJson', JSON.stringify(order)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 Preflight - Tag Taxonomy and Select Valid Tags",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/taxonomy"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Five tag groups are available', function () { pm.expect(json.data.length).to.eql(5); });",
+                  "pm.test('Trigger selection cap is five', function () { const trigger = json.data.find(group => group.groupCode === 'TRIGGER'); pm.expect(trigger.maxSelections).to.eql(5); });",
+                  "if (json.responseCode === '00000000') { const selected = json.data.map(group => { const values = group.tagValues || group.values || []; return {groupCode: group.groupCode, tagCodes: Number(group.isMandatory ?? group.mandatory ?? 0) === 1 && values.length ? [values[0].tagCode] : []}; }); pm.environment.set('testTagGroupsJson', JSON.stringify(selected)); }"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 Dependency Workflow",
+      "description": "Ordered setup and lifecycle workflow. Newman stops on the first failed request or assertion.",
+      "item": [
+        {
+          "name": "06 Create Source Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryName\": \"LEAD93 QA Source {{runId}}\",\n  \"description\": \"Temporary source category for automated QA regression\",\n  \"parentCategoryId\": \"0\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Source Category was created', function () { pm.expect(json.data.id).to.exist; });",
+                  "if (json.responseCode === '00000000') { pm.environment.set('sourceCategoryId', String(json.data.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 Create Target Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryName\": \"LEAD93 QA Target {{runId}}\",\n  \"description\": \"Temporary target category for automated QA regression\",\n  \"parentCategoryId\": \"0\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Target Category was created', function () { pm.expect(json.data.id).to.exist; });",
+                  "if (json.responseCode === '00000000') { pm.environment.set('targetCategoryId', String(json.data.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 Create Unused Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryName\": \"LEAD93 QA Unused {{runId}}\",\n  \"description\": \"Temporary unreferenced category\",\n  \"parentCategoryId\": \"0\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Unused Category was created', function () { pm.expect(json.data.id).to.exist; });",
+                  "if (json.responseCode === '00000000') { pm.environment.set('unusedCategoryId', String(json.data.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "09 Update Source Category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/{{sourceCategoryId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryName\": \"LEAD93 QA Source Updated {{runId}}\",\n  \"description\": \"Updated temporary source category\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"sourceCategoryId\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Update command returns no body', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "10 Batch Create Source Subcategories",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parentId\": \"{{sourceCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"QA Source Subcategory {{runId}}\",\n      \"description\": \"Primary source subcategory\"\n    },\n    {\n      \"name\": \"QA Source Secondary {{runId}}\",\n      \"description\": null\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"sourceCategoryId\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Two subcategories were created', function () { pm.expect(json.data).to.be.an('array').with.lengthOf(2); });",
+                  "if (json.responseCode === '00000000') { pm.environment.set('sourceSubcategoryId', String(json.data[0].id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "11 Batch Create Target Subcategory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parentId\": \"{{targetCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"QA Target Subcategory {{runId}}\",\n      \"description\": \"Target subcategory for migration\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"targetCategoryId\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Target subcategory was created', function () { pm.expect(json.data).to.be.an('array').with.lengthOf(1); });",
+                  "if (json.responseCode === '00000000') { pm.environment.set('targetSubcategoryId', String(json.data[0].id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "12 Save Complete Root Category Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/reorder",
+            "body": {
+              "mode": "raw",
+              "raw": "{{completeRootOrderJson}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"initialRootOrderJson\",\"sourceCategoryId\",\"targetCategoryId\",\"unusedCategoryId\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }",
+                  "const order = JSON.parse(pm.environment.get('initialRootOrderJson') || '[]');",
+                  "[pm.environment.get('sourceCategoryId'), pm.environment.get('targetCategoryId'), pm.environment.get('unusedCategoryId')].forEach(id => order.push({categoryId: String(id), sortOrder: order.length + 1}));",
+                  "pm.variables.set('completeRootOrderJson', JSON.stringify(order));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Complete reorder command returns no body', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "13 Check Unused Category Delete Impact",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete-impact/{{unusedCategoryId}}"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const missing = [\"unusedCategoryId\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Unused Category impact is returned', function () { pm.expect(String(json.data.sourceCategoryId)).to.eql(pm.environment.get('unusedCategoryId')); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "14 Delete Unreferenced Category",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/{{unusedCategoryId}}"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"unusedCategoryId\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Unreferenced Category was deleted', function () { pm.expect(json.data).to.eql(null); });",
+                  "if (json.responseCode === '00000000') { pm.environment.unset('unusedCategoryId'); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "15 Create Temporary V1 Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/add",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V1\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('V1 Draft identifiers were returned', function () { pm.expect(json.data.version).to.eql('V1'); pm.expect(json.data.emailCode).to.exist; });",
+                  "if (json.responseCode === '00000000') { pm.environment.set('testEmailCode', String(json.data.emailCode)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "16 Save Current Template Metadata",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/metadata",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\",\"sourceCategoryId\",\"sourceSubcategoryId\",\"testTagGroupsJson\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Current metadata update result is returned', function () { pm.expect(String(json.data.emailCode)).to.eql(pm.environment.get('testEmailCode')); pm.expect(json.data.subCategoryIds).to.be.an('array'); pm.expect(json.data.tagGroupCount).to.eql(5); pm.expect(json.data.status).to.eql('success'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "17 Verify V1 Draft Detail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/detail",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"version\": \"V1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('V1 Detail is Draft and belongs to this run', function () { pm.expect(String(json.data.emailCode)).to.eql(pm.environment.get('testEmailCode')); pm.expect(json.data.version).to.eql('V1'); pm.expect(json.data.versionStatus).to.eql(3); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "18 Verify Draft Admin List",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/templateList",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isCampaign\": false,\n  \"keyword\": \"{{testEmailName}}\",\n  \"tab\": \"DRAFT\",\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Temporary template is present in admin list', function () { pm.expect(json.data.dataList.some(item => String(item.emailCode) === pm.environment.get('testEmailCode'))).to.eql(true); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "19 Update V1 Draft Content",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/update",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA V1 updated\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V1\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('V1 remains Draft after update', function () { pm.expect(json.data.version).to.eql('V1'); pm.expect(json.data.versionStatus).to.eql(3); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "20 Publish V1 Now",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/publish",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"targetVersion\": \"V1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Publish command returns no inferred state', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "21 Verify Published V1 Detail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/published/detail",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Published detail returns V1 Active', function () { pm.expect(String(json.data.emailCode)).to.eql(pm.environment.get('testEmailCode')); pm.expect(json.data.version).to.eql('V1'); pm.expect(json.data.versionStatus).to.eql(1); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "22 Search Published Temporary Template",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isCampaign\": false,\n  \"keyword\": \"{{testEmailName}}\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}},\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Published list contains temporary template', function () { pm.expect(json.data.dataList.some(item => String(item.emailCode) === pm.environment.get('testEmailCode'))).to.eql(true); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "23 Update Template Master Fields",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/update",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"emailName\": \"LEAD93 QA Updated {{runId}}\",\n  \"description\": \"Updated by automated v2 QA regression\",\n  \"channelMap\": {\n    \"EMAIL\": \"Email\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Master field update returns no body', function () { pm.expect(json.data).to.eql(null); });",
+                  "if (json.responseCode === '00000000') { pm.environment.set('testEmailName', `LEAD93 QA Updated ${pm.environment.get('runId')}`); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "24 Deactivate Temporary Template",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/changeStatus",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"emailStatus\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Deactivate returns no body', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "25 Reactivate Temporary Template",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/changeStatus",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"emailStatus\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Reactivate returns no body', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "26 Get Max Version",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/getMaxVersion?emailCode={{testEmailCode}}"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Maximum version is V1', function () { pm.expect(json.data.version).to.eql('V1'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "27 Get V1 Version Detail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/detail",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"version\": \"V1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Version Detail returns V1', function () { pm.expect(json.data.version).to.eql('V1'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "28 Get Version History",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/list/history",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"pageNum\": 1,\n  \"pageSize\": 20,\n  \"isAsc\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Version History contains V1', function () { pm.expect(json.data.dataList.some(item => item.version === 'V1')).to.eql(true); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "29 Copy and Create Independent Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/copy",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceEmailCode\": \"{{testEmailCode}}\",\n  \"sourceVersion\": \"V1\",\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}} (Copy)\",\n  \"description\": \"Temporary Copy and Create regression template\",\n  \"isCampaign\": false,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"title\": \"LEAD-93 v2 QA copied draft\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA copied draft</p>\",\n  \"emailContentKey\": \"\",\n  \"textContent\": \"LEAD-93 v2 QA copied draft\",\n  \"fileKeys\": \"\",\n  \"thumbnailKey\": null,\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\",\"sourceCategoryId\",\"sourceSubcategoryId\",\"testTagGroupsJson\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Independent Copy V1 Draft was created', function () { pm.expect(json.data.version).to.eql('V1'); pm.expect(json.data.versionStatus).to.eql(3); pm.expect(String(json.data.emailCode)).not.to.eql(pm.environment.get('testEmailCode')); });",
+                  "if (json.responseCode === '00000000') { pm.environment.set('copyEmailCode', String(json.data.emailCode)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "30 Verify Copied Draft Detail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/detail",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{copyEmailCode}}\",\n  \"version\": \"V1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const missing = [\"copyEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Copied Template is independently readable', function () { pm.expect(String(json.data.emailCode)).to.eql(pm.environment.get('copyEmailCode')); pm.expect(json.data.versionStatus).to.eql(3); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "31 Add Target Version V2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/add",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"version\": \"V2\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('V2 became Active through version/add', function () { pm.expect(json.data.version).to.eql('V2'); pm.expect(json.data.versionStatus).to.eql(1); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "32 Verify V2 Version Detail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/detail",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"version\": \"V2\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Version Detail returns V2 Active', function () { pm.expect(json.data.version).to.eql('V2'); pm.expect(json.data.versionStatus).to.eql(1); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "33 Create V3 Working Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/add",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V3\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('V3 Working Copy identifiers are returned', function () { pm.expect(json.data.version).to.eql('V3'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "34 Update V3 Working Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/update",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA V3 updated\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V3\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('V3 remains Draft after update', function () { pm.expect(json.data.version).to.eql('V3'); pm.expect(json.data.versionStatus).to.eql(3); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "35 Schedule V3 with Dynamic Future Time",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/publish",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 1,\n  \"effectiveFrom\": \"{{futureEffectiveFrom}}\",\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"targetVersion\": \"V3\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\",\"futureEffectiveFrom\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Schedule command returns no inferred state', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "36 Cancel Schedule by Save Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/add",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 1,\n  \"effectiveFrom\": \"{{futureEffectiveFrom}}\",\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V3\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\",\"futureEffectiveFrom\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Save Draft returns the scheduled version identifier', function () { pm.expect(json.data.version).to.eql('V3'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "37 Publish V3 Now",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/publish",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"targetVersion\": \"V3\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Publish command returns no inferred state', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "38 Create V4 Draft for Discard",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/add",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V4\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('V4 Draft identifier was returned', function () { pm.expect(json.data.version).to.eql('V4'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "39 Discard V4 Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"version\": \"V4\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Discard Draft returns no body', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "40 Batch Reassign Both Templates to Target Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/reassign",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"templates\": [\n    {\"emailCode\": \"{{testEmailCode}}\", \"categoryId\": \"{{targetCategoryId}}\", \"subCategoryIds\": [\"{{targetSubcategoryId}}\"], \"tagGroups\": {{testTagGroupsJson}}},\n    {\"emailCode\": \"{{copyEmailCode}}\", \"categoryId\": \"{{targetCategoryId}}\", \"subCategoryIds\": [\"{{targetSubcategoryId}}\"], \"tagGroups\": {{testTagGroupsJson}}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\",\"copyEmailCode\",\"targetCategoryId\",\"targetSubcategoryId\",\"testTagGroupsJson\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Batch reassignment returns no body', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "41 Move Primary Template Back to Source Metadata",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/metadata",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\",\"sourceCategoryId\",\"sourceSubcategoryId\",\"testTagGroupsJson\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Primary Template returned to source Category', function () { pm.expect(String(json.data.categoryId)).to.eql(pm.environment.get('sourceCategoryId')); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "42 Check Referenced Source Category Impact",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete-impact/{{sourceCategoryId}}"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const missing = [\"sourceCategoryId\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Referenced source Category impact is returned', function () { pm.expect(String(json.data.sourceCategoryId)).to.eql(pm.environment.get('sourceCategoryId')); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "43 Reassign References and Delete Source Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/reassign-and-delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCategoryId\": \"{{sourceCategoryId}}\",\n  \"targetCategoryId\": \"{{targetCategoryId}}\",\n  \"targetSubcategoryIds\": [\n    \"{{targetSubcategoryId}}\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"sourceCategoryId\",\"targetCategoryId\",\"targetSubcategoryId\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Referenced source Category was reassigned and deleted', function () { pm.expect(json.data).to.eql(null); });",
+                  "if (json.responseCode === '00000000') { pm.environment.set('sourceCategoryDeleted', 'true'); }"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "99 Cleanup",
+      "description": "Cleanup requests. The runner invokes this folder separately after a failed main run.",
+      "item": [
+        {
+          "name": "44 Cleanup - Delete Copied Template",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{copyEmailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"copyEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Copied Template was soft deleted', function () { pm.expect(json.data).to.eql(null); });",
+                  "if (json.responseCode === '00000000') { pm.environment.unset('copyEmailCode'); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "45 Cleanup - Delete Primary Template",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"testEmailCode\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Primary Template was soft deleted', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "46 Verify Temporary Templates Removed",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isCampaign\": false,\n  \"keyword\": \"{{testEmailName}}\",\n  \"pageNum\": 1,\n  \"pageSize\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Temporary Templates are absent after cleanup', function () { const ids = [pm.environment.get('testEmailCode'), pm.environment.get('copyEmailCode')].filter(Boolean); pm.expect(json.data.dataList.some(item => ids.includes(String(item.emailCode)))).to.eql(false); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "47 Cleanup Fallback - Delete Unused Category if Needed",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/{{unusedCategoryId}}"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "if (!pm.environment.get('unusedCategoryId')) { console.warn('Unused Category already removed or was never created.'); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Fallback unused Category delete returns no body', function () { pm.expect(json.data).to.eql(null); });",
+                  "if (json.responseCode === '00000000') { pm.environment.unset('unusedCategoryId'); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "48 Cleanup Fallback - Delete Source Category if Needed",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/{{sourceCategoryId}}"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "if (pm.environment.get('sourceCategoryDeleted') === 'true' || !pm.environment.get('sourceCategoryId')) { console.warn('Source Category already removed or was never created.'); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Fallback source Category delete returns no body', function () { pm.expect(json.data).to.eql(null); });",
+                  "if (json.responseCode === '00000000') { pm.environment.set('sourceCategoryDeleted', 'true'); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "49 Cleanup - Delete Target Category",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/{{targetCategoryId}}"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') {",
+                  "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
+                  "  pm.execution.skipRequest();",
+                  "}",
+                  "const missing = [\"targetCategoryId\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Target Category was deleted after Template cleanup', function () { pm.expect(json.data).to.eql(null); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "50 Final Verification - No Temporary Categories Remain",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/tree"
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json;",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Temporary Categories were removed', function () { const names = json.data.map(item => item.categoryName); pm.expect(names.some(name => String(name).includes(pm.environment.get('runId')))).to.eql(false); });",
+                  "if (json.responseCode === '00000000') { ['runId','testEmailName','futureEffectiveFrom','sourceCategoryId','sourceSubcategoryId','targetCategoryId','targetSubcategoryId','unusedCategoryId','testEmailCode','copyEmailCode','initialRootOrderJson','testTagGroupsJson','sourceCategoryDeleted'].forEach(key => pm.environment.unset(key)); }"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:31093",
+      "type": "string"
+    },
+    {
+      "key": "gatewayPrefix",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "authorization",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "xApigwApiId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "language",
+      "value": "en-US",
+      "type": "string"
+    },
+    {
+      "key": "enableWriteTests",
+      "value": "true",
+      "type": "string"
+    },
+    {
+      "key": "runId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "testEmailName",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "futureEffectiveFrom",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "sourceCategoryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "sourceSubcategoryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "targetCategoryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "targetSubcategoryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "unusedCategoryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "testEmailCode",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "copyEmailCode",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "initialRootOrderJson",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "testTagGroupsJson",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "sourceCategoryDeleted",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "if (!pm.variables.get('authorization')) { pm.request.headers.remove('authorization'); }",
+          "if (!pm.variables.get('xApigwApiId')) { pm.request.headers.remove('x-apigw-api-id'); }"
+        ]
+      }
+    }
+  ]
+}

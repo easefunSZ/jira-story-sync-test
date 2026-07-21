@@ -1,0 +1,149 @@
+{
+  "generatedAt": "2026-07-21T08:11:56.160Z",
+  "source": "Newman QA execution; credentials, hosts, identifiers, payload values and response values removed",
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 7,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 14,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 7,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 2,
+      "pending": 0,
+      "failed": 0
+    },
+    "tests": {
+      "total": 2,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 12,
+      "pending": 0,
+      "failed": 8
+    },
+    "testScripts": {
+      "total": 2,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 12,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "executions": [
+    {
+      "name": "46 Verify Temporary Templates Removed",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/queryList",
+      "httpStatus": 401,
+      "responseTimeMs": 1165,
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "isCampaign": "boolean",
+          "keyword": "string",
+          "pageNum": "number",
+          "pageSize": "number"
+        }
+      },
+      "responseEnvelopeFields": [
+        "www-authenticate"
+      ],
+      "responseDataSchema": "undefined",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": false,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": false,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": false,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Temporary Templates are absent after cleanup",
+          "passed": false,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "50 Final Verification - No Temporary Categories Remain",
+      "method": "GET",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/tree",
+      "httpStatus": 401,
+      "responseTimeMs": 347,
+      "requestBodySchema": null,
+      "responseEnvelopeFields": [
+        "www-authenticate"
+      ],
+      "responseDataSchema": "undefined",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": false,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": false,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": false,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Temporary Categories were removed",
+          "passed": false,
+          "skipped": false
+        }
+      ]
+    }
+  ]
+}

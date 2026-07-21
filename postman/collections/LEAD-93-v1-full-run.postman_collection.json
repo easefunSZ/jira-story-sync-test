@@ -1,0 +1,1884 @@
+{
+  "info": {
+    "_postman_id": "285619d5-5f6c-496a-9ac9-55ef9c383617",
+    "name": "LEAD-93 v1 As-Is - Full Sequential Run (15 Contract + 2 Supporting Endpoints)",
+    "description": "Sequential QA lifecycle runner covering the 17 existing endpoints in LEAD-93 scope. The run creates only a LEAD93_POSTMAN temporary template and cleans it up at the end.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const requestId = pm.variables.replaceIn('{{$randomUUID}}').replace(/-/g, '').slice(0, 11);",
+          "pm.variables.set('requestId', requestId);"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Channel List",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/channelList",
+        "description": "Existing channel lookup.",
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Query Object",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/queryObject",
+        "description": "Existing query-object endpoint.",
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Recipient List",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/recipientList",
+        "description": "Read-only recipient lookup.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pageNum\": 1,\n  \"pageSize\": 20,\n  \"keyWords\": \"\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Initial Published List",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/templateList",
+        "description": "Exact QA Published tab request captured from the current web application.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pageNum\": 1,\n  \"pageSize\": 20,\n  \"templateStatus\": \"1\",\n  \"keyWords\": \"\",\n  \"channelList\": [],\n  \"emailStatusList\": [],\n  \"sortField\": \"updatedDate\",\n  \"isAsc\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Create Temporary V1 Draft",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/add",
+        "description": "Creates a temporary V1 Draft. Set enableWriteTests=true. Capture returned emailCode.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary Postman API test draft\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 Postman API test\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 Postman API test</p>\",\n  \"textContent\": \"LEAD-93 Postman API test\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": \"1\",\n  \"version\": \"V1\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.variables.get('enableWriteTests') !== 'true') {",
+              "  console.warn('Full lifecycle write skipped. Set enableWriteTests=true.');",
+              "  pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.collectionVariables.get('testEmailName')) {",
+              "  pm.collectionVariables.set('testEmailName', 'LEAD93_POSTMAN_' + Date.now());",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+              "if (json.data && json.data.emailCode) { pm.collectionVariables.set('testEmailCode', String(json.data.emailCode)); pm.collectionVariables.set('activeVersion', String(json.data.version || 'V1')); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Verify Draft Detail",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/detail",
+        "description": "Set emailCode and activeVersion to a real template/version.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"version\": \"{{activeVersion}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Verify Draft Max Version",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/version/getMaxVersion?emailCode={{testEmailCode}}",
+        "description": "Returns maximum version and status."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+              "if (json.data && json.data.version) { pm.collectionVariables.set('activeVersion', String(json.data.version)); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Verify V1 Detail",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/version/detail",
+        "description": "Read a specific version.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"version\": \"{{activeVersion}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Verify Initial History",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/version/list/history",
+        "description": "Paginated version history.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"pageNum\": 1,\n  \"pageSize\": 20,\n  \"sortField\": \"version\",\n  \"isAsc\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Update Temporary Template",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/update",
+        "description": "Only run against a LEAD93_POSTMAN test template.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"emailName\": \"{{testEmailName}}_UPDATED\",\n  \"description\": \"Temporary Postman API test draft - updated\",\n  \"isCampaign\": 0\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.variables.get('enableWriteTests') !== 'true') {",
+              "  console.warn('Full lifecycle write skipped. Set enableWriteTests=true.');",
+              "  pm.execution.skipRequest();",
+              "}",
+              "if (!pm.collectionVariables.get('testEmailCode')) {",
+              "  console.warn('Skipped because testEmailCode was not created by this run.');",
+              "  pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 Disable Temporary Template",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/changeStatus",
+        "description": "targetEmailStatus: 0=disable, 1=enable. Only run against a test template.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"emailStatus\": \"0\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.variables.get('enableWriteTests') !== 'true') {",
+              "  console.warn('Full lifecycle write skipped. Set enableWriteTests=true.');",
+              "  pm.execution.skipRequest();",
+              "}",
+              "if (!pm.collectionVariables.get('testEmailCode')) {",
+              "  console.warn('Skipped because testEmailCode was not created by this run.');",
+              "  pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 Re-enable Temporary Template",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/changeStatus",
+        "description": "targetEmailStatus: 0=disable, 1=enable. Only run against a test template.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"emailStatus\": \"1\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.variables.get('enableWriteTests') !== 'true') {",
+              "  console.warn('Full lifecycle write skipped. Set enableWriteTests=true.');",
+              "  pm.execution.skipRequest();",
+              "}",
+              "if (!pm.collectionVariables.get('testEmailCode')) {",
+              "  console.warn('Skipped because testEmailCode was not created by this run.');",
+              "  pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "13 Update V1 Draft Content",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/version/update",
+        "description": "Only run when draftVersion exists and is editable.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"version\": \"V1\",\n  \"moduleCode\": \"COMMUNICATION\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"title\": \"LEAD-93 full-run V1 updated\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 full-run V1 updated</p>\",\n  \"textContent\": \"LEAD-93 full-run V1 updated\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"isCustomBranding\": \"0\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.variables.get('enableWriteTests') !== 'true') {",
+              "  console.warn('Full lifecycle write skipped. Set enableWriteTests=true.');",
+              "  pm.execution.skipRequest();",
+              "}",
+              "if (!pm.collectionVariables.get('testEmailCode')) {",
+              "  console.warn('Skipped because testEmailCode was not created by this run.');",
+              "  pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "14 Publish Temporary V1",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/add",
+        "description": "Creates a temporary V1 Draft. Set enableWriteTests=true. Capture returned emailCode.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary Postman API test draft\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 Postman API test\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 Postman API test</p>\",\n  \"textContent\": \"LEAD-93 Postman API test\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": \"2\",\n  \"version\": \"V1\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": 0,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.variables.get('enableWriteTests') !== 'true') {",
+              "  console.warn('Full lifecycle write skipped. Set enableWriteTests=true.');",
+              "  pm.execution.skipRequest();",
+              "}",
+              "if (!pm.collectionVariables.get('testEmailCode')) {",
+              "  console.warn('Skipped because testEmailCode was not created by this run.');",
+              "  pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.variables.get('enableWriteTests') !== 'true') {",
+              "  console.warn('Full lifecycle write skipped. Set enableWriteTests=true.');",
+              "  pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+              "if (json.data && json.data.emailCode) { pm.collectionVariables.set('testEmailCode', String(json.data.emailCode)); pm.collectionVariables.set('activeVersion', String(json.data.version || 'V1')); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "15 Verify Published Detail",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/published/detail",
+        "description": "Returns current published detail when the selected template has an Active version.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "16 Search Published Test Template",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/queryList",
+        "description": "Existing Adviser/published query. Tested with HTTP 200 and business success.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"isCampaign\": 0,\n  \"emailName\": \"{{testEmailName}}\",\n  \"pageNum\": 1,\n  \"pageSize\": 20,\n  \"channelList\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "17 Add Target Version V2",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/version/add",
+        "description": "QA observation: a complete Add Version payload with target version V2 succeeded and made V2 Active / V1 Expired. Copy and Create is a separate open business scope.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"version\": \"{{draftVersion}}\",\n  \"moduleCode\": \"COMMUNICATION\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"title\": \"LEAD-93 V2 API test\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 V2 API test</p>\",\n  \"textContent\": \"LEAD-93 V2 API test\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"isCustomBranding\": \"0\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.variables.get('enableWriteTests') !== 'true') {",
+              "  console.warn('Full lifecycle write skipped. Set enableWriteTests=true.');",
+              "  pm.execution.skipRequest();",
+              "}",
+              "if (!pm.collectionVariables.get('testEmailCode')) {",
+              "  console.warn('Skipped because testEmailCode was not created by this run.');",
+              "  pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "18 Verify V2 Is Maximum",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/version/getMaxVersion?emailCode={{testEmailCode}}",
+        "description": "Returns maximum version and status."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+              "if (json.data && json.data.version) { pm.collectionVariables.set('activeVersion', String(json.data.version)); }"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "19 Verify Current Version Detail",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/version/detail",
+        "description": "Read a specific version.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"version\": \"V2\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "20 Verify V2 Active and V1 Expired",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/version/list/history",
+        "description": "Paginated version history.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"pageNum\": 1,\n  \"pageSize\": 20,\n  \"sortField\": \"version\",\n  \"isAsc\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "21 Verify Active Version Delete Is Rejected",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/version/delete",
+        "description": "Deletes only a non-published Draft version. V1 and Active versions are rejected.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"version\": \"V2\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.variables.get('enableWriteTests') !== 'true') {",
+              "  console.warn('Full lifecycle write skipped. Set enableWriteTests=true.');",
+              "  pm.execution.skipRequest();",
+              "}",
+              "if (!pm.collectionVariables.get('testEmailCode')) {",
+              "  console.warn('Skipped because testEmailCode was not created by this run.');",
+              "  pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Published version deletion is rejected', function () { pm.expect(json.responseCode).to.eql('10000121'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "22 Cleanup - Delete Temporary Template",
+      "protocolProfileBehavior": {
+        "disableCookies": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-US"
+          },
+          {
+            "key": "authorization",
+            "value": "{{authorization}}",
+            "type": "text"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "language",
+            "value": "en-US"
+          },
+          {
+            "key": "requestid",
+            "value": "{{requestId}}"
+          },
+          {
+            "key": "x-apigw-api-id",
+            "value": "{{xApigwApiId}}",
+            "type": "text"
+          },
+          {
+            "key": "origin",
+            "value": "https://secure.adviser.qa.oldmutual.co.za"
+          },
+          {
+            "key": "referer",
+            "value": "https://secure.adviser.qa.oldmutual.co.za/"
+          }
+        ],
+        "url": "{{baseUrl}}/dae/iic-dae-msg/web/msg/template/email/v1/delete",
+        "description": "Cleanup request. Soft-deletes selected template; verify emailCode before sending.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (!pm.collectionVariables.get('testEmailCode')) {",
+              "  console.warn('Cleanup skipped because this run did not create a test template.');",
+              "  pm.execution.skipRequest();",
+              "}"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+              "let json;",
+              "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+              "pm.test('v1 response envelope exists', function () { pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); });",
+              "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+              "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+              "if (json.responseCode === '00000000') { pm.collectionVariables.unset('testEmailCode'); pm.collectionVariables.unset('testEmailName'); }"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "enableWriteTests",
+      "value": "false"
+    },
+    {
+      "key": "testEmailName",
+      "value": ""
+    },
+    {
+      "key": "testEmailCode",
+      "value": ""
+    },
+    {
+      "key": "activeVersion",
+      "value": "V1"
+    },
+    {
+      "key": "draftVersion",
+      "value": "V2"
+    }
+  ]
+}

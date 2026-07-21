@@ -1,0 +1,5695 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LEAD-93 Newman Run - Contract Mock Debug Report</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, sans-serif; color: #17212b; background: #f4f6f8; }
+    body { margin: 0; }
+    header { padding: 24px 32px; color: #fff; background: #17324d; }
+    header h1 { margin: 0 0 8px; font-size: 24px; }
+    header p { margin: 4px 0; }
+    .warning { padding: 12px 32px; color: #6b3c00; background: #fff0c2; border-bottom: 1px solid #e3c26b; font-weight: 700; }
+    main { display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr); gap: 20px; max-width: 1600px; margin: 0 auto; padding: 20px; }
+    nav { position: sticky; top: 12px; align-self: start; max-height: calc(100vh - 24px); overflow: auto; background: #fff; border: 1px solid #d7dde3; border-radius: 6px; }
+    nav h2 { margin: 0; padding: 16px; font-size: 16px; border-bottom: 1px solid #d7dde3; }
+    nav ul { margin: 0; padding: 8px; list-style: none; }
+    nav li { display: flex; gap: 8px; justify-content: space-between; padding: 7px 8px; border-bottom: 1px solid #edf0f2; }
+    nav a { color: #1b5e92; text-decoration: none; }
+    .request { margin-bottom: 20px; padding: 20px; background: #fff; border: 1px solid #d7dde3; border-radius: 6px; }
+    .request.has-failure { border-color: #c62828; }
+    h2 { margin-top: 0; font-size: 20px; }
+    h3 { margin: 18px 0 6px; font-size: 14px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; }
+    .meta span { padding: 4px 8px; background: #e8eef3; border-radius: 4px; font-size: 12px; }
+    .meta .method { color: #fff; background: #176b45; font-weight: 700; }
+    .columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    pre { box-sizing: border-box; max-height: 420px; margin: 0; padding: 12px; overflow: auto; color: #d9e4ee; background: #17212b; border-radius: 4px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; text-align: left; vertical-align: top; border: 1px solid #d7dde3; }
+    th { background: #edf2f5; }
+    td pre { max-height: 120px; padding: 6px; }
+    .pass { color: #176b45; font-weight: 700; }
+    .fail { color: #b42318; font-weight: 700; }
+    @media (max-width: 900px) { main, .columns { grid-template-columns: 1fr; } nav { position: static; max-height: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LEAD-93 Newman Run - Contract Mock Debug Report</h1>
+    <p>Generated: 2026-07-21T07:49:11.851Z</p>
+    <p>Evidence: Local Contract Mock / NOT QA EVIDENCE</p>
+    <p>Requests: 47 total / 0 failed; Assertions: 283 total / 0 failed</p>
+  </header>
+  <div class="warning">CONTRACT MOCK: Generated from the local mock server. This is expected request/response output, not QA or deployed-service evidence.</div>
+  <main>
+    <nav><h2>Requests</h2><ul><li><a href="#request-1">01. 01 Preflight - Category Tree and Initialise Run</a><span class="pass">PASS</span></li>
+<li><a href="#request-2">02. 02 Preflight - Tag Taxonomy and Select Valid Tags</a><span class="pass">PASS</span></li>
+<li><a href="#request-3">03. 03 Create Source Category</a><span class="pass">PASS</span></li>
+<li><a href="#request-4">04. 04 Create Target Category</a><span class="pass">PASS</span></li>
+<li><a href="#request-5">05. 05 Create Unused Category</a><span class="pass">PASS</span></li>
+<li><a href="#request-6">06. 06 Update Source Category</a><span class="pass">PASS</span></li>
+<li><a href="#request-7">07. 07 Batch Create Source Subcategories</a><span class="pass">PASS</span></li>
+<li><a href="#request-8">08. 08 Batch Create Target Subcategory</a><span class="pass">PASS</span></li>
+<li><a href="#request-9">09. 09 Save Complete Root Category Order</a><span class="pass">PASS</span></li>
+<li><a href="#request-10">10. 10 Check Unused Category Delete Impact</a><span class="pass">PASS</span></li>
+<li><a href="#request-11">11. 11 Delete Unreferenced Category</a><span class="pass">PASS</span></li>
+<li><a href="#request-12">12. 12 Load Channel List</a><span class="pass">PASS</span></li>
+<li><a href="#request-13">13. 13 Initial Published List</a><span class="pass">PASS</span></li>
+<li><a href="#request-14">14. 14 Create Temporary V1 Draft</a><span class="pass">PASS</span></li>
+<li><a href="#request-15">15. 15 Save Current Template Metadata</a><span class="pass">PASS</span></li>
+<li><a href="#request-16">16. 16 Verify V1 Draft Detail</a><span class="pass">PASS</span></li>
+<li><a href="#request-17">17. 17 Verify Draft Admin List</a><span class="pass">PASS</span></li>
+<li><a href="#request-18">18. 18 Update V1 Draft Content</a><span class="pass">PASS</span></li>
+<li><a href="#request-19">19. 19 Publish V1 Now</a><span class="pass">PASS</span></li>
+<li><a href="#request-20">20. 20 Verify Published V1 Detail</a><span class="pass">PASS</span></li>
+<li><a href="#request-21">21. 21 Search Published Temporary Template</a><span class="pass">PASS</span></li>
+<li><a href="#request-22">22. 22 Update Template Master Fields</a><span class="pass">PASS</span></li>
+<li><a href="#request-23">23. 23 Deactivate Temporary Template</a><span class="pass">PASS</span></li>
+<li><a href="#request-24">24. 24 Reactivate Temporary Template</a><span class="pass">PASS</span></li>
+<li><a href="#request-25">25. 25 Get Max Version</a><span class="pass">PASS</span></li>
+<li><a href="#request-26">26. 26 Get V1 Version Detail</a><span class="pass">PASS</span></li>
+<li><a href="#request-27">27. 27 Get Version History</a><span class="pass">PASS</span></li>
+<li><a href="#request-28">28. 28 Copy and Create Independent Draft</a><span class="pass">PASS</span></li>
+<li><a href="#request-29">29. 29 Verify Copied Draft Detail</a><span class="pass">PASS</span></li>
+<li><a href="#request-30">30. 30 Add Target Version V2</a><span class="pass">PASS</span></li>
+<li><a href="#request-31">31. 31 Verify V2 Version Detail</a><span class="pass">PASS</span></li>
+<li><a href="#request-32">32. 32 Create V3 Working Draft</a><span class="pass">PASS</span></li>
+<li><a href="#request-33">33. 33 Update V3 Working Draft</a><span class="pass">PASS</span></li>
+<li><a href="#request-34">34. 34 Schedule V3 with Dynamic Future Time</a><span class="pass">PASS</span></li>
+<li><a href="#request-35">35. 35 Cancel Schedule by Save Draft</a><span class="pass">PASS</span></li>
+<li><a href="#request-36">36. 36 Publish V3 Now</a><span class="pass">PASS</span></li>
+<li><a href="#request-37">37. 37 Create V4 Draft for Discard</a><span class="pass">PASS</span></li>
+<li><a href="#request-38">38. 38 Discard V4 Draft</a><span class="pass">PASS</span></li>
+<li><a href="#request-39">39. 39 Batch Reassign Both Templates to Target Category</a><span class="pass">PASS</span></li>
+<li><a href="#request-40">40. 40 Move Primary Template Back to Source Metadata</a><span class="pass">PASS</span></li>
+<li><a href="#request-41">41. 41 Check Referenced Source Category Impact</a><span class="pass">PASS</span></li>
+<li><a href="#request-42">42. 42 Reassign References and Delete Source Category</a><span class="pass">PASS</span></li>
+<li><a href="#request-43">43. 43 Cleanup - Delete Copied Template</a><span class="pass">PASS</span></li>
+<li><a href="#request-44">44. 44 Cleanup - Delete Primary Template</a><span class="pass">PASS</span></li>
+<li><a href="#request-45">45. 45 Verify Temporary Templates Removed</a><span class="pass">PASS</span></li>
+<li><a href="#request-46">46. 47 Cleanup - Delete Target Category</a><span class="pass">PASS</span></li>
+<li><a href="#request-47">47. 48 Final Verification - No Temporary Categories Remain</a><span class="pass">PASS</span></li></ul></nav>
+    <div>
+  <section id="request-1" class="request ">
+    <h2>01. 01 Preflight - Category Tree and Initialise Run</h2>
+    <div class="meta">
+      <span class="method">GET</span>
+      <span>HTTP 200 OK</span>
+      <span>36 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/tree</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: f50fce5d-5a8a-487e-b011-10dec95e3860
+Accept: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: f1d00a1e-8c71-4570-b179-5736a40d129c
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>(empty)</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: &quot;1001&quot;,
+      &quot;categoryName&quot;: &quot;Client Engagement&quot;,
+      &quot;description&quot;: &quot;Templates used during client engagement&quot;,
+      &quot;parentId&quot;: null,
+      &quot;sortOrder&quot;: 1,
+      &quot;templateCount&quot;: 0,
+      &quot;leaf&quot;: false,
+      &quot;children&quot;: [
+        {
+          &quot;id&quot;: &quot;1101&quot;,
+          &quot;categoryName&quot;: &quot;Advice Review&quot;,
+          &quot;description&quot;: &quot;Review-related templates&quot;,
+          &quot;parentId&quot;: &quot;1001&quot;,
+          &quot;sortOrder&quot;: 1,
+          &quot;templateCount&quot;: 0,
+          &quot;leaf&quot;: true,
+          &quot;children&quot;: []
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;2001&quot;,
+      &quot;categoryName&quot;: &quot;Planning&quot;,
+      &quot;description&quot;: null,
+      &quot;parentId&quot;: null,
+      &quot;sortOrder&quot;: 2,
+      &quot;templateCount&quot;: 0,
+      &quot;leaf&quot;: false,
+      &quot;children&quot;: [
+        {
+          &quot;id&quot;: &quot;2101&quot;,
+          &quot;categoryName&quot;: &quot;Retirement Planning&quot;,
+          &quot;description&quot;: null,
+          &quot;parentId&quot;: &quot;2001&quot;,
+          &quot;sortOrder&quot;: 1,
+          &quot;templateCount&quot;: 0,
+          &quot;leaf&quot;: true,
+          &quot;children&quot;: []
+        }
+      ]
+    }
+  ]
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Category tree is available</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-2" class="request ">
+    <h2>02. 02 Preflight - Tag Taxonomy and Select Valid Tags</h2>
+    <div class="meta">
+      <span class="method">GET</span>
+      <span>HTTP 200 OK</span>
+      <span>12 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/taxonomy</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: f6f39e18-1410-4506-9f01-c4f76af55631
+Accept: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 92452332-618a-47ff-9350-adb2f31248b4
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>(empty)</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;groupCode&quot;: &quot;CONTENT_TYPE&quot;,
+      &quot;groupName&quot;: &quot;Content Type&quot;,
+      &quot;isMandatory&quot;: 1,
+      &quot;maxSelections&quot;: null,
+      &quot;sortOrder&quot;: 1,
+      &quot;tagValues&quot;: [
+        {
+          &quot;tagCode&quot;: &quot;CONTENT_TYPE_EMAIL&quot;,
+          &quot;tagName&quot;: &quot;Email&quot;,
+          &quot;description&quot;: &quot;Standard email communication&quot;,
+          &quot;sortOrder&quot;: 1
+        },
+        {
+          &quot;tagCode&quot;: &quot;CONTENT_TYPE_VIDEO&quot;,
+          &quot;tagName&quot;: &quot;Video&quot;,
+          &quot;description&quot;: &quot;Video-based content&quot;,
+          &quot;sortOrder&quot;: 2
+        },
+        {
+          &quot;tagCode&quot;: &quot;CONTENT_TYPE_INFOGRAPHIC&quot;,
+          &quot;tagName&quot;: &quot;Infographic&quot;,
+          &quot;description&quot;: &quot;Visual informational content&quot;,
+          &quot;sortOrder&quot;: 3
+        }
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;TRIGGER&quot;,
+      &quot;groupName&quot;: &quot;Trigger Event&quot;,
+      &quot;isMandatory&quot;: 1,
+      &quot;maxSelections&quot;: 5,
+      &quot;sortOrder&quot;: 2,
+      &quot;tagValues&quot;: [
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_BIRTHDAY&quot;,
+          &quot;tagName&quot;: &quot;Birthday&quot;,
+          &quot;description&quot;: &quot;Client birthday communication trigger&quot;,
+          &quot;sortOrder&quot;: 1
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_MARRIAGE&quot;,
+          &quot;tagName&quot;: &quot;Marriage&quot;,
+          &quot;description&quot;: &quot;Client marriage life event&quot;,
+          &quot;sortOrder&quot;: 2
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_BIRTH_NEW_CHILD&quot;,
+          &quot;tagName&quot;: &quot;Birth / New Child&quot;,
+          &quot;description&quot;: &quot;New child life event&quot;,
+          &quot;sortOrder&quot;: 3
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_RETIREMENT&quot;,
+          &quot;tagName&quot;: &quot;Retirement&quot;,
+          &quot;description&quot;: &quot;Client retirement milestone&quot;,
+          &quot;sortOrder&quot;: 4
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_ANNUAL_REVIEW&quot;,
+          &quot;tagName&quot;: &quot;Annual Review&quot;,
+          &quot;description&quot;: &quot;Scheduled annual financial review&quot;,
+          &quot;sortOrder&quot;: 5
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_TAX_SEASON&quot;,
+          &quot;tagName&quot;: &quot;Tax Season&quot;,
+          &quot;description&quot;: &quot;Tax period engagement&quot;,
+          &quot;sortOrder&quot;: 6
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_FESTIVE_SEASON&quot;,
+          &quot;tagName&quot;: &quot;Festive Season&quot;,
+          &quot;description&quot;: &quot;End-of-year seasonal communication&quot;,
+          &quot;sortOrder&quot;: 7
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_ADVISER_ACTIVITY&quot;,
+          &quot;tagName&quot;: &quot;Adviser Activity&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 8
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_AWARENESS_MONTHS&quot;,
+          &quot;tagName&quot;: &quot;Awareness Months&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 9
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_DEATH_BEREAVEMENT&quot;,
+          &quot;tagName&quot;: &quot;Death / Bereavement&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 10
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_FATHERS_DAY&quot;,
+          &quot;tagName&quot;: &quot;Father’s Day&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 11
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_NEW_ADVISER_INTRODUCTION&quot;,
+          &quot;tagName&quot;: &quot;New Adviser Introduction&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 12
+        },
+        {
+          &quot;tagCode&quot;: &quot;TRIGGER_SPECIAL_OFFER&quot;,
+          &quot;tagName&quot;: &quot;Special Offer&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 13
+        }
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;LIFECYCLE_STAGE&quot;,
+      &quot;groupName&quot;: &quot;Lifecycle Stage&quot;,
+      &quot;isMandatory&quot;: 1,
+      &quot;maxSelections&quot;: null,
+      &quot;sortOrder&quot;: 3,
+      &quot;tagValues&quot;: [
+        {
+          &quot;tagCode&quot;: &quot;LIFECYCLE_STAGE_PROSPECT&quot;,
+          &quot;tagName&quot;: &quot;Prospect&quot;,
+          &quot;description&quot;: &quot;Potential new client&quot;,
+          &quot;sortOrder&quot;: 1
+        },
+        {
+          &quot;tagCode&quot;: &quot;LIFECYCLE_STAGE_EXISTING_CLIENT&quot;,
+          &quot;tagName&quot;: &quot;Existing Client&quot;,
+          &quot;description&quot;: &quot;Current client&quot;,
+          &quot;sortOrder&quot;: 2
+        },
+        {
+          &quot;tagCode&quot;: &quot;LIFECYCLE_STAGE_RETENTION&quot;,
+          &quot;tagName&quot;: &quot;Retention&quot;,
+          &quot;description&quot;: &quot;Client retention focus&quot;,
+          &quot;sortOrder&quot;: 3
+        },
+        {
+          &quot;tagCode&quot;: &quot;LIFECYCLE_STAGE_NEW_CLIENT&quot;,
+          &quot;tagName&quot;: &quot;New Client&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 4
+        },
+        {
+          &quot;tagCode&quot;: &quot;LIFECYCLE_STAGE_REVIEW&quot;,
+          &quot;tagName&quot;: &quot;Review&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 5
+        }
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;FINANCIAL_NEED&quot;,
+      &quot;groupName&quot;: &quot;Financial Need&quot;,
+      &quot;isMandatory&quot;: 1,
+      &quot;maxSelections&quot;: null,
+      &quot;sortOrder&quot;: 4,
+      &quot;tagValues&quot;: [
+        {
+          &quot;tagCode&quot;: &quot;FINANCIAL_NEED_PROTECT&quot;,
+          &quot;tagName&quot;: &quot;Protect&quot;,
+          &quot;description&quot;: &quot;Insurance and risk protection needs&quot;,
+          &quot;sortOrder&quot;: 1
+        },
+        {
+          &quot;tagCode&quot;: &quot;FINANCIAL_NEED_GROW_WEALTH&quot;,
+          &quot;tagName&quot;: &quot;Grow Wealth&quot;,
+          &quot;description&quot;: &quot;Investment and wealth growth&quot;,
+          &quot;sortOrder&quot;: 2
+        },
+        {
+          &quot;tagCode&quot;: &quot;FINANCIAL_NEED_SAVE&quot;,
+          &quot;tagName&quot;: &quot;Save&quot;,
+          &quot;description&quot;: &quot;Savings and short-term goals&quot;,
+          &quot;sortOrder&quot;: 3
+        },
+        {
+          &quot;tagCode&quot;: &quot;FINANCIAL_NEED_AWARENESS&quot;,
+          &quot;tagName&quot;: &quot;Awareness&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 4
+        },
+        {
+          &quot;tagCode&quot;: &quot;FINANCIAL_NEED_ENGAGEMENT&quot;,
+          &quot;tagName&quot;: &quot;Engagement&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 5
+        },
+        {
+          &quot;tagCode&quot;: &quot;FINANCIAL_NEED_FINANCIAL_EDUCATION&quot;,
+          &quot;tagName&quot;: &quot;Financial Education&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 6
+        },
+        {
+          &quot;tagCode&quot;: &quot;FINANCIAL_NEED_MANAGE_LIFE_CHANGES&quot;,
+          &quot;tagName&quot;: &quot;Manage Life Changes&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 7
+        },
+        {
+          &quot;tagCode&quot;: &quot;FINANCIAL_NEED_PLAN_RETIREMENT&quot;,
+          &quot;tagName&quot;: &quot;Plan Retirement&quot;,
+          &quot;description&quot;: null,
+          &quot;sortOrder&quot;: 8
+        }
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;PROPOSITION_SOURCE&quot;,
+      &quot;groupName&quot;: &quot;Proposition / Source&quot;,
+      &quot;isMandatory&quot;: 0,
+      &quot;maxSelections&quot;: null,
+      &quot;sortOrder&quot;: 5,
+      &quot;tagValues&quot;: [
+        {
+          &quot;tagCode&quot;: &quot;PROPOSITION_SOURCE_OM_BANK&quot;,
+          &quot;tagName&quot;: &quot;OM Bank&quot;,
+          &quot;description&quot;: &quot;OM Bank offering related&quot;,
+          &quot;sortOrder&quot;: 1
+        },
+        {
+          &quot;tagCode&quot;: &quot;PROPOSITION_SOURCE_REWARDS&quot;,
+          &quot;tagName&quot;: &quot;Rewards&quot;,
+          &quot;description&quot;: &quot;Rewards programme related&quot;,
+          &quot;sortOrder&quot;: 2
+        }
+      ]
+    }
+  ]
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Five tag groups are available</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Trigger selection cap is five</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-3" class="request ">
+    <h2>03. 03 Create Source Category</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>7 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 3a37b614-8257-422f-b277-2f8bf95ab8da
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 01b4df4e-6f21-454d-934b-277c79587f51
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 159</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;categoryName&quot;: &quot;LEAD93 QA Source 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary source category for automated QA regression&quot;,
+  &quot;parentCategoryId&quot;: &quot;0&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;id&quot;: &quot;3001&quot;,
+    &quot;categoryName&quot;: &quot;LEAD93 QA Source 17846201506689322&quot;,
+    &quot;description&quot;: &quot;Temporary source category for automated QA regression&quot;,
+    &quot;parentId&quot;: null,
+    &quot;sortOrder&quot;: 3,
+    &quot;templateCount&quot;: 0,
+    &quot;leaf&quot;: false,
+    &quot;children&quot;: []
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Source Category was created</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-4" class="request ">
+    <h2>04. 04 Create Target Category</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>7 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 26b0b222-2315-4d29-87dd-e89fc8c4012a
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: c92c26d2-0d66-4916-a76c-f02df07eedde
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 159</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;categoryName&quot;: &quot;LEAD93 QA Target 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary target category for automated QA regression&quot;,
+  &quot;parentCategoryId&quot;: &quot;0&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;id&quot;: &quot;3002&quot;,
+    &quot;categoryName&quot;: &quot;LEAD93 QA Target 17846201506689322&quot;,
+    &quot;description&quot;: &quot;Temporary target category for automated QA regression&quot;,
+    &quot;parentId&quot;: null,
+    &quot;sortOrder&quot;: 4,
+    &quot;templateCount&quot;: 0,
+    &quot;leaf&quot;: false,
+    &quot;children&quot;: []
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Target Category was created</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-5" class="request ">
+    <h2>05. 05 Create Unused Category</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>6 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: ec69b08f-e8bf-4486-8120-d381b09659fd
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 604e9fa3-9151-4db5-a4ff-f4502b56eea9
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 137</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;categoryName&quot;: &quot;LEAD93 QA Unused 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary unreferenced category&quot;,
+  &quot;parentCategoryId&quot;: &quot;0&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;id&quot;: &quot;3003&quot;,
+    &quot;categoryName&quot;: &quot;LEAD93 QA Unused 17846201506689322&quot;,
+    &quot;description&quot;: &quot;Temporary unreferenced category&quot;,
+    &quot;parentId&quot;: null,
+    &quot;sortOrder&quot;: 5,
+    &quot;templateCount&quot;: 0,
+    &quot;leaf&quot;: false,
+    &quot;children&quot;: []
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Unused Category was created</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-6" class="request ">
+    <h2>06. 06 Update Source Category</h2>
+    <div class="meta">
+      <span class="method">PUT</span>
+      <span>HTTP 200 OK</span>
+      <span>5 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/3001</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: f926f67f-7d9f-4c16-a0fe-6af0d0fe4928
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 0999cc0b-f45b-4b30-9432-c33826616fe4
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 120</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;categoryName&quot;: &quot;LEAD93 QA Source Updated 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Updated temporary source category&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Update command returns no body</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-7" class="request ">
+    <h2>07. 07 Batch Create Source Subcategories</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>6 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 70ef17d6-9fd8-4015-b813-b5e6cf98d959
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 0b96e879-7965-49eb-a534-f77f574fc9b9
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 263</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;parentId&quot;: &quot;3001&quot;,
+  &quot;subcategories&quot;: [
+    {
+      &quot;name&quot;: &quot;QA Source Subcategory 17846201506689322&quot;,
+      &quot;description&quot;: &quot;Primary source subcategory&quot;
+    },
+    {
+      &quot;name&quot;: &quot;QA Source Secondary 17846201506689322&quot;,
+      &quot;description&quot;: null
+    }
+  ]
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: &quot;5000&quot;,
+      &quot;categoryName&quot;: &quot;QA Source Subcategory 17846201506689322&quot;,
+      &quot;description&quot;: &quot;Primary source subcategory&quot;,
+      &quot;parentId&quot;: &quot;3001&quot;,
+      &quot;sortOrder&quot;: 1,
+      &quot;templateCount&quot;: 0,
+      &quot;leaf&quot;: true,
+      &quot;children&quot;: []
+    },
+    {
+      &quot;id&quot;: &quot;5001&quot;,
+      &quot;categoryName&quot;: &quot;QA Source Secondary 17846201506689322&quot;,
+      &quot;description&quot;: null,
+      &quot;parentId&quot;: &quot;3001&quot;,
+      &quot;sortOrder&quot;: 2,
+      &quot;templateCount&quot;: 0,
+      &quot;leaf&quot;: true,
+      &quot;children&quot;: []
+    }
+  ]
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Two subcategories were created</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-8" class="request ">
+    <h2>08. 08 Batch Create Target Subcategory</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>5 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 9d8a06e7-442b-4890-ac8c-c515bb4c23fd
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: cddbf436-5185-425f-acfc-087e701a65c8
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 175</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:10 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;parentId&quot;: &quot;3002&quot;,
+  &quot;subcategories&quot;: [
+    {
+      &quot;name&quot;: &quot;QA Target Subcategory 17846201506689322&quot;,
+      &quot;description&quot;: &quot;Target subcategory for migration&quot;
+    }
+  ]
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: &quot;5002&quot;,
+      &quot;categoryName&quot;: &quot;QA Target Subcategory 17846201506689322&quot;,
+      &quot;description&quot;: &quot;Target subcategory for migration&quot;,
+      &quot;parentId&quot;: &quot;3002&quot;,
+      &quot;sortOrder&quot;: 1,
+      &quot;templateCount&quot;: 0,
+      &quot;leaf&quot;: true,
+      &quot;children&quot;: []
+    }
+  ]
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Target subcategory was created</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-9" class="request ">
+    <h2>09. 09 Save Complete Root Category Order</h2>
+    <div class="meta">
+      <span class="method">PUT</span>
+      <span>HTTP 200 OK</span>
+      <span>10 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/reorder</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 01db44f2-f693-438b-960a-cac4ff8b15b9
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: d86be03b-6644-4282-9c4d-640d325cc23e
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 181</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>[
+  {
+    &quot;categoryId&quot;: &quot;1001&quot;,
+    &quot;sortOrder&quot;: 1
+  },
+  {
+    &quot;categoryId&quot;: &quot;2001&quot;,
+    &quot;sortOrder&quot;: 2
+  },
+  {
+    &quot;categoryId&quot;: &quot;3001&quot;,
+    &quot;sortOrder&quot;: 3
+  },
+  {
+    &quot;categoryId&quot;: &quot;3002&quot;,
+    &quot;sortOrder&quot;: 4
+  },
+  {
+    &quot;categoryId&quot;: &quot;3003&quot;,
+    &quot;sortOrder&quot;: 5
+  }
+]</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Complete reorder command returns no body</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-10" class="request ">
+    <h2>10. 10 Check Unused Category Delete Impact</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>10 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/delete-impact/3003</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: dc34c0a2-40bc-4fca-ae8f-94206f147edd
+Accept: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: bf213721-d22d-4ef5-8fe9-352db75c5109
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 0</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>(empty)</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;sourceCategoryId&quot;: &quot;3003&quot;,
+    &quot;sourceLevel&quot;: 1,
+    &quot;childCount&quot;: 1,
+    &quot;templateCount&quot;: 2,
+    &quot;activeTemplateCount&quot;: 2,
+    &quot;draftTemplateCount&quot;: 1,
+    &quot;scheduleTemplateCount&quot;: 0
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Unused Category impact is returned</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-11" class="request ">
+    <h2>11. 11 Delete Unreferenced Category</h2>
+    <div class="meta">
+      <span class="method">DELETE</span>
+      <span>HTTP 200 OK</span>
+      <span>4 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/3003</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 489b3799-9f68-4afa-938b-957c9d68e187
+Accept: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: cef048a1-5ffe-45ac-93a2-a359df3014b1
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>(empty)</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Unreferenced Category was deleted</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-12" class="request ">
+    <h2>12. 12 Load Channel List</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/channelList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: e1c25b04-13a8-432f-a995-3fa81b170d51
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 1478538b-f4e8-44a5-afeb-3610b7ca0e38
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 2</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;channelCode&quot;: &quot;EMAIL&quot;,
+      &quot;channelName&quot;: &quot;Email&quot;
+    },
+    {
+      &quot;channelCode&quot;: &quot;CAMPAIGN&quot;,
+      &quot;channelName&quot;: &quot;Campaign&quot;
+    }
+  ]
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Channel list is available</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-13" class="request ">
+    <h2>13. 13 Initial Published List</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>3 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/queryList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 12593579-8b3f-4030-ab9d-78a934abec1a
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 0541414b-6620-45c8-8273-e867dbb8472f
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 76</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;isCampaign&quot;: false,
+  &quot;keyword&quot;: &quot;&quot;,
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 20
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 20,
+    &quot;totalCount&quot;: 1,
+    &quot;totalPage&quot;: 1,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailName&quot;: &quot;Retirement review invitation&quot;,
+        &quot;emailCode&quot;: &quot;815645091883520000&quot;,
+        &quot;emailContent&quot;: &quot;MOCK_AES_CONTENT&quot;,
+        &quot;title&quot;: &quot;Your retirement review&quot;,
+        &quot;textContent&quot;: &quot;Your retirement review&quot;,
+        &quot;fileKeys&quot;: &quot;&quot;,
+        &quot;fileInfos&quot;: [],
+        &quot;version&quot;: &quot;V1&quot;,
+        &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+        &quot;channel&quot;: &quot;EMAIL&quot;,
+        &quot;channelName&quot;: &quot;Email&quot;,
+        &quot;emailStatus&quot;: &quot;1&quot;,
+        &quot;versionStatus&quot;: 1,
+        &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+        &quot;modifiedTime&quot;: &quot;2026-07-16 09:00:00&quot;,
+        &quot;publishedTime&quot;: &quot;2026-07-16 09:00:00&quot;,
+        &quot;messageType&quot;: 0,
+        &quot;description&quot;: &quot;Invitation for the annual retirement review&quot;,
+        &quot;thumbnailKey&quot;: null,
+        &quot;isCustomBranding&quot;: &quot;0&quot;,
+        &quot;isCampaign&quot;: 0,
+        &quot;categoryId&quot;: &quot;1001&quot;,
+        &quot;categoryName&quot;: &quot;Client Engagement&quot;,
+        &quot;subCategoryIds&quot;: [
+          &quot;1101&quot;
+        ],
+        &quot;subCategoryNames&quot;: [
+          &quot;Advice Review&quot;
+        ],
+        &quot;tagMap&quot;: {
+          &quot;CONTENT_TYPE&quot;: [
+            &quot;CONTENT_TYPE_EMAIL&quot;
+          ],
+          &quot;TRIGGER&quot;: [
+            &quot;TRIGGER_ANNUAL_REVIEW&quot;
+          ],
+          &quot;LIFECYCLE_STAGE&quot;: [
+            &quot;LIFECYCLE_STAGE_EXISTING_CLIENT&quot;
+          ],
+          &quot;FINANCIAL_NEED&quot;: [
+            &quot;FINANCIAL_NEED_PLAN_RETIREMENT&quot;
+          ],
+          &quot;PROPOSITION_SOURCE&quot;: []
+        }
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Initial published list is readable</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-14" class="request ">
+    <h2>14. 14 Create Temporary V1 Draft</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>4 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/add</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: f181979a-c70f-448e-ab31-4e6ac264f7b2
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 96b512ba-773c-4298-af6a-8ea1c9191b26
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 624</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+  &quot;effectiveWay&quot;: 0,
+  &quot;effectiveFrom&quot;: null,
+  &quot;effectiveUntil&quot;: null,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;isDraft&quot;: 1,
+  &quot;version&quot;: &quot;V1&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;isCampaign&quot;: false
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;version&quot;: &quot;V1&quot;
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>V1 Draft identifiers were returned</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-15" class="request ">
+    <h2>15. 15 Save Current Template Metadata</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>3 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/metadata</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: a00c9965-fa5f-4154-98f2-3e2d21301dc5
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 0e6ea1ea-f14d-49f4-9830-638eb30b1c21
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 420</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;categoryId&quot;: &quot;3001&quot;,
+  &quot;subCategoryIds&quot;: [
+    &quot;5000&quot;
+  ],
+  &quot;tagGroups&quot;: [
+    {
+      &quot;groupCode&quot;: &quot;CONTENT_TYPE&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;CONTENT_TYPE_EMAIL&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;TRIGGER&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;TRIGGER_BIRTHDAY&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;LIFECYCLE_STAGE&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;FINANCIAL_NEED&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;FINANCIAL_NEED_PROTECT&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;PROPOSITION_SOURCE&quot;,
+      &quot;tagCodes&quot;: []
+    }
+  ]
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;categoryId&quot;: &quot;3001&quot;,
+    &quot;subCategoryIds&quot;: [
+      &quot;5000&quot;
+    ],
+    &quot;categoryRelationCount&quot;: 1,
+    &quot;tagGroupCount&quot;: 5,
+    &quot;tagRelationCount&quot;: 4,
+    &quot;status&quot;: &quot;success&quot;
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Current metadata update result is returned</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-16" class="request ">
+    <h2>16. 16 Verify V1 Draft Detail</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>3 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/detail</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: fa623c4e-cdae-49ae-93d1-59dc7c811662
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 4634dfee-aa2b-4179-87da-7d97330d81f0
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 58</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;version&quot;: &quot;V1&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailName&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+    &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+    &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+    &quot;fileKeys&quot;: &quot;&quot;,
+    &quot;fileInfos&quot;: [],
+    &quot;version&quot;: &quot;V1&quot;,
+    &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+    &quot;channel&quot;: &quot;EMAIL&quot;,
+    &quot;channelName&quot;: &quot;Email&quot;,
+    &quot;emailStatus&quot;: &quot;1&quot;,
+    &quot;versionStatus&quot;: 3,
+    &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+    &quot;modifiedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;publishedTime&quot;: null,
+    &quot;messageType&quot;: 0,
+    &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+    &quot;thumbnailKey&quot;: null,
+    &quot;isCustomBranding&quot;: &quot;0&quot;,
+    &quot;isCampaign&quot;: false,
+    &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+    &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+    &quot;effectiveWay&quot;: 0,
+    &quot;effectiveFrom&quot;: null,
+    &quot;effectiveUntil&quot;: null,
+    &quot;editMode&quot;: &quot;HTML&quot;,
+    &quot;emailContentKey&quot;: &quot;&quot;,
+    &quot;isDraft&quot;: 1,
+    &quot;channelMap&quot;: {},
+    &quot;categoryId&quot;: &quot;3001&quot;,
+    &quot;categoryName&quot;: &quot;LEAD93 QA Source Updated 17846201506689322&quot;,
+    &quot;subCategoryIds&quot;: [
+      &quot;5000&quot;
+    ],
+    &quot;subCategoryNames&quot;: [
+      &quot;QA Source Subcategory 17846201506689322&quot;
+    ],
+    &quot;tagMap&quot;: {
+      &quot;CONTENT_TYPE&quot;: [
+        &quot;CONTENT_TYPE_EMAIL&quot;
+      ],
+      &quot;TRIGGER&quot;: [
+        &quot;TRIGGER_BIRTHDAY&quot;
+      ],
+      &quot;LIFECYCLE_STAGE&quot;: [
+        &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+      ],
+      &quot;FINANCIAL_NEED&quot;: [
+        &quot;FINANCIAL_NEED_PROTECT&quot;
+      ],
+      &quot;PROPOSITION_SOURCE&quot;: []
+    },
+    &quot;copyFromEmailCode&quot;: null
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>V1 Detail is Draft and belongs to this run</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-17" class="request ">
+    <h2>17. 17 Verify Draft Admin List</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>3 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: ce7342e8-00c8-43c2-a016-90abb1155061
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 5520670e-1903-47c6-b0c7-190f5d87bc53
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 121</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;isCampaign&quot;: false,
+  &quot;keyword&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+  &quot;tab&quot;: &quot;DRAFT&quot;,
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 20
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 20,
+    &quot;totalCount&quot;: 2,
+    &quot;totalPage&quot;: 1,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailName&quot;: &quot;Retirement review invitation&quot;,
+        &quot;emailCode&quot;: &quot;815645091883520000&quot;,
+        &quot;emailContent&quot;: &quot;MOCK_AES_CONTENT&quot;,
+        &quot;title&quot;: &quot;Your retirement review&quot;,
+        &quot;textContent&quot;: &quot;Your retirement review&quot;,
+        &quot;fileKeys&quot;: &quot;&quot;,
+        &quot;fileInfos&quot;: [],
+        &quot;version&quot;: &quot;V2&quot;,
+        &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+        &quot;channel&quot;: &quot;EMAIL&quot;,
+        &quot;channelName&quot;: &quot;Email&quot;,
+        &quot;emailStatus&quot;: &quot;1&quot;,
+        &quot;versionStatus&quot;: 3,
+        &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+        &quot;modifiedTime&quot;: &quot;2026-07-16 09:00:00&quot;,
+        &quot;publishedTime&quot;: null,
+        &quot;messageType&quot;: 0,
+        &quot;description&quot;: &quot;Invitation for the annual retirement review&quot;,
+        &quot;thumbnailKey&quot;: null,
+        &quot;isCustomBranding&quot;: &quot;0&quot;,
+        &quot;isCampaign&quot;: 0,
+        &quot;categoryId&quot;: &quot;1001&quot;,
+        &quot;categoryName&quot;: &quot;Client Engagement&quot;,
+        &quot;subCategoryIds&quot;: [
+          &quot;1101&quot;
+        ],
+        &quot;subCategoryNames&quot;: [
+          &quot;Advice Review&quot;
+        ],
+        &quot;tagMap&quot;: {
+          &quot;CONTENT_TYPE&quot;: [
+            &quot;CONTENT_TYPE_EMAIL&quot;
+          ],
+          &quot;TRIGGER&quot;: [
+            &quot;TRIGGER_ANNUAL_REVIEW&quot;
+          ],
+          &quot;LIFECYCLE_STAGE&quot;: [
+            &quot;LIFECYCLE_STAGE_EXISTING_CLIENT&quot;
+          ],
+          &quot;FINANCIAL_NEED&quot;: [
+            &quot;FINANCIAL_NEED_PLAN_RETIREMENT&quot;
+          ],
+          &quot;PROPOSITION_SOURCE&quot;: []
+        }
+      },
+      {
+        &quot;emailName&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+        &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+        &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+        &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+        &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+        &quot;fileKeys&quot;: &quot;&quot;,
+        &quot;fileInfos&quot;: [],
+        &quot;version&quot;: &quot;V1&quot;,
+        &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+        &quot;channel&quot;: &quot;EMAIL&quot;,
+        &quot;channelName&quot;: &quot;Email&quot;,
+        &quot;emailStatus&quot;: &quot;1&quot;,
+        &quot;versionStatus&quot;: 3,
+        &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+        &quot;modifiedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+        &quot;publishedTime&quot;: null,
+        &quot;messageType&quot;: 0,
+        &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+        &quot;thumbnailKey&quot;: null,
+        &quot;isCustomBranding&quot;: &quot;0&quot;,
+        &quot;isCampaign&quot;: false,
+        &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+        &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+        &quot;effectiveWay&quot;: 0,
+        &quot;effectiveFrom&quot;: null,
+        &quot;effectiveUntil&quot;: null,
+        &quot;editMode&quot;: &quot;HTML&quot;,
+        &quot;emailContentKey&quot;: &quot;&quot;,
+        &quot;isDraft&quot;: 1,
+        &quot;channelMap&quot;: {},
+        &quot;categoryId&quot;: &quot;3001&quot;,
+        &quot;categoryName&quot;: &quot;LEAD93 QA Source Updated 17846201506689322&quot;,
+        &quot;subCategoryIds&quot;: [
+          &quot;5000&quot;
+        ],
+        &quot;subCategoryNames&quot;: [
+          &quot;QA Source Subcategory 17846201506689322&quot;
+        ],
+        &quot;tagMap&quot;: {
+          &quot;CONTENT_TYPE&quot;: [
+            &quot;CONTENT_TYPE_EMAIL&quot;
+          ],
+          &quot;TRIGGER&quot;: [
+            &quot;TRIGGER_BIRTHDAY&quot;
+          ],
+          &quot;LIFECYCLE_STAGE&quot;: [
+            &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+          ],
+          &quot;FINANCIAL_NEED&quot;: [
+            &quot;FINANCIAL_NEED_PROTECT&quot;
+          ],
+          &quot;PROPOSITION_SOURCE&quot;: []
+        }
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Temporary template is present in admin list</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-18" class="request ">
+    <h2>18. 18 Update V1 Draft Content</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/version/update</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: b16abdbe-dc31-49ac-b764-ef1ef81febae
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: dffe2d33-a523-49a2-91af-a939e80817e3
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 661</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+  &quot;effectiveWay&quot;: 0,
+  &quot;effectiveFrom&quot;: null,
+  &quot;effectiveUntil&quot;: null,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA V1 updated&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;isDraft&quot;: 1,
+  &quot;version&quot;: &quot;V1&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;isCampaign&quot;: false,
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;version&quot;: &quot;V1&quot;,
+    &quot;versionStatus&quot;: 3
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>V1 remains Draft after update</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-19" class="request ">
+    <h2>19. 19 Publish V1 Now</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/publish</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: abad262c-0290-4435-b1fa-77fb091f0cd3
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 3a33ae4a-2019-46b8-a38e-71c39d354adc
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 625</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+  &quot;effectiveWay&quot;: 0,
+  &quot;effectiveFrom&quot;: null,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;isCampaign&quot;: false,
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;targetVersion&quot;: &quot;V1&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Publish command returns no inferred state</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-20" class="request ">
+    <h2>20. 20 Verify Published V1 Detail</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>1 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/published/detail</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: f096822d-2219-4770-a389-c63a97b1c30c
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: d5de6711-3431-4dfb-87f3-c8ff10d7edf2
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 39</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailName&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+    &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+    &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+    &quot;fileKeys&quot;: &quot;&quot;,
+    &quot;fileInfos&quot;: [],
+    &quot;version&quot;: &quot;V1&quot;,
+    &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+    &quot;channel&quot;: &quot;EMAIL&quot;,
+    &quot;channelName&quot;: &quot;Email&quot;,
+    &quot;emailStatus&quot;: &quot;1&quot;,
+    &quot;versionStatus&quot;: 1,
+    &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+    &quot;modifiedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;publishedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;messageType&quot;: 0,
+    &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+    &quot;thumbnailKey&quot;: null,
+    &quot;isCustomBranding&quot;: &quot;0&quot;,
+    &quot;isCampaign&quot;: false,
+    &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+    &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+    &quot;effectiveWay&quot;: 0,
+    &quot;effectiveFrom&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;effectiveUntil&quot;: null,
+    &quot;editMode&quot;: &quot;HTML&quot;,
+    &quot;emailContentKey&quot;: &quot;&quot;,
+    &quot;isDraft&quot;: 1,
+    &quot;channelMap&quot;: {},
+    &quot;categoryId&quot;: &quot;3001&quot;,
+    &quot;categoryName&quot;: &quot;LEAD93 QA Source Updated 17846201506689322&quot;,
+    &quot;subCategoryIds&quot;: [
+      &quot;5000&quot;
+    ],
+    &quot;subCategoryNames&quot;: [
+      &quot;QA Source Subcategory 17846201506689322&quot;
+    ],
+    &quot;tagMap&quot;: {
+      &quot;CONTENT_TYPE&quot;: [
+        &quot;CONTENT_TYPE_EMAIL&quot;
+      ],
+      &quot;TRIGGER&quot;: [
+        &quot;TRIGGER_BIRTHDAY&quot;
+      ],
+      &quot;LIFECYCLE_STAGE&quot;: [
+        &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+      ],
+      &quot;FINANCIAL_NEED&quot;: [
+        &quot;FINANCIAL_NEED_PROTECT&quot;
+      ],
+      &quot;PROPOSITION_SOURCE&quot;: []
+    }
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Published detail returns V1 Active</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-21" class="request ">
+    <h2>21. 21 Search Published Temporary Template</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/queryList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: f0f0fc83-2035-4655-a51a-22899a809aa9
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 9c016c63-3a0c-46d3-a3dd-4ef615de4628
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 484</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;isCampaign&quot;: false,
+  &quot;keyword&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+  &quot;categoryId&quot;: &quot;3001&quot;,
+  &quot;subCategoryIds&quot;: [
+    &quot;5000&quot;
+  ],
+  &quot;tagGroups&quot;: [
+    {
+      &quot;groupCode&quot;: &quot;CONTENT_TYPE&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;CONTENT_TYPE_EMAIL&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;TRIGGER&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;TRIGGER_BIRTHDAY&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;LIFECYCLE_STAGE&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;FINANCIAL_NEED&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;FINANCIAL_NEED_PROTECT&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;PROPOSITION_SOURCE&quot;,
+      &quot;tagCodes&quot;: []
+    }
+  ],
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 20
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 20,
+    &quot;totalCount&quot;: 2,
+    &quot;totalPage&quot;: 1,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailName&quot;: &quot;Retirement review invitation&quot;,
+        &quot;emailCode&quot;: &quot;815645091883520000&quot;,
+        &quot;emailContent&quot;: &quot;MOCK_AES_CONTENT&quot;,
+        &quot;title&quot;: &quot;Your retirement review&quot;,
+        &quot;textContent&quot;: &quot;Your retirement review&quot;,
+        &quot;fileKeys&quot;: &quot;&quot;,
+        &quot;fileInfos&quot;: [],
+        &quot;version&quot;: &quot;V1&quot;,
+        &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+        &quot;channel&quot;: &quot;EMAIL&quot;,
+        &quot;channelName&quot;: &quot;Email&quot;,
+        &quot;emailStatus&quot;: &quot;1&quot;,
+        &quot;versionStatus&quot;: 1,
+        &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+        &quot;modifiedTime&quot;: &quot;2026-07-16 09:00:00&quot;,
+        &quot;publishedTime&quot;: &quot;2026-07-16 09:00:00&quot;,
+        &quot;messageType&quot;: 0,
+        &quot;description&quot;: &quot;Invitation for the annual retirement review&quot;,
+        &quot;thumbnailKey&quot;: null,
+        &quot;isCustomBranding&quot;: &quot;0&quot;,
+        &quot;isCampaign&quot;: 0,
+        &quot;categoryId&quot;: &quot;1001&quot;,
+        &quot;categoryName&quot;: &quot;Client Engagement&quot;,
+        &quot;subCategoryIds&quot;: [
+          &quot;1101&quot;
+        ],
+        &quot;subCategoryNames&quot;: [
+          &quot;Advice Review&quot;
+        ],
+        &quot;tagMap&quot;: {
+          &quot;CONTENT_TYPE&quot;: [
+            &quot;CONTENT_TYPE_EMAIL&quot;
+          ],
+          &quot;TRIGGER&quot;: [
+            &quot;TRIGGER_ANNUAL_REVIEW&quot;
+          ],
+          &quot;LIFECYCLE_STAGE&quot;: [
+            &quot;LIFECYCLE_STAGE_EXISTING_CLIENT&quot;
+          ],
+          &quot;FINANCIAL_NEED&quot;: [
+            &quot;FINANCIAL_NEED_PLAN_RETIREMENT&quot;
+          ],
+          &quot;PROPOSITION_SOURCE&quot;: []
+        }
+      },
+      {
+        &quot;emailName&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+        &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+        &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+        &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+        &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+        &quot;fileKeys&quot;: &quot;&quot;,
+        &quot;fileInfos&quot;: [],
+        &quot;version&quot;: &quot;V1&quot;,
+        &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+        &quot;channel&quot;: &quot;EMAIL&quot;,
+        &quot;channelName&quot;: &quot;Email&quot;,
+        &quot;emailStatus&quot;: &quot;1&quot;,
+        &quot;versionStatus&quot;: 1,
+        &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+        &quot;modifiedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+        &quot;publishedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+        &quot;messageType&quot;: 0,
+        &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+        &quot;thumbnailKey&quot;: null,
+        &quot;isCustomBranding&quot;: &quot;0&quot;,
+        &quot;isCampaign&quot;: false,
+        &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+        &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+        &quot;effectiveWay&quot;: 0,
+        &quot;effectiveFrom&quot;: &quot;2026-07-16 10:00:00&quot;,
+        &quot;effectiveUntil&quot;: null,
+        &quot;editMode&quot;: &quot;HTML&quot;,
+        &quot;emailContentKey&quot;: &quot;&quot;,
+        &quot;isDraft&quot;: 1,
+        &quot;channelMap&quot;: {},
+        &quot;categoryId&quot;: &quot;3001&quot;,
+        &quot;categoryName&quot;: &quot;LEAD93 QA Source Updated 17846201506689322&quot;,
+        &quot;subCategoryIds&quot;: [
+          &quot;5000&quot;
+        ],
+        &quot;subCategoryNames&quot;: [
+          &quot;QA Source Subcategory 17846201506689322&quot;
+        ],
+        &quot;tagMap&quot;: {
+          &quot;CONTENT_TYPE&quot;: [
+            &quot;CONTENT_TYPE_EMAIL&quot;
+          ],
+          &quot;TRIGGER&quot;: [
+            &quot;TRIGGER_BIRTHDAY&quot;
+          ],
+          &quot;LIFECYCLE_STAGE&quot;: [
+            &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+          ],
+          &quot;FINANCIAL_NEED&quot;: [
+            &quot;FINANCIAL_NEED_PROTECT&quot;
+          ],
+          &quot;PROPOSITION_SOURCE&quot;: []
+        }
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Published list contains temporary template</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-22" class="request ">
+    <h2>22. 22 Update Template Master Fields</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/update</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: ff95fe25-3b30-46e0-8ff0-89508c10fd17
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: e9a8a9fa-f142-40be-b5b0-9f471a3e856d
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 195</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Updated by automated v2 QA regression&quot;,
+  &quot;channelMap&quot;: {
+    &quot;EMAIL&quot;: &quot;Email&quot;
+  }
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Master field update returns no body</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-23" class="request ">
+    <h2>23. 23 Deactivate Temporary Template</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/changeStatus</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 57d78156-03af-4f0f-b534-0cb7c70578e6
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 010e9924-a695-4802-9c33-a86ebf0ab390
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 59</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;emailStatus&quot;: 0
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Deactivate returns no body</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-24" class="request ">
+    <h2>24. 24 Reactivate Temporary Template</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>1 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/changeStatus</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 3a09fcbe-8185-4290-a1d2-4184d51f765a
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 5bf1d3de-14be-4d9f-9529-e33fa3136f3f
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 59</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;emailStatus&quot;: 1
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Reactivate returns no body</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-25" class="request ">
+    <h2>25. 25 Get Max Version</h2>
+    <div class="meta">
+      <span class="method">GET</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/version/getMaxVersion?emailCode=900000000000000001</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 241cf063-a71a-4167-ab17-51ef029330b9
+Accept: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 2f95de67-3517-41ac-9716-6c728a17c8c9
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>(empty)</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;version&quot;: &quot;V1&quot;,
+    &quot;versionStatus&quot;: 1
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Maximum version is V1</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-26" class="request ">
+    <h2>26. 26 Get V1 Version Detail</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/version/detail</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 90b3f265-8bff-4030-9f3d-6e2efe5bfa75
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: d56bb77d-d178-465b-b27a-998a2679118a
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 58</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;version&quot;: &quot;V1&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailName&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+    &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+    &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+    &quot;fileKeys&quot;: &quot;&quot;,
+    &quot;fileInfos&quot;: [],
+    &quot;version&quot;: &quot;V1&quot;,
+    &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+    &quot;channel&quot;: &quot;EMAIL&quot;,
+    &quot;channelName&quot;: &quot;Email&quot;,
+    &quot;emailStatus&quot;: &quot;1&quot;,
+    &quot;versionStatus&quot;: 1,
+    &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+    &quot;modifiedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;publishedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;messageType&quot;: 0,
+    &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+    &quot;thumbnailKey&quot;: null,
+    &quot;isCustomBranding&quot;: &quot;0&quot;,
+    &quot;isCampaign&quot;: false,
+    &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+    &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+    &quot;effectiveWay&quot;: 0,
+    &quot;effectiveFrom&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;effectiveUntil&quot;: null,
+    &quot;editMode&quot;: &quot;HTML&quot;,
+    &quot;emailContentKey&quot;: &quot;&quot;,
+    &quot;isDraft&quot;: 1,
+    &quot;channelMap&quot;: {}
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Version Detail returns V1</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-27" class="request ">
+    <h2>27. 27 Get Version History</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>1 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/version/list/history</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 1f47d795-e586-4c42-85b5-38141d4bcd59
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 52690133-d38f-4081-868e-8c1b78c837a0
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 91</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 20,
+  &quot;isAsc&quot;: false
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 20,
+    &quot;totalCount&quot;: 1,
+    &quot;totalPage&quot;: 1,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailName&quot;: &quot;LEAD93 QA 17846201506689322&quot;,
+        &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+        &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+        &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+        &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+        &quot;fileKeys&quot;: &quot;&quot;,
+        &quot;fileInfos&quot;: [],
+        &quot;version&quot;: &quot;V1&quot;,
+        &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+        &quot;channel&quot;: &quot;EMAIL&quot;,
+        &quot;channelName&quot;: &quot;Email&quot;,
+        &quot;emailStatus&quot;: &quot;1&quot;,
+        &quot;versionStatus&quot;: 1,
+        &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+        &quot;modifiedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+        &quot;publishedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+        &quot;messageType&quot;: 0,
+        &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+        &quot;thumbnailKey&quot;: null,
+        &quot;isCustomBranding&quot;: &quot;0&quot;,
+        &quot;isCampaign&quot;: false,
+        &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+        &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+        &quot;effectiveWay&quot;: 0,
+        &quot;effectiveFrom&quot;: &quot;2026-07-16 10:00:00&quot;,
+        &quot;effectiveUntil&quot;: null,
+        &quot;editMode&quot;: &quot;HTML&quot;,
+        &quot;emailContentKey&quot;: &quot;&quot;,
+        &quot;isDraft&quot;: 1,
+        &quot;channelMap&quot;: {},
+        &quot;updatedBy&quot;: &quot;content.manager&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-16 10:00:00&quot;
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Version History contains V1</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-28" class="request ">
+    <h2>28. 28 Copy and Create Independent Draft</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/copy</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: e977043d-c0a2-463f-b171-af0c8ca5610c
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 2a9cce79-3b4f-44d0-9294-1b0877bf81a2
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 989</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;sourceEmailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;sourceVersion&quot;: &quot;V1&quot;,
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322 (Copy)&quot;,
+  &quot;description&quot;: &quot;Temporary Copy and Create regression template&quot;,
+  &quot;isCampaign&quot;: false,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA copied draft&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA copied draft&lt;/p&gt;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA copied draft&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;categoryId&quot;: &quot;3001&quot;,
+  &quot;subCategoryIds&quot;: [
+    &quot;5000&quot;
+  ],
+  &quot;tagGroups&quot;: [
+    {
+      &quot;groupCode&quot;: &quot;CONTENT_TYPE&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;CONTENT_TYPE_EMAIL&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;TRIGGER&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;TRIGGER_BIRTHDAY&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;LIFECYCLE_STAGE&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;FINANCIAL_NEED&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;FINANCIAL_NEED_PROTECT&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;PROPOSITION_SOURCE&quot;,
+      &quot;tagCodes&quot;: []
+    }
+  ]
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000002&quot;,
+    &quot;version&quot;: &quot;V1&quot;,
+    &quot;versionStatus&quot;: 3,
+    &quot;emailStatus&quot;: &quot;0&quot;
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Independent Copy V1 Draft was created</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-29" class="request ">
+    <h2>29. 29 Verify Copied Draft Detail</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/detail</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 27ef7b09-84b1-43b7-afa8-7f7223b19357
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 6583e97e-23e9-4ba1-924f-60a717b132c7
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 58</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000002&quot;,
+  &quot;version&quot;: &quot;V1&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322 (Copy)&quot;,
+    &quot;emailCode&quot;: &quot;900000000000000002&quot;,
+    &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA copied draft&lt;/p&gt;&quot;,
+    &quot;title&quot;: &quot;LEAD-93 v2 QA copied draft&quot;,
+    &quot;textContent&quot;: &quot;LEAD-93 v2 QA copied draft&quot;,
+    &quot;fileKeys&quot;: &quot;&quot;,
+    &quot;fileInfos&quot;: [],
+    &quot;version&quot;: &quot;V1&quot;,
+    &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+    &quot;channel&quot;: &quot;EMAIL&quot;,
+    &quot;channelName&quot;: &quot;Email&quot;,
+    &quot;emailStatus&quot;: &quot;0&quot;,
+    &quot;versionStatus&quot;: 3,
+    &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+    &quot;modifiedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;publishedTime&quot;: null,
+    &quot;messageType&quot;: 0,
+    &quot;description&quot;: &quot;Temporary Copy and Create regression template&quot;,
+    &quot;thumbnailKey&quot;: null,
+    &quot;isCustomBranding&quot;: &quot;0&quot;,
+    &quot;isCampaign&quot;: false,
+    &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+    &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+    &quot;effectiveWay&quot;: null,
+    &quot;effectiveFrom&quot;: null,
+    &quot;effectiveUntil&quot;: null,
+    &quot;editMode&quot;: &quot;HTML&quot;,
+    &quot;emailContentKey&quot;: &quot;&quot;,
+    &quot;isDraft&quot;: 1,
+    &quot;channelMap&quot;: {},
+    &quot;categoryId&quot;: &quot;3001&quot;,
+    &quot;categoryName&quot;: &quot;LEAD93 QA Source Updated 17846201506689322&quot;,
+    &quot;subCategoryIds&quot;: [
+      &quot;5000&quot;
+    ],
+    &quot;subCategoryNames&quot;: [
+      &quot;QA Source Subcategory 17846201506689322&quot;
+    ],
+    &quot;tagMap&quot;: {
+      &quot;CONTENT_TYPE&quot;: [
+        &quot;CONTENT_TYPE_EMAIL&quot;
+      ],
+      &quot;TRIGGER&quot;: [
+        &quot;TRIGGER_BIRTHDAY&quot;
+      ],
+      &quot;LIFECYCLE_STAGE&quot;: [
+        &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+      ],
+      &quot;FINANCIAL_NEED&quot;: [
+        &quot;FINANCIAL_NEED_PROTECT&quot;
+      ],
+      &quot;PROPOSITION_SOURCE&quot;: []
+    },
+    &quot;copyFromEmailCode&quot;: &quot;900000000000000001&quot;
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Copied Template is independently readable</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-30" class="request ">
+    <h2>30. 30 Add Target Version V2</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/version/add</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 63d0822b-82bf-4511-80b2-174db2f6f370
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: c6a9a7d4-f605-4f5b-a5ac-2a16df9de47c
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 653</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+  &quot;effectiveWay&quot;: 0,
+  &quot;effectiveFrom&quot;: null,
+  &quot;effectiveUntil&quot;: null,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;version&quot;: &quot;V2&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;isCampaign&quot;: false,
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;version&quot;: &quot;V2&quot;,
+    &quot;versionStatus&quot;: 1
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>V2 became Active through version/add</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-31" class="request ">
+    <h2>31. 31 Verify V2 Version Detail</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/version/detail</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: a1f65044-994b-49f6-98bf-0bf3d4c15a20
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: e801e95f-3af5-4540-b17d-3e1dc68cd2e5
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 58</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;version&quot;: &quot;V2&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322&quot;,
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+    &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+    &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+    &quot;fileKeys&quot;: &quot;&quot;,
+    &quot;fileInfos&quot;: [],
+    &quot;version&quot;: &quot;V2&quot;,
+    &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+    &quot;channel&quot;: &quot;EMAIL&quot;,
+    &quot;channelName&quot;: &quot;Email&quot;,
+    &quot;emailStatus&quot;: &quot;1&quot;,
+    &quot;versionStatus&quot;: 1,
+    &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+    &quot;modifiedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;publishedTime&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;messageType&quot;: 0,
+    &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+    &quot;thumbnailKey&quot;: null,
+    &quot;isCustomBranding&quot;: &quot;0&quot;,
+    &quot;isCampaign&quot;: false,
+    &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+    &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+    &quot;effectiveWay&quot;: 0,
+    &quot;effectiveFrom&quot;: &quot;2026-07-16 10:00:00&quot;,
+    &quot;effectiveUntil&quot;: null,
+    &quot;editMode&quot;: &quot;HTML&quot;,
+    &quot;emailContentKey&quot;: &quot;&quot;,
+    &quot;isDraft&quot;: 1,
+    &quot;channelMap&quot;: {}
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Version Detail returns V2 Active</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-32" class="request ">
+    <h2>32. 32 Create V3 Working Draft</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/add</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 1e520278-3cf8-4e47-97d7-74deafd91445
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 5bffd334-d930-4bfe-964c-24ab35d09a4e
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 669</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+  &quot;effectiveWay&quot;: 0,
+  &quot;effectiveFrom&quot;: null,
+  &quot;effectiveUntil&quot;: null,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;isDraft&quot;: 1,
+  &quot;version&quot;: &quot;V3&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;isCampaign&quot;: false,
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;version&quot;: &quot;V3&quot;
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>V3 Working Copy identifiers are returned</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-33" class="request ">
+    <h2>33. 33 Update V3 Working Draft</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/version/update</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 1770a26a-88e7-4736-8c39-05db959e0397
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 261ea099-6dc7-4240-b6be-b611664a0062
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 669</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+  &quot;effectiveWay&quot;: 0,
+  &quot;effectiveFrom&quot;: null,
+  &quot;effectiveUntil&quot;: null,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA V3 updated&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;isDraft&quot;: 1,
+  &quot;version&quot;: &quot;V3&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;isCampaign&quot;: false,
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;version&quot;: &quot;V3&quot;,
+    &quot;versionStatus&quot;: 3
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>V3 remains Draft after update</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-34" class="request ">
+    <h2>34. 34 Schedule V3 with Dynamic Future Time</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/publish</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: b0355d60-0413-4102-b7aa-471c3ad53d9c
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: c427e007-f100-4527-8197-d669f1c7b9e6
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 650</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+  &quot;effectiveWay&quot;: 1,
+  &quot;effectiveFrom&quot;: &quot;2026-07-22 11:49:10&quot;,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;isCampaign&quot;: false,
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;targetVersion&quot;: &quot;V3&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Schedule command returns no inferred state</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-35" class="request ">
+    <h2>35. 35 Cancel Schedule by Save Draft</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/add</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 460db66f-94a5-4e50-afd2-eb53f7758f75
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 7e1587cd-5a59-4049-9547-c4ce8c3f99f0
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 686</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+  &quot;effectiveWay&quot;: 1,
+  &quot;effectiveFrom&quot;: &quot;2026-07-22 11:49:10&quot;,
+  &quot;effectiveUntil&quot;: null,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;isDraft&quot;: 1,
+  &quot;version&quot;: &quot;V3&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;isCampaign&quot;: false,
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;version&quot;: &quot;V3&quot;
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Save Draft returns the scheduled version identifier</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-36" class="request ">
+    <h2>36. 36 Publish V3 Now</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/publish</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: fd9dc084-73af-4af8-b053-b5b09f65ac20
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 2bdae458-9b6c-40b1-92c3-aff733e3356c
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 633</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+  &quot;effectiveWay&quot;: 0,
+  &quot;effectiveFrom&quot;: null,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;isCampaign&quot;: false,
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;targetVersion&quot;: &quot;V3&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Publish command returns no inferred state</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-37" class="request ">
+    <h2>37. 37 Create V4 Draft for Discard</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>1 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/add</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: f0cc36b8-a6a9-40f7-b10c-30c58c6f20f4
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: c89721c1-31f7-4c6b-836e-2a3315169e23
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 669</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+  &quot;moduleCodeName&quot;: &quot;Communications&quot;,
+  &quot;scenarioCode&quot;: &quot;TEMPLATE_LIBRARY&quot;,
+  &quot;emailName&quot;: &quot;LEAD93 QA Updated 17846201506689322&quot;,
+  &quot;description&quot;: &quot;Temporary LEAD-93 v2 QA regression template&quot;,
+  &quot;effectiveWay&quot;: 0,
+  &quot;effectiveFrom&quot;: null,
+  &quot;effectiveUntil&quot;: null,
+  &quot;title&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;editMode&quot;: &quot;HTML&quot;,
+  &quot;emailContent&quot;: &quot;&lt;p&gt;LEAD-93 v2 QA regression&lt;/p&gt;&quot;,
+  &quot;textContent&quot;: &quot;LEAD-93 v2 QA regression&quot;,
+  &quot;fileKeys&quot;: &quot;&quot;,
+  &quot;emailContentKey&quot;: &quot;&quot;,
+  &quot;isDraft&quot;: 1,
+  &quot;version&quot;: &quot;V4&quot;,
+  &quot;thumbnailKey&quot;: null,
+  &quot;channelMap&quot;: {},
+  &quot;isCustomBranding&quot;: &quot;0&quot;,
+  &quot;isCampaign&quot;: false,
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;version&quot;: &quot;V4&quot;
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>V4 Draft identifier was returned</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-38" class="request ">
+    <h2>38. 38 Discard V4 Draft</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/version/delete</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 283cfb25-d0fd-4ad8-aa8e-08826b093557
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 54bb95b7-241b-4c6c-9041-7da0643552c8
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 58</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;version&quot;: &quot;V4&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Discard Draft returns no body</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-39" class="request ">
+    <h2>39. 39 Batch Reassign Both Templates to Target Category</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/reassign</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: f5060819-2e0e-4b96-9e85-3bbb9d564617
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 485bc3ff-174f-44b3-a624-e84b39123bce
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 855</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;templates&quot;: [
+    {
+      &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+      &quot;categoryId&quot;: &quot;3002&quot;,
+      &quot;subCategoryIds&quot;: [
+        &quot;5002&quot;
+      ],
+      &quot;tagGroups&quot;: [
+        {
+          &quot;groupCode&quot;: &quot;CONTENT_TYPE&quot;,
+          &quot;tagCodes&quot;: [
+            &quot;CONTENT_TYPE_EMAIL&quot;
+          ]
+        },
+        {
+          &quot;groupCode&quot;: &quot;TRIGGER&quot;,
+          &quot;tagCodes&quot;: [
+            &quot;TRIGGER_BIRTHDAY&quot;
+          ]
+        },
+        {
+          &quot;groupCode&quot;: &quot;LIFECYCLE_STAGE&quot;,
+          &quot;tagCodes&quot;: [
+            &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+          ]
+        },
+        {
+          &quot;groupCode&quot;: &quot;FINANCIAL_NEED&quot;,
+          &quot;tagCodes&quot;: [
+            &quot;FINANCIAL_NEED_PROTECT&quot;
+          ]
+        },
+        {
+          &quot;groupCode&quot;: &quot;PROPOSITION_SOURCE&quot;,
+          &quot;tagCodes&quot;: []
+        }
+      ]
+    },
+    {
+      &quot;emailCode&quot;: &quot;900000000000000002&quot;,
+      &quot;categoryId&quot;: &quot;3002&quot;,
+      &quot;subCategoryIds&quot;: [
+        &quot;5002&quot;
+      ],
+      &quot;tagGroups&quot;: [
+        {
+          &quot;groupCode&quot;: &quot;CONTENT_TYPE&quot;,
+          &quot;tagCodes&quot;: [
+            &quot;CONTENT_TYPE_EMAIL&quot;
+          ]
+        },
+        {
+          &quot;groupCode&quot;: &quot;TRIGGER&quot;,
+          &quot;tagCodes&quot;: [
+            &quot;TRIGGER_BIRTHDAY&quot;
+          ]
+        },
+        {
+          &quot;groupCode&quot;: &quot;LIFECYCLE_STAGE&quot;,
+          &quot;tagCodes&quot;: [
+            &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+          ]
+        },
+        {
+          &quot;groupCode&quot;: &quot;FINANCIAL_NEED&quot;,
+          &quot;tagCodes&quot;: [
+            &quot;FINANCIAL_NEED_PROTECT&quot;
+          ]
+        },
+        {
+          &quot;groupCode&quot;: &quot;PROPOSITION_SOURCE&quot;,
+          &quot;tagCodes&quot;: []
+        }
+      ]
+    }
+  ]
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Batch reassignment returns no body</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-40" class="request ">
+    <h2>40. 40 Move Primary Template Back to Source Metadata</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>1 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/metadata</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 9e07c675-3404-4367-a8fd-eee19f4bb7a3
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: d2b5a34f-29c0-4d7f-afa1-88f89f448366
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 420</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+  &quot;categoryId&quot;: &quot;3001&quot;,
+  &quot;subCategoryIds&quot;: [
+    &quot;5000&quot;
+  ],
+  &quot;tagGroups&quot;: [
+    {
+      &quot;groupCode&quot;: &quot;CONTENT_TYPE&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;CONTENT_TYPE_EMAIL&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;TRIGGER&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;TRIGGER_BIRTHDAY&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;LIFECYCLE_STAGE&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;LIFECYCLE_STAGE_PROSPECT&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;FINANCIAL_NEED&quot;,
+      &quot;tagCodes&quot;: [
+        &quot;FINANCIAL_NEED_PROTECT&quot;
+      ]
+    },
+    {
+      &quot;groupCode&quot;: &quot;PROPOSITION_SOURCE&quot;,
+      &quot;tagCodes&quot;: []
+    }
+  ]
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;emailCode&quot;: &quot;900000000000000001&quot;,
+    &quot;categoryId&quot;: &quot;3001&quot;,
+    &quot;subCategoryIds&quot;: [
+      &quot;5000&quot;
+    ],
+    &quot;categoryRelationCount&quot;: 1,
+    &quot;tagGroupCount&quot;: 5,
+    &quot;tagRelationCount&quot;: 4,
+    &quot;status&quot;: &quot;success&quot;
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Primary Template returned to source Category</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-41" class="request ">
+    <h2>41. 41 Check Referenced Source Category Impact</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/delete-impact/3001</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 5fd250fd-7194-42cc-ad28-01b1847a2ecb
+Accept: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 42bdf0ec-45b6-434d-b94e-85a70424d018
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 0</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>(empty)</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;sourceCategoryId&quot;: &quot;3001&quot;,
+    &quot;sourceLevel&quot;: 1,
+    &quot;childCount&quot;: 1,
+    &quot;templateCount&quot;: 2,
+    &quot;activeTemplateCount&quot;: 2,
+    &quot;draftTemplateCount&quot;: 1,
+    &quot;scheduleTemplateCount&quot;: 0
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Referenced source Category impact is returned</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-42" class="request ">
+    <h2>42. 42 Reassign References and Delete Source Category</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>1 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/reassign-and-delete</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: bec86763-94b9-4056-ac26-6fbd2ca5e5c7
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 38e299e6-8573-49e1-8136-753c9c7651f9
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 106</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;sourceCategoryId&quot;: &quot;3001&quot;,
+  &quot;targetCategoryId&quot;: &quot;3002&quot;,
+  &quot;targetSubcategoryIds&quot;: [
+    &quot;5002&quot;
+  ]
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Referenced source Category was reassigned and deleted</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-43" class="request ">
+    <h2>43. 43 Cleanup - Delete Copied Template</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/delete</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 14ab2d69-629b-46ed-91cd-2ecd7d34b94b
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: bebfec90-df43-4667-b388-62a599d60611
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 39</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000002&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Copied Template was soft deleted</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-44" class="request ">
+    <h2>44. 44 Cleanup - Delete Primary Template</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>1 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/delete</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 2e374198-3ff3-42f0-963c-9595436df774
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: b95d045d-7bc4-46b6-bee7-6e9692a372cc
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 39</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;emailCode&quot;: &quot;900000000000000001&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Primary Template was soft deleted</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-45" class="request ">
+    <h2>45. 45 Verify Temporary Templates Removed</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/queryList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 2d2f41ab-c354-4902-819b-04ddce9fa948
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 0973cede-66ad-4dc5-92fa-d0942ae23346
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 112</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;isCampaign&quot;: false,
+  &quot;keyword&quot;: &quot;LEAD93 QA Updated 17846201506689322&quot;,
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 100
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 100,
+    &quot;totalCount&quot;: 1,
+    &quot;totalPage&quot;: 1,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailName&quot;: &quot;Retirement review invitation&quot;,
+        &quot;emailCode&quot;: &quot;815645091883520000&quot;,
+        &quot;emailContent&quot;: &quot;MOCK_AES_CONTENT&quot;,
+        &quot;title&quot;: &quot;Your retirement review&quot;,
+        &quot;textContent&quot;: &quot;Your retirement review&quot;,
+        &quot;fileKeys&quot;: &quot;&quot;,
+        &quot;fileInfos&quot;: [],
+        &quot;version&quot;: &quot;V1&quot;,
+        &quot;moduleCode&quot;: &quot;COMMUNICATION&quot;,
+        &quot;channel&quot;: &quot;EMAIL&quot;,
+        &quot;channelName&quot;: &quot;Email&quot;,
+        &quot;emailStatus&quot;: &quot;1&quot;,
+        &quot;versionStatus&quot;: 1,
+        &quot;modifiedBy&quot;: &quot;content.manager&quot;,
+        &quot;modifiedTime&quot;: &quot;2026-07-16 09:00:00&quot;,
+        &quot;publishedTime&quot;: &quot;2026-07-16 09:00:00&quot;,
+        &quot;messageType&quot;: 0,
+        &quot;description&quot;: &quot;Invitation for the annual retirement review&quot;,
+        &quot;thumbnailKey&quot;: null,
+        &quot;isCustomBranding&quot;: &quot;0&quot;,
+        &quot;isCampaign&quot;: 0,
+        &quot;categoryId&quot;: &quot;1001&quot;,
+        &quot;categoryName&quot;: &quot;Client Engagement&quot;,
+        &quot;subCategoryIds&quot;: [
+          &quot;1101&quot;
+        ],
+        &quot;subCategoryNames&quot;: [
+          &quot;Advice Review&quot;
+        ],
+        &quot;tagMap&quot;: {
+          &quot;CONTENT_TYPE&quot;: [
+            &quot;CONTENT_TYPE_EMAIL&quot;
+          ],
+          &quot;TRIGGER&quot;: [
+            &quot;TRIGGER_ANNUAL_REVIEW&quot;
+          ],
+          &quot;LIFECYCLE_STAGE&quot;: [
+            &quot;LIFECYCLE_STAGE_EXISTING_CLIENT&quot;
+          ],
+          &quot;FINANCIAL_NEED&quot;: [
+            &quot;FINANCIAL_NEED_PLAN_RETIREMENT&quot;
+          ],
+          &quot;PROPOSITION_SOURCE&quot;: []
+        }
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Temporary Templates are absent after cleanup</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-46" class="request ">
+    <h2>46. 47 Cleanup - Delete Target Category</h2>
+    <div class="meta">
+      <span class="method">DELETE</span>
+      <span>HTTP 200 OK</span>
+      <span>2 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/3002</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: d16d0a1d-b97f-4a3e-ad44-d714713f0687
+Accept: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: a040537a-8297-414f-885b-ee21117e0f3b
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>(empty)</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: null
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Target Category was deleted after Template cleanup</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-47" class="request ">
+    <h2>47. 48 Final Verification - No Temporary Categories Remain</h2>
+    <div class="meta">
+      <span class="method">GET</span>
+      <span>HTTP 200 OK</span>
+      <span>1 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>http://127.0.0.1/iic-dae-msg/web/msg/template/email/v2/category/tree</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 7cf6a2cc-37c1-4112-b7c1-1af6fb9dd4d8
+Accept: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: de7d0bf2-399b-4a51-9a12-75beed593f79
+Host: 127.0.0.1:31094
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Content-Type: application/json; charset=utf-8
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Content-Type, Authorization, language, requestid, x-apigw-api-id
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+Date: Tue, 21 Jul 2026 07:49:11 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>(empty)</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;mock-request-id&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: &quot;1001&quot;,
+      &quot;categoryName&quot;: &quot;Client Engagement&quot;,
+      &quot;description&quot;: &quot;Templates used during client engagement&quot;,
+      &quot;parentId&quot;: null,
+      &quot;sortOrder&quot;: 1,
+      &quot;templateCount&quot;: 0,
+      &quot;leaf&quot;: false,
+      &quot;children&quot;: [
+        {
+          &quot;id&quot;: &quot;1101&quot;,
+          &quot;categoryName&quot;: &quot;Advice Review&quot;,
+          &quot;description&quot;: &quot;Review-related templates&quot;,
+          &quot;parentId&quot;: &quot;1001&quot;,
+          &quot;sortOrder&quot;: 1,
+          &quot;templateCount&quot;: 0,
+          &quot;leaf&quot;: true,
+          &quot;children&quot;: []
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;2001&quot;,
+      &quot;categoryName&quot;: &quot;Planning&quot;,
+      &quot;description&quot;: null,
+      &quot;parentId&quot;: null,
+      &quot;sortOrder&quot;: 2,
+      &quot;templateCount&quot;: 0,
+      &quot;leaf&quot;: false,
+      &quot;children&quot;: [
+        {
+          &quot;id&quot;: &quot;2101&quot;,
+          &quot;categoryName&quot;: &quot;Retirement Planning&quot;,
+          &quot;description&quot;: null,
+          &quot;parentId&quot;: &quot;2001&quot;,
+          &quot;sortOrder&quot;: 1,
+          &quot;templateCount&quot;: 0,
+          &quot;leaf&quot;: true,
+          &quot;children&quot;: []
+        }
+      ]
+    }
+  ]
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response is JSON</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Temporary Categories were removed</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section></div>
+  </main>
+</body>
+</html>
