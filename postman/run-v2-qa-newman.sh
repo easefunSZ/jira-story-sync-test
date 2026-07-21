@@ -39,6 +39,14 @@ else
   NEWMAN=(npm exec --cache "$NPM_CACHE" --yes --package=newman -- newman)
 fi
 
+SKIP_ARGS=()
+if [[ -n "${SKIP_REQUEST_NAMES:-}" ]]; then
+  SKIP_ARGS+=(--env-var "skipRequestNames=$SKIP_REQUEST_NAMES")
+fi
+if [[ -n "${SKIP_STEPS:-}" ]]; then
+  SKIP_ARGS+=(--env-var "skipSteps=$SKIP_STEPS")
+fi
+
 generate_reports() {
   local raw_json="$1"
   local debug_html="$2"
@@ -53,9 +61,12 @@ generate_reports() {
   fi
 }
 
+node "$POSTMAN_DIR/scripts/upgrade-v2-full-run.mjs"
+
 newman_status=0
 "${NEWMAN[@]}" run "$COLLECTION" -e "$ENV_FILE" \
   --env-var "enableWriteTests=true" \
+  ${SKIP_ARGS[@]+"${SKIP_ARGS[@]}"} \
   --bail failure \
   --reporters cli,json \
   --reporter-json-export "$MAIN_RAW_JSON" \
@@ -71,6 +82,7 @@ if [[ "$newman_status" -ne 0 ]]; then
     "${NEWMAN[@]}" run "$COLLECTION" -e "$RUNTIME_ENV" \
       --folder "99 Cleanup" \
       --env-var "enableWriteTests=true" \
+      ${SKIP_ARGS[@]+"${SKIP_ARGS[@]}"} \
       --reporters cli,json \
       --reporter-json-export "$CLEANUP_RAW_JSON" \
       --export-environment "$RUNTIME_ENV" \

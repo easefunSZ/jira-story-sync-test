@@ -61,12 +61,25 @@ if [[ "$server_ready" != "true" ]]; then
   exit 1
 fi
 
+if [[ "$MODE" == "full" ]]; then
+  node "$POSTMAN_DIR/scripts/upgrade-v2-full-run.mjs"
+fi
+
+SKIP_ARGS=()
+if [[ "$MODE" == "full" && -n "${SKIP_REQUEST_NAMES:-}" ]]; then
+  SKIP_ARGS+=(--env-var "skipRequestNames=$SKIP_REQUEST_NAMES")
+fi
+if [[ "$MODE" == "full" && -n "${SKIP_STEPS:-}" ]]; then
+  SKIP_ARGS+=(--env-var "skipSteps=$SKIP_STEPS")
+fi
+
 newman_status=0
 npm exec --cache "$NPM_CACHE" --yes --package=newman -- \
   newman run "$COLLECTION" -e "$ENV_FILE" \
   --env-var "baseUrl=http://127.0.0.1:${MOCK_PORT}" \
   --env-var "gatewayPrefix=" \
   --env-var "enableWriteTests=true" \
+  ${SKIP_ARGS[@]+"${SKIP_ARGS[@]}"} \
   --reporters cli,json \
   --reporter-json-export "$RAW_JSON" \
   --timeout-request 30000 || newman_status=$?

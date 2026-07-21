@@ -1863,7 +1863,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"parentId\": \"{{categoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"Advice Review\",\n      \"description\": \"Review-related templates\"\n    },\n    {\n      \"name\": \"Annual Check-in\",\n      \"description\": null\n    }\n  ]\n}",
+              "raw": "{\n  \"parentId\": \"{{batchParentCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"Advice Review\",\n      \"description\": \"Review-related templates\"\n    },\n    {\n      \"name\": \"Annual Check-in\",\n      \"description\": null\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2221,6 +2221,11 @@
     {
       "key": "categoryId",
       "value": "1001",
+      "type": "string"
+    },
+    {
+      "key": "batchParentCategoryId",
+      "value": "2001",
       "type": "string"
     },
     {
