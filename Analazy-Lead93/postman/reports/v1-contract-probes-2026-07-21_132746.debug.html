@@ -1,0 +1,2577 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LEAD-93 Newman Private Debug Report</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, sans-serif; color: #17212b; background: #f4f6f8; }
+    body { margin: 0; }
+    header { padding: 24px 32px; color: #fff; background: #17324d; }
+    header h1 { margin: 0 0 8px; font-size: 24px; }
+    header p { margin: 4px 0; }
+    .warning { padding: 12px 32px; color: #6b3c00; background: #fff0c2; border-bottom: 1px solid #e3c26b; font-weight: 700; }
+    main { display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr); gap: 20px; max-width: 1600px; margin: 0 auto; padding: 20px; }
+    nav { position: sticky; top: 12px; align-self: start; max-height: calc(100vh - 24px); overflow: auto; background: #fff; border: 1px solid #d7dde3; border-radius: 6px; }
+    nav h2 { margin: 0; padding: 16px; font-size: 16px; border-bottom: 1px solid #d7dde3; }
+    nav ul { margin: 0; padding: 8px; list-style: none; }
+    nav li { display: flex; gap: 8px; justify-content: space-between; padding: 7px 8px; border-bottom: 1px solid #edf0f2; }
+    nav a { color: #1b5e92; text-decoration: none; }
+    .request { margin-bottom: 20px; padding: 20px; background: #fff; border: 1px solid #d7dde3; border-radius: 6px; }
+    .request.has-failure { border-color: #c62828; }
+    h2 { margin-top: 0; font-size: 20px; }
+    h3 { margin: 18px 0 6px; font-size: 14px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; }
+    .meta span { padding: 4px 8px; background: #e8eef3; border-radius: 4px; font-size: 12px; }
+    .meta .method { color: #fff; background: #176b45; font-weight: 700; }
+    .columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    pre { box-sizing: border-box; max-height: 420px; margin: 0; padding: 12px; overflow: auto; color: #d9e4ee; background: #17212b; border-radius: 4px; white-space: pre-wrap; overflow-wrap: anywhere; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; text-align: left; vertical-align: top; border: 1px solid #d7dde3; }
+    th { background: #edf2f5; }
+    td pre { max-height: 120px; padding: 6px; }
+    .pass { color: #176b45; font-weight: 700; }
+    .fail { color: #b42318; font-weight: 700; }
+    @media (max-width: 900px) { main, .columns { grid-template-columns: 1fr; } nav { position: static; max-height: none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LEAD-93 Newman Private Debug Report</h1>
+    <p>Generated: 2026-07-21T05:35:32.504Z</p>
+    <p>Requests: 16 total / 0 failed; Assertions: 86 total / 0 failed</p>
+  </header>
+  <div class="warning">PRIVATE: Contains actual URLs, request bodies and response bodies. Authorization, cookies and API keys are masked. Do not commit or share externally.</div>
+  <main>
+    <nav><h2>Requests</h2><ul><li><a href="#request-1">01. 01 Seed and Baseline</a><span class="pass">PASS</span></li>
+<li><a href="#request-2">02. 02 templateStatus=1</a><span class="pass">PASS</span></li>
+<li><a href="#request-3">03. 03 templateStatus=3</a><span class="pass">PASS</span></li>
+<li><a href="#request-4">04. 04 Invalid Channel Filter</a><span class="pass">PASS</span></li>
+<li><a href="#request-5">05. 05 Inactive Filter</a><span class="pass">PASS</span></li>
+<li><a href="#request-6">06. 06 Active Filter</a><span class="pass">PASS</span></li>
+<li><a href="#request-7">07. 07 Impossible Keyword</a><span class="pass">PASS</span></li>
+<li><a href="#request-8">08. 08 updatedDate ASC</a><span class="pass">PASS</span></li>
+<li><a href="#request-9">09. 09 updatedDate DESC</a><span class="pass">PASS</span></li>
+<li><a href="#request-10">10. 10 templateList pageNum=2</a><span class="pass">PASS</span></li>
+<li><a href="#request-11">11. 11 templateList pageNo=2</a><span class="pass">PASS</span></li>
+<li><a href="#request-12">12. 12 queryList pageNum=2</a><span class="pass">PASS</span></li>
+<li><a href="#request-13">13. 13 queryList pageNo=2</a><span class="pass">PASS</span></li>
+<li><a href="#request-14">14. 14 recipientList pageNum=2</a><span class="pass">PASS</span></li>
+<li><a href="#request-15">15. 15 recipientList pageNo=2</a><span class="pass">PASS</span></li>
+<li><a href="#request-16">16. 16 Get Next Version</a><span class="pass">PASS</span></li></ul></nav>
+    <div>
+  <section id="request-1" class="request ">
+    <h2>01. 01 Seed and Baseline</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>1820 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: d2eabf46-3135-4996-822d-237c65fc842a
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 2e0e0482-a4af-4147-a942-5b9ed33b916b
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 53</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:52 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cc84fb23d7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A1110GqgDoEF99g=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:52 GMT
+x-amzn-requestid: a35939e9-9309-4503-ad85-274cf469cee2
+set-cookie: [REDACTED]
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=pgKZASuozfTjJOQtXGYrbkkHfhHdZbWOzfH%2ByrXzE5QAbF60VoPvWi942sVxo2wPnGjwLS%2FkO5OpwTLD6KM%2BPrTfeFoA%2BySd52XxchIdEyml05t9hYD8kvH0bmTPTR37JL0rSaSCSmO4nm0TG0R0gg%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 5,
+  &quot;keyWords&quot;: &quot;&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;5067c2c6f3f1f96c&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 5,
+    &quot;totalCount&quot;: 204,
+    &quot;totalPage&quot;: 41,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailCode&quot;: &quot;portfolio_001_IFA&quot;,
+        &quot;emailName&quot;: &quot;portfolio_for_IFA&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;SYSTEM&quot;,
+        &quot;createdDate&quot;: &quot;2024-07-01 03:45:07&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectBA&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 12:00:25&quot;,
+        &quot;sendTimes&quot;: 29,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;984752736312627200&quot;,
+        &quot;emailName&quot;: &quot;test20260714&quot;,
+        &quot;channel&quot;: &quot;S111232, S111233&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations, Private Wealth Management&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-14 03:35:48&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 10:57:03&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980419530843099136&quot;,
+        &quot;emailName&quot;: &quot;2322&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-02 04:37:11&quot;,
+        &quot;updatedBy&quot;: &quot;PFContent Manager&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 14:49:21&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;985925768808894464&quot;,
+        &quot;emailName&quot;: &quot;test0717&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-17 09:17:01&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 09:18:16&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980119260430995456&quot;,
+        &quot;emailName&quot;: &quot;23424321&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-01 08:44:02&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 04:30:18&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Template list page exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Baseline contains a reusable template</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-2" class="request ">
+    <h2>02. 02 templateStatus=1</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>505 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 3232df49-751e-47a8-b8c8-69ebf98ef8ff
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 8f5570eb-6c01-4461-ba29-8b22adddc223
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 78
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:52 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cc88ba4cd7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A1116FOKDoEFvoQ=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:52 GMT
+x-amzn-requestid: 4b324f91-0f02-4979-b821-f8cfa4c9cc10
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=5wlmGRnWLmlVWfj%2F5XnBYhWaHjvlexLTkIeHHL23VeZ%2BM35IK86RUJPjsojs0tlCOt34LWYiUvCKVu%2BMoxR8kMJS%2F6fq%2BX76KIMO%2FXpylSL8WGFbupWMzl3JmPyxcQbEHHp6TcXe9zKiJpaiWQoT%2BQ%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 5,
+  &quot;keyWords&quot;: &quot;&quot;,
+  &quot;templateStatus&quot;: &quot;1&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;3b7252bde0786c24&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 5,
+    &quot;totalCount&quot;: 153,
+    &quot;totalPage&quot;: 31,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailCode&quot;: &quot;portfolio_001_IFA&quot;,
+        &quot;emailName&quot;: &quot;portfolio_for_IFA&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;SYSTEM&quot;,
+        &quot;createdDate&quot;: &quot;2024-07-01 03:45:07&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectBA&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 12:00:25&quot;,
+        &quot;sendTimes&quot;: 29,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;984752736312627200&quot;,
+        &quot;emailName&quot;: &quot;test20260714&quot;,
+        &quot;channel&quot;: &quot;S111232, S111233&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations, Private Wealth Management&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-14 03:35:48&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 10:57:03&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980419530843099136&quot;,
+        &quot;emailName&quot;: &quot;2322&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-02 04:37:11&quot;,
+        &quot;updatedBy&quot;: &quot;PFContent Manager&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 14:49:21&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980119260430995456&quot;,
+        &quot;emailName&quot;: &quot;23424321&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-01 08:44:02&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 04:30:18&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;LEADS_ESCALATE_MAIL&quot;,
+        &quot;emailName&quot;: &quot;Leads Escalate Mail&quot;,
+        &quot;channel&quot;: null,
+        &quot;channelName&quot;: null,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-03-20 10:35:11&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-16 05:33:48&quot;,
+        &quot;sendTimes&quot;: 42,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Template list page exists</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-3" class="request ">
+    <h2>03. 03 templateStatus=3</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>467 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 9801e8ef-eeb8-405b-bfdf-3efb641c108f
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 0bf1d9d8-0a5f-40d6-99e7-c5fcd9cac300
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 78
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:53 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cc8c1e4dd7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A111_EmZjoEFcng=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:53 GMT
+x-amzn-requestid: 5fdd8cb8-96cf-4b42-9ffa-4fedb2e70f8c
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=t7Ogzj0D%2FDWTwLbNBKow36RdlIrK2yxH1bKgz5Cgobu4diwcvtDbFVpiM1F4zwX9k1MbhSIHQgtvuQJwYrO5pC%2Br2o0QduW5ENxq8QXQ58NVe2bW1NMVJ8PajZAxf9%2FaNoJeGGSPdfksOdlzINuPxQ%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 5,
+  &quot;keyWords&quot;: &quot;&quot;,
+  &quot;templateStatus&quot;: &quot;3&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;0777971b5b1aa39b&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 5,
+    &quot;totalCount&quot;: 204,
+    &quot;totalPage&quot;: 41,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailCode&quot;: &quot;portfolio_001_IFA&quot;,
+        &quot;emailName&quot;: &quot;portfolio_for_IFA&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;SYSTEM&quot;,
+        &quot;createdDate&quot;: &quot;2024-07-01 03:45:07&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectBA&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 12:00:25&quot;,
+        &quot;sendTimes&quot;: 29,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;984752736312627200&quot;,
+        &quot;emailName&quot;: &quot;test20260714&quot;,
+        &quot;channel&quot;: &quot;S111232, S111233&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations, Private Wealth Management&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-14 03:35:48&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 10:57:03&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980419530843099136&quot;,
+        &quot;emailName&quot;: &quot;2322&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-02 04:37:11&quot;,
+        &quot;updatedBy&quot;: &quot;PFContent Manager&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 14:49:21&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;985925768808894464&quot;,
+        &quot;emailName&quot;: &quot;test0717&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-17 09:17:01&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 09:18:16&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980119260430995456&quot;,
+        &quot;emailName&quot;: &quot;23424321&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-01 08:44:02&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 04:30:18&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Template list page exists</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-4" class="request ">
+    <h2>04. 04 Invalid Channel Filter</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>449 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: e7e3905d-72d4-4f37-a647-c2138799a28f
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 10a00a00-2b0f-4074-9107-fbf2f4c630e8
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 103
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:53 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cc8f3a26d7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A112EHUnjoEFSvA=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:53 GMT
+x-amzn-requestid: f58355f0-1a68-49f5-bc52-e4717a501341
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=VoLGg9ysOr%2B00BBE0Bgcuxgdx0DRnf%2Fiw4J6C0v8YGglFsQfmLqnD%2BY3smstParNV%2FPbdJM82VQNa4mQIQnKTCVFq9ojOg7tsaMN5U6kr65jhAcYgrgeg72%2FsT5z0gsQDkRl8jMEkErat0tfQLyB%2Bg%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 5,
+  &quot;keyWords&quot;: &quot;&quot;,
+  &quot;channelList&quot;: [
+    &quot;__NO_SUCH_CHANNEL__&quot;
+  ]
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;2196d3835aec9bd9&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 5,
+    &quot;totalCount&quot;: 0,
+    &quot;totalPage&quot;: 0,
+    &quot;dataList&quot;: []
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Template list page exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Invalid channel returns no records</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-5" class="request ">
+    <h2>05. 05 Inactive Filter</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>462 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 0affafb7-39ed-4c97-86d5-ac482f04838c
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 20b5171a-85e9-4d3a-8fd5-2e405fd53385
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 90
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:54 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cc922df4d7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A112JE0TjoEFpSA=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:54 GMT
+x-amzn-requestid: b5f4719b-7668-4b09-a3c1-ff8e590de10b
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=L3iHdKST1MzHN3JTqr6IuhzbW1bYL5JAfAP57NqhZ%2By33ecoiGkW65Xkyt%2F%2BS63HqrTzxett0PRdzKGlPnVa14YOjIf139cvYd9JwuDk3VRYu2z6FuYXtx4Zjru0k7Mbi21FHcN56CdzgZ4yscz0ug%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 20,
+  &quot;keyWords&quot;: &quot;&quot;,
+  &quot;emailStatusList&quot;: [
+    &quot;0&quot;
+  ]
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;1c44e4ff3c169113&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 20,
+    &quot;totalCount&quot;: 48,
+    &quot;totalPage&quot;: 3,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailCode&quot;: &quot;985925768808894464&quot;,
+        &quot;emailName&quot;: &quot;test0717&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-17 09:17:01&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 09:18:16&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;985628545592201216&quot;,
+        &quot;emailName&quot;: &quot;jh&quot;,
+        &quot;channel&quot;: &quot;S111232&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;PFContent Manager&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-16 13:35:57&quot;,
+        &quot;updatedBy&quot;: &quot;PFContent Manager&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-16 13:36:06&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;684801422046400512&quot;,
+        &quot;emailName&quot;: &quot;11&quot;,
+        &quot;channel&quot;: &quot;S111232&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-04-07 10:36:22&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-03 08:08:02&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;906900192488460288&quot;,
+        &quot;emailName&quot;: &quot;Testing&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT, SA-MFC-Franchise, SA-MFC-TIED_IN_HOUSE, SA-MFC-TIED_FIELD, SA-MFC-BROKERS, SA-MFC-FMR, SA-MFC-OMF, SA-MFC-VIRTUAL, S113159, S161192&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales, Franchise, In House Tied SA, Tied Field SA, Brokers SA, FMR, OMF FC Retail, Virtual Adviser, Tied Field SA and In House Tied SA, In House Tied ZZ&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2025-12-11 07:37:35&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2025-12-11 07:42:53&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;776828698753110016&quot;,
+        &quot;emailName&quot;: &quot;testyi02&quot;,
+        &quot;channel&quot;: &quot;S111232&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-12-17 09:19:55&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-12-17 09:21:11&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;737064240401223680&quot;,
+        &quot;emailName&quot;: &quot;Ingrid&quot;,
+        &quot;channel&quot;: &quot;SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-08-29 15:50:09&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-10-09 15:53:04&quot;,
+        &quot;sendTimes&quot;: 3,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;730793962171928576&quot;,
+        &quot;emailName&quot;: &quot;oc_regression_sp48&quot;,
+        &quot;channel&quot;: &quot;SA-PF-PFA, SA-PF-DFA, SA-PF-BD, SA-PF-AFD, S112030, S112029, S111240, S111238, S111235, S111234, S111233, S111232&quot;,
+        &quot;channelName&quot;: &quot;PFA Regional Sales, DFA, Broker Distribution, Franchise Channel, Office Staff (non commission earning), Digital SA, Office Staff (commission earning), Corporate Solutions SA, Banc Assurance, PF Direct Financial Advice SA, Private Wealth Management, Growing Aspirations&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-08-12 08:34:18&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-09-03 08:35:58&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;551014742282604544&quot;,
+        &quot;emailName&quot;: &quot;Demo 2&quot;,
+        &quot;channel&quot;: &quot;SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-04-04 06:15:52&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-06-10 11:33:44&quot;,
+        &quot;sendTimes&quot;: 1,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;703985058909917184&quot;,
+        &quot;emailName&quot;: &quot;Test01&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-Franchise&quot;,
+        &quot;channelName&quot;: &quot;Franchise&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-05-30 09:05:17&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-05-30 10:05:17&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;698091741936488448&quot;,
+        &quot;emailName&quot;: &quot;test0514001&quot;,
+        &quot;channel&quot;: &quot;S111232&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-05-14 02:47:21&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-05-14 03:47:21&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;688501038285721600&quot;,
+        &quot;emailName&quot;: &quot;jen&quot;,
+        &quot;channel&quot;: &quot;S111233&quot;,
+        &quot;channelName&quot;: &quot;Private Wealth Management&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-04-17 15:37:19&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-04-17 15:37:19&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;684801525339525120&quot;,
+        &quot;emailName&quot;: &quot;111&quot;,
+        &quot;channel&quot;: &quot;S111232&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-04-07 10:36:47&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-04-07 10:42:39&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;684802083592998912&quot;,
+        &quot;emailName&quot;: &quot;1144&quot;,
+        &quot;channel&quot;: &quot;S111232&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-04-07 10:39:00&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-04-07 10:42:35&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;684802593251266560&quot;,
+        &quot;emailName&quot;: &quot;2112&quot;,
+        &quot;channel&quot;: &quot;S111232&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-04-07 10:41:01&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-04-07 10:42:31&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;684802811808059392&quot;,
+        &quot;emailName&quot;: &quot;2113&quot;,
+        &quot;channel&quot;: &quot;S111232&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-04-07 10:41:53&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-04-07 10:42:27&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;684784463087013888&quot;,
+        &quot;emailName&quot;: &quot;FF&quot;,
+        &quot;channel&quot;: &quot;S111235&quot;,
+        &quot;channelName&quot;: &quot;Banc Assurance&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-04-07 09:28:59&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-04-07 09:37:06&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;684759770690883584&quot;,
+        &quot;emailName&quot;: &quot;BAU Test Mail Template&quot;,
+        &quot;channel&quot;: &quot;S111232, S111233, S111234, SA-PF-AFD, SA-PF-BD, SA-PF-DFA, SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations, Private Wealth Management, PF Direct Financial Advice SA, Franchise Channel, Broker Distribution, DFA, PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-04-07 07:50:52&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2024-04-07 07:51:51&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;640280811609919488&quot;,
+        &quot;emailName&quot;: &quot;Checking Introductory&quot;,
+        &quot;channel&quot;: &quot;SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-12-06 14:07:21&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2023-12-06 14:07:21&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;551042857134329856&quot;,
+        &quot;emailName&quot;: &quot;Demo 3 Bennie&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD, SA-PF-DFA, SA-PF-AFD, SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution, DFA, Franchise Channel, PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-04-04 08:07:35&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2023-11-10 05:38:26&quot;,
+        &quot;sendTimes&quot;: 31,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;622378114344947712&quot;,
+        &quot;emailName&quot;: &quot;afdasfa&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD, SA-PF-AFD, SA-PF-DFA&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution, Franchise Channel, DFA&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-10-18 04:28:26&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2023-10-18 04:28:25&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Template list page exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Inactive filter only returns emailStatus 0</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-6" class="request ">
+    <h2>06. 06 Active Filter</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>452 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 691c50cb-18da-4acd-94c1-7dfe30a51256
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 57e38fdb-f9bb-4559-b2d2-272fc8a497f9
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 90
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:54 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cc953993d7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A112OGJRDoEFX9w=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:54 GMT
+x-amzn-requestid: 644239d7-fa41-4ac5-9805-f65dc82c74f3
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=tcLryMRbEu%2B5qaAeJWknBbI11jy%2BTBIr23ou%2FablYAxmr8DkFteClRc5dXU1Q%2F%2FUROGuv%2B81IK6c9%2FgKLsZ9QMpDRPh%2BjNq%2F7kBKbngEQEetRLbrBOVt56xBSpt5DNkhzpQFIw1A0rlsHiWabTUHXg%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 20,
+  &quot;keyWords&quot;: &quot;&quot;,
+  &quot;emailStatusList&quot;: [
+    &quot;1&quot;
+  ]
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;9cff7d90a7adc6b1&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 20,
+    &quot;totalCount&quot;: 156,
+    &quot;totalPage&quot;: 8,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailCode&quot;: &quot;portfolio_001_IFA&quot;,
+        &quot;emailName&quot;: &quot;portfolio_for_IFA&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;SYSTEM&quot;,
+        &quot;createdDate&quot;: &quot;2024-07-01 03:45:07&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectBA&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 12:00:25&quot;,
+        &quot;sendTimes&quot;: 29,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;984752736312627200&quot;,
+        &quot;emailName&quot;: &quot;test20260714&quot;,
+        &quot;channel&quot;: &quot;S111232, S111233&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations, Private Wealth Management&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-14 03:35:48&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 10:57:03&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980419530843099136&quot;,
+        &quot;emailName&quot;: &quot;2322&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-02 04:37:11&quot;,
+        &quot;updatedBy&quot;: &quot;PFContent Manager&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 14:49:21&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980119260430995456&quot;,
+        &quot;emailName&quot;: &quot;23424321&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-01 08:44:02&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 04:30:18&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;LEADS_ESCALATE_MAIL&quot;,
+        &quot;emailName&quot;: &quot;Leads Escalate Mail&quot;,
+        &quot;channel&quot;: null,
+        &quot;channelName&quot;: null,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-03-20 10:35:11&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-16 05:33:48&quot;,
+        &quot;sendTimes&quot;: 42,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980246077942927360&quot;,
+        &quot;emailName&quot;: &quot;243214&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-01 17:07:57&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-14 16:55:37&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;967065282768146432&quot;,
+        &quot;emailName&quot;: &quot;Rewards Registration&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT, SA-MFC-Franchise, SA-MFC-TIED_FIELD, SA-MFC-TIED_IN_HOUSE, SA-MFC-BROKERS, SA-MFC-VIRTUAL, SA-MFC-OMF, SA-MFC-FMR, S113159, S161192&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales, Franchise, Tied Field SA, In House Tied SA, Brokers SA, Virtual Adviser, OMF FC Retail, FMR, Tied Field SA and In House Tied SA, In House Tied ZZ&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-05-26 08:12:11&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-14 07:38:36&quot;,
+        &quot;sendTimes&quot;: 39,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;983817036528488448&quot;,
+        &quot;emailName&quot;: &quot;template711&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT, SA-MFC-Franchise, SA-MFC-TIED_IN_HOUSE&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales, Franchise, In House Tied SA&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-11 13:37:40&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-13 14:16:26&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;portfolio_001&quot;,
+        &quot;emailName&quot;: &quot;portfolio1&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD, SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution, PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-10-16 04:12:41&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-13 12:00:32&quot;,
+        &quot;sendTimes&quot;: 296,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;892043457198166016&quot;,
+        &quot;emailName&quot;: &quot;See See&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2025-10-31 07:42:14&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-03 08:06:33&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;967968255291559936&quot;,
+        &quot;emailName&quot;: &quot;Test_For_INC0622566&quot;,
+        &quot;channel&quot;: &quot;S111234&quot;,
+        &quot;channelName&quot;: &quot;PF Direct Financial Advice SA&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2026-05-28 20:00:16&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-02 04:34:31&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980244040127746048&quot;,
+        &quot;emailName&quot;: &quot;dfgs&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-01 16:59:51&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-01 17:04:56&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;975079818406268928&quot;,
+        &quot;emailName&quot;: &quot;General template&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-06-17 10:59:05&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2026-06-18 11:49:19&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;CUSTOMER_CONTACT_SEND_EMAIL_03&quot;,
+        &quot;emailName&quot;: &quot;Request to be contacted&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD,SA-PF-DFA,SA-PF-PFA,SA-PF-AFD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution,DFA,PFA Regional Sales,Franchise Channel&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-09-04 13:22:24&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2026-06-14 05:05:12&quot;,
+        &quot;sendTimes&quot;: 44,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;Document001_5682&quot;,
+        &quot;emailName&quot;: &quot;Document001_5682_Test&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD,SA-PF-DFA,SA-PF-PFA,SA-PF-AFD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution,DFA,PFA Regional Sales,Franchise Channel&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2024-02-22 11:15:11&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2026-06-08 10:47:04&quot;,
+        &quot;sendTimes&quot;: 54,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;892031082214592512&quot;,
+        &quot;emailName&quot;: &quot;October 31&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2025-10-31 06:53:03&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2026-06-03 02:42:12&quot;,
+        &quot;sendTimes&quot;: 6,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;873596463702216704&quot;,
+        &quot;emailName&quot;: &quot;Smart Goals Disability (Not Started)&quot;,
+        &quot;channel&quot;: &quot;S111232, S111233, S111234, S111235, S111238, S111240, S112029, S112030, SA-PF-AFD, SA-PF-BD, SA-PF-DFA, SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations, Private Wealth Management, PF Direct Financial Advice SA, Banc Assurance, Corporate Solutions SA, Office Staff (commission earning), Digital SA, Office Staff (non commission earning), Franchise Channel, Broker Distribution, DFA, PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2025-09-10 10:00:28&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2026-04-25 14:30:28&quot;,
+        &quot;sendTimes&quot;: 11,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;872495970372423680&quot;,
+        &quot;emailName&quot;: &quot;Smart Goals Life - Not on track&quot;,
+        &quot;channel&quot;: &quot;S111232, S111233, S111234, S111235, S111238, S111240, S112029, S112030, SA-PF-AFD, SA-PF-BD, SA-PF-DFA, SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations, Private Wealth Management, PF Direct Financial Advice SA, Banc Assurance, Corporate Solutions SA, Office Staff (commission earning), Digital SA, Office Staff (non commission earning), Franchise Channel, Broker Distribution, DFA, PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2025-09-07 09:07:30&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2026-04-17 04:13:37&quot;,
+        &quot;sendTimes&quot;: 25,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;873623419260899328&quot;,
+        &quot;emailName&quot;: &quot;Smart Goals Severe Illness (Not Started)&quot;,
+        &quot;channel&quot;: &quot;S111232, S111233, S111234, S111235, S111238, S111240, S112029, S112030, SA-PF-AFD, SA-PF-BD, SA-PF-DFA, SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations, Private Wealth Management, PF Direct Financial Advice SA, Banc Assurance, Corporate Solutions SA, Office Staff (commission earning), Digital SA, Office Staff (non commission earning), Franchise Channel, Broker Distribution, DFA, PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2025-09-10 11:47:34&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2026-04-16 08:10:59&quot;,
+        &quot;sendTimes&quot;: 24,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;CUSTOMER_CONTACT_SEND_EMAIL&quot;,
+        &quot;emailName&quot;: &quot;Follow up&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD,SA-PF-DFA,SA-PF-PFA,SA-PF-AFD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution,DFA,PFA Regional Sales,Franchise Channel&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-04-03 10:58:22&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2026-04-15 17:14:42&quot;,
+        &quot;sendTimes&quot;: 57,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Template list page exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Active filter only returns emailStatus 1</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-7" class="request ">
+    <h2>07. 07 Impossible Keyword</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>475 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: d7941b48-0529-4b62-9192-0e538d743216
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 959af7d5-09a2-45d1-b835-9aa16c7085a3
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 72
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:55 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cc983e2fd7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A112THXtjoEFhTA=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:55 GMT
+x-amzn-requestid: 2772a4c1-b0dd-409e-92e1-f124c54bb0df
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=QXGcSZXvXH3ByEQcVCx153XNYPiQ0wJQRHz%2BIGMHFd5g3%2FjYVXi%2Fa6FSExw3jw0itMUWW0KCnEf0R6GU%2BlkuCF7EGOM1O4NKL2PmzahXQHOYM2u5ooyflhyawy%2FSJqFdMBtQ6ESKLqaQK3d18FQ%2Fpg%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 5,
+  &quot;keyWords&quot;: &quot;__LEAD93_NO_MATCH__&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;4b2b56737e23598a&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 5,
+    &quot;totalCount&quot;: 0,
+    &quot;totalPage&quot;: 0,
+    &quot;dataList&quot;: []
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Template list page exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Impossible keyword returns no records</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-8" class="request ">
+    <h2>08. 08 updatedDate ASC</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>435 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 53646d64-0ba4-445e-a025-6d20a7cd7094
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: e178e3f6-a44f-4d92-bcbd-70b7a685471b
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 100
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:55 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cc9b39bbd7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A112XFHNjoEFZyA=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:55 GMT
+x-amzn-requestid: 6d0c1fa7-c8e6-43dc-96b0-787ad1992895
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=LZJr5CqWLVzii%2B8VBdJ3MK%2FDDc2kEXAQAvBHj7cmUPV19%2F3SDn%2BGA15WLAZVqpFjH1dNjCTHk%2Br4RpQnnHhsx9Sr4SHui5iF0wP6hLVxddNbj%2BEK9loTzTp5YMT02f1MjWRRHNaMeRu%2B8uXa1MbuvQ%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 5,
+  &quot;keyWords&quot;: &quot;&quot;,
+  &quot;sortField&quot;: &quot;updatedDate&quot;,
+  &quot;isAsc&quot;: true
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;dbbc22571351a18e&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 5,
+    &quot;totalCount&quot;: 204,
+    &quot;totalPage&quot;: 41,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailCode&quot;: &quot;1101&quot;,
+        &quot;emailName&quot;: &quot;attract user for new activity&quot;,
+        &quot;channel&quot;: null,
+        &quot;channelName&quot;: null,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-02-06 10:35:11&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2023-02-06 11:34:58&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;549310388773195776&quot;,
+        &quot;emailName&quot;: &quot;Checking Save Draft&quot;,
+        &quot;channel&quot;: &quot;SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-03-30 13:23:22&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2023-03-30 13:23:22&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;549313939197005824&quot;,
+        &quot;emailName&quot;: &quot;Checking Draft&quot;,
+        &quot;channel&quot;: &quot;SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-03-30 13:37:29&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2023-03-30 13:37:28&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;549314506367569920&quot;,
+        &quot;emailName&quot;: &quot;Hand Balm Cream&quot;,
+        &quot;channel&quot;: &quot;SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-03-30 13:39:44&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2023-03-30 13:39:44&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;549314736756494336&quot;,
+        &quot;emailName&quot;: &quot;Hand Balm Cream Again&quot;,
+        &quot;channel&quot;: &quot;SA-PF-PFA&quot;,
+        &quot;channelName&quot;: &quot;PFA Regional Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;createdDate&quot;: &quot;2023-03-30 13:40:39&quot;,
+        &quot;updatedBy&quot;: &quot;Lin, Lyndi&quot;,
+        &quot;updatedDate&quot;: &quot;2023-03-30 13:40:39&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Template list page exists</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-9" class="request ">
+    <h2>09. 09 updatedDate DESC</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>502 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 18ca81b5-f9b8-45a4-a753-56ce9c52b219
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: b5d542ff-05d5-4601-987f-df8d6d350301
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 101
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:56 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cc9e1db5d7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A112cErgDoEFQXQ=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:56 GMT
+x-amzn-requestid: c2152c99-e8e0-44ab-b309-187897ffc1aa
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=4fCEWUY7eYZygtpRi0Q855miff%2Bp5RjYg0EeLGItJs5f3OD%2FMqGzcVUgq04x6K2iadwuB8t5R1CGi%2FI78JjYdPoutjHTJ3f%2FCfzKmFq45cSqlXIDq3zvgoR0M8OLAcKIsYp%2BVETGrsMdXNNTiMnIbQ%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 1,
+  &quot;pageSize&quot;: 5,
+  &quot;keyWords&quot;: &quot;&quot;,
+  &quot;sortField&quot;: &quot;updatedDate&quot;,
+  &quot;isAsc&quot;: false
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;78fcd61a36b8bbbc&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 5,
+    &quot;totalCount&quot;: 204,
+    &quot;totalPage&quot;: 41,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailCode&quot;: &quot;portfolio_001_IFA&quot;,
+        &quot;emailName&quot;: &quot;portfolio_for_IFA&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;SYSTEM&quot;,
+        &quot;createdDate&quot;: &quot;2024-07-01 03:45:07&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectBA&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 12:00:25&quot;,
+        &quot;sendTimes&quot;: 29,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;984752736312627200&quot;,
+        &quot;emailName&quot;: &quot;test20260714&quot;,
+        &quot;channel&quot;: &quot;S111232, S111233&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations, Private Wealth Management&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-14 03:35:48&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 10:57:03&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980419530843099136&quot;,
+        &quot;emailName&quot;: &quot;2322&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-02 04:37:11&quot;,
+        &quot;updatedBy&quot;: &quot;PFContent Manager&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 14:49:21&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;985925768808894464&quot;,
+        &quot;emailName&quot;: &quot;test0717&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 0,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-17 09:17:01&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 09:18:16&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      },
+      {
+        &quot;emailCode&quot;: &quot;980119260430995456&quot;,
+        &quot;emailName&quot;: &quot;23424321&quot;,
+        &quot;channel&quot;: &quot;SA-MFC-DIRECT&quot;,
+        &quot;channelName&quot;: &quot;Direct Sales&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-01 08:44:02&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-17 04:30:18&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Template list page exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>ASC and DESC select different first rows when data permits</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-10" class="request ">
+    <h2>10. 10 templateList pageNum=2</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>501 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 68d63b22-0997-4bce-9e0d-c60b89954b1c
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 4adf699d-f940-4f3c-89e5-b97eb6e172b9
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 53
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:56 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cca169ecd7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A112hGbmjoEFXdQ=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:56 GMT
+x-amzn-requestid: 6dea3e6a-b7dd-4c08-9d5a-d629acf6af77
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=LENpr%2FfxBggNHv%2FOgbyWy3x0HmTr3KcXIiA2vEMUcj7lfmiQpPJg2o5uKGcKiDsZxbIRXdeupHprC4iDzAeBdk9kg0KkrZGEYqeLl4dJK6%2B54yMlnLeHxWrGkGT7Vh6wpB8uBm8gXnFLYexLsMAAQw%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 2,
+  &quot;pageSize&quot;: 1,
+  &quot;keyWords&quot;: &quot;&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;8d89c4c6b4be9db0&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 2,
+    &quot;pageSize&quot;: 1,
+    &quot;totalCount&quot;: 204,
+    &quot;totalPage&quot;: 204,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailCode&quot;: &quot;984752736312627200&quot;,
+        &quot;emailName&quot;: &quot;test20260714&quot;,
+        &quot;channel&quot;: &quot;S111232, S111233&quot;,
+        &quot;channelName&quot;: &quot;Growing Aspirations, Private Wealth Management&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;createdDate&quot;: &quot;2026-07-14 03:35:48&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectQA1&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 10:57:03&quot;,
+        &quot;sendTimes&quot;: 0,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>pageNum binds to requested page</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-11" class="request ">
+    <h2>11. 11 templateList pageNo=2</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>467 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/templateList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 37c78642-a819-4b37-9026-b939d622e936
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 7f24113d-cacd-4b3b-be0b-1d47e4da185b
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 52
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:57 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cca4ae53d7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A112mFL6joEFZyA=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:57 GMT
+x-amzn-requestid: b59fc04c-9642-4236-bef9-59611d0598ff
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=jYs8xhIhQqR2k9gC3f9NKYv1UPHJ1h11Sz7fFegjxHwSBe5Lo5F9%2FAKRcXZwIdzLHJ6upK9uOLPIiNHdrRQ%2BY%2FlpBWM4YVfLR4CDIJn7EJ1B0%2FQufABnvtAQoyksxR8MWidXzeWMbYRbedAlZD%2BmXg%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNo&quot;: 2,
+  &quot;pageSize&quot;: 1,
+  &quot;keyWords&quot;: &quot;&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;a7ff8538cffb254f&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 1,
+    &quot;totalCount&quot;: 204,
+    &quot;totalPage&quot;: 204,
+    &quot;dataList&quot;: [
+      {
+        &quot;emailCode&quot;: &quot;portfolio_001_IFA&quot;,
+        &quot;emailName&quot;: &quot;portfolio_for_IFA&quot;,
+        &quot;channel&quot;: &quot;SA-PF-BD&quot;,
+        &quot;channelName&quot;: &quot;Broker Distribution&quot;,
+        &quot;emailStatus&quot;: 1,
+        &quot;createdBy&quot;: &quot;SYSTEM&quot;,
+        &quot;createdDate&quot;: &quot;2024-07-01 03:45:07&quot;,
+        &quot;updatedBy&quot;: &quot;OneConnectBA&quot;,
+        &quot;updatedDate&quot;: &quot;2026-07-20 12:00:25&quot;,
+        &quot;sendTimes&quot;: 29,
+        &quot;daeCountryCode&quot;: &quot;ZA&quot;
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>pageNo is ignored and defaults to page 1</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-12" class="request ">
+    <h2>12. 12 queryList pageNum=2</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>436 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/queryList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 9e7ab084-987b-4281-9cb8-fb7e37e43c1e
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 97c4a321-8f78-47a0-81dc-07903c786750
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 73
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:57 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7cca7bb1fd7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A112rHveDoEF7wQ=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:57 GMT
+x-amzn-requestid: 7eefc138-f7a0-4295-8ba7-d600b7d359f8
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=Mr%2BJvrOzzTV6HyfkTWDLipZBOKDWOCyWpMj7vWykN7zpwrM3epvWATgBajC1YmLIxD%2BINvhvCIxHLeUZxaBuH4Xsw9hcNGAytkbN2JK7IzAQCqutrzrlKKmmUhA8bCWep%2BfVt3X%2B6E6%2FWhtaGqYGVQ%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 2,
+  &quot;pageSize&quot;: 1,
+  &quot;emailName&quot;: &quot;&quot;,
+  &quot;isCampaign&quot;: 0
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;985b0bc04ce8926b&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 2,
+    &quot;pageSize&quot;: 1,
+    &quot;totalCount&quot;: 0,
+    &quot;totalPage&quot;: 0,
+    &quot;dataList&quot;: []
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>queryList accepts pageNum</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-13" class="request ">
+    <h2>13. 13 queryList pageNo=2</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>451 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/queryList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 72831784-f242-4d73-a890-673efe0a75b4
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 90aac93c-01a7-4b0b-8beb-dba2b49318d3
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 72
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:27:58 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7ccaa9dd3d7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A112wER9joEF7Xw=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:27:58 GMT
+x-amzn-requestid: 7e1e1bbb-0f0c-4499-9de9-09efd5726a4e
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=dPhhMwR%2F%2FyhHkZ5CncAds62V564Jtqa3utWy0CLRR%2B4MwDX4empjegLyDNd7UIjJhfJ%2BJ9KPgmvP6OcuvBEZermXFdxCZW86Q5w%2BIS2tEjBkkx%2B3pm%2FkHalRYIPIwOO9eCt0tulo5yJt4xuFFPVUAg%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNo&quot;: 2,
+  &quot;pageSize&quot;: 1,
+  &quot;emailName&quot;: &quot;&quot;,
+  &quot;isCampaign&quot;: 0
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;fe2e8b306c869a1f&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 1,
+    &quot;totalCount&quot;: 0,
+    &quot;totalPage&quot;: 0,
+    &quot;dataList&quot;: []
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>queryList ignores pageNo</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-14" class="request ">
+    <h2>14. 14 recipientList pageNum=2</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>6033 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/recipientList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 3b039129-fcb2-4fa0-bde6-f585445f0c4e
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 25c68afa-98ea-4868-82ea-d94c09c18e75
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 53
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:28:04 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7ccad88e3d7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A1125HAejoEFh8w=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:28:04 GMT
+x-amzn-requestid: fbad3ceb-cab7-47e7-9c61-5be68f783f55
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=qnRkyAip62RRvBFHj9IIE3%2BdINxPVLPgZ6Jm2u0OKaIECTu6e9d0UihqvyY1Z9rj9vpmKBiOWgoMrrLw28LeWWDE2qgZEQBCPLYdUcvRa9T%2FwmXFLSV%2FonoPgSlo2y9AISZLU1Rjhb4k0sWckG27Ig%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNum&quot;: 2,
+  &quot;pageSize&quot;: 1,
+  &quot;keyWords&quot;: &quot;&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;dbb2835c01daab1d&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 2,
+    &quot;pageSize&quot;: 1,
+    &quot;totalCount&quot;: 92,
+    &quot;totalPage&quot;: 92,
+    &quot;dataList&quot;: [
+      {
+        &quot;fullName&quot;: &quot;BEESLER, GERHARD&quot;,
+        &quot;firstName&quot;: &quot;GERHARD&quot;,
+        &quot;lastName&quot;: &quot;BEESLER&quot;,
+        &quot;title&quot;: &quot;MNR&quot;,
+        &quot;birthday&quot;: &quot;1959-12-07&quot;,
+        &quot;phoneNumber&quot;: &quot;0794909091&quot;,
+        &quot;age&quot;: null,
+        &quot;gender&quot;: null,
+        &quot;email&quot;: &quot;GERHARDB@DCD.CO.ZA&quot;,
+        &quot;id&quot;: &quot;K0B9QB86D8R2A&quot;,
+        &quot;customerId&quot;: &quot;K0B9QB86D8R2A&quot;,
+        &quot;contactNum&quot;: &quot;0794909091&quot;,
+        &quot;smartGoalSign&quot;: null,
+        &quot;isDeceased&quot;: false,
+        &quot;allEmailDetail&quot;: [
+          {
+            &quot;email&quot;: &quot;GERHARDB@DCD.CO.ZA&quot;,
+            &quot;emailType&quot;: &quot;personal&quot;
+          }
+        ]
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>recipientList accepts pageNum</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-15" class="request ">
+    <h2>15. 15 recipientList pageNo=2</h2>
+    <div class="meta">
+      <span class="method">POST</span>
+      <span>HTTP 200 OK</span>
+      <span>940 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/recipientList</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 60bd2472-1562-48ba-9b58-66a38648fe51
+Accept: application/json
+Content-Type: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: f5c4c03a-a17a-4b93-8489-6abfd58adbf2
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 52
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:28:05 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7ccd3895fd7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A113xHIdDoEFo5g=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:28:05 GMT
+x-amzn-requestid: fca4678f-dabf-49fc-9eaa-c2f44e598f82
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=9uM1LuPKEJ4XZ7eN0G5eW9%2F9IaGMXmZT0HgVj%2B6qMm8IgyJYnE1Pv4bjpP3Rk%2FGtv5dSHQaPTyR9VyR1zQrifsS0i6fvd9Sv2UI2PR1sMo075ezYzeOUjhuazQ2kAZ5NgctcY56Kasn1yLzLCSbdHg%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>{
+  &quot;pageNo&quot;: 2,
+  &quot;pageSize&quot;: 1,
+  &quot;keyWords&quot;: &quot;&quot;
+}</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;dfcf442fa14fb676&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: {
+    &quot;pageNo&quot;: 1,
+    &quot;pageSize&quot;: 1,
+    &quot;totalCount&quot;: 92,
+    &quot;totalPage&quot;: 92,
+    &quot;dataList&quot;: [
+      {
+        &quot;fullName&quot;: &quot;BARNARD, JACOBUS&quot;,
+        &quot;firstName&quot;: &quot;JACOBUS&quot;,
+        &quot;lastName&quot;: &quot;BARNARD&quot;,
+        &quot;title&quot;: &quot;MR&quot;,
+        &quot;birthday&quot;: &quot;1983-11-15&quot;,
+        &quot;phoneNumber&quot;: &quot;0823705171&quot;,
+        &quot;age&quot;: null,
+        &quot;gender&quot;: null,
+        &quot;email&quot;: &quot;JACOBUSB@NEDBANK.CO.ZA&quot;,
+        &quot;id&quot;: &quot;K0DY7U77C17S8&quot;,
+        &quot;customerId&quot;: &quot;K0DY7U77C17S8&quot;,
+        &quot;contactNum&quot;: &quot;0823705171&quot;,
+        &quot;smartGoalSign&quot;: null,
+        &quot;isDeceased&quot;: false,
+        &quot;allEmailDetail&quot;: [
+          {
+            &quot;email&quot;: &quot;JACOBUSB@NEDBANK.CO.ZA&quot;,
+            &quot;emailType&quot;: &quot;personal&quot;
+          }
+        ]
+      }
+    ]
+  }
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>recipientList ignores pageNo</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section>
+
+  <section id="request-16" class="request ">
+    <h2>16. 16 Get Next Version</h2>
+    <div class="meta">
+      <span class="method">GET</span>
+      <span>HTTP 200 OK</span>
+      <span>419 ms</span>
+      <span>Assertions passed</span>
+    </div>
+    <h3>URL</h3>
+    <pre>https://api.adviser.qa.oldmutual.co.za/dae/iic-dae-msg/web/msg/template/email/v1/version/getNextVersion?emailCode=portfolio_001_IFA</pre>
+    <div class="columns">
+      <div>
+        <h3>Request Headers</h3>
+        <pre>authorization: [REDACTED]
+x-apigw-api-id: [REDACTED]
+language: en-US
+requestid: 1f531700-f895-439d-a368-b3eae899b4d2
+Accept: application/json
+User-Agent: PostmanRuntime/7.39.1
+Cache-Control: no-cache
+Postman-Token: 4ec80d4c-0b95-44ae-b008-22837242dcc5
+Host: api.adviser.qa.oldmutual.co.za
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Cookie: [REDACTED]</pre>
+      </div>
+      <div>
+        <h3>Response Headers</h3>
+        <pre>Date: Tue, 21 Jul 2026 05:28:05 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+CF-Ray: a1e7ccd98884d7ab-LAX
+CF-Cache-Status: DYNAMIC
+Server: cloudflare
+x-amz-apigw-id: A1137FJ7joEFdXQ=
+x-amzn-remapped-connection: keep-alive
+x-amzn-remapped-date: Tue, 21 Jul 2026 05:28:05 GMT
+x-amzn-requestid: 35f63bdc-d40e-4fa5-8a58-0c5ef4274589
+Report-To: {&quot;group&quot;:&quot;cf-nel&quot;,&quot;max_age&quot;:604800,&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https://a.nel.cloudflare.com/report/v4?s=FPmM%2Fm05WQHvn03bsvKNycgE4ssKPpIhvFXtx7UTTxu1ExHsZN78OFZZ9BHZMbRsi8jOJTiXvpIsuqU57LcYyQEhL4d7bSVdM1LgRpOUdvfjSyVWyz%2Bx5j08dP2lbabMqqu9D5uqwPND%2F0e2lyH6Nw%3D%3D&quot;}]}
+Nel: {&quot;report_to&quot;:&quot;cf-nel&quot;,&quot;success_fraction&quot;:0.01,&quot;max_age&quot;:604800}
+Content-Encoding: gzip</pre>
+      </div>
+    </div>
+    <h3>Request Body</h3>
+    <pre>(empty)</pre>
+    <h3>Response Body</h3>
+    <pre>{
+  &quot;requestId&quot;: &quot;f932acb5aa6c9006&quot;,
+  &quot;responseCode&quot;: &quot;00000000&quot;,
+  &quot;responseMessage&quot;: &quot;Succeed&quot;,
+  &quot;data&quot;: &quot;V7&quot;
+}</pre>
+    <h3>Assertions</h3>
+    <table>
+      <thead><tr><th>Result</th><th>Assertion</th><th>Error</th></tr></thead>
+      <tbody>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>HTTP status is 200</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>IIC response envelope exists</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Business response is successful</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Response time is below 10 seconds</td>
+        <td><pre></pre></td>
+      </tr>
+      <tr>
+        <td class="pass">PASS</td>
+        <td>Next version uses Vn format</td>
+        <td><pre></pre></td>
+      </tr></tbody>
+    </table>
+  </section></div>
+  </main>
+</body>
+</html>
