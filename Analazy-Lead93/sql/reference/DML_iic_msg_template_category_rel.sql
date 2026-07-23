@@ -1,0 +1,4 @@
+-- Template Subcategory migration is consolidated into
+-- DML_LEAD93_template_mapping_RELEASE_TEMPLATE.sql. The generated release file
+-- directly resolves the persisted parent/child node IDs from approved names.
+-- Do not execute this file as standalone release DML.

@@ -1,0 +1,5 @@
+-- Migration-log writes are consolidated into the generated mapping release
+-- file DML_LEAD93_template_mapping_RELEASE_TEMPLATE.sql. The release runner,
+-- rather than a table-specific DML file, owns FAILED handling after rollback.
+--
+-- Do not execute this file as standalone release DML.

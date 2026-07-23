@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "fe94dc1f-8dc1-4320-8d23-2f31d9364a05",
+    "_postman_id": "f356508b-4e0d-438b-975d-5841e95aacc3",
     "name": "LEAD-93 v2 Contract - All APIs",
     "description": "28 unique v2 endpoints from the current LEAD-93 API Contract. The collection contains 30 executable requests because POST /publish covers existing Draft Publish Now, existing Draft Schedule and direct Publish of a new Template. Existing App consumers continue to use v1, while Web uses v2 for all 28 endpoints. Every request includes contract assertions. Write requests require enableWriteTests=true. Run first against the bundled local mock.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -49,7 +49,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"keyword\": \"retirement\",\n  \"categoryId\": \"{{categoryId}}\",\n  \"subCategoryIds\": [\n    \"{{subcategoryId}}\"\n  ],\n  \"tagGroups\": [\n    {\n      \"groupCode\": \"CONTENT_TYPE\",\n      \"tagCodes\": [\n        \"CONTENT_TYPE_EMAIL\"\n      ]\n    }\n  ],\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "raw": "{\n  \"keyword\": \"retirement\",\n  \"categoryId\": \"{{categoryId}}\",\n  \"subCategoryIds\": [\n    \"{{subcategoryId}}\"\n  ],\n  \"tagGroups\": [\n    {\n      \"groupCode\": \"CONTENT_TYPE\",\n      \"tagCodes\": [\n        \"CONTENT_TYPE_EMAIL\"\n      ]\n    }\n  ],\n  \"sortMode\": 0,\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
               "options": {
                 "raw": {
                   "language": "json"

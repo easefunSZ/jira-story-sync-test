@@ -1,0 +1,4 @@
+-- Template master migration is consolidated into
+-- DML_LEAD93_template_mapping_RELEASE_TEMPLATE.sql so it has literal approved
+-- mapping rows and no dependency on temporary staging tables.
+-- Do not execute this file as standalone release DML.

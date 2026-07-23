@@ -1,0 +1,4 @@
+-- Email Subject migration is consolidated into
+-- DML_LEAD93_template_mapping_RELEASE_TEMPLATE.sql. Subject remains version
+-- data, but the generated release file keeps all approved mapping input local.
+-- Do not execute this file as standalone release DML.

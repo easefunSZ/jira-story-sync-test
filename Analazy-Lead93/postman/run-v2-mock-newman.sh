@@ -73,9 +73,16 @@ if [[ "$MODE" == "full" && -n "${SKIP_STEPS:-}" ]]; then
   SKIP_ARGS+=(--env-var "skipSteps=$SKIP_STEPS")
 fi
 
+if command -v newman >/dev/null 2>&1; then
+  NEWMAN=(newman)
+elif command -v npx >/dev/null 2>&1; then
+  NEWMAN=(npx --yes newman)
+else
+  NEWMAN=(npm exec --cache "$NPM_CACHE" --yes --package=newman -- newman)
+fi
+
 newman_status=0
-npm exec --cache "$NPM_CACHE" --yes --package=newman -- \
-  newman run "$COLLECTION" -e "$ENV_FILE" \
+"${NEWMAN[@]}" run "$COLLECTION" -e "$ENV_FILE" \
   --env-var "baseUrl=http://127.0.0.1:${MOCK_PORT}" \
   --env-var "gatewayPrefix=" \
   --env-var "enableWriteTests=true" \

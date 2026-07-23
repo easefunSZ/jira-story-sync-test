@@ -1,0 +1,6 @@
+-- Category/Subcategory migration seed is deliberately consolidated into
+-- DML_LEAD93_template_mapping_RELEASE_TEMPLATE.sql. It is generated only after
+-- BUS-01 is approved, so the automatic release runner never depends on a
+-- temporary staging table or a previous file's database session.
+--
+-- Do not execute this file as standalone release DML.

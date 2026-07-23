@@ -1,0 +1,4 @@
+-- Template Tag migration is consolidated into
+-- DML_LEAD93_template_mapping_RELEASE_TEMPLATE.sql. The generated release file
+-- directly resolves approved tag_code/group_code rows from the fixed taxonomy.
+-- Do not execute this file as standalone release DML.
