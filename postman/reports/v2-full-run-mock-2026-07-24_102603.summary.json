@@ -1,0 +1,3586 @@
+{
+  "generatedAt": "2026-07-24T02:26:08.119Z",
+  "source": "Newman local Contract Mock execution; not QA or deployed-service evidence",
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 50,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 139,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 50,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 46,
+      "pending": 0,
+      "failed": 0
+    },
+    "tests": {
+      "total": 46,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 276,
+      "pending": 0,
+      "failed": 0
+    },
+    "testScripts": {
+      "total": 46,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 93,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "executions": [
+    {
+      "name": "02 Initial Published List",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/queryList",
+      "httpStatus": 200,
+      "responseTimeMs": 39,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "keyword": "string",
+          "pageNum": "number",
+          "pageSize": "number",
+          "sortMode": "number"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "dataList": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "categoryId": "string",
+                "categoryName": "string",
+                "channel": "string",
+                "channelName": "string",
+                "description": "string",
+                "emailCode": "string",
+                "emailContent": "string",
+                "emailName": "string",
+                "emailStatus": "string",
+                "fileInfos": "array",
+                "fileKeys": "string",
+                "isCustomBranding": "string",
+                "messageType": "number",
+                "modifiedBy": "string",
+                "modifiedTime": "string",
+                "moduleCode": "string",
+                "publishedTime": "string",
+                "subCategoryIds": "array",
+                "subCategoryNames": "array",
+                "tagMap": "object",
+                "textContent": "string",
+                "thumbnailKey": "null",
+                "title": "string",
+                "version": "string",
+                "versionStatus": "number"
+              }
+            }
+          },
+          "pageNo": "number",
+          "pageSize": "number",
+          "totalCount": "number",
+          "totalPage": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Initial published list is readable",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "03 Initial Draft Admin List",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/templateList",
+      "httpStatus": 200,
+      "responseTimeMs": 11,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "keyword": "string",
+          "pageNum": "number",
+          "pageSize": "number",
+          "tab": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "dataList": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "categoryId": "string",
+                "categoryName": "string",
+                "channel": "string",
+                "channelName": "string",
+                "description": "string",
+                "emailCode": "string",
+                "emailContent": "string",
+                "emailName": "string",
+                "emailStatus": "string",
+                "fileInfos": "array",
+                "fileKeys": "string",
+                "isCustomBranding": "string",
+                "messageType": "number",
+                "modifiedBy": "string",
+                "modifiedTime": "string",
+                "moduleCode": "string",
+                "publishedTime": "null",
+                "subCategoryIds": "array",
+                "subCategoryNames": "array",
+                "tagMap": "object",
+                "textContent": "string",
+                "thumbnailKey": "null",
+                "title": "string",
+                "version": "string",
+                "versionStatus": "number"
+              }
+            }
+          },
+          "pageNo": "number",
+          "pageSize": "number",
+          "totalCount": "number",
+          "totalPage": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Initial Draft/Admin list is readable",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "04 Preflight - Category Tree and Initialise Run",
+      "method": "GET",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/tree",
+      "httpStatus": 200,
+      "responseTimeMs": 5,
+      "businessCode": "00000000",
+      "requestBodySchema": null,
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "array",
+        "item": {
+          "type": "object",
+          "fields": {
+            "categoryName": "string",
+            "children": {
+              "type": "array",
+              "item": "object"
+            },
+            "id": "string",
+            "leaf": "boolean",
+            "parentId": "null",
+            "sortOrder": "number",
+            "templateCount": "number"
+          }
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Category tree is available",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "05 Preflight - Tag Taxonomy and Select Valid Tags",
+      "method": "GET",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/taxonomy",
+      "httpStatus": 200,
+      "responseTimeMs": 5,
+      "businessCode": "00000000",
+      "requestBodySchema": null,
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "array",
+        "item": {
+          "type": "object",
+          "fields": {
+            "groupCode": "string",
+            "groupName": "string",
+            "isMandatory": "number",
+            "maxSelections": "null",
+            "sortOrder": "number",
+            "tagValues": {
+              "type": "array",
+              "item": "object"
+            }
+          }
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Mandatory tag groups are available",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Trigger selection cap is five",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "06 Create Source Category",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category",
+      "httpStatus": 200,
+      "responseTimeMs": 7,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryName": "string",
+          "parentCategoryId": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "categoryName": "string",
+          "children": {
+            "type": "array",
+            "item": "unknown"
+          },
+          "id": "string",
+          "leaf": "boolean",
+          "parentId": "null",
+          "sortOrder": "number",
+          "templateCount": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Source Category was created",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "07 Create Target Category",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category",
+      "httpStatus": 200,
+      "responseTimeMs": 4,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryName": "string",
+          "parentCategoryId": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "categoryName": "string",
+          "children": {
+            "type": "array",
+            "item": "unknown"
+          },
+          "id": "string",
+          "leaf": "boolean",
+          "parentId": "null",
+          "sortOrder": "number",
+          "templateCount": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Target Category was created",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "08 Create Unused Category",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category",
+      "httpStatus": 200,
+      "responseTimeMs": 4,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryName": "string",
+          "parentCategoryId": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "categoryName": "string",
+          "children": {
+            "type": "array",
+            "item": "unknown"
+          },
+          "id": "string",
+          "leaf": "boolean",
+          "parentId": "null",
+          "sortOrder": "number",
+          "templateCount": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Unused Category was created",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "09 Update Source Category",
+      "method": "PUT",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/3001",
+      "httpStatus": 200,
+      "responseTimeMs": 8,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryName": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Update command returns no body",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "10 Batch Create Source Subcategories",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
+      "httpStatus": 200,
+      "responseTimeMs": 10,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "parentId": "string",
+          "subcategories": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "name": "string"
+              }
+            }
+          }
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "array",
+        "item": {
+          "type": "object",
+          "fields": {
+            "categoryName": "string",
+            "children": {
+              "type": "array",
+              "item": "unknown"
+            },
+            "id": "string",
+            "leaf": "boolean",
+            "parentId": "string",
+            "sortOrder": "number",
+            "templateCount": "number"
+          }
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Two subcategories were created",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "11 Batch Create Target Subcategory",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
+      "httpStatus": 200,
+      "responseTimeMs": 11,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "parentId": "string",
+          "subcategories": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "name": "string"
+              }
+            }
+          }
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "array",
+        "item": {
+          "type": "object",
+          "fields": {
+            "categoryName": "string",
+            "children": {
+              "type": "array",
+              "item": "unknown"
+            },
+            "id": "string",
+            "leaf": "boolean",
+            "parentId": "string",
+            "sortOrder": "number",
+            "templateCount": "number"
+          }
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Target subcategory was created",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "12 Save Complete Root Category Order",
+      "method": "PUT",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/reorder",
+      "httpStatus": 200,
+      "responseTimeMs": 3,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "array",
+        "item": {
+          "type": "object",
+          "fields": {
+            "categoryId": "string",
+            "sortOrder": "number"
+          }
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Complete reorder command returns no body",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "13 Check Unused Category Delete Impact",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/delete",
+      "httpStatus": 200,
+      "responseTimeMs": 6,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "sourceCategoryId": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Unused Category delete returns no body",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "15 Create Temporary V1 Draft",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/add",
+      "httpStatus": 200,
+      "responseTimeMs": 19,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryId": "string",
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "null",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "subCategoryIds": {
+            "type": "array",
+            "item": "string"
+          },
+          "tagGroups": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "groupCode": "string",
+                "tagCodes": "array"
+              }
+            }
+          },
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "V1 Draft identifiers were returned",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "16 Update Template Metadata",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/update",
+      "httpStatus": 200,
+      "responseTimeMs": 3,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryId": "string",
+          "description": "string",
+          "emailCode": "string",
+          "emailName": "string",
+          "subCategoryIds": {
+            "type": "array",
+            "item": "string"
+          },
+          "tagGroups": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "groupCode": "string",
+                "tagCodes": "array"
+              }
+            }
+          }
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Current metadata update returns no body",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "17 Verify V1 Draft Detail",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/detail",
+      "httpStatus": 200,
+      "responseTimeMs": 3,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "categoryId": "string",
+          "categoryName": "string",
+          "channel": "string",
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "channelName": "string",
+          "copyFromEmailCode": "null",
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "null",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "emailStatus": "string",
+          "fileInfos": {
+            "type": "array",
+            "item": "unknown"
+          },
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "messageType": "number",
+          "modifiedBy": "string",
+          "modifiedTime": "string",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "publishedTime": "null",
+          "scenarioCode": "string",
+          "subCategoryIds": {
+            "type": "array",
+            "item": "string"
+          },
+          "subCategoryNames": {
+            "type": "array",
+            "item": "string"
+          },
+          "tagMap": {
+            "type": "object",
+            "fields": {
+              "CONTENT_TYPE": {
+                "type": "array",
+                "item": "string"
+              },
+              "FINANCIAL_NEED": {
+                "type": "array",
+                "item": "string"
+              },
+              "LIFECYCLE_STAGE": {
+                "type": "array",
+                "item": "string"
+              },
+              "TRIGGER": {
+                "type": "array",
+                "item": "string"
+              }
+            }
+          },
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string",
+          "versionStatus": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "V1 Detail is Draft and belongs to this run",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "18 Verify Draft Admin List",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/templateList",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "keyword": "string",
+          "pageNum": "number",
+          "pageSize": "number",
+          "tab": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "dataList": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "categoryId": "string",
+                "categoryName": "string",
+                "channel": "string",
+                "channelName": "string",
+                "description": "string",
+                "emailCode": "string",
+                "emailContent": "string",
+                "emailName": "string",
+                "emailStatus": "string",
+                "fileInfos": "array",
+                "fileKeys": "string",
+                "isCustomBranding": "string",
+                "messageType": "number",
+                "modifiedBy": "string",
+                "modifiedTime": "string",
+                "moduleCode": "string",
+                "publishedTime": "null",
+                "subCategoryIds": "array",
+                "subCategoryNames": "array",
+                "tagMap": "object",
+                "textContent": "string",
+                "thumbnailKey": "null",
+                "title": "string",
+                "version": "string",
+                "versionStatus": "number"
+              }
+            }
+          },
+          "pageNo": "number",
+          "pageSize": "number",
+          "totalCount": "number",
+          "totalPage": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Temporary template is present in admin list",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "19 Update V1 Draft Content",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/version/update",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "null",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string",
+          "versionStatus": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "V1 remains Draft after update",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "20 Publish V1 Now",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/publish",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "targetVersion": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Publish command returns no inferred state",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "21 Verify Published V1 Detail",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/published/detail",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "categoryId": "string",
+          "categoryName": "string",
+          "channel": "string",
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "channelName": "string",
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "string",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "emailStatus": "string",
+          "fileInfos": {
+            "type": "array",
+            "item": "unknown"
+          },
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "messageType": "number",
+          "modifiedBy": "string",
+          "modifiedTime": "string",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "publishedTime": "string",
+          "scenarioCode": "string",
+          "subCategoryIds": {
+            "type": "array",
+            "item": "string"
+          },
+          "subCategoryNames": {
+            "type": "array",
+            "item": "string"
+          },
+          "tagMap": {
+            "type": "object",
+            "fields": {
+              "CONTENT_TYPE": {
+                "type": "array",
+                "item": "string"
+              },
+              "FINANCIAL_NEED": {
+                "type": "array",
+                "item": "string"
+              },
+              "LIFECYCLE_STAGE": {
+                "type": "array",
+                "item": "string"
+              },
+              "TRIGGER": {
+                "type": "array",
+                "item": "string"
+              }
+            }
+          },
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string",
+          "versionStatus": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Published detail returns V1 Active",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "22 Search Published Temporary Template",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/queryList",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryId": "string",
+          "keyword": "string",
+          "pageNum": "number",
+          "pageSize": "number",
+          "subCategoryIds": {
+            "type": "array",
+            "item": "string"
+          },
+          "tagGroups": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "groupCode": "string",
+                "tagCodes": "array"
+              }
+            }
+          }
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "dataList": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "categoryId": "string",
+                "categoryName": "string",
+                "channel": "string",
+                "channelName": "string",
+                "description": "string",
+                "emailCode": "string",
+                "emailContent": "string",
+                "emailName": "string",
+                "emailStatus": "string",
+                "fileInfos": "array",
+                "fileKeys": "string",
+                "isCustomBranding": "string",
+                "messageType": "number",
+                "modifiedBy": "string",
+                "modifiedTime": "string",
+                "moduleCode": "string",
+                "publishedTime": "string",
+                "subCategoryIds": "array",
+                "subCategoryNames": "array",
+                "tagMap": "object",
+                "textContent": "string",
+                "thumbnailKey": "null",
+                "title": "string",
+                "version": "string",
+                "versionStatus": "number"
+              }
+            }
+          },
+          "pageNo": "number",
+          "pageSize": "number",
+          "totalCount": "number",
+          "totalPage": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Published list contains temporary template",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "23 Update Template Master Fields",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/update",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "channelMap": {
+            "type": "object",
+            "fields": {
+              "EMAIL": "string"
+            }
+          },
+          "description": "string",
+          "emailCode": "string",
+          "emailName": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Master field update returns no body",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "24 Deactivate Temporary Template",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/changeStatus",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "emailStatus": "number"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Deactivate returns no body",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "25 Reactivate Temporary Template",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/changeStatus",
+      "httpStatus": 200,
+      "responseTimeMs": 1,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "emailStatus": "number"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Reactivate returns no body",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "26 Get Max Version",
+      "method": "GET",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/version/getMaxVersion?emailCode={value}",
+      "httpStatus": 200,
+      "responseTimeMs": 3,
+      "businessCode": "00000000",
+      "requestBodySchema": null,
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string",
+          "versionStatus": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Maximum version is V1",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "27 Get V1 Version Detail",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/version/detail",
+      "httpStatus": 200,
+      "responseTimeMs": 3,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "channel": "string",
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "channelName": "string",
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "string",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "emailStatus": "string",
+          "fileInfos": {
+            "type": "array",
+            "item": "unknown"
+          },
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "messageType": "number",
+          "modifiedBy": "string",
+          "modifiedTime": "string",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "publishedTime": "string",
+          "scenarioCode": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string",
+          "versionStatus": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Version Detail returns V1",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "28 Get Version History",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/version/list/history",
+      "httpStatus": 200,
+      "responseTimeMs": 3,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "isAsc": "boolean",
+          "pageNum": "number",
+          "pageSize": "number"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "dataList": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "channel": "string",
+                "channelMap": "object",
+                "channelName": "string",
+                "description": "string",
+                "editMode": "string",
+                "effectiveFrom": "string",
+                "effectiveUntil": "null",
+                "effectiveWay": "number",
+                "emailCode": "string",
+                "emailContent": "string",
+                "emailContentKey": "string",
+                "emailName": "string",
+                "emailStatus": "string",
+                "fileInfos": "array",
+                "fileKeys": "string",
+                "isCustomBranding": "string",
+                "isDraft": "number",
+                "messageType": "number",
+                "modifiedBy": "string",
+                "modifiedTime": "string",
+                "moduleCode": "string",
+                "moduleCodeName": "string",
+                "publishedTime": "string",
+                "scenarioCode": "string",
+                "textContent": "string",
+                "thumbnailKey": "null",
+                "title": "string",
+                "updatedBy": "string",
+                "updatedDate": "string",
+                "version": "string",
+                "versionStatus": "number"
+              }
+            }
+          },
+          "pageNo": "number",
+          "pageSize": "number",
+          "totalCount": "number",
+          "totalPage": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Version History contains V1",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "29 Copy and Create Independent Draft",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/copy",
+      "httpStatus": 200,
+      "responseTimeMs": 3,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryId": "string",
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "sourceEmailCode": "string",
+          "sourceVersion": "string",
+          "subCategoryIds": {
+            "type": "array",
+            "item": "string"
+          },
+          "tagGroups": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "groupCode": "string",
+                "tagCodes": "array"
+              }
+            }
+          },
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "emailStatus": "string",
+          "version": "string",
+          "versionStatus": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Independent Copy V1 Draft was created",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "30 Verify Copied Draft Detail",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/detail",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "categoryId": "string",
+          "categoryName": "string",
+          "channel": "string",
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "channelName": "string",
+          "copyFromEmailCode": "string",
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "null",
+          "effectiveUntil": "null",
+          "effectiveWay": "null",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "emailStatus": "string",
+          "fileInfos": {
+            "type": "array",
+            "item": "unknown"
+          },
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "messageType": "number",
+          "modifiedBy": "string",
+          "modifiedTime": "string",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "publishedTime": "null",
+          "scenarioCode": "string",
+          "subCategoryIds": {
+            "type": "array",
+            "item": "string"
+          },
+          "subCategoryNames": {
+            "type": "array",
+            "item": "string"
+          },
+          "tagMap": {
+            "type": "object",
+            "fields": {
+              "CONTENT_TYPE": {
+                "type": "array",
+                "item": "string"
+              },
+              "FINANCIAL_NEED": {
+                "type": "array",
+                "item": "string"
+              },
+              "LIFECYCLE_STAGE": {
+                "type": "array",
+                "item": "string"
+              },
+              "TRIGGER": {
+                "type": "array",
+                "item": "string"
+              }
+            }
+          },
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string",
+          "versionStatus": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Copied Template is independently readable",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "31 Add Target Version V2",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/version/add",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "null",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string",
+          "versionStatus": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "V2 became Active through version/add",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "32 Verify V2 Version Detail",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/version/detail",
+      "httpStatus": 200,
+      "responseTimeMs": 4,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "channel": "string",
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "channelName": "string",
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "string",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "emailStatus": "string",
+          "fileInfos": {
+            "type": "array",
+            "item": "unknown"
+          },
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "messageType": "number",
+          "modifiedBy": "string",
+          "modifiedTime": "string",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "publishedTime": "string",
+          "scenarioCode": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string",
+          "versionStatus": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Version Detail returns V2 Active",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "33 Create V3 Working Draft",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/add",
+      "httpStatus": 200,
+      "responseTimeMs": 1,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "null",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "V3 Working Copy identifiers are returned",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "34 Update V3 Working Draft",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/version/update",
+      "httpStatus": 200,
+      "responseTimeMs": 1,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "null",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string",
+          "versionStatus": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "V3 remains Draft after update",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "35 Schedule V3 with Dynamic Future Time",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/publish",
+      "httpStatus": 200,
+      "responseTimeMs": 3,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "string",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "targetVersion": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Schedule command returns no inferred state",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "36 Cancel Schedule by Save Draft",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/add",
+      "httpStatus": 200,
+      "responseTimeMs": 3,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "string",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Save Draft returns the scheduled version identifier",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "37 Publish V3 Now",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/publish",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "targetVersion": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Publish command returns no inferred state",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "38 Create V4 Draft for Discard",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/add",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "null",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailCode": "string",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "V4 Draft identifier was returned",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "39 Discard V4 Draft",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/version/delete",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Discard Draft returns no body",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "40 Batch Reassign Both Templates to Target Category",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/reassign",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "templates": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "categoryId": "string",
+                "emailCode": "string",
+                "subCategoryIds": "array",
+                "tagGroups": "array"
+              }
+            }
+          }
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Batch reassignment returns no body",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "41 Move Primary Template Back to Source Metadata",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/update",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryId": "string",
+          "description": "string",
+          "emailCode": "string",
+          "emailName": "string",
+          "subCategoryIds": {
+            "type": "array",
+            "item": "string"
+          },
+          "tagGroups": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "groupCode": "string",
+                "tagCodes": "array"
+              }
+            }
+          }
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Primary Template master fields and metadata updated",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "42 Check Referenced Source Category Impact",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/delete",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "QA_TESTED_ERROR_CODE",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "sourceCategoryId": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "affectedTemplateCount": "number",
+          "reassignRequired": "boolean"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Referenced source Category returns reassignRequired and affectedTemplateCount",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "43 Reassign References and Delete Source Category",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/delete",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "sourceCategoryId": "string",
+          "targetCategoryId": "string",
+          "targetSubcategoryIds": {
+            "type": "array",
+            "item": "string"
+          }
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Referenced source Category was reassigned and deleted",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "44 Cleanup - Delete Copied Template",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/delete",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Copied Template was soft deleted",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "45 Cleanup - Delete Primary Template",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/delete",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Primary Template was soft deleted",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "46 Verify Temporary Templates Removed",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/queryList",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "keyword": "string",
+          "pageNum": "number",
+          "pageSize": "number"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "dataList": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "categoryId": "string",
+                "categoryName": "string",
+                "channel": "string",
+                "channelName": "string",
+                "description": "string",
+                "emailCode": "string",
+                "emailContent": "string",
+                "emailName": "string",
+                "emailStatus": "string",
+                "fileInfos": "array",
+                "fileKeys": "string",
+                "isCustomBranding": "string",
+                "messageType": "number",
+                "modifiedBy": "string",
+                "modifiedTime": "string",
+                "moduleCode": "string",
+                "publishedTime": "string",
+                "subCategoryIds": "array",
+                "subCategoryNames": "array",
+                "tagMap": "object",
+                "textContent": "string",
+                "thumbnailKey": "null",
+                "title": "string",
+                "version": "string",
+                "versionStatus": "number"
+              }
+            }
+          },
+          "pageNo": "number",
+          "pageSize": "number",
+          "totalCount": "number",
+          "totalPage": "number"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Temporary Templates are absent after cleanup",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "49 Cleanup - Delete Target Category",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/delete",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "sourceCategoryId": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": "null",
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Target Category was deleted after Template cleanup",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    },
+    {
+      "name": "50 Final Verification - No Temporary Categories Remain",
+      "method": "GET",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/category/tree",
+      "httpStatus": 200,
+      "responseTimeMs": 2,
+      "businessCode": "00000000",
+      "requestBodySchema": null,
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "array",
+        "item": {
+          "type": "object",
+          "fields": {
+            "categoryName": "string",
+            "children": {
+              "type": "array",
+              "item": "object"
+            },
+            "id": "string",
+            "leaf": "boolean",
+            "parentId": "null",
+            "sortOrder": "number",
+            "templateCount": "number"
+          }
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Temporary Categories were removed",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    }
+  ]
+}

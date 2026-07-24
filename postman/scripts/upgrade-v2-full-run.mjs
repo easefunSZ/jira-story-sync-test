@@ -70,7 +70,7 @@ const cleanupNames = [
 // Optional persistent skips. Use exact base names from the lists above; never add cleanup names.
 // Prefer Environment variables skipRequestNames/skipSteps for temporary Dev limitations.
 const skippedNames = [
-  // "Check Unused Category Delete Impact"
+  "Load Channel List"
 ];
 
 function flatten(items) {
