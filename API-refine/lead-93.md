@@ -1,80 +1,92 @@
-`Create Category`（新建分类/子分类，`POST /v2/category`）接口很慢，通常是由**数据库缺少索引导致的全表扫描**或**大事务内包含了网络开销**造成的。
+太棒了！加了 `(is_deleted, parent_id, category_name)` 联合索引后数据库能直接通过 B+Tree 索引快速定位，提速一倍说明之前的瓶颈正是**全表扫描**。
 
-下面为您分析 5 大常见根因，并提供**可以直接复制给内网 AI 的专项性能调查提示词**：
-
----
-
-### 一、 `Create Category` 变慢的 5 大常见后端根因
-
-1. **查重 SQL 缺失联合索引（最常见原因）**
-   - 新建分类时，后端必须执行重名校验：
-     `SELECT count(1) FROM iic_msg_email_category WHERE parent_id = ? AND category_name = ? AND is_deleted = 0;`
-   - 如果 `(parent_id, is_deleted, category_name)` 上没有联合索引，MySQL 会执行 **Full Table Scan（全表扫描）**！随着表数据增加，耗时成倍暴增。
-2. **计算 `MAX(sort_order)` 触发全表扫描**
-   - 新建分类时，为了获取最新序号，后端通常会查：
-     `SELECT COALESCE(MAX(sort_order), 0) FROM iic_msg_email_category WHERE parent_id = ? AND is_deleted = 0;`
-   - 若缺失 `(parent_id, is_deleted, sort_order)` 索引，`MAX()` 运算也会导致全表扫描。
-3. **`@Transactional` 事务过大（大事务阻塞）**
-   - 如果在同一个数据库事务方法内，同步发起了远程 RPC 调用、HTTP 外部请求或同步刷新集中式 Redis 缓存，数据库连接与行锁被长期占用无法释放。
-4. **雪花算法/ID 生成器锁竞争**
-   - 后端生成 Snowflake ID 时，若使用了全局 `synchronized` 同步锁或触发了时钟回拨等待。
-5. **同步写审计历史表开销**
-   - 每次新建都同步写 `iic_msg_email_category_change_history`。若历史表巨大且缺乏合适索引，写入延迟变高。
+对于 **`POST /v2/add`（保存草稿/创建新模板）** 接口，它的业务链路更长，涉及到**主表、分类关联表、标签关联表、版本表、审计表 5 张表**的写入。如果依然很慢，通常有以下 **5 个核心性能死穴**：
 
 ---
 
-### 二、 给内网 AI 的【专项性能调查提示词】
+### 一、 `POST /v2/add` 的 5 大性能死穴诊断
 
-请直接全选复制以下提示词发给内网 AI：
+#### 1. 模板标题重名校验 SQL 缺失索引（最主要全表扫描）
+- **后台逻辑**：保存草稿前，后端必须在指定分类下校验标题是否重名：
+  ```sql
+  SELECT count(1) FROM iic_msg_email_config 
+  WHERE category_id = :category_id AND email_name = :email_name AND is_deleted = 0 AND email_code <> :email_code;
+  ```
+- **病因**：如果 `iic_msg_email_config` 主表上没有 `(category_id, is_deleted, email_name)` 联合索引，**每一次保存草稿都会触发整张模板主表的全表扫描！**
+
+#### 2. 草稿存在性与版本号计算 SQL 缺失索引
+- **后台逻辑**：为了保证“同一模板最多只能有一份草稿 (Draft) 或定时任务 (Schedule)”，后端会查询：
+  ```sql
+  SELECT count(1) FROM iic_msg_email_version WHERE email_code = :email_code AND version_status IN (0, 3);
+  SELECT MAX(version) FROM iic_msg_email_version WHERE email_code = :email_code;
+  ```
+- **病因**：`iic_msg_email_version` 表体积巨大（存放完整邮件正文与文件列表），若缺少 `(email_code, version_status)` 索引，版本查询极其缓慢。
+
+#### 3. 标签/子分类关联表“先删后插”导致的表锁与多次 RTT
+- **后台逻辑**：更新模板草稿的标签/子分类时，后端采用的是：
+  ```sql
+  DELETE FROM iic_msg_template_tag_rel WHERE email_code = :email_code;
+  -- 然后循环插入新的 tag_code
+  ```
+- **病因**：
+  - 如果 `iic_msg_template_tag_rel` 表的 `email_code` 字段**没有加索引**，`DELETE` 语句会直接升级为**行锁爆满甚至表锁/间隙锁**！
+  - 循环逐条 `INSERT`（多次网络 RTT）而不是使用 `INSERT INTO ... VALUES (...), (...)` 单次批量写入。
+
+#### 4. 在 `@Transactional` 大事务内部做 AES 加密与序列化
+- `email_content` (AES 密文) 加解密、大 JSON 序列化如果放在数据库事务内部，拉长了事务持锁时间。
+
+---
+
+### 二、 给内网 AI 的【`POST /v2/add` 专项性能调查提示词】
+
+请直接复制以下提示词发给内网 AI：
 
 ```text
 你是 DAE 项目的代码与数据库性能分析工程师。请只分析代码和 SQL 性能，不要修改任何文件。
 
-变更编号：CHG-20260724-PERF
-Feature/Story：LEAD-93 / LEAD-293 Create Category Performance
-业务背景：现网/QA 环境中 POST /web/msg/template/email/v2/category (Create Category) 接口响应极慢。请排查后端实现逻辑与数据库 SQL 性能瓶颈。
+变更编号：CHG-20260724-PERF2
+Feature/Story：LEAD-93 / LEAD-293 POST /web/msg/template/email/v2/add (Save Draft) Performance Optimization
+业务背景：QA/测试环境中 POST /v2/add 接口保存草稿耗时较长。该接口涉及主表、分类关联表、标签关联表、版本表的多表校验与写入，请排查其后端性能瓶颈。
 
 本次调查排查目标：
 
-1. 查重 SQL 索引排查：
-   - 定位校验 category_name 是否重复的 SQL 语句。
-   - 查看 iic_msg_email_category 表上是否有 (parent_id, is_deleted, category_name) 的联合索引。
-   - 确认该查询是否引发了全表扫描 (Full Table Scan)。
+1. 标题重名校验 SQL 索引检查：
+   - 定位校验 email_name 重名的 Mapper SQL。
+   - 查看 iic_msg_email_config 表上是否有 (category_id, is_deleted, email_name) 联合索引。
 
-2. 排序号 MAX() SQL 排查：
-   - 定位计算最新 sort_order 序号的 SQL。
-   - 检查是否有 (parent_id, is_deleted, sort_order) 索引支持覆盖索引查询。
+2. 草稿存在性与版本号计算 SQL 检查：
+   - 定位查询 version_status IN (0, 3) 及获取 MAX(version) 的 SQL。
+   - 检查 iic_msg_email_version 表上是否有 (email_code, version_status) 索引。
 
-3. 事务与外部调用排查：
-   - 检查 Create Category 对应的 Service 方法上的 @Transactional 声明范围。
-   - 确认事务内部是否包含了 RPC、HTTP 外部调用、日志同步落盘或 Redis 缓存刷新等非 DB 瓶颈操作。
+3. 关联表 DELETE-INSERT 锁与批量写入检查：
+   - 检查 iic_msg_template_category_rel 和 iic_msg_template_tag_rel 表上 email_code 字段是否有索引（防止 DELETE 锁表）。
+   - 检查新增关联关系时是否使用了单条批量插入 SQL (VALUES ...)，还是 Java For 循环逐条插入。
 
-4. 历史表同步写入开销：
-   - 排查同步写入 iic_msg_email_category_change_history 的逻辑与 SQL 执行耗时。
+4. 事务范围检查：
+   - 检查 @Transactional 声明的方法体中，AES 加密 (emailContent) 与 JSON 序列化是否放在了事务内部。
 
 请按以下格式返回：
-一、找到的代码与 SQL 路径（Controller / Service / Mapper / XML）
-二、性能瓶颈根因诊断（SQL 执行计划、索引缺失情况、大事务问题）
-三、建议的优化方案（索引加建 SQL、代码异步化/大事务拆分建议）
+一、涉及的代码与 Mapper SQL 文件路径
+二、发现的性能根因（缺失的索引、锁风险、多次 RTT、大事务）
+三、建议的优化 SQL 索引与代码重构方案
 ```
 
 ---
 
-### 三、 预期后端的最佳优化标准
+### 三、 推荐后台加建的 3 个关键索引
 
-内网 AI 调查后，标准的优化结果应该包含以下两项：
+内网 AI 排查后，建议后端执行以下 3 个索引加建，预计可将 `/v2/add` 的响应耗时再降低 50% 以上：
 
-1. **加建联合索引（数据库层面）**：
-   ```sql
-   -- 1. 解决重名校验全表扫描
-   ALTER TABLE iic_msg_email_category 
-   ADD INDEX idx_parent_name_deleted (parent_id, category_name, is_deleted);
+```sql
+-- 1. 主表：优化标题重名校验全表扫描
+ALTER TABLE iic_msg_email_config 
+ADD INDEX idx_email_config_category_name (category_id, is_deleted, email_name);
 
-   -- 2. 解决计算最大 sort_order 的全表扫描
-   ALTER TABLE iic_msg_email_category 
-   ADD INDEX idx_parent_deleted_sort (parent_id, is_deleted, sort_order);
-   ```
+-- 2. 版本表：优化单草稿校验与版本号获取
+ALTER TABLE iic_msg_email_version 
+ADD INDEX idx_version_email_status (email_code, version_status, version);
 
-2. **代码层面缩小事务**：
-   - 将“重名校验与 Snowflake ID 生成”移到 `@Transactional` 事务体**外部**。
-   - 事务内部只保留单条 `INSERT` 动作，将数据库锁持有时间缩短到 1 毫秒以内。
+-- 3. 标签关联表：防止 DELETE 锁表与加速关联查询
+ALTER TABLE iic_msg_template_tag_rel 
+ADD INDEX idx_template_tag_rel_email (email_code, status);
+```
