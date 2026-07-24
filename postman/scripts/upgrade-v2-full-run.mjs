@@ -23,7 +23,6 @@ const workflowNames = [
   "Batch Create Source Subcategories",
   "Batch Create Target Subcategory",
   "Save Complete Root Category Order",
-  "Check Unused Category Delete Impact",
   "Delete Unreferenced Category",
   "Create Temporary V1 Draft",
   "Update Template Metadata",

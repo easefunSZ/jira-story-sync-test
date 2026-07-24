@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "0d9ce95d-32be-4783-a8e1-3a0b72ff7052",
+    "_postman_id": "90640315-eca4-4635-8555-4d004fe6a1df",
     "name": "LEAD-93 v2 Contract - Configurable Fail-Fast Lifecycle Run",
     "description": "Configuration-driven v2 regression. Independent requests run first, the dependency workflow runs in explicit order, and Cleanup is protected from skip rules.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -907,84 +907,7 @@
           ]
         },
         {
-          "name": "13 Check Unused Category Delete Impact",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "authorization",
-                "value": "{{authorization}}",
-                "type": "text"
-              },
-              {
-                "key": "x-apigw-api-id",
-                "value": "{{xApigwApiId}}",
-                "type": "text"
-              },
-              {
-                "key": "language",
-                "value": "{{language}}",
-                "type": "text"
-              },
-              {
-                "key": "requestid",
-                "value": "{{$guid}}",
-                "type": "text"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              },
-              {
-                "key": "Content-Type",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"sourceCategoryId\": \"{{unusedCategoryId}}\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "response": [],
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "const missing = [\"unusedCategoryId\"].filter(key => !pm.environment.get(key));",
-                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
-                ]
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
-                  "let json;",
-                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
-                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
-                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
-                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Unused Category delete returns data.success=true, reassignRequired=false and affectedTemplateCount=0', function () { pm.expect(json.data.success).to.eql(true); pm.expect(json.data.reassignRequired).to.eql(false); pm.expect(json.data.affectedTemplateCount).to.eql(0); });",
-                  "if (json.responseCode === '00000000') { pm.environment.unset('unusedCategoryId'); }"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "14 Delete Unreferenced Category",
+          "name": "13 Delete Unreferenced Category",
           "request": {
             "method": "POST",
             "header": [
@@ -1041,7 +964,8 @@
                   "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
                   "  pm.execution.skipRequest();",
                   "}",
-                  "if (!pm.environment.get('unusedCategoryId')) { console.warn('Unused Category already removed.'); pm.execution.skipRequest(); }"
+                  "const missing = [\"unusedCategoryId\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
                 ]
               }
             },
@@ -1056,7 +980,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Unreferenced Category was deleted', function () { pm.expect(json.data.success).to.eql(true); pm.expect(json.data.reassignRequired).to.eql(false); pm.expect(json.data.affectedTemplateCount).to.eql(0); });",
+                  "pm.test('Unreferenced Category was deleted with data.success=true, reassignRequired=false and affectedTemplateCount=0', function () { pm.expect(json.data.success).to.eql(true); pm.expect(json.data.reassignRequired).to.eql(false); pm.expect(json.data.affectedTemplateCount).to.eql(0); });",
                   "if (json.responseCode === '00000000') { pm.environment.unset('unusedCategoryId'); }"
                 ]
               }
@@ -1064,7 +988,7 @@
           ]
         },
         {
-          "name": "15 Create Temporary V1 Draft",
+          "name": "14 Create Temporary V1 Draft",
           "request": {
             "method": "POST",
             "header": [
@@ -1145,7 +1069,7 @@
           ]
         },
         {
-          "name": "16 Update Template Metadata",
+          "name": "15 Update Template Metadata",
           "request": {
             "method": "POST",
             "header": [
@@ -1225,7 +1149,7 @@
           ]
         },
         {
-          "name": "17 Verify V1 Draft Detail",
+          "name": "16 Verify V1 Draft Detail",
           "request": {
             "method": "POST",
             "header": [
@@ -1301,7 +1225,7 @@
           ]
         },
         {
-          "name": "18 Verify Draft Admin List",
+          "name": "17 Verify Draft Admin List",
           "request": {
             "method": "POST",
             "header": [
@@ -1367,7 +1291,7 @@
           ]
         },
         {
-          "name": "19 Update V1 Draft Content",
+          "name": "18 Update V1 Draft Content",
           "request": {
             "method": "POST",
             "header": [
@@ -1447,7 +1371,7 @@
           ]
         },
         {
-          "name": "20 Publish V1 Now",
+          "name": "19 Publish V1 Now",
           "request": {
             "method": "POST",
             "header": [
@@ -1527,7 +1451,7 @@
           ]
         },
         {
-          "name": "21 Verify Published V1 Detail",
+          "name": "20 Verify Published V1 Detail",
           "request": {
             "method": "POST",
             "header": [
@@ -1603,7 +1527,7 @@
           ]
         },
         {
-          "name": "22 Search Published Temporary Template",
+          "name": "21 Search Published Temporary Template",
           "request": {
             "method": "POST",
             "header": [
@@ -1669,7 +1593,7 @@
           ]
         },
         {
-          "name": "23 Update Template Master Fields",
+          "name": "22 Update Template Master Fields",
           "request": {
             "method": "POST",
             "header": [
@@ -1750,7 +1674,7 @@
           ]
         },
         {
-          "name": "24 Deactivate Temporary Template",
+          "name": "23 Deactivate Temporary Template",
           "request": {
             "method": "POST",
             "header": [
@@ -1830,7 +1754,7 @@
           ]
         },
         {
-          "name": "25 Reactivate Temporary Template",
+          "name": "24 Reactivate Temporary Template",
           "request": {
             "method": "POST",
             "header": [
@@ -1910,7 +1834,7 @@
           ]
         },
         {
-          "name": "26 Get Max Version",
+          "name": "25 Get Max Version",
           "request": {
             "method": "GET",
             "header": [
@@ -1972,7 +1896,7 @@
           ]
         },
         {
-          "name": "27 Get V1 Version Detail",
+          "name": "26 Get V1 Version Detail",
           "request": {
             "method": "POST",
             "header": [
@@ -2048,7 +1972,7 @@
           ]
         },
         {
-          "name": "28 Get Version History",
+          "name": "27 Get Version History",
           "request": {
             "method": "POST",
             "header": [
@@ -2124,7 +2048,7 @@
           ]
         },
         {
-          "name": "29 Copy and Create Independent Draft",
+          "name": "28 Copy and Create Independent Draft",
           "request": {
             "method": "POST",
             "header": [
@@ -2205,7 +2129,7 @@
           ]
         },
         {
-          "name": "30 Verify Copied Draft Detail",
+          "name": "29 Verify Copied Draft Detail",
           "request": {
             "method": "POST",
             "header": [
@@ -2281,7 +2205,7 @@
           ]
         },
         {
-          "name": "31 Add Target Version V2",
+          "name": "30 Add Target Version V2",
           "request": {
             "method": "POST",
             "header": [
@@ -2361,7 +2285,7 @@
           ]
         },
         {
-          "name": "32 Verify V2 Version Detail",
+          "name": "31 Verify V2 Version Detail",
           "request": {
             "method": "POST",
             "header": [
@@ -2437,7 +2361,7 @@
           ]
         },
         {
-          "name": "33 Create V3 Working Draft",
+          "name": "32 Create V3 Working Draft",
           "request": {
             "method": "POST",
             "header": [
@@ -2517,7 +2441,7 @@
           ]
         },
         {
-          "name": "34 Update V3 Working Draft",
+          "name": "33 Update V3 Working Draft",
           "request": {
             "method": "POST",
             "header": [
@@ -2597,7 +2521,7 @@
           ]
         },
         {
-          "name": "35 Schedule V3 with Dynamic Future Time",
+          "name": "34 Schedule V3 with Dynamic Future Time",
           "request": {
             "method": "POST",
             "header": [
@@ -2677,7 +2601,7 @@
           ]
         },
         {
-          "name": "36 Cancel Schedule by Save Draft",
+          "name": "35 Cancel Schedule by Save Draft",
           "request": {
             "method": "POST",
             "header": [
@@ -2757,7 +2681,7 @@
           ]
         },
         {
-          "name": "37 Publish V3 Now",
+          "name": "36 Publish V3 Now",
           "request": {
             "method": "POST",
             "header": [
@@ -2837,7 +2761,7 @@
           ]
         },
         {
-          "name": "38 Create V4 Draft for Discard",
+          "name": "37 Create V4 Draft for Discard",
           "request": {
             "method": "POST",
             "header": [
@@ -2917,7 +2841,7 @@
           ]
         },
         {
-          "name": "39 Discard V4 Draft",
+          "name": "38 Discard V4 Draft",
           "request": {
             "method": "POST",
             "header": [
@@ -2997,7 +2921,7 @@
           ]
         },
         {
-          "name": "40 Batch Reassign Both Templates to Target Category",
+          "name": "39 Batch Reassign Both Templates to Target Category",
           "request": {
             "method": "POST",
             "header": [
@@ -3077,7 +3001,7 @@
           ]
         },
         {
-          "name": "41 Move Primary Template Back to Source Metadata",
+          "name": "40 Move Primary Template Back to Source Metadata",
           "request": {
             "method": "POST",
             "header": [
@@ -3157,7 +3081,7 @@
           ]
         },
         {
-          "name": "42 Check Referenced Source Category Impact",
+          "name": "41 Check Referenced Source Category Impact",
           "request": {
             "method": "POST",
             "header": [
@@ -3232,7 +3156,7 @@
           ]
         },
         {
-          "name": "43 Reassign References and Delete Source Category",
+          "name": "42 Reassign References and Delete Source Category",
           "request": {
             "method": "POST",
             "header": [
@@ -3319,7 +3243,7 @@
       "description": "Protected cleanup and final verification. Skip configuration is ignored for this folder.",
       "item": [
         {
-          "name": "44 Cleanup - Delete Copied Template",
+          "name": "43 Cleanup - Delete Copied Template",
           "request": {
             "method": "POST",
             "header": [
@@ -3400,7 +3324,7 @@
           ]
         },
         {
-          "name": "45 Cleanup - Delete Primary Template",
+          "name": "44 Cleanup - Delete Primary Template",
           "request": {
             "method": "POST",
             "header": [
@@ -3480,7 +3404,7 @@
           ]
         },
         {
-          "name": "46 Verify Temporary Templates Removed",
+          "name": "45 Verify Temporary Templates Removed",
           "request": {
             "method": "POST",
             "header": [
@@ -3546,7 +3470,7 @@
           ]
         },
         {
-          "name": "47 Cleanup Fallback - Delete Unused Category if Needed",
+          "name": "46 Cleanup Fallback - Delete Unused Category if Needed",
           "request": {
             "method": "POST",
             "header": [
@@ -3626,7 +3550,7 @@
           ]
         },
         {
-          "name": "48 Cleanup Fallback - Delete Source Category if Needed",
+          "name": "47 Cleanup Fallback - Delete Source Category if Needed",
           "request": {
             "method": "POST",
             "header": [
@@ -3706,7 +3630,7 @@
           ]
         },
         {
-          "name": "49 Cleanup - Delete Target Category",
+          "name": "48 Cleanup - Delete Target Category",
           "request": {
             "method": "POST",
             "header": [
@@ -3786,7 +3710,7 @@
           ]
         },
         {
-          "name": "50 Final Verification - No Temporary Categories Remain",
+          "name": "49 Final Verification - No Temporary Categories Remain",
           "request": {
             "method": "GET",
             "header": [

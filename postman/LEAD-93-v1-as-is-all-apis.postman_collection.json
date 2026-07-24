@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "586ce1bb-0199-432d-b9e6-2a9e70c24da4",
+    "_postman_id": "a7ffdde9-1694-4bfb-80cb-2601ef31e361",
     "name": "LEAD-93 v1 As-Is - All APIs",
     "description": "18 existing v1 endpoints: 16 LEAD-93 Contract endpoints plus 2 supporting lookups. Read requests can be sent directly after environment setup. Write requests require enableWriteTests=true. The environment-specific gatewayPrefix is not part of the API contract.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
