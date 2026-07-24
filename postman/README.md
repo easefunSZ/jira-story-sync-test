@@ -2,6 +2,8 @@
 
 本目录提供相互独立的 v1 As-Is 和 v2 Contract Collection。Collection 内的 Endpoint 不硬编码 QA 外层路由；`gatewayPrefix` 仅由所选 Environment 提供。
 
+> **同步状态（CHG-20260723-02）**：以下 v2 Collection、Mock 报告和断言结果属于 2026-07-21 的 **28 Endpoint 历史资产**。当前 API Contract 已收拢为 **25 Endpoint**（EX-05/EX-06 聚合、NEW-12 统一删除，NEW-04/07/09 退出前端使用）。在 Collection 和 Mock 重生成前，禁止把本目录的 v2 运行结果作为当前 Contract 的通过证据。v1 As-Is Collection 不受此变更影响。
+
 ## 1. 推荐文件
 
 | 文件 | 接口范围 | 用途 |

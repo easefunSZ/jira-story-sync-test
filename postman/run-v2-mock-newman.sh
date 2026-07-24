@@ -7,7 +7,7 @@ MODE="${1:-contract}"
 REPORT_DIR="${REPORT_DIR:-$POSTMAN_DIR/reports}"
 PRIVATE_DIR="${NEWMAN_PRIVATE_DIR:-$POSTMAN_DIR/.newman-private}"
 NPM_CACHE="${NPM_CONFIG_CACHE:-/private/tmp/lead93-npm-cache}"
-MOCK_PORT="${LEAD93_MOCK_PORT:-31094}"
+MOCK_PORT="${LEAD93_MOCK_PORT:-8086}"
 STAMP="$(date '+%Y-%m-%d_%H%M%S')"
 
 case "$MODE" in
@@ -73,9 +73,16 @@ if [[ "$MODE" == "full" && -n "${SKIP_STEPS:-}" ]]; then
   SKIP_ARGS+=(--env-var "skipSteps=$SKIP_STEPS")
 fi
 
+if command -v newman >/dev/null 2>&1; then
+  NEWMAN=(newman)
+elif command -v npx >/dev/null 2>&1; then
+  NEWMAN=(npx --yes newman)
+else
+  NEWMAN=(npm exec --cache "$NPM_CACHE" --yes --package=newman -- newman)
+fi
+
 newman_status=0
-npm exec --cache "$NPM_CACHE" --yes --package=newman -- \
-  newman run "$COLLECTION" -e "$ENV_FILE" \
+"${NEWMAN[@]}" run "$COLLECTION" -e "$ENV_FILE" \
   --env-var "baseUrl=http://127.0.0.1:${MOCK_PORT}" \
   --env-var "gatewayPrefix=" \
   --env-var "enableWriteTests=true" \

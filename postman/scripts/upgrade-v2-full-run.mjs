@@ -26,7 +26,7 @@ const workflowNames = [
   "Check Unused Category Delete Impact",
   "Delete Unreferenced Category",
   "Create Temporary V1 Draft",
-  "Save Current Template Metadata",
+  "Update Template Metadata",
   "Verify V1 Draft Detail",
   "Verify Draft Admin List",
   "Update V1 Draft Content",

@@ -116,7 +116,7 @@ const collection = {
   }],
   item: items,
   variable: [
-    {key: "baseUrl", value: "http://localhost:31093", type: "string"},
+    {key: "baseUrl", value: "http://localhost:8086", type: "string"},
     {key: "gatewayPrefix", value: "", type: "string"},
     {key: "authorization", value: "", type: "string"},
     {key: "xApigwApiId", value: "", type: "string"},

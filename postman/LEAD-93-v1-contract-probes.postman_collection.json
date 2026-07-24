@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "3c1f6817-b4c2-4f20-9dbc-e83fa78f3f35",
+    "_postman_id": "2a96f5a2-5dbc-4581-9dca-ca5a32121e81",
     "name": "LEAD-93 v1 QA Contract Difference Probes",
     "description": "Read-only A/B probes for pagination binding, templateList filters and getNextVersion. No template data is created or modified.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -1057,7 +1057,7 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:31093",
+      "value": "http://localhost:8086",
       "type": "string"
     },
     {

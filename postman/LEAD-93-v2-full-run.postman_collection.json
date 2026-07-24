@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "cf4deabd-177a-4b87-a102-f38a589ada27",
+    "_postman_id": "25b56dd3-316e-4a03-b05a-ebd4fd8888e5",
     "name": "LEAD-93 v2 Contract - Configurable Fail-Fast Lifecycle Run",
     "description": "Configuration-driven v2 regression. Independent requests run first, the dependency workflow runs in explicit order, and Cleanup is protected from skip rules.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -115,7 +115,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"isCampaign\": false,\n  \"keyword\": \"\",\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "raw": "{\n  \"keyword\": \"\",\n  \"sortMode\": 0,\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -181,7 +181,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/templateList",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"isCampaign\": false,\n  \"keyword\": \"\",\n  \"tab\": \"DRAFT\",\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "raw": "{\n  \"keyword\": \"\",\n  \"tab\": \"DRAFT\",\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -321,7 +321,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Five tag groups are available', function () { pm.expect(json.data.length).to.eql(5); });",
+                  "pm.test('Four mandatory tag groups are available', function () { const expected = ['CONTENT_TYPE', 'TRIGGER', 'LIFECYCLE_STAGE', 'FINANCIAL_NEED']; pm.expect(json.data).to.have.lengthOf(4); pm.expect(json.data.map(group => group.groupCode)).to.have.members(expected); pm.expect(json.data.every(group => Number(group.isMandatory ?? group.mandatory) === 1)).to.eql(true); });",
                   "pm.test('Trigger selection cap is five', function () { const trigger = json.data.find(group => group.groupCode === 'TRIGGER'); pm.expect(trigger.maxSelections).to.eql(5); });",
                   "if (json.responseCode === '00000000') { const selected = json.data.map(group => { const values = group.tagValues || group.values || []; return {groupCode: group.groupCode, tagCodes: Number(group.isMandatory ?? group.mandatory ?? 0) === 1 && values.length ? [values[0].tagCode] : []}; }); pm.environment.set('testTagGroupsJson', JSON.stringify(selected)); }"
                 ]
@@ -374,7 +374,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"LEAD93 QA Source {{runId}}\",\n  \"description\": \"Temporary source category for automated QA regression\",\n  \"parentCategoryId\": \"0\"\n}",
+              "raw": "{\n  \"categoryName\": \"LEAD93 QA Source {{runId}}\",\n  \"parentCategoryId\": \"0\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -453,7 +453,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"LEAD93 QA Target {{runId}}\",\n  \"description\": \"Temporary target category for automated QA regression\",\n  \"parentCategoryId\": \"0\"\n}",
+              "raw": "{\n  \"categoryName\": \"LEAD93 QA Target {{runId}}\",\n  \"parentCategoryId\": \"0\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -532,7 +532,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"LEAD93 QA Unused {{runId}}\",\n  \"description\": \"Temporary unreferenced category\",\n  \"parentCategoryId\": \"0\"\n}",
+              "raw": "{\n  \"categoryName\": \"LEAD93 QA Unused {{runId}}\",\n  \"parentCategoryId\": \"0\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -611,7 +611,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/{{sourceCategoryId}}",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"LEAD93 QA Source Updated {{runId}}\",\n  \"description\": \"Updated temporary source category\"\n}",
+              "raw": "{\n  \"categoryName\": \"LEAD93 QA Source Updated {{runId}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -691,7 +691,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"parentId\": \"{{sourceCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"QA Source Subcategory {{runId}}\",\n      \"description\": \"Primary source subcategory\"\n    },\n    {\n      \"name\": \"QA Source Secondary {{runId}}\",\n      \"description\": null\n    }\n  ]\n}",
+              "raw": "{\n  \"parentId\": \"{{sourceCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"QA Source Subcategory {{runId}}\"\n    },\n    {\n      \"name\": \"QA Source Secondary {{runId}}\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -772,7 +772,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"parentId\": \"{{targetCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"QA Target Subcategory {{runId}}\",\n      \"description\": \"Target subcategory for migration\"\n    }\n  ]\n}",
+              "raw": "{\n  \"parentId\": \"{{targetCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"QA Target Subcategory {{runId}}\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -926,9 +926,23 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete-impact/{{unusedCategoryId}}"
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCategoryId\": \"{{unusedCategoryId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
           },
           "response": [],
           "event": [
@@ -953,7 +967,8 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Unused Category impact is returned', function () { pm.expect(String(json.data.sourceCategoryId)).to.eql(pm.environment.get('unusedCategoryId')); });"
+                  "pm.test('Unused Category delete returns no body', function () { pm.expect(json.data).to.eql(null); });",
+                  "if (json.responseCode === '00000000') { pm.environment.unset('unusedCategoryId'); }"
                 ]
               }
             }
@@ -962,7 +977,7 @@
         {
           "name": "14 Delete Unreferenced Category",
           "request": {
-            "method": "DELETE",
+            "method": "POST",
             "header": [
               {
                 "key": "authorization",
@@ -988,9 +1003,23 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/{{unusedCategoryId}}"
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCategoryId\": \"{{unusedCategoryId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
           },
           "response": [],
           "event": [
@@ -1003,8 +1032,7 @@
                   "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
                   "  pm.execution.skipRequest();",
                   "}",
-                  "const missing = [\"unusedCategoryId\"].filter(key => !pm.environment.get(key));",
-                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
+                  "if (!pm.environment.get('unusedCategoryId')) { console.warn('Unused Category already removed.'); pm.execution.skipRequest(); }"
                 ]
               }
             },
@@ -1065,7 +1093,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/add",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V1\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false\n}",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V1\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}}\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1083,7 +1111,9 @@
                   "if (pm.variables.get('enableWriteTests') !== 'true') {",
                   "  console.warn('Write request skipped. Set enableWriteTests=true in the selected environment.');",
                   "  pm.execution.skipRequest();",
-                  "}"
+                  "}",
+                  "const missing = [\"sourceCategoryId\",\"sourceSubcategoryId\",\"testTagGroupsJson\"].filter(key => !pm.environment.get(key));",
+                  "if (missing.length) { console.warn(`Request skipped because prior setup failed: ${missing.join(', ')}`); pm.execution.skipRequest(); }"
                 ]
               }
             },
@@ -1106,7 +1136,7 @@
           ]
         },
         {
-          "name": "16 Save Current Template Metadata",
+          "name": "16 Update Template Metadata",
           "request": {
             "method": "POST",
             "header": [
@@ -1141,10 +1171,10 @@
                 "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/metadata",
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/update",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}}\n}",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}}\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1179,7 +1209,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Current metadata update result is returned', function () { pm.expect(String(json.data.emailCode)).to.eql(pm.environment.get('testEmailCode')); pm.expect(json.data.subCategoryIds).to.be.an('array'); pm.expect(json.data.tagGroupCount).to.eql(5); pm.expect(json.data.status).to.eql('success'); });"
+                  "pm.test('Current metadata update returns no body', function () { pm.expect(json.data).to.eql(null); });"
                 ]
               }
             }
@@ -1300,7 +1330,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/templateList",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"isCampaign\": false,\n  \"keyword\": \"{{testEmailName}}\",\n  \"tab\": \"DRAFT\",\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "raw": "{\n  \"keyword\": \"{{testEmailName}}\",\n  \"tab\": \"DRAFT\",\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1366,7 +1396,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/update",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA V1 updated\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V1\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA V1 updated\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V1\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1446,7 +1476,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/publish",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"targetVersion\": \"V1\"\n}",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"targetVersion\": \"V1\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1602,7 +1632,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"isCampaign\": false,\n  \"keyword\": \"{{testEmailName}}\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}},\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "raw": "{\n  \"keyword\": \"{{testEmailName}}\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}},\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2123,7 +2153,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/copy",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"sourceEmailCode\": \"{{testEmailCode}}\",\n  \"sourceVersion\": \"V1\",\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}} (Copy)\",\n  \"description\": \"Temporary Copy and Create regression template\",\n  \"isCampaign\": false,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"title\": \"LEAD-93 v2 QA copied draft\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA copied draft</p>\",\n  \"emailContentKey\": \"\",\n  \"textContent\": \"LEAD-93 v2 QA copied draft\",\n  \"fileKeys\": \"\",\n  \"thumbnailKey\": null,\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}}\n}",
+              "raw": "{\n  \"sourceEmailCode\": \"{{testEmailCode}}\",\n  \"sourceVersion\": \"V1\",\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}} (Copy)\",\n  \"description\": \"Temporary Copy and Create regression template\",\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"title\": \"LEAD-93 v2 QA copied draft\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA copied draft</p>\",\n  \"emailContentKey\": \"\",\n  \"textContent\": \"LEAD-93 v2 QA copied draft\",\n  \"fileKeys\": \"\",\n  \"thumbnailKey\": null,\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}}\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2280,7 +2310,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/add",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"version\": \"V2\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"version\": \"V2\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2436,7 +2466,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/add",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V3\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V3\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2516,7 +2546,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/version/update",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA V3 updated\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V3\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA V3 updated\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V3\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2596,7 +2626,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/publish",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 1,\n  \"effectiveFrom\": \"{{futureEffectiveFrom}}\",\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"targetVersion\": \"V3\"\n}",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 1,\n  \"effectiveFrom\": \"{{futureEffectiveFrom}}\",\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"targetVersion\": \"V3\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2676,7 +2706,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/add",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 1,\n  \"effectiveFrom\": \"{{futureEffectiveFrom}}\",\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V3\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 1,\n  \"effectiveFrom\": \"{{futureEffectiveFrom}}\",\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V3\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2756,7 +2786,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/publish",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"targetVersion\": \"V3\"\n}",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"targetVersion\": \"V3\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2836,7 +2866,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/add",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V4\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"isCampaign\": false,\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"effectiveWay\": 0,\n  \"effectiveFrom\": null,\n  \"effectiveUntil\": null,\n  \"title\": \"LEAD-93 v2 QA regression\",\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"<p>LEAD-93 v2 QA regression</p>\",\n  \"textContent\": \"LEAD-93 v2 QA regression\",\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"\",\n  \"isDraft\": 1,\n  \"version\": \"V4\",\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"emailCode\": \"{{testEmailCode}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3073,10 +3103,10 @@
                 "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/metadata",
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/update",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}}\n}",
+              "raw": "{\n  \"emailCode\": \"{{testEmailCode}}\",\n  \"emailName\": \"{{testEmailName}}\",\n  \"description\": \"Temporary LEAD-93 v2 QA regression template\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}}\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3111,7 +3141,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Primary Template returned to source Category', function () { pm.expect(String(json.data.categoryId)).to.eql(pm.environment.get('sourceCategoryId')); });"
+                  "pm.test('Primary Template master fields and metadata updated', function () { pm.expect(json.data).to.eql(null); });"
                 ]
               }
             }
@@ -3146,9 +3176,23 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete-impact/{{sourceCategoryId}}"
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCategoryId\": \"{{sourceCategoryId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
           },
           "response": [],
           "event": [
@@ -3171,9 +3215,8 @@
                   "let json;",
                   "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
-                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Referenced source Category impact is returned', function () { pm.expect(String(json.data.sourceCategoryId)).to.eql(pm.environment.get('sourceCategoryId')); });"
+                  "pm.test('Referenced source Category returns reassignRequired and affectedTemplateCount', function () { pm.expect(json.data.reassignRequired).to.eql(true); pm.expect(json.data.affectedTemplateCount).to.be.above(0); });"
                 ]
               }
             }
@@ -3215,7 +3258,7 @@
                 "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/reassign-and-delete",
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete",
             "body": {
               "mode": "raw",
               "raw": "{\n  \"sourceCategoryId\": \"{{sourceCategoryId}}\",\n  \"targetCategoryId\": \"{{targetCategoryId}}\",\n  \"targetSubcategoryIds\": [\n    \"{{targetSubcategoryId}}\"\n  ]\n}",
@@ -3466,7 +3509,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"isCampaign\": false,\n  \"keyword\": \"{{testEmailName}}\",\n  \"pageNum\": 1,\n  \"pageSize\": 100\n}",
+              "raw": "{\n  \"keyword\": \"{{testEmailName}}\",\n  \"pageNum\": 1,\n  \"pageSize\": 100\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3496,7 +3539,7 @@
         {
           "name": "47 Cleanup Fallback - Delete Unused Category if Needed",
           "request": {
-            "method": "DELETE",
+            "method": "POST",
             "header": [
               {
                 "key": "authorization",
@@ -3522,9 +3565,23 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/{{unusedCategoryId}}"
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCategoryId\": \"{{unusedCategoryId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
           },
           "response": [],
           "event": [
@@ -3562,7 +3619,7 @@
         {
           "name": "48 Cleanup Fallback - Delete Source Category if Needed",
           "request": {
-            "method": "DELETE",
+            "method": "POST",
             "header": [
               {
                 "key": "authorization",
@@ -3588,9 +3645,23 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/{{sourceCategoryId}}"
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCategoryId\": \"{{sourceCategoryId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
           },
           "response": [],
           "event": [
@@ -3628,7 +3699,7 @@
         {
           "name": "49 Cleanup - Delete Target Category",
           "request": {
-            "method": "DELETE",
+            "method": "POST",
             "header": [
               {
                 "key": "authorization",
@@ -3654,9 +3725,23 @@
                 "key": "Accept",
                 "value": "application/json",
                 "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/{{targetCategoryId}}"
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCategoryId\": \"{{targetCategoryId}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
           },
           "response": [],
           "event": [
@@ -3750,7 +3835,7 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:31093",
+      "value": "http://localhost:8086",
       "type": "string"
     },
     {
