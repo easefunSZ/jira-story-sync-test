@@ -2,22 +2,51 @@
 set -euo pipefail
 
 POSTMAN_DIR="$(cd "$(dirname "$0")" && pwd)"
-ARG1="${1:-}"
-ARG2="${2:-}"
-
 MODE="full"
 ENV_FILE=""
+FOLDER="${FOLDER:-}"
+ITERATIONS="${ITERATIONS:-1}"
 
-if [[ "$ARG1" == "contract" || "$ARG1" == "full" ]]; then
-  MODE="$ARG1"
-  ENV_FILE="$ARG2"
-elif [[ "$ARG2" == "contract" || "$ARG2" == "full" ]]; then
-  MODE="$ARG2"
-  ENV_FILE="$ARG1"
-else
-  ENV_FILE="$ARG1"
-  MODE="full"
-fi
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    contract|full)
+      MODE="$1"
+      shift
+      ;;
+    -n|--iterations|--iteration-count)
+      ITERATIONS="$2"
+      shift 2
+      ;;
+    -n=*|--iterations=*)
+      ITERATIONS="${1#*=}"
+      shift
+      ;;
+    -f|--folder|--request)
+      FOLDER="$2"
+      shift 2
+      ;;
+    -f=*|--folder=*|--request=*)
+      FOLDER="${1#*=}"
+      shift
+      ;;
+    *.json)
+      ENV_FILE="$1"
+      shift
+      ;;
+    [0-9]*)
+      if [[ "$1" =~ ^[0-9]+$ ]]; then
+        ITERATIONS="$1"
+      fi
+      shift
+      ;;
+    *)
+      if [[ -z "$FOLDER" ]]; then
+        FOLDER="$1"
+      fi
+      shift
+      ;;
+  esac
+done
 
 if [[ -n "$ENV_FILE" && ! -f "$ENV_FILE" && -f "$POSTMAN_DIR/$ENV_FILE" ]]; then
   ENV_FILE="$POSTMAN_DIR/$ENV_FILE"
@@ -50,7 +79,7 @@ CLEANUP_DEBUG_HTML="$PRIVATE_DIR/v2-deployed-cleanup-${STAMP}.debug.html"
 CLEANUP_SUMMARY_JSON="$REPORT_DIR/v2-deployed-cleanup-${STAMP}.summary.json"
 
 if [[ -z "$ENV_FILE" || ! -f "$ENV_FILE" ]]; then
-  echo "Usage: $0 [contract|full] [environment.json]" >&2
+  echo "Error: Environment file not found. Place LEAD-93-QA.postman_environment.json in $POSTMAN_DIR or pass environment.json." >&2
   exit 2
 fi
 

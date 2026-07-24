@@ -3,27 +3,60 @@ set -euo pipefail
 
 POSTMAN_DIR="$(cd "$(dirname "$0")" && pwd)"
 LEAD_DIR="$(cd "$POSTMAN_DIR/.." && pwd)"
-MODE="${1:-contract}"
+MODE="contract"
+FOLDER="${FOLDER:-}"
+ITERATIONS="${ITERATIONS:-1}"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    contract|full)
+      MODE="$1"
+      shift
+      ;;
+    -n|--iterations|--iteration-count)
+      ITERATIONS="$2"
+      shift 2
+      ;;
+    -n=*|--iterations=*)
+      ITERATIONS="${1#*=}"
+      shift
+      ;;
+    -f|--folder|--request)
+      FOLDER="$2"
+      shift 2
+      ;;
+    -f=*|--folder=*|--request=*)
+      FOLDER="${1#*=}"
+      shift
+      ;;
+    [0-9]*)
+      if [[ "$1" =~ ^[0-9]+$ ]]; then
+        ITERATIONS="$1"
+      fi
+      shift
+      ;;
+    *)
+      if [[ -z "$FOLDER" ]]; then
+        FOLDER="$1"
+      fi
+      shift
+      ;;
+  esac
+done
+
 REPORT_DIR="${REPORT_DIR:-$POSTMAN_DIR/reports}"
 PRIVATE_DIR="${NEWMAN_PRIVATE_DIR:-$POSTMAN_DIR/.newman-private}"
 NPM_CACHE="${NPM_CONFIG_CACHE:-/private/tmp/lead93-npm-cache}"
 MOCK_PORT="${LEAD93_MOCK_PORT:-8086}"
 STAMP="$(date '+%Y-%m-%d_%H%M%S')"
 
-case "$MODE" in
-  contract)
-    LABEL="v2-contract-mock"
-    COLLECTION="$POSTMAN_DIR/LEAD-93-v2-contract-all-apis.postman_collection.json"
-    ;;
-  full)
-    LABEL="v2-full-run-mock"
-    COLLECTION="$POSTMAN_DIR/LEAD-93-v2-full-run.postman_collection.json"
-    ;;
-  *)
-    echo "Usage: $0 <contract|full>" >&2
-    exit 2
-    ;;
-esac
+if [[ "$MODE" == "full" ]]; then
+  LABEL="v2-full-run-mock"
+  COLLECTION="$POSTMAN_DIR/LEAD-93-v2-full-run.postman_collection.json"
+else
+  LABEL="v2-contract-mock"
+  COLLECTION="$POSTMAN_DIR/LEAD-93-v2-contract-all-apis.postman_collection.json"
+fi
 
 ENV_FILE="$POSTMAN_DIR/LEAD-93-local-mock.postman_environment.json"
 MOCK_SERVER="$LEAD_DIR/api-contract/mock/lead93-mock-server.mjs"
