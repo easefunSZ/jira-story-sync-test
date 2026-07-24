@@ -128,9 +128,22 @@ const sections = executions.map((execution, index) => {
   </section>`;
 }).join("\n");
 
+const times = executions.map(e => e.response?.responseTime).filter(t => typeof t === "number");
+const avgTime = times.length ? Math.round(times.reduce((a,b) => a+b, 0) / times.length) : 0;
+const maxTime = times.length ? Math.max(...times) : 0;
+
 const navigation = executions.map((execution, index) => {
   const failures = (execution.assertions ?? []).filter(assertion => assertion.error).length;
-  return `<li><a href="#request-${index + 1}">${String(index + 1).padStart(2, "0")}. ${escapeHtml(execution.item?.name ?? "Unnamed request")}</a><span class="${failures ? "fail" : "pass"}">${failures ? "FAIL" : "PASS"}</span></li>`;
+  const time = execution.response?.responseTime;
+  const timeLabel = time !== undefined ? `${time}ms` : "n/a";
+  const timeBadgeColor = time > 2000 ? "#b42318" : (time > 1000 ? "#b54708" : "#176b45");
+  return `<li>
+    <a href="#request-${index + 1}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;" title="${escapeHtml(execution.item?.name ?? '')}">${String(index + 1).padStart(2, "0")}. ${escapeHtml(execution.item?.name ?? "Unnamed request")}</a>
+    <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
+      <span style="font-size:11px;font-family:monospace;padding:1px 5px;border-radius:3px;background:#e8eef3;color:${timeBadgeColor};font-weight:600;">${timeLabel}</span>
+      <span class="${failures ? "fail" : "pass"}">${failures ? "FAIL" : "PASS"}</span>
+    </div>
+  </li>`;
 }).join("\n");
 
 const html = `<!doctype html>
@@ -146,19 +159,20 @@ const html = `<!doctype html>
     header h1 { margin: 0 0 8px; font-size: 24px; }
     header p { margin: 4px 0; }
     .warning { padding: 12px 32px; color: #6b3c00; background: #fff0c2; border-bottom: 1px solid #e3c26b; font-weight: 700; }
-    main { display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr); gap: 20px; max-width: 1600px; margin: 0 auto; padding: 20px; }
+    main { display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); gap: 20px; max-width: 1600px; margin: 0 auto; padding: 20px; }
     nav { position: sticky; top: 12px; align-self: start; max-height: calc(100vh - 24px); overflow: auto; background: #fff; border: 1px solid #d7dde3; border-radius: 6px; }
     nav h2 { margin: 0; padding: 16px; font-size: 16px; border-bottom: 1px solid #d7dde3; }
     nav ul { margin: 0; padding: 8px; list-style: none; }
-    nav li { display: flex; gap: 8px; justify-content: space-between; padding: 7px 8px; border-bottom: 1px solid #edf0f2; }
+    nav li { display: flex; gap: 8px; justify-content: space-between; align-items: center; padding: 7px 8px; border-bottom: 1px solid #edf0f2; }
     nav a { color: #1b5e92; text-decoration: none; }
     .request { margin-bottom: 20px; padding: 20px; background: #fff; border: 1px solid #d7dde3; border-radius: 6px; }
     .request.has-failure { border-color: #c62828; }
     h2 { margin-top: 0; font-size: 20px; }
     h3 { margin: 18px 0 6px; font-size: 14px; }
-    .meta { display: flex; flex-wrap: wrap; gap: 8px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
     .meta span { padding: 4px 8px; background: #e8eef3; border-radius: 4px; font-size: 12px; }
     .meta .method { color: #fff; background: #176b45; font-weight: 700; }
+    .meta .time { background: #d0e1fd; color: #0b4582; font-weight: 700; font-family: monospace; }
     .columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
     pre { box-sizing: border-box; max-height: 420px; margin: 0; padding: 12px; overflow: auto; color: #d9e4ee; background: #17212b; border-radius: 4px; white-space: pre-wrap; overflow-wrap: anywhere; }
     table { width: 100%; border-collapse: collapse; }
@@ -176,10 +190,11 @@ const html = `<!doctype html>
     <p>Generated: ${escapeHtml(generatedAt)}</p>
     <p>Evidence: ${isMock ? "Local Contract Mock / NOT QA EVIDENCE" : "Executed Newman result"}</p>
     <p>Requests: ${escapeHtml(stat(raw, "requests"))}; Assertions: ${escapeHtml(stat(raw, "assertions"))}</p>
+    <p><strong>Response Time Stats:</strong> Average: <code style="background:#0d2338;padding:2px 6px;border-radius:3px;">${avgTime} ms</code> | Max: <code style="background:#0d2338;padding:2px 6px;border-radius:3px;">${maxTime} ms</code></p>
   </header>
   <div class="warning">${escapeHtml(evidenceLabel)}</div>
   <main>
-    <nav><h2>Requests</h2><ul>${navigation}</ul></nav>
+    <nav><h2>Requests (with Duration)</h2><ul>${navigation}</ul></nav>
     <div>${sections}</div>
   </main>
 </body>
