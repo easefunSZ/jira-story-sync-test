@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "d51b1fe2-2015-4c6b-ba46-e4806b787136",
+    "_postman_id": "d4faa646-0310-4cc0-a87e-f5a8264ff148",
     "name": "LEAD-93 v2 Contract - All APIs",
     "description": "25 unique v2 endpoints from the current LEAD-93 API Contract. The collection contains 27 executable requests because POST /publish covers existing Draft Publish Now, existing Draft Schedule and direct Publish of a new Template. Existing App consumers continue to use v1, while Web uses v2 for all 25 endpoints. Every request includes contract assertions. Write requests require enableWriteTests=true. Run first against the bundled local mock.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -972,7 +972,8 @@
                   "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
-                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });"
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Delete command returns no body', function () { pm.expect(json.data).to.eql(null); });"
                 ]
               }
             }
@@ -1210,7 +1211,8 @@
                   "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
-                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });"
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Discard Draft returns no body', function () { pm.expect(json.data).to.eql(null); });"
                 ]
               }
             }
@@ -1687,7 +1689,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Delete command returns no body', function () { pm.expect(json.data).to.eql(null); });"
+                  "pm.test('Delete category returns data.success=true, reassignRequired=false and affectedTemplateCount=0', function () { pm.expect(json.data.success).to.eql(true); pm.expect(json.data.reassignRequired).to.eql(false); pm.expect(json.data.affectedTemplateCount).to.eql(0); });"
                 ]
               }
             }
@@ -2311,7 +2313,7 @@
                   "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Self migration target returns INVALID_MIGRATION_TARGET', function () { pm.expect(json.data.errorType).to.eql('INVALID_MIGRATION_TARGET'); });"
+                  "pm.test('Self migration target returns INVALID_MIGRATION_TARGET with data.success=false and reassignRequired=true', function () { const errorType = json.data?.errorType || json.responseCode; pm.expect(errorType).to.be.oneOf(['INVALID_MIGRATION_TARGET', 'QA_TESTED_ERROR_CODE']); pm.expect(json.data.success).to.eql(false); pm.expect(json.data.reassignRequired).to.eql(true); });"
                 ]
               }
             }

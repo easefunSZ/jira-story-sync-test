@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "4234212b-991e-4231-b241-1bbeacff26dd",
+    "_postman_id": "0d9ce95d-32be-4783-a8e1-3a0b72ff7052",
     "name": "LEAD-93 v2 Contract - Configurable Fail-Fast Lifecycle Run",
     "description": "Configuration-driven v2 regression. Independent requests run first, the dependency workflow runs in explicit order, and Cleanup is protected from skip rules.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -976,7 +976,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Unused Category delete returns no body', function () { pm.expect(json.data).to.eql(null); });",
+                  "pm.test('Unused Category delete returns data.success=true, reassignRequired=false and affectedTemplateCount=0', function () { pm.expect(json.data.success).to.eql(true); pm.expect(json.data.reassignRequired).to.eql(false); pm.expect(json.data.affectedTemplateCount).to.eql(0); });",
                   "if (json.responseCode === '00000000') { pm.environment.unset('unusedCategoryId'); }"
                 ]
               }
@@ -1056,7 +1056,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Unreferenced Category was deleted', function () { pm.expect(json.data).to.eql(null); });",
+                  "pm.test('Unreferenced Category was deleted', function () { pm.expect(json.data.success).to.eql(true); pm.expect(json.data.reassignRequired).to.eql(false); pm.expect(json.data.affectedTemplateCount).to.eql(0); });",
                   "if (json.responseCode === '00000000') { pm.environment.unset('unusedCategoryId'); }"
                 ]
               }
@@ -3225,7 +3225,7 @@
                   "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Referenced source Category returns reassignRequired and affectedTemplateCount', function () { pm.expect(json.data.reassignRequired).to.eql(true); pm.expect(json.data.affectedTemplateCount).to.be.above(0); });"
+                  "pm.test('Referenced source Category returns data.success=false, reassignRequired=true and affectedTemplateCount>0', function () { pm.expect(json.data.success).to.eql(false); pm.expect(json.data.reassignRequired).to.eql(true); pm.expect(json.data.affectedTemplateCount).to.be.above(0); });"
                 ]
               }
             }
@@ -3305,7 +3305,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Referenced source Category was reassigned and deleted', function () { pm.expect(json.data).to.eql(null); });",
+                  "pm.test('Referenced source Category was reassigned and deleted with data.success=true, reassignRequired=true', function () { pm.expect(json.data.success).to.eql(true); pm.expect(json.data.reassignRequired).to.eql(true); pm.expect(json.data.affectedTemplateCount).to.be.above(0); });",
                   "if (json.responseCode === '00000000') { pm.environment.set('sourceCategoryDeleted', 'true'); }"
                 ]
               }
@@ -3618,7 +3618,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Fallback unused Category delete returns no body', function () { pm.expect(json.data).to.eql(null); });",
+                  "pm.test('Fallback unused Category delete returns data.success=true, reassignRequired=false and affectedTemplateCount=0', function () { pm.expect(json.data.success).to.eql(true); pm.expect(json.data.reassignRequired).to.eql(false); pm.expect(json.data.affectedTemplateCount).to.eql(0); });",
                   "if (json.responseCode === '00000000') { pm.environment.unset('unusedCategoryId'); }"
                 ]
               }
@@ -3698,7 +3698,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Fallback source Category delete returns no body', function () { pm.expect(json.data).to.eql(null); });",
+                  "pm.test('Fallback source Category delete returns data.success=true, reassignRequired=false and affectedTemplateCount=0', function () { pm.expect(json.data.success).to.eql(true); pm.expect(json.data.reassignRequired).to.eql(false); pm.expect(json.data.affectedTemplateCount).to.eql(0); });",
                   "if (json.responseCode === '00000000') { pm.environment.set('sourceCategoryDeleted', 'true'); }"
                 ]
               }
@@ -3779,7 +3779,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Target Category was deleted after Template cleanup', function () { pm.expect(json.data).to.eql(null); });"
+                  "pm.test('Target Category was deleted after Template cleanup', function () { pm.expect(json.data.success).to.eql(true); pm.expect(json.data.reassignRequired).to.eql(false); pm.expect(json.data.affectedTemplateCount).to.eql(0); });"
                 ]
               }
             }
