@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "eac1deec-58a0-4da9-b749-9f70264d93c7",
+    "_postman_id": "af644dad-06e6-4ba8-9dff-dc4cb852c14b",
     "name": "LEAD-93 v2 Contract - Configurable Fail-Fast Lifecycle Run",
     "description": "Configuration-driven v2 regression. Independent requests run first, the dependency workflow runs in explicit order, and Cleanup is protected from skip rules.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"

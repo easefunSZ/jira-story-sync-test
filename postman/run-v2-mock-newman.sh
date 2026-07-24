@@ -87,6 +87,7 @@ newman_status=0
   --env-var "gatewayPrefix=" \
   --env-var "enableWriteTests=true" \
   ${SKIP_ARGS[@]+"${SKIP_ARGS[@]}"} \
+  --bail failure \
   --reporters cli,json \
   --reporter-json-export "$RAW_JSON" \
   --timeout-request 30000 || newman_status=$?

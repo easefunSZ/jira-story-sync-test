@@ -76,25 +76,29 @@ newman_status=0
 generate_reports "$MAIN_RAW_JSON" "$MAIN_DEBUG_HTML" "$MAIN_SUMMARY_JSON"
 
 if [[ "$newman_status" -ne 0 ]]; then
-  echo "Main workflow stopped at the first failed request or assertion. Starting cleanup only." >&2
-  cleanup_status=0
-  if [[ -f "$RUNTIME_ENV" ]]; then
-    "${NEWMAN[@]}" run "$COLLECTION" -e "$RUNTIME_ENV" \
-      --folder "99 Cleanup" \
-      --env-var "enableWriteTests=true" \
-      ${SKIP_ARGS[@]+"${SKIP_ARGS[@]}"} \
-      --reporters cli,json \
-      --reporter-json-export "$CLEANUP_RAW_JSON" \
-      --export-environment "$RUNTIME_ENV" \
-      --timeout-request 30000 || cleanup_status=$?
-    generate_reports "$CLEANUP_RAW_JSON" "$CLEANUP_DEBUG_HTML" "$CLEANUP_SUMMARY_JSON"
-    if [[ "$cleanup_status" -ne 0 ]]; then
-      echo "Cleanup completed with failures. Inspect the cleanup debug report for residual test data." >&2
+  if [[ "${CLEAN_ON_FAILURE:-false}" == "true" ]]; then
+    echo "Main workflow stopped at failure. CLEAN_ON_FAILURE=true; starting cleanup..." >&2
+    cleanup_status=0
+    if [[ -f "$RUNTIME_ENV" ]]; then
+      "${NEWMAN[@]}" run "$COLLECTION" -e "$RUNTIME_ENV" \
+        --folder "99 Cleanup" \
+        --env-var "enableWriteTests=true" \
+        ${SKIP_ARGS[@]+"${SKIP_ARGS[@]}"} \
+        --reporters cli,json \
+        --reporter-json-export "$CLEANUP_RAW_JSON" \
+        --export-environment "$RUNTIME_ENV" \
+        --timeout-request 30000 || cleanup_status=$?
+      generate_reports "$CLEANUP_RAW_JSON" "$CLEANUP_DEBUG_HTML" "$CLEANUP_SUMMARY_JSON"
+      if [[ "$cleanup_status" -ne 0 ]]; then
+        echo "Cleanup completed with failures. Inspect the cleanup debug report for residual test data." >&2
+      else
+        echo "Cleanup completed after the failed main workflow." >&2
+      fi
     else
-      echo "Cleanup completed after the failed main workflow." >&2
+      echo "Runtime Environment was not exported; automatic cleanup could not start." >&2
     fi
   else
-    echo "Runtime Environment was not exported; automatic cleanup could not start." >&2
+    echo "Main workflow stopped at first failure. Skipping cleanup to preserve test state for diagnosis." >&2
   fi
   exit "$newman_status"
 fi

@@ -92,25 +92,30 @@ run_full() {
   generate_reports "$main_raw" "$main_debug" "$main_summary"
 
   if [[ "$status" -ne 0 ]]; then
-    echo "Main workflow stopped at the first failed request or assertion. Starting cleanup only." >&2
-    local cleanup_status=0
-    if [[ -f "$runtime_env" ]]; then
-      "${NEWMAN[@]}" run "$FULL_COLLECTION" -e "$runtime_env" \
-        --folder "99 Cleanup" \
-        --env-var "enableWriteTests=true" \
-        --reporters cli,json \
-        --reporter-json-export "$cleanup_raw" \
-        --export-environment "$runtime_env" \
-        --timeout-request 30000 || cleanup_status=$?
-      generate_reports "$cleanup_raw" "$cleanup_debug" "$cleanup_summary"
-      if [[ "$cleanup_status" -ne 0 ]]; then
-        echo "Cleanup completed with failures. Inspect the cleanup debug report for residual test data." >&2
+    if [[ "${CLEAN_ON_FAILURE:-false}" == "true" ]]; then
+      echo "Main workflow stopped at failure. CLEAN_ON_FAILURE=true; starting cleanup..." >&2
+      local cleanup_status=0
+      if [[ -f "$runtime_env" ]]; then
+        "${NEWMAN[@]}" run "$FULL_COLLECTION" -e "$runtime_env" \
+          --folder "99 Cleanup" \
+          --env-var "enableWriteTests=true" \
+          --reporters cli,json \
+          --reporter-json-export "$cleanup_raw" \
+          --export-environment "$runtime_env" \
+          --timeout-request 30000 || cleanup_status=$?
+        generate_reports "$cleanup_raw" "$cleanup_debug" "$cleanup_summary"
+        if [[ "$cleanup_status" -ne 0 ]]; then
+          echo "Cleanup completed with failures. Inspect the cleanup debug report for residual test data." >&2
+        else
+          echo "Cleanup completed after the failed main workflow." >&2
+        fi
       else
-        echo "Cleanup completed after the failed main workflow." >&2
+        echo "Runtime Environment was not exported; automatic cleanup could not start." >&2
       fi
     else
-      echo "Runtime Environment was not exported; automatic cleanup could not start." >&2
+      echo "Main workflow stopped at first failure. Skipping cleanup to preserve test state for diagnosis." >&2
     fi
+    exit "$status"
   fi
   return "$status"
 }
