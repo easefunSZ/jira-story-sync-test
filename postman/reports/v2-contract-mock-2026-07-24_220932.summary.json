@@ -1,0 +1,148 @@
+{
+  "generatedAt": "2026-07-24T14:09:36.716Z",
+  "source": "Newman local Contract Mock execution; not QA or deployed-service evidence",
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 2,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "tests": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 6,
+      "pending": 0,
+      "failed": 0
+    },
+    "testScripts": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "executions": [
+    {
+      "name": "EX-05 Save Draft / Create Template - add",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/add",
+      "httpStatus": 200,
+      "responseTimeMs": 38,
+      "businessCode": "00000000",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryId": "string",
+          "channelMap": {
+            "type": "object",
+            "fields": {}
+          },
+          "description": "string",
+          "editMode": "string",
+          "effectiveFrom": "string",
+          "effectiveUntil": "null",
+          "effectiveWay": "number",
+          "emailContent": "string",
+          "emailContentKey": "string",
+          "emailName": "string",
+          "fileKeys": "string",
+          "isCustomBranding": "string",
+          "isDraft": "number",
+          "moduleCode": "string",
+          "moduleCodeName": "string",
+          "scenarioCode": "string",
+          "subCategoryIds": {
+            "type": "array",
+            "item": "string"
+          },
+          "tagGroups": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "groupCode": "string",
+                "tagCodes": "array"
+              }
+            }
+          },
+          "textContent": "string",
+          "thumbnailKey": "null",
+          "title": "string",
+          "version": "string"
+        }
+      },
+      "responseEnvelopeFields": [
+        "data",
+        "requestId",
+        "responseCode",
+        "responseMessage"
+      ],
+      "responseDataSchema": {
+        "type": "object",
+        "fields": {
+          "emailCode": "string",
+          "version": "string"
+        }
+      },
+      "assertions": [
+        {
+          "name": "HTTP status is 200",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response is JSON",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "IIC response envelope exists",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Business response is successful",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Response time is below 10 seconds",
+          "passed": true,
+          "skipped": false
+        },
+        {
+          "name": "Saved version identifiers returned",
+          "passed": true,
+          "skipped": false
+        }
+      ]
+    }
+  ]
+}

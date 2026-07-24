@@ -83,9 +83,33 @@ fi
 
 ITERATIONS="${ITERATIONS:-1}"
 
+FOLDER_ARGS=()
+if [[ -n "${FOLDER:-}" ]]; then
+  RESOLVED_FOLDER=$(node -e '
+    const fs = require("fs");
+    const target = process.argv[1].toLowerCase();
+    const col = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
+    function search(items) {
+      for (const item of items) {
+        if (item.name && item.name.toLowerCase().includes(target)) return item.name;
+        if (item.item) {
+          const found = search(item.item);
+          if (found) return found;
+        }
+      }
+      return null;
+    }
+    const result = search(col.item || []);
+    if (result) console.log(result);
+  ' "$FOLDER" "$COLLECTION" 2>/dev/null || true)
+  TARGET_FOLDER="${RESOLVED_FOLDER:-$FOLDER}"
+  FOLDER_ARGS+=(--folder "$TARGET_FOLDER")
+fi
+
 newman_status=0
 "${NEWMAN[@]}" run "$COLLECTION" -e "$ENV_FILE" \
   -n "$ITERATIONS" \
+  ${FOLDER_ARGS[@]+"${FOLDER_ARGS[@]}"} \
   --env-var "baseUrl=http://127.0.0.1:${MOCK_PORT}" \
   --env-var "gatewayPrefix=" \
   --env-var "enableWriteTests=true" \
