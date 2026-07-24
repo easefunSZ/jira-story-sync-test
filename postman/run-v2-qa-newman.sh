@@ -2,22 +2,47 @@
 set -euo pipefail
 
 POSTMAN_DIR="$(cd "$(dirname "$0")" && pwd)"
-ENV_FILE="${1:-}"
+ARG1="${1:-}"
+ARG2="${2:-}"
+
+MODE="full"
+ENV_FILE=""
+
+if [[ "$ARG1" == "contract" || "$ARG1" == "full" ]]; then
+  MODE="$ARG1"
+  ENV_FILE="$ARG2"
+elif [[ "$ARG2" == "contract" || "$ARG2" == "full" ]]; then
+  MODE="$ARG2"
+  ENV_FILE="$ARG1"
+else
+  ENV_FILE="$ARG1"
+  MODE="full"
+fi
+
 REPORT_DIR="${REPORT_DIR:-$POSTMAN_DIR/reports}"
 PRIVATE_DIR="${NEWMAN_PRIVATE_DIR:-$POSTMAN_DIR/.newman-private}"
 NPM_CACHE="${NPM_CONFIG_CACHE:-${TMPDIR:-/tmp}/lead93-npm-cache}"
 STAMP="$(date '+%Y-%m-%d_%H%M%S')"
-COLLECTION="${COLLECTION_FILE:-$POSTMAN_DIR/LEAD-93-v2-full-run.postman_collection.json}"
-RUNTIME_ENV="$PRIVATE_DIR/v2-deployed-full-run-${STAMP}.runtime.postman_environment.json"
-MAIN_RAW_JSON="$PRIVATE_DIR/v2-deployed-full-run-${STAMP}.raw.json"
-MAIN_DEBUG_HTML="$PRIVATE_DIR/v2-deployed-full-run-${STAMP}.debug.html"
-MAIN_SUMMARY_JSON="$REPORT_DIR/v2-deployed-full-run-${STAMP}.summary.json"
+
+if [[ "$MODE" == "contract" ]]; then
+  COLLECTION="${COLLECTION_FILE:-$POSTMAN_DIR/LEAD-93-v2-contract.postman_collection.json}"
+  RUNTIME_ENV="$PRIVATE_DIR/v2-deployed-contract-${STAMP}.runtime.postman_environment.json"
+  MAIN_RAW_JSON="$PRIVATE_DIR/v2-deployed-contract-${STAMP}.raw.json"
+  MAIN_DEBUG_HTML="$PRIVATE_DIR/v2-deployed-contract-${STAMP}.debug.html"
+  MAIN_SUMMARY_JSON="$REPORT_DIR/v2-deployed-contract-${STAMP}.summary.json"
+else
+  COLLECTION="${COLLECTION_FILE:-$POSTMAN_DIR/LEAD-93-v2-full-run.postman_collection.json}"
+  RUNTIME_ENV="$PRIVATE_DIR/v2-deployed-full-run-${STAMP}.runtime.postman_environment.json"
+  MAIN_RAW_JSON="$PRIVATE_DIR/v2-deployed-full-run-${STAMP}.raw.json"
+  MAIN_DEBUG_HTML="$PRIVATE_DIR/v2-deployed-full-run-${STAMP}.debug.html"
+  MAIN_SUMMARY_JSON="$REPORT_DIR/v2-deployed-full-run-${STAMP}.summary.json"
+fi
 CLEANUP_RAW_JSON="$PRIVATE_DIR/v2-deployed-cleanup-${STAMP}.raw.json"
 CLEANUP_DEBUG_HTML="$PRIVATE_DIR/v2-deployed-cleanup-${STAMP}.debug.html"
 CLEANUP_SUMMARY_JSON="$REPORT_DIR/v2-deployed-cleanup-${STAMP}.summary.json"
 
 if [[ -z "$ENV_FILE" || ! -f "$ENV_FILE" ]]; then
-  echo "Usage: $0 <environment.json>" >&2
+  echo "Usage: $0 [contract|full] <environment.json>  OR  $0 <environment.json> [contract|full]" >&2
   exit 2
 fi
 
@@ -65,7 +90,9 @@ generate_reports() {
   fi
 }
 
-node "$POSTMAN_DIR/scripts/upgrade-v2-full-run.mjs"
+if [[ "$MODE" == "full" ]]; then
+  node "$POSTMAN_DIR/scripts/upgrade-v2-full-run.mjs"
+fi
 
 newman_status=0
 "${NEWMAN[@]}" run "$COLLECTION" -e "$ENV_FILE" \
