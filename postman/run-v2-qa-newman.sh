@@ -80,21 +80,27 @@ if [[ -n "${SKIP_STEPS:-}" ]]; then
   SKIP_ARGS+=(--env-var "skipSteps=$SKIP_STEPS")
 fi
 
+ITERATIONS="${ITERATIONS:-1}"
+
 generate_reports() {
   local raw_json="$1"
   local debug_html="$2"
   local summary_json="$3"
   local prompt_md="${raw_json%.raw.json}.ai-prompt.md"
+  local benchmark_md="${raw_json%.raw.json}.benchmark.md"
   if [[ -f "$raw_json" ]]; then
     node "$POSTMAN_DIR/scripts/generate-newman-debug-report.mjs" "$raw_json" "$debug_html"
     node "$POSTMAN_DIR/scripts/summarize-newman-report.mjs" "$raw_json" "$summary_json"
     node "$POSTMAN_DIR/scripts/generate-inner-ai-prompt.mjs" "$raw_json" "$prompt_md"
+    node "$POSTMAN_DIR/scripts/benchmark-api-performance.mjs" "$raw_json" "$benchmark_md"
     echo "Private Dev/QA debug report (URL + request + response):"
     echo "  $debug_html"
     echo "Sanitized Dev/QA summary:"
     echo "  $summary_json"
     echo "Inner AI Prompt (Markdown ready to copy):"
     echo "  $prompt_md"
+    echo "Performance Benchmark Report (Markdown):"
+    echo "  $benchmark_md"
   fi
 }
 
@@ -104,6 +110,7 @@ fi
 
 newman_status=0
 "${NEWMAN[@]}" run "$COLLECTION" -e "$ENV_FILE" \
+  -n "$ITERATIONS" \
   --env-var "enableWriteTests=true" \
   ${SKIP_ARGS[@]+"${SKIP_ARGS[@]}"} \
   --bail failure \

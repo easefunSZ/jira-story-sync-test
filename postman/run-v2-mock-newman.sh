@@ -81,8 +81,11 @@ else
   NEWMAN=(npm exec --cache "$NPM_CACHE" --yes --package=newman -- newman)
 fi
 
+ITERATIONS="${ITERATIONS:-1}"
+
 newman_status=0
 "${NEWMAN[@]}" run "$COLLECTION" -e "$ENV_FILE" \
+  -n "$ITERATIONS" \
   --env-var "baseUrl=http://127.0.0.1:${MOCK_PORT}" \
   --env-var "gatewayPrefix=" \
   --env-var "enableWriteTests=true" \
@@ -94,15 +97,19 @@ newman_status=0
 
 if [[ -f "$RAW_JSON" ]]; then
   PROMPT_MD="${RAW_JSON%.raw.json}.ai-prompt.md"
+  BENCHMARK_MD="${RAW_JSON%.raw.json}.benchmark.md"
   node "$POSTMAN_DIR/scripts/generate-newman-debug-report.mjs" "$RAW_JSON" "$DEBUG_HTML" --mock
   node "$POSTMAN_DIR/scripts/summarize-newman-report.mjs" "$RAW_JSON" "$SUMMARY_JSON" --mock
   node "$POSTMAN_DIR/scripts/generate-inner-ai-prompt.mjs" "$RAW_JSON" "$PROMPT_MD"
+  node "$POSTMAN_DIR/scripts/benchmark-api-performance.mjs" "$RAW_JSON" "$BENCHMARK_MD"
   echo "V2 Contract Mock debug report (URL + request + response):"
   echo "  $DEBUG_HTML"
   echo "Mock summary:"
   echo "  $SUMMARY_JSON"
   echo "Inner AI Prompt (Markdown ready to copy):"
   echo "  $PROMPT_MD"
+  echo "Performance Benchmark Report (Markdown):"
+  echo "  $BENCHMARK_MD"
 fi
 
 if [[ "$newman_status" -ne 0 ]]; then
