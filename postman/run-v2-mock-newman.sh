@@ -93,12 +93,16 @@ newman_status=0
   --timeout-request 30000 || newman_status=$?
 
 if [[ -f "$RAW_JSON" ]]; then
+  PROMPT_MD="${RAW_JSON%.raw.json}.ai-prompt.md"
   node "$POSTMAN_DIR/scripts/generate-newman-debug-report.mjs" "$RAW_JSON" "$DEBUG_HTML" --mock
   node "$POSTMAN_DIR/scripts/summarize-newman-report.mjs" "$RAW_JSON" "$SUMMARY_JSON" --mock
+  node "$POSTMAN_DIR/scripts/generate-inner-ai-prompt.mjs" "$RAW_JSON" "$PROMPT_MD"
   echo "V2 Contract Mock debug report (URL + request + response):"
   echo "  $DEBUG_HTML"
   echo "Mock summary:"
   echo "  $SUMMARY_JSON"
+  echo "Inner AI Prompt (Markdown ready to copy):"
+  echo "  $PROMPT_MD"
 fi
 
 if [[ "$newman_status" -ne 0 ]]; then

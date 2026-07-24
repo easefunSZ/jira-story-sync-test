@@ -45,13 +45,17 @@ generate_reports() {
   local raw_json="$1"
   local debug_html="$2"
   local summary_json="$3"
+  local prompt_md="${raw_json%.raw.json}.ai-prompt.md"
   if [[ -f "$raw_json" ]]; then
     node "$POSTMAN_DIR/scripts/generate-newman-debug-report.mjs" "$raw_json" "$debug_html"
     node "$POSTMAN_DIR/scripts/summarize-newman-report.mjs" "$raw_json" "$summary_json"
+    node "$POSTMAN_DIR/scripts/generate-inner-ai-prompt.mjs" "$raw_json" "$prompt_md"
     echo "Private debug report (URL + request + response):"
     echo "  $debug_html"
     echo "Sanitized summary:"
     echo "  $summary_json"
+    echo "Inner AI Prompt (Markdown ready to copy):"
+    echo "  $prompt_md"
   fi
 }
 
