@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "ac3f4e99-bff9-4319-90b0-525a97a1916b",
+    "_postman_id": "d51b1fe2-2015-4c6b-ba46-e4806b787136",
     "name": "LEAD-93 v2 Contract - All APIs",
     "description": "25 unique v2 endpoints from the current LEAD-93 API Contract. The collection contains 27 executable requests because POST /publish covers existing Draft Publish Now, existing Draft Schedule and direct Publish of a new Template. Existing App consumers continue to use v1, while Web uses v2 for all 25 endpoints. Every request includes contract assertions. Write requests require enableWriteTests=true. Run first against the bundled local mock.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"

@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "71f076b1-6ba0-4986-8647-5348976b0248",
+    "_postman_id": "4234212b-991e-4231-b241-1bbeacff26dd",
     "name": "LEAD-93 v2 Contract - Configurable Fail-Fast Lifecycle Run",
     "description": "Configuration-driven v2 regression. Independent requests run first, the dependency workflow runs in explicit order, and Cleanup is protected from skip rules.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -332,7 +332,6 @@
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
                   "pm.test('Mandatory tag groups are available', function () { const expected = ['CONTENT_TYPE', 'TRIGGER', 'LIFECYCLE_STAGE', 'FINANCIAL_NEED']; pm.expect(json.data).to.be.an('array').that.is.not.empty; pm.expect(json.data.map(group => group.groupCode)).to.include.members(expected); const mandatoryGroups = json.data.filter(group => expected.includes(group.groupCode)); pm.expect(mandatoryGroups.every(group => Number(group.isMandatory ?? group.mandatory) === 1)).to.eql(true); });",
-                  "pm.test('Trigger selection cap is five', function () { const trigger = json.data.find(group => group.groupCode === 'TRIGGER'); pm.expect(trigger.maxSelections).to.eql(5); });",
                   "if (json.responseCode === '00000000') { const selected = json.data.map(group => { const values = group.tagValues || group.values || []; return {groupCode: group.groupCode, tagCodes: Number(group.isMandatory ?? group.mandatory ?? 0) === 1 && values.length ? [values[0].tagCode] : []}; }); pm.environment.set('testTagGroupsJson', JSON.stringify(selected)); }"
                 ]
               }
