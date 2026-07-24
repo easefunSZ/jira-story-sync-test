@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "af644dad-06e6-4ba8-9dff-dc4cb852c14b",
+    "_postman_id": "0dc32ace-a883-4de9-867e-d5993c0de37d",
     "name": "LEAD-93 v2 Contract - Configurable Fail-Fast Lifecycle Run",
     "description": "Configuration-driven v2 regression. Independent requests run first, the dependency workflow runs in explicit order, and Cleanup is protected from skip rules.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -1444,7 +1444,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Publish command returns no inferred state', function () { pm.expect(json.data).to.eql(null); });"
+                  "pm.test('Publish command returns published version entity', function () { pm.expect(json.data.emailCode).to.exist; pm.expect(json.data.version).to.eql('V1'); pm.expect(json.data.versionStatus).to.eql(1); });"
                 ]
               }
             }
@@ -1565,7 +1565,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"keyword\": \"{{testEmailName}}\",\n  \"keyWords\": \"{{testEmailName}}\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}},\n  \"sortMode\": 0,\n  \"sortField\": \"createdDate\",\n  \"isAsc\": false,\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "raw": "{\n  \"emailName\": \"{{testEmailName}}\",\n  \"keyword\": \"{{testEmailName}}\",\n  \"keyWords\": \"{{testEmailName}}\",\n  \"categoryId\": \"{{sourceCategoryId}}\",\n  \"subCategoryIds\": [\"{{sourceSubcategoryId}}\"],\n  \"tagGroups\": {{testTagGroupsJson}},\n  \"isCampaign\": 0,\n  \"sortMode\": 0,\n  \"sortField\": \"createdDate\",\n  \"isAsc\": false,\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2594,7 +2594,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Schedule command returns no inferred state', function () { pm.expect(json.data).to.eql(null); });"
+                  "pm.test('Schedule command returns scheduled version entity', function () { pm.expect(json.data.emailCode).to.exist; pm.expect(json.data.version).to.eql('V3'); pm.expect(json.data.versionStatus).to.eql(0); });"
                 ]
               }
             }
@@ -2754,7 +2754,7 @@
                   "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
                   "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
                   "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
-                  "pm.test('Publish command returns no inferred state', function () { pm.expect(json.data).to.eql(null); });"
+                  "pm.test('Publish command returns published version entity', function () { pm.expect(json.data.emailCode).to.exist; pm.expect(json.data.version).to.eql('V3'); pm.expect(json.data.versionStatus).to.eql(1); });"
                 ]
               }
             }
@@ -3442,7 +3442,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"keyword\": \"{{testEmailName}}\",\n  \"pageNum\": 1,\n  \"pageSize\": 100\n}",
+              "raw": "{\n  \"emailName\": \"{{testEmailName}}\",\n  \"keyword\": \"{{testEmailName}}\",\n  \"keyWords\": \"{{testEmailName}}\",\n  \"isCampaign\": 0,\n  \"pageNum\": 1,\n  \"pageSize\": 100\n}",
               "options": {
                 "raw": {
                   "language": "json"
