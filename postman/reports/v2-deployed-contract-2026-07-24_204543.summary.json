@@ -1,0 +1,85 @@
+{
+  "generatedAt": "2026-07-24T12:45:59.030Z",
+  "source": "Newman QA execution; credentials, hosts, identifiers, payload values and response values removed",
+  "stats": {
+    "iterations": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "items": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "scripts": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequests": {
+      "total": 1,
+      "pending": 0,
+      "failed": 0
+    },
+    "requests": {
+      "total": 1,
+      "pending": 0,
+      "failed": 1
+    },
+    "tests": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    },
+    "assertions": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    },
+    "testScripts": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    },
+    "prerequestScripts": {
+      "total": 0,
+      "pending": 0,
+      "failed": 0
+    }
+  },
+  "executions": [
+    {
+      "name": "EX-01 Published List - queryList",
+      "method": "POST",
+      "endpoint": "/iic-dae-msg/web/msg/template/email/v2/queryList",
+      "requestBodySchema": {
+        "type": "object",
+        "fields": {
+          "categoryId": "string",
+          "keyword": "string",
+          "pageNum": "number",
+          "pageSize": "number",
+          "sortMode": "number",
+          "subCategoryIds": {
+            "type": "array",
+            "item": "string"
+          },
+          "tagGroups": {
+            "type": "array",
+            "item": {
+              "type": "object",
+              "fields": {
+                "groupCode": "string",
+                "tagCodes": "array"
+              }
+            }
+          }
+        }
+      },
+      "responseEnvelopeFields": [],
+      "responseDataSchema": null,
+      "assertions": []
+    }
+  ]
+}

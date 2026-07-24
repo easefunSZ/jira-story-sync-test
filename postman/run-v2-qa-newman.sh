@@ -19,13 +19,21 @@ else
   MODE="full"
 fi
 
+if [[ -n "$ENV_FILE" && ! -f "$ENV_FILE" && -f "$POSTMAN_DIR/$ENV_FILE" ]]; then
+  ENV_FILE="$POSTMAN_DIR/$ENV_FILE"
+fi
+
+if [[ -z "$ENV_FILE" && -f "$POSTMAN_DIR/LEAD-93-QA.postman_environment.json" ]]; then
+  ENV_FILE="$POSTMAN_DIR/LEAD-93-QA.postman_environment.json"
+fi
+
 REPORT_DIR="${REPORT_DIR:-$POSTMAN_DIR/reports}"
 PRIVATE_DIR="${NEWMAN_PRIVATE_DIR:-$POSTMAN_DIR/.newman-private}"
 NPM_CACHE="${NPM_CONFIG_CACHE:-${TMPDIR:-/tmp}/lead93-npm-cache}"
 STAMP="$(date '+%Y-%m-%d_%H%M%S')"
 
 if [[ "$MODE" == "contract" ]]; then
-  COLLECTION="${COLLECTION_FILE:-$POSTMAN_DIR/LEAD-93-v2-contract.postman_collection.json}"
+  COLLECTION="${COLLECTION_FILE:-$POSTMAN_DIR/LEAD-93-v2-contract-all-apis.postman_collection.json}"
   RUNTIME_ENV="$PRIVATE_DIR/v2-deployed-contract-${STAMP}.runtime.postman_environment.json"
   MAIN_RAW_JSON="$PRIVATE_DIR/v2-deployed-contract-${STAMP}.raw.json"
   MAIN_DEBUG_HTML="$PRIVATE_DIR/v2-deployed-contract-${STAMP}.debug.html"
@@ -42,7 +50,7 @@ CLEANUP_DEBUG_HTML="$PRIVATE_DIR/v2-deployed-cleanup-${STAMP}.debug.html"
 CLEANUP_SUMMARY_JSON="$REPORT_DIR/v2-deployed-cleanup-${STAMP}.summary.json"
 
 if [[ -z "$ENV_FILE" || ! -f "$ENV_FILE" ]]; then
-  echo "Usage: $0 [contract|full] <environment.json>  OR  $0 <environment.json> [contract|full]" >&2
+  echo "Usage: $0 [contract|full] [environment.json]" >&2
   exit 2
 fi
 
