@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Git Bash Web Terminal (ttyd)</title>
+  <!-- xterm.css -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      background-color: #1e1e1e;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+    }
+    #header {
+      height: 36px;
+      background-color: #2d2d2d;
+      color: #cccccc;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: 1px solid #3c3c3c;
+      font-size: 13px;
+      user-select: none;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #e51400;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .status-dot.connected {
+      background-color: #107c41;
+    }
+    #terminal-container {
+      width: 100%;
+      height: calc(100% - 36px);
+      padding: 6px;
+    }
+    .xterm {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <div>
+      <span id="status-dot" class="status-dot"></span>
+      <span id="status-text">正在连接到终端...</span>
+    </div>
+    <div>Windows Git Bash Web Console</div>
+  </div>
+  <div id="terminal-container"></div>
+
+  <!-- xterm.js & addons -->
+  <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xterm-addon-web-links@0.9.0/lib/xterm-addon-web-links.js"></script>
+
+  <script>
+    const term = new Terminal({
+      cursorBlink: true,
+      cursorStyle: 'block',
+      fontFamily: 'Consolas, "Courier New", monospace',
+      fontSize: 14,
+      theme: {
+        background: '#1e1e1e',
+        foreground: '#cccccc',
+        cursor: '#ffffff',
+        selectionBackground: '#264f78',
+        black: '#000000',
+        red: '#cd3131',
+        green: '#0dbc79',
+        yellow: '#e5e510',
+        blue: '#2472c8',
+        magenta: '#bc3fbc',
+        cyan: '#11a8cd',
+        white: '#e5e5e5',
+        brightBlack: '#666666',
+        brightRed: '#f14c4c',
+        brightGreen: '#23d18b',
+        brightYellow: '#f5f543',
+        brightBlue: '#3b8eea',
+        brightMagenta: '#d670d6',
+        brightCyan: '#29b8db',
+        brightWhite: '#e5e5e5'
+      }
+    });
+
+    const fitAddon = new FitAddon.FitAddon();
+    term.loadAddon(fitAddon);
+    term.loadAddon(new WebLinksAddon.WebLinksAddon());
+
+    const container = document.getElementById('terminal-container');
+    term.open(container);
+    fitAddon.fit();
+
+    // 状态元素
+    const statusDot = document.getElementById('status-dot');
+    const statusText = document.getElementById('status-text');
+
+    // 建立 WebSocket 连接
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${protocol}//${window.location.host}/ws`;
+    const ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => {
+      statusDot.classList.add('connected');
+      statusText.textContent = '已连接到 Git Bash';
+      sendResize();
+    };
+
+    ws.onmessage = (event) => {
+      term.write(event.data);
+    };
+
+    ws.onclose = () => {
+      statusDot.classList.remove('connected');
+      statusText.textContent = '连接已断开';
+      term.write('\r\n\x1b[31m[TTYD] 与终端服务器的连接已关闭。\x1b[0m\r\n');
+    };
+
+    ws.onerror = (err) => {
+      console.error('WebSocket Error:', err);
+      statusText.textContent = '连接发生错误';
+    };
+
+    // 网页数据 -> WebSocket
+    term.onData((data) => {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(data);
+      }
+    });
+
+    // 窗口调整大小时通知后端 pty
+    function sendResize() {
+      if (ws.readyState === WebSocket.OPEN) {
+        fitAddon.fit();
+        ws.send(JSON.stringify({
+          type: 'resize',
+          cols: term.cols,
+          rows: term.rows
+        }));
+      }
+    }
+
+    window.addEventListener('resize', sendResize);
+  </script>
+</body>
+</html>
