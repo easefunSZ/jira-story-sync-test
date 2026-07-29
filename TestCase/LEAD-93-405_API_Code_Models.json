@@ -1,0 +1,133 @@
+{
+  "version": "1.0",
+  "changeId": "CHG-20260729-08",
+  "description": "测试报告使用的 Endpoint 与代码模型定位表。VERIFIED 表示已由当前代码变更记录或开发人员明确确认；CODE_SNAPSHOT 表示类名来自 2026-07-21 内网代码导出，若后续发生重命名，修改代码前必须重新核对。",
+  "endpoints": {
+    "/web/msg/template/email/v2/category/taxonomy": {
+      "requestModel": null,
+      "successDataModel": "List<TagGroupVO>",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md"
+    },
+    "/web/msg/template/email/v2/category/tree": {
+      "requestModel": null,
+      "successDataModel": "List<CategoryTreeNodeVO>",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md"
+    },
+    "/web/msg/template/email/v2/queryList": {
+      "requestModel": "TemplateListQueryBO",
+      "successDataModel": "PageResult<TemplateListVO>",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md"
+    },
+    "/web/msg/template/email/v2/templateList": {
+      "requestModel": "TemplateListQueryBO",
+      "successDataModel": "PageResult<TemplateListVO>",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md"
+    },
+    "/web/msg/template/email/v2/category": {
+      "requestModel": "CreateCategoryRequest",
+      "successDataModel": "CategoryTreeNodeVO",
+      "verification": "VERIFIED",
+      "source": "CHG-20260729-05 当前代码变更记录"
+    },
+    "/web/msg/template/email/v2/category/batch-subcategories": {
+      "requestModel": "BatchSubcategoryRequest",
+      "successDataModel": "List<CategoryTreeNodeVO>",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md"
+    },
+    "/web/msg/template/email/v2/category/update": {
+      "requestModel": "UpdateCategoryRequest",
+      "successDataModel": "Void",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md；路由按当前接口约定更新"
+    },
+    "/web/msg/template/email/v2/category/reorder": {
+      "requestModel": null,
+      "successDataModel": "Void",
+      "verification": "OPEN",
+      "source": "本地现有证据没有当前请求类名"
+    },
+    "/web/msg/template/email/v2/category/delete": {
+      "requestModel": null,
+      "successDataModel": "Void",
+      "verification": "OPEN",
+      "source": "本地现有证据没有合并后删除接口的当前请求类名"
+    },
+    "/web/msg/template/email/v2/add": {
+      "requestModel": "EmailAddBOV2",
+      "successDataModel": "EmailInfoVO",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md"
+    },
+    "/web/msg/template/email/v2/detail": {
+      "requestModel": "EmailDetailDTO",
+      "successDataModel": "EmailDetailVO",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md"
+    },
+    "/web/msg/template/email/v2/published/detail": {
+      "requestModel": "EmailDetailDTO",
+      "successDataModel": "EmailDetailVO",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md"
+    },
+    "/web/msg/template/email/v2/update": {
+      "requestModel": "TemplateEmailUpdateBO",
+      "successDataModel": "Void",
+      "verification": "CODE_SNAPSHOT",
+      "source": "V1 复用规则与当前接口约定"
+    },
+    "/web/msg/template/email/v2/version/detail": {
+      "requestModel": "TemplateEmailVersionDetailBO",
+      "successDataModel": "TemplateEmailVersionDetailVO",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md；响应字段边界按 CHG-20260729-03 更新"
+    },
+    "/web/msg/template/email/v2/copy": {
+      "requestModel": null,
+      "successDataModel": "EmailInfoVO",
+      "verification": "OPEN",
+      "source": "成功结构已由接口约定确认；本地没有当前请求类名证据"
+    },
+    "/web/msg/template/email/v2/changeStatus": {
+      "requestModel": "TemplateStatusChangeBO",
+      "successDataModel": "Void",
+      "verification": "CODE_SNAPSHOT",
+      "source": "V1 复用规则与 real_code_ananly/Lead-93_API.md"
+    },
+    "/web/msg/template/email/v2/delete": {
+      "requestModel": "TemplateEmailDeleteBO",
+      "successDataModel": "Void",
+      "verification": "CODE_SNAPSHOT",
+      "source": "V1 复用规则与 real_code_ananly/Lead-93_API.md"
+    },
+    "/web/msg/template/email/v2/version/add": {
+      "requestModel": "TemplateEmailVersionAddBO",
+      "successDataModel": "TemplateEmailVersionV2VO",
+      "verification": "MIXED",
+      "source": "请求类来自 2026-07-21 代码快照；响应类名已由开发人员明确确认"
+    },
+    "/web/msg/template/email/v2/version/update": {
+      "requestModel": "TemplateEmailVersionAddBO",
+      "successDataModel": "TemplateEmailVersionV2VO",
+      "verification": "MIXED",
+      "source": "请求类来自 2026-07-21 代码快照；响应类名已由开发人员明确确认"
+    },
+    "/web/msg/template/email/v2/version/list/history": {
+      "requestModel": "TemplateEmailVersionQueryBO",
+      "successDataModel": "PageResult<TemplateEmailVersionListVO>",
+      "verification": "CODE_SNAPSHOT",
+      "source": "V1 复用规则与 real_code_ananly/Lead-93_API.md"
+    },
+    "/web/msg/template/email/v2/reassign": {
+      "requestModel": "ReassignTemplatesRequest",
+      "successDataModel": "Void",
+      "verification": "CODE_SNAPSHOT",
+      "source": "real_code_ananly/api-v2.md"
+    }
+  }
+}

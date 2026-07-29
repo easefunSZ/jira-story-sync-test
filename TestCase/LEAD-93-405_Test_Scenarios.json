@@ -1,0 +1,454 @@
+{
+  "version": "1.0",
+  "changeId": "CHG-20260729-08",
+  "description": "Explicit Story test scenarios. Step order is stable and report-visible; evidence IDs refer to the generated Postman collection and database assertion package.",
+  "stories": [
+    {
+      "story": "LEAD-277",
+      "scenarios": [
+        {
+          "number": 1,
+          "name": "保存不完整草稿并确认 Draft 状态",
+          "acIds": ["LEAD-277 AC1", "LEAD-277 AC2", "LEAD-277 AC3", "LEAD-277 AC4", "LEAD-277 AC8", "LEAD-277 AC13"],
+          "precondition": "测试模板名称未被占用，写测试已启用。",
+          "steps": [
+            {"action": "验证缺少模板名称时保存草稿被拒绝", "evidence": {"type": "API", "id": 17}},
+            {"action": "保存 Metadata 不完整的 V1 Draft", "evidence": {"type": "API", "id": 18}},
+            {"action": "从 Draft 列表查询新建草稿", "evidence": {"type": "API", "id": 19}},
+            {"action": "验证主记录和 V1 Draft 持久化状态", "evidence": {"type": "DB", "id": "DB-01"}}
+          ]
+        },
+        {
+          "number": 2,
+          "name": "执行首次发布校验并创建 Published Template",
+          "acIds": ["LEAD-277 AC1", "LEAD-277 AC2", "LEAD-277 AC5", "LEAD-277 AC6", "LEAD-277 AC9", "LEAD-277 AC10", "LEAD-277 AC11", "LEAD-277 AC12", "LEAD-277 AC13", "LEAD-277 AC14"],
+          "precondition": "四组必填 Tag taxonomy、Category 和 Subcategory 已存在。",
+          "steps": [
+            {"action": "读取四组必填 Tag taxonomy", "evidence": {"type": "API", "id": 1}},
+            {"action": "提交缺少必填 Metadata 的 Publish 请求", "evidence": {"type": "API", "id": 20}},
+            {"action": "提交字段完整的首次 Publish 请求", "evidence": {"type": "API", "id": 21}},
+            {"action": "读取 Published Template 详情和 Metadata", "evidence": {"type": "API", "id": 22}},
+            {"action": "验证失败发布没有产生部分数据", "evidence": {"type": "DB", "id": "DB-03"}},
+            {"action": "验证 Category/Subcategory 当前关系", "evidence": {"type": "DB", "id": "DB-04"}},
+            {"action": "验证四组 Tag 关系", "evidence": {"type": "DB", "id": "DB-05"}}
+          ]
+        },
+        {
+          "number": 3,
+          "name": "验证 Category 与 Subcategory 归属约束",
+          "acIds": ["LEAD-277 AC2"],
+          "precondition": "Published Template 已存在，并已准备同一 Category 下的多个 Subcategory。",
+          "steps": [
+            {"action": "读取多个当前 Subcategory", "evidence": {"type": "API", "id": 28}},
+            {"action": "提交不属于所选 Category 的 Subcategory 并验证拒绝", "evidence": {"type": "API", "id": 29}},
+            {"action": "验证 Category 单选和 Subcategory 归属关系", "evidence": {"type": "DB", "id": "DB-06"}}
+          ]
+        },
+        {
+          "number": 4,
+          "name": "验证 Copy 与版本发布生命周期",
+          "acIds": ["LEAD-277 AC13", "LEAD-277 AC14"],
+          "precondition": "原 Published Template 存在，且没有冲突的 Draft 或 Schedule。",
+          "steps": [
+            {"action": "从 Published Template 创建独立 Copy Draft", "evidence": {"type": "API", "id": 32}},
+            {"action": "从 Active 创建 V2 Draft", "evidence": {"type": "API", "id": 41}},
+            {"action": "将已有 V2 Draft 预约为 Schedule", "evidence": {"type": "API", "id": 42}},
+            {"action": "取消 Schedule 并恢复同一 V2 Draft", "evidence": {"type": "API", "id": 43}},
+            {"action": "查询并确认取消预约后的 V2 为 Draft", "evidence": {"type": "API", "id": 44}},
+            {"action": "发布 V2 并使 V1 Expired", "evidence": {"type": "API", "id": 45}},
+            {"action": "验证 Copy 与来源 Template 相互独立", "evidence": {"type": "DB", "id": "DB-08"}},
+            {"action": "验证 V2 Active 和 V1 Expired", "evidence": {"type": "DB", "id": "DB-10"}},
+            {"action": "验证版本切换后的唯一 Active 状态", "evidence": {"type": "DB", "id": "DB-11"}}
+          ]
+        }
+      ]
+    },
+    {
+      "story": "LEAD-301",
+      "scenarios": [
+        {
+          "number": 1,
+          "name": "验证 Category/Subcategory 输入和排序规则",
+          "acIds": ["LEAD-301 AC4", "LEAD-301 AC8", "LEAD-301 AC9"],
+          "precondition": "Category 管理写接口已启用。",
+          "steps": [
+            {"action": "验证空 Category 名称被拒绝", "evidence": {"type": "API", "id": 5}},
+            {"action": "验证重复有效 Category 名称被拒绝", "evidence": {"type": "API", "id": 9}},
+            {"action": "验证一次创建超过五个 Subcategory 被拒绝", "evidence": {"type": "API", "id": 10}},
+            {"action": "验证无效批量创建不产生部分数据", "evidence": {"type": "API", "id": 11}},
+            {"action": "保存同父 Subcategory 的完整排序", "evidence": {"type": "API", "id": 15}},
+            {"action": "验证无效批量创建没有部分落库", "evidence": {"type": "DB", "id": "DB-07"}}
+          ]
+        },
+        {
+          "number": 2,
+          "name": "保存无 Category 的 Draft",
+          "acIds": ["LEAD-301 AC3"],
+          "precondition": "测试模板名称未被占用。",
+          "steps": [
+            {"action": "保存不包含 Category/Subcategory 的 V1 Draft", "evidence": {"type": "API", "id": 18}},
+            {"action": "从 Draft 列表查询新建草稿", "evidence": {"type": "API", "id": 19}},
+            {"action": "验证 Draft 状态和空 Metadata", "evidence": {"type": "DB", "id": "DB-01"}}
+          ]
+        },
+        {
+          "number": 3,
+          "name": "修改 Published Metadata 并验证归属",
+          "acIds": ["LEAD-301 AC2", "LEAD-301 AC5", "LEAD-301 AC7"],
+          "precondition": "Published Template、源 Category 和目标 Category 均有效。",
+          "steps": [
+            {"action": "读取当前 Template 和 Metadata", "evidence": {"type": "API", "id": 22}},
+            {"action": "修改 Published Template Metadata", "evidence": {"type": "API", "id": 24}},
+            {"action": "确认修改后版本仍为 Active", "evidence": {"type": "API", "id": 25}},
+            {"action": "读取更新后的 Category/Subcategory/Tag", "evidence": {"type": "API", "id": 26}},
+            {"action": "验证跨 Category 的 Subcategory 被拒绝", "evidence": {"type": "API", "id": 29}},
+            {"action": "验证当前 Category/Subcategory 关系", "evidence": {"type": "DB", "id": "DB-04"}},
+            {"action": "验证 Subcategory 均属于当前 Category", "evidence": {"type": "DB", "id": "DB-06"}}
+          ]
+        },
+        {
+          "number": 4,
+          "name": "按 Category、Subcategory 和 Tag 搜索 Template",
+          "acIds": ["LEAD-301 AC5"],
+          "precondition": "Published Template 已绑定有效 Metadata。",
+          "steps": [
+            {"action": "按 Category/Subcategory/Tag 组合筛选", "evidence": {"type": "API", "id": 23}},
+            {"action": "按已分配 Tag 查询 Published Template", "evidence": {"type": "API", "id": 31}}
+          ]
+        }
+      ]
+    },
+    {
+      "story": "LEAD-306",
+      "scenarios": [
+        {
+          "number": 1,
+          "name": "首次 Save Draft 创建 Template",
+          "acIds": ["LEAD-306 AC3"],
+          "precondition": "测试模板名称未被占用。",
+          "steps": [
+            {"action": "首次保存 V1 Draft", "evidence": {"type": "API", "id": 18}},
+            {"action": "从 Draft 列表查询新建 Template", "evidence": {"type": "API", "id": 19}},
+            {"action": "验证唯一 Template ID 和 Draft 状态", "evidence": {"type": "DB", "id": "DB-01"}}
+          ]
+        },
+        {
+          "number": 2,
+          "name": "首次 Publish 并验证可查询性",
+          "acIds": ["LEAD-306 AC2", "LEAD-306 AC4"],
+          "precondition": "Category、Subcategory 和四组 Tag 已准备完成。",
+          "steps": [
+            {"action": "验证缺少必填字段时 Publish 被拒绝", "evidence": {"type": "API", "id": 20}},
+            {"action": "创建字段完整的 V1 Active", "evidence": {"type": "API", "id": 21}},
+            {"action": "读取 Active Template 详情", "evidence": {"type": "API", "id": 22}},
+            {"action": "从 Published 列表筛选该 Template", "evidence": {"type": "API", "id": 23}},
+            {"action": "验证发布失败没有部分写入", "evidence": {"type": "DB", "id": "DB-03"}},
+            {"action": "验证 Category/Subcategory 关系", "evidence": {"type": "DB", "id": "DB-04"}},
+            {"action": "验证四组 Tag 关系", "evidence": {"type": "DB", "id": "DB-05"}}
+          ]
+        },
+        {
+          "number": 3,
+          "name": "从 Published Copy 并发布新版本",
+          "acIds": ["LEAD-306 AC4"],
+          "precondition": "来源 Template 当前为 Active，且没有冲突的工作版本。",
+          "steps": [
+            {"action": "创建独立 Copy Draft", "evidence": {"type": "API", "id": 32}},
+            {"action": "发布 V2 并使旧版本 Expired", "evidence": {"type": "API", "id": 45}},
+            {"action": "验证发布后的版本状态", "evidence": {"type": "DB", "id": "DB-10"}}
+          ]
+        },
+        {
+          "number": 4,
+          "name": "验证创建 Template 权限",
+          "acIds": ["LEAD-306 AC5"],
+          "precondition": "已配置 Adviser 登录态并启用权限测试。",
+          "steps": [
+            {"action": "使用 Adviser 身份创建 Template 并验证拒绝", "evidence": {"type": "API", "id": 56}}
+          ]
+        }
+      ]
+    },
+    {
+      "story": "LEAD-307",
+      "scenarios": [
+        {
+          "number": 1,
+          "name": "删除无引用 Category",
+          "acIds": ["LEAD-307 AC4"],
+          "precondition": "目标 Category 有效且没有 Template 引用。",
+          "steps": [
+            {"action": "软删除无引用 Category", "evidence": {"type": "API", "id": 16}}
+          ]
+        },
+        {
+          "number": 2,
+          "name": "删除无引用 Subcategory 并保留父 Category",
+          "acIds": ["LEAD-307 AC5"],
+          "precondition": "Subcategory 有效且没有 Template 引用。",
+          "steps": [
+            {"action": "软删除无引用 Subcategory", "evidence": {"type": "API", "id": 48}},
+            {"action": "确认父 Category 仍存在于树中", "evidence": {"type": "API", "id": 49}}
+          ]
+        },
+        {
+          "number": 3,
+          "name": "评估引用、迁移 Template 并删除 Category",
+          "acIds": ["LEAD-307 AC3", "LEAD-307 AC4"],
+          "precondition": "源 Category 被 Active Template 引用，目标 Category 有效。",
+          "steps": [
+            {"action": "查询删除影响并确认需要迁移", "evidence": {"type": "API", "id": 50}},
+            {"action": "迁移引用并软删除源 Category", "evidence": {"type": "API", "id": 51}},
+            {"action": "确认 Template 已移动到目标 Category", "evidence": {"type": "API", "id": 52}},
+            {"action": "确认源 Category 已从树隐藏", "evidence": {"type": "API", "id": 53}},
+            {"action": "验证源 Category 和子节点软删除", "evidence": {"type": "DB", "id": "DB-12"}},
+            {"action": "验证 Template 当前关系指向目标 Category", "evidence": {"type": "DB", "id": "DB-13"}}
+          ]
+        }
+      ]
+    },
+    {
+      "story": "LEAD-276",
+      "scenarios": [
+        {
+          "number": 1,
+          "name": "读取编辑页当前 Category/Subcategory",
+          "acIds": ["LEAD-276 AC1", "LEAD-276 AC3"],
+          "precondition": "Published Template 已绑定 Category 和多个 Subcategory。",
+          "steps": [
+            {"action": "读取 Template 当前 Metadata", "evidence": {"type": "API", "id": 22}},
+            {"action": "读取更新后的 Category/Subcategory/Tag", "evidence": {"type": "API", "id": 26}},
+            {"action": "确认多个当前 Subcategory 被返回", "evidence": {"type": "API", "id": 28}}
+          ]
+        },
+        {
+          "number": 2,
+          "name": "修改 Category/Subcategory 并验证关系约束",
+          "acIds": ["LEAD-276 AC1", "LEAD-276 AC2", "LEAD-276 AC3", "LEAD-276 AC4"],
+          "precondition": "目标 Category 和同父 Subcategory 均有效。",
+          "steps": [
+            {"action": "创建带单 Category 和多 Subcategory 的 Active Template", "evidence": {"type": "API", "id": 21}},
+            {"action": "只修改同一 Category 下的 Subcategory", "evidence": {"type": "API", "id": 27}},
+            {"action": "提交跨 Category Subcategory 并验证拒绝", "evidence": {"type": "API", "id": 29}},
+            {"action": "验证当前 Category/Subcategory 关系", "evidence": {"type": "DB", "id": "DB-04"}},
+            {"action": "验证所有 Subcategory 均归属当前 Category", "evidence": {"type": "DB", "id": "DB-06"}}
+          ]
+        },
+        {
+          "number": 3,
+          "name": "修改 Published Metadata 并保持 Active",
+          "acIds": ["LEAD-276 AC6"],
+          "precondition": "Template 当前为 Active。",
+          "steps": [
+            {"action": "更新 Published Template Metadata", "evidence": {"type": "API", "id": 24}},
+            {"action": "确认版本状态仍为 Active", "evidence": {"type": "API", "id": 25}},
+            {"action": "验证当前 Metadata 关系已持久化", "evidence": {"type": "DB", "id": "DB-04"}}
+          ]
+        },
+        {
+          "number": 4,
+          "name": "重新分类后验证搜索和当前位置",
+          "acIds": ["LEAD-276 AC8"],
+          "precondition": "源 Category、目标 Category 和 Published Template 均有效。",
+          "steps": [
+            {"action": "按旧 Metadata 执行 Published 搜索", "evidence": {"type": "API", "id": 23}},
+            {"action": "按已分配 Tag 查询 Template", "evidence": {"type": "API", "id": 31}},
+            {"action": "批量迁移 Template 到源 Category", "evidence": {"type": "API", "id": 47}},
+            {"action": "删除迁移后确认 Template 位于目标 Category", "evidence": {"type": "API", "id": 52}},
+            {"action": "验证当前关系指向迁移目标", "evidence": {"type": "DB", "id": "DB-13"}}
+          ]
+        },
+        {
+          "number": 5,
+          "name": "验证 Draft 与 Publish 的分类必填差异",
+          "acIds": ["LEAD-276 AC9"],
+          "precondition": "测试模板名称未被占用，Publish 请求缺少 Category/Subcategory。",
+          "steps": [
+            {"action": "保存不包含 Category/Subcategory 的 Draft", "evidence": {"type": "API", "id": 18}},
+            {"action": "提交不包含 Category/Subcategory 的 Publish 请求并验证拒绝", "evidence": {"type": "API", "id": 20}},
+            {"action": "验证 Draft 已按宽松规则持久化", "evidence": {"type": "DB", "id": "DB-01"}},
+            {"action": "验证失败 Publish 没有部分写入", "evidence": {"type": "DB", "id": "DB-03"}}
+          ]
+        },
+        {
+          "number": 6,
+          "name": "验证 Metadata 修改权限",
+          "acIds": ["LEAD-276 AC10"],
+          "precondition": "已配置 Adviser 登录态并启用权限测试。",
+          "steps": [
+            {"action": "使用 Adviser 身份修改 Metadata/Tag 并验证拒绝", "evidence": {"type": "API", "id": 57}}
+          ]
+        }
+      ]
+    },
+    {
+      "story": "LEAD-278",
+      "scenarios": [
+        {
+          "number": 1,
+          "name": "Copy Published Template 并保存独立 Draft",
+          "acIds": ["LEAD-278 AC1", "LEAD-278 AC3", "LEAD-278 AC6"],
+          "precondition": "来源 Template 当前为 Active，且没有冲突的 Draft/Schedule。",
+          "steps": [
+            {"action": "从 Published Template 创建独立 Copy Draft", "evidence": {"type": "API", "id": 32}},
+            {"action": "保存 Copy 的工作草稿内容", "evidence": {"type": "API", "id": 33}},
+            {"action": "确认原 Published Template 仍可读取", "evidence": {"type": "API", "id": 34}},
+            {"action": "验证 Copy 与来源 Template 使用不同业务标识", "evidence": {"type": "DB", "id": "DB-08"}},
+            {"action": "验证来源 Template 状态未被 Copy 修改", "evidence": {"type": "DB", "id": "DB-09"}}
+          ]
+        },
+        {
+          "number": 2,
+          "name": "显式停用并重新启用来源 Template",
+          "acIds": ["LEAD-278 AC6"],
+          "precondition": "来源 Template 当前为 Active。",
+          "steps": [
+            {"action": "显式停用来源 Template", "evidence": {"type": "API", "id": 35}},
+            {"action": "确认停用后从 Published 查询隐藏", "evidence": {"type": "API", "id": 36}},
+            {"action": "重新启用来源 Template", "evidence": {"type": "API", "id": 37}},
+            {"action": "确认重新启用后可读取", "evidence": {"type": "API", "id": 38}}
+          ]
+        },
+        {
+          "number": 3,
+          "name": "发布 Copy 后验证版本状态",
+          "acIds": ["LEAD-278 AC6"],
+          "precondition": "Copy Draft 已保存且满足 Publish 校验。",
+          "steps": [
+            {"action": "发布工作版本并使旧版本 Expired", "evidence": {"type": "API", "id": 45}},
+            {"action": "验证发布后的版本状态", "evidence": {"type": "DB", "id": "DB-10"}}
+          ]
+        },
+        {
+          "number": 4,
+          "name": "Discard Copy Draft 并验证来源不变",
+          "acIds": ["LEAD-278 AC7"],
+          "precondition": "Copy Draft 已存在。",
+          "steps": [
+            {"action": "软删除 Copy 工作 Template", "evidence": {"type": "API", "id": 39}},
+            {"action": "确认被删除 Copy 不再可读取", "evidence": {"type": "API", "id": 40}},
+            {"action": "验证 Copy 主记录和版本被软删除", "evidence": {"type": "DB", "id": "DB-15"}},
+            {"action": "验证来源 Published Template 未被删除", "evidence": {"type": "DB", "id": "DB-16"}}
+          ]
+        }
+      ]
+    },
+    {
+      "story": "LEAD-293",
+      "scenarios": [
+        {
+          "number": 1,
+          "name": "创建两层 Category/Subcategory 结构",
+          "acIds": ["LEAD-293 AC2", "LEAD-293 AC4", "LEAD-293 AC5", "LEAD-293 AC9"],
+          "precondition": "测试 Category 名称未被占用。",
+          "steps": [
+            {"action": "读取当前两层 Category Tree", "evidence": {"type": "API", "id": 2}},
+            {"action": "创建根 Category", "evidence": {"type": "API", "id": 6}},
+            {"action": "在源 Category 下创建两个 Subcategory", "evidence": {"type": "API", "id": 12}},
+            {"action": "在目标 Category 下创建 Subcategory", "evidence": {"type": "API", "id": 13}}
+          ]
+        },
+        {
+          "number": 2,
+          "name": "验证 Category/Subcategory 创建约束和原子性",
+          "acIds": ["LEAD-293 AC3", "LEAD-293 AC6"],
+          "precondition": "源 Category 已创建。",
+          "steps": [
+            {"action": "验证空 Category 名称被拒绝", "evidence": {"type": "API", "id": 5}},
+            {"action": "验证重复有效 Category 名称被拒绝", "evidence": {"type": "API", "id": 9}},
+            {"action": "验证一次创建超过五个 Subcategory 被拒绝", "evidence": {"type": "API", "id": 10}},
+            {"action": "验证无效批量创建不产生部分数据", "evidence": {"type": "API", "id": 11}},
+            {"action": "验证批量失败没有部分落库", "evidence": {"type": "DB", "id": "DB-07"}}
+          ]
+        },
+        {
+          "number": 3,
+          "name": "使用新 Category 创建和编辑 Template",
+          "acIds": ["LEAD-293 AC5", "LEAD-293 AC9"],
+          "precondition": "新 Category/Subcategory 均为有效状态。",
+          "steps": [
+            {"action": "使用新 Category 创建 Active Template", "evidence": {"type": "API", "id": 21}},
+            {"action": "修改同一 Category 下的 Subcategory", "evidence": {"type": "API", "id": 27}},
+            {"action": "验证 Template 当前 Category/Subcategory 关系", "evidence": {"type": "DB", "id": "DB-04"}}
+          ]
+        },
+        {
+          "number": 4,
+          "name": "验证 Category 管理权限",
+          "acIds": ["LEAD-293 AC7"],
+          "precondition": "已配置 Adviser 登录态并启用权限测试。",
+          "steps": [
+            {"action": "使用 Adviser 身份创建 Category 并验证拒绝", "evidence": {"type": "API", "id": 55}}
+          ]
+        }
+      ]
+    },
+    {
+      "story": "LEAD-300",
+      "scenarios": [
+        {
+          "number": 1,
+          "name": "读取四组 Tag taxonomy",
+          "acIds": ["LEAD-300 1", "LEAD-300 2", "LEAD-300 3", "LEAD-300 5"],
+          "precondition": "Tag Group/Value seed 数据已部署。",
+          "steps": [
+            {"action": "读取四组必填 Tag 和多选值", "evidence": {"type": "API", "id": 1}}
+          ]
+        },
+        {
+          "number": 2,
+          "name": "保存无 Tag Draft",
+          "acIds": ["LEAD-300 4"],
+          "precondition": "测试模板名称未被占用。",
+          "steps": [
+            {"action": "保存不包含 Tag 的 Draft", "evidence": {"type": "API", "id": 18}},
+            {"action": "验证 Draft 和空 Tag Metadata", "evidence": {"type": "DB", "id": "DB-01"}}
+          ]
+        },
+        {
+          "number": 3,
+          "name": "验证 Publish Tag 完整性和合法值",
+          "acIds": ["LEAD-300 2", "LEAD-300 3"],
+          "precondition": "四组必填 Tag taxonomy 已读取。",
+          "steps": [
+            {"action": "提交缺少必填 Tag 的 Publish 请求", "evidence": {"type": "API", "id": 20}},
+            {"action": "提交自由文本或未知 Tag 并验证拒绝", "evidence": {"type": "API", "id": 30}},
+            {"action": "验证失败 Publish 没有部分写入", "evidence": {"type": "DB", "id": "DB-03"}}
+          ]
+        },
+        {
+          "number": 4,
+          "name": "修改 Published Tag 并确认状态不变",
+          "acIds": ["LEAD-300 1", "LEAD-300 2", "LEAD-300 3", "LEAD-300 5", "LEAD-300 6", "LEAD-300 7"],
+          "precondition": "Published Template 已绑定四组 Tag。",
+          "steps": [
+            {"action": "更新 Published Template 的多选 Tag", "evidence": {"type": "API", "id": 24}},
+            {"action": "确认版本状态仍为 Active", "evidence": {"type": "API", "id": 25}},
+            {"action": "读取更新后的 Tag", "evidence": {"type": "API", "id": 26}},
+            {"action": "验证当前主 Metadata 关系", "evidence": {"type": "DB", "id": "DB-04"}},
+            {"action": "验证 Tag Group/Value 关系", "evidence": {"type": "DB", "id": "DB-05"}}
+          ]
+        },
+        {
+          "number": 5,
+          "name": "按已分配 Tag 搜索 Template",
+          "acIds": ["LEAD-300 9"],
+          "precondition": "Published Template 已保存 Tag。",
+          "steps": [
+            {"action": "按已分配 Tag 查询 Published Template", "evidence": {"type": "API", "id": 31}},
+            {"action": "验证 Template 的 Tag 关系仍有效", "evidence": {"type": "DB", "id": "DB-05"}}
+          ]
+        },
+        {
+          "number": 6,
+          "name": "验证 Tag 修改权限",
+          "acIds": ["LEAD-300 8"],
+          "precondition": "已配置 Adviser 登录态并启用权限测试。",
+          "steps": [
+            {"action": "使用 Adviser 身份修改 Metadata/Tag 并验证拒绝", "evidence": {"type": "API", "id": 57}}
+          ]
+        }
+      ]
+    }
+  ]
+}

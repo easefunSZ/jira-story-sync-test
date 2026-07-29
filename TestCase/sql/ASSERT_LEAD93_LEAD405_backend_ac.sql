@@ -86,3 +86,9 @@ SELECT 'DB-16 Cleanup leaves no active current Metadata relations' AS check_id,
 SELECT 'DB-17 Cleanup soft-deletes temporary Categories' AS check_id,
        CASE WHEN (SELECT COUNT(*) FROM iic_msg_email_category WHERE id IN (@target_category_id, @recreated_category_id) AND is_deleted = 0) = 0 THEN 'PASS' ELSE 'FAIL' END AS result,
        CONCAT('targetCategory=', @target_category_id, ', recreatedCategory=', @recreated_category_id) AS evidence;
+
+SELECT 'DB-18 Same-name Category history is retained after cleanup' AS check_id,
+       CASE WHEN (SELECT COUNT(*) FROM iic_msg_email_category WHERE id IN (@source_category_id, @recreated_category_id) AND is_deleted = 1) = 2
+                   AND (SELECT COUNT(DISTINCT category_name) FROM iic_msg_email_category WHERE id IN (@source_category_id, @recreated_category_id) AND is_deleted = 1) = 1
+            THEN 'PASS' ELSE 'FAIL' END AS result,
+       CONCAT('sourceCategory=', @source_category_id, ', recreatedCategory=', @recreated_category_id, ', expectedDeletedSameName=2') AS evidence;

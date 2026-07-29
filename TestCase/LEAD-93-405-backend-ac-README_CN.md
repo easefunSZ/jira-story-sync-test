@@ -14,12 +14,12 @@ cd /Users/qthitsz/DAE-workspace/om/Lead-93/TestCase/postman
 ./run-lead93-lead405-ac-newman.sh LEAD-93-405-backend-ac.postman_environment.json
 ```
 
-3. Newman 失败时会停止在首个失败断言，并生成 Request/Response Debug HTML 与脱敏 Summary JSON。默认保留现场方便排查；清理可在 Postman 单独运行 `99 Cleanup`。
+3. Newman 会执行完整集合，不会因单个响应格式或字段断言失败而中断；所有断言错误会写入 Request/Response Debug HTML 与脱敏 Summary JSON，并生成一份 API-only 的逐条 AC HTML 表格。HTML 按 Story → 场景编号与名称 → 固定步骤 → AC 映射展示；场景编号在每个 Story 内从 1 连续编号，场景定义来自 `LEAD-93-405_Test_Scenarios.json`，不根据执行结果临时推导。失败步骤还会根据 `LEAD-93-405_API_Code_Models.json` 显示请求 BO/DTO、成功响应 VO 以及优先排查层次；标为“代码快照”的类名必须在修改代码前重新核对。仅当关键前置调用无法成功创建后续依赖的数据时，分阶段脚本才停止后续依赖阶段。API-only 表格中要求数据库证据的步骤会显示 `NOT RUN`；使用下一节的一键脚本可补齐数据库验证。即使完整执行，若存在断言或数据库验证问题，脚本仍会在报告生成后返回非零退出码，便于 CI 或命令行识别失败。默认保留现场方便排查；清理可在 Postman 单独运行 `99 Cleanup`。
 4. 从导出的运行环境取得 `acActiveEmailCode`、目录 ID 等值，填入 [数据库校验脚本](sql/QUERY_LEAD93_LEAD405_backend_ac_validation.sql) 的参数区执行。
 
 ### 内网一键 API + 数据库回归
 
-内网测试机同时可访问应用和测试 MySQL 时，使用以下入口。脚本按检查点保留运行时 ID，依次执行 API、只读数据库断言，最后生成合并 HTML 报告；任一 API 或数据库断言失败即停止后续阶段，并保留现场和报告。
+内网测试机同时可访问应用和测试 MySQL 时，使用以下入口。脚本按检查点保留运行时 ID，依次执行 API、只读数据库断言，最后生成合并 HTML 报告。响应契约或数据库断言失败会继续执行并写入报告；只有关键前置 API 请求未成功、无法生成后续依赖数据时才标记 `BLOCKED` 并停止后续依赖阶段。所有已执行请求的错误原因都保留在报告中。
 
 ```bash
 cd /path/to/Lead-93/TestCase/postman
@@ -31,10 +31,26 @@ cd /path/to/Lead-93/TestCase/postman
 输出位置：
 
 - `postman/reports/lead93-405-backend-ac-with-db-*.html`：最终合并报告。
+- `postman/reports/lead93-405-backend-ac-api-only-*.html`：无数据库连接时生成的逐条 AC API 验证报告。
 - `postman/reports/*.summary.json`：脱敏 API 摘要。
 - `postman/.newman-private/`：运行时环境、完整请求/响应 Debug HTML 与数据库原始结果，仅限测试机本地保存。
 
 > 所有写测试只使用自动生成的 `LEAD93 AC ...` 数据。不要在生产环境运行。
+
+### PKS V1 参数校验兼容性探针
+
+该探针只向 V1 `/add` 发送空 JSON `{}`。`EmailAddBO` 的 Bean Validation 会在进入 Service 前拦截请求，因此不会创建 Template 或写入数据库。它用于确认 PKS 的 V1 公共异常包络是否仍是 HTTP `200`、`responseCode=00000006`、`data="[] Validation failed"`。
+
+```bash
+cd /path/to/Lead-93/TestCase/scripts
+cp pks-v1-validation.env.example pks-v1-validation.env
+# 填写 PKS_BASE_URL、认证头和网关 ID（如环境需要）
+./probe-v1-bean-validation.sh pks-v1-validation.env
+```
+
+配置文件按普通 `KEY=VALUE` 读取，`PKS_AUTHORIZATION=Bearer <token>` 可直接填写，不会作为 Shell 命令执行；文件被 Git 忽略，不能提交 Token。非空进程环境变量会补充配置文件中的空值，可用于临时注入网关头。若 PKS 使用自签名 HTTPS，可将 `PKS_CURL_INSECURE=true`；只限受控测试环境。
+
+如网关要求浏览器来源上下文，可设置 `PKS_ACCEPT`，并按 `PKS_HEADER_01`、`PKS_HEADER_02` 的形式添加 Origin、Referer 或其他已获准的请求头；脚本会原样透传，不会打印其敏感值。
 
 ## Story / AC 追溯
 
@@ -184,6 +200,8 @@ cd /path/to/Lead-93/TestCase/postman
 | 文件 | 作用 |
 |---|---|
 | `LEAD-93-405-backend-ac.postman_collection.json` | 62 条按依赖顺序组织的 API 测试。 |
+| `LEAD-93-405_Test_Scenarios.json` | 按 Story 维护的连续场景编号、业务场景名称、固定步骤、前置条件及 API/DB 执行证据。 |
+| `LEAD-93-405_API_Code_Models.json` | 报告使用的 Endpoint → 请求 BO/DTO → 成功响应 VO 定位表，并标记当前代码核对状态。 |
 | `LEAD-93-405-backend-ac.postman_environment.json` | 无凭证模板环境。 |
 | `postman/mysql-test.env.example` | 内网测试 MySQL 配置样例；实际 `mysql-test.env` 不纳入版本控制。 |
 | `run-lead93-lead405-ac-newman.sh` | 生成集合、运行 Newman、产出调试报告。 |
