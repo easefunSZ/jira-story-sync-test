@@ -11,6 +11,7 @@ ASSERTION_SQL="$POSTMAN_DIR/../sql/ASSERT_LEAD93_LEAD405_backend_ac.sql"
 RUNTIME_ENV="$PRIVATE_DIR/lead93-405-backend-ac-${STAMP}.runtime.environment.json"
 MANIFEST="$PRIVATE_DIR/lead93-405-backend-ac-${STAMP}.manifest.tsv"
 FINAL_REPORT="$REPORT_DIR/lead93-405-backend-ac-with-db-${STAMP}.html"
+HAS_CONTRACT_ISSUES=0
 
 if [[ ! -f "$ENV_FILE" ]]; then
   echo "Environment file not found: $ENV_FILE" >&2
@@ -42,17 +43,18 @@ fi
 run_api_phase() {
   local stage="$1"
   local folder="$2"
+  local critical_ids="$3"
   local safe_stage="${stage// /_}"
   local raw="$PRIVATE_DIR/lead93-405-${STAMP}-${safe_stage}.raw.json"
   local debug="$PRIVATE_DIR/lead93-405-${STAMP}-${safe_stage}.debug.html"
   local summary="$REPORT_DIR/lead93-405-${STAMP}-${safe_stage}.summary.json"
+  local classification="$PRIVATE_DIR/lead93-405-${STAMP}-${safe_stage}.classification.json"
 
   echo "== API phase: $stage =="
   set +e
   "${NEWMAN[@]}" run "$COLLECTION" -e "$RUNTIME_ENV" \
     --export-environment "$RUNTIME_ENV" \
     --folder "$folder" \
-    --bail failure \
     --reporters cli,json \
     --reporter-json-export "$raw" \
     --timeout-request 30000
@@ -62,11 +64,19 @@ run_api_phase() {
   if [[ -f "$raw" ]]; then
     node "$POSTMAN_DIR/scripts/generate-newman-debug-report.mjs" "$raw" "$debug" || true
     node "$POSTMAN_DIR/scripts/summarize-newman-report.mjs" "$raw" "$summary" || true
+    node "$POSTMAN_DIR/scripts/classify-newman-stage.mjs" "$raw" "$classification" "$critical_ids"
   fi
-  local result="PASS"
-  [[ "$status" -eq 0 ]] || result="FAIL"
-  printf '%s\tapi\t%s\t%s\t%s\t%s\n' "$stage" "$result" "$raw" "$debug" "$summary" >> "$MANIFEST"
-  [[ "$status" -eq 0 ]] || exit "$status"
+  local result
+  result="$(node -e 'const fs=require("fs"); const p=process.argv[1]; console.log(fs.existsSync(p) ? JSON.parse(fs.readFileSync(p,"utf8")).status : "BLOCKED")' "$classification")"
+  printf '%s\tapi\t%s\t%s\t%s\t%s\t%s\n' "$stage" "$result" "$raw" "$debug" "$summary" "$classification" >> "$MANIFEST"
+  if [[ "$result" == "BLOCKED" ]]; then
+    echo "Blocking prerequisite failure in $stage; dependent phases are not executed." >&2
+    exit 1
+  fi
+  if [[ "$result" == "ISSUES" || "$status" -ne 0 ]]; then
+    HAS_CONTRACT_ISSUES=1
+    echo "Contract assertion issues in $stage; continuing to the next independent phase." >&2
+  fi
 }
 
 run_db_checkpoint() {
@@ -85,24 +95,32 @@ run_db_checkpoint() {
   local result="PASS"
   [[ "$status" -eq 0 ]] || result="FAIL"
   printf '%s\tdb\t%s\t%s\n' "$checkpoint" "$result" "$output" >> "$MANIFEST"
-  [[ "$status" -eq 0 ]] || exit "$status"
+  if [[ "$status" -ne 0 ]]; then
+    HAS_CONTRACT_ISSUES=1
+    echo "Database assertion issues in $checkpoint; continuing to the next API phase." >&2
+  fi
 }
 
-run_api_phase "01 Preflight" "01 Preflight and Read APIs"
-run_api_phase "02 Category" "02 Category and Subcategory APIs"
-run_api_phase "03 Template and Metadata" "03 Template Create, Validation and Metadata APIs"
+run_api_phase "01 Preflight" "01 Preflight and Read APIs" "1"
+run_api_phase "02 Category" "02 Category and Subcategory APIs" "6,7,8,12,13"
+run_api_phase "03 Template and Metadata" "03 Template Create, Validation and Metadata APIs" "18,21"
 run_db_checkpoint "template_metadata"
 
-run_api_phase "04A Copy Independence" "04A Copy Independence APIs"
+run_api_phase "04A Copy Independence" "04A Copy Independence APIs" "32"
 run_db_checkpoint "copy"
 
-run_api_phase "04B Version Lifecycle" "04B Version Lifecycle APIs"
+run_api_phase "04B Version Lifecycle" "04B Version Lifecycle APIs" "41,42,43,45"
 run_db_checkpoint "lifecycle"
 
-run_api_phase "05 Reassignment and Delete" "05 Reassignment, Delete and Permission APIs"
+run_api_phase "05 Reassignment and Delete" "05 Reassignment, Delete and Permission APIs" "47,51,54"
 run_db_checkpoint "reassignment"
 
-run_api_phase "99 Cleanup" "99 Cleanup"
+run_api_phase "99 Cleanup" "99 Cleanup" ""
 run_db_checkpoint "cleanup"
+
+if [[ "$HAS_CONTRACT_ISSUES" -eq 1 ]]; then
+  echo "Completed with verification issues. See the combined report for every request and error." >&2
+  exit 1
+fi
 
 echo "All API and database acceptance checks passed."
