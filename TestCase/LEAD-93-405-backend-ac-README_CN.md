@@ -26,7 +26,7 @@ cd /path/to/Lead-93/TestCase/postman
 ./run-lead93-lead405-ac-with-db.sh LEAD-93-405-backend-ac.postman_environment.json
 ```
 
-将 [`.env.example`](postman/.env.example) 复制为 `postman/.env` 后填写 `MYSQL_HOST`、`MYSQL_PORT`、`MYSQL_USER`、`MYSQL_PWD` 和 `MYSQL_DATABASE`。脚本默认读取该文件；也可通过 `MYSQL_ENV_FILE=/secure/path/mysql.env` 指定其他位置。进程环境变量优先于 `.env`，连接信息不写入报告。
+将 [`mysql-test.env.example`](postman/mysql-test.env.example) 复制为 `postman/mysql-test.env` 后填写 `MYSQL_HOST`、`MYSQL_PORT`、`MYSQL_USER`、`MYSQL_PWD` 和 `MYSQL_DATABASE`。这是普通文件名，适用于 Windows；脚本优先读取它，并兼容旧 `postman/.env`。也可通过 `MYSQL_ENV_FILE=/secure/path/mysql.env` 指定其他位置。进程环境变量优先于文件配置，连接信息不写入报告。
 
 输出位置：
 
@@ -185,7 +185,7 @@ cd /path/to/Lead-93/TestCase/postman
 |---|---|
 | `LEAD-93-405-backend-ac.postman_collection.json` | 62 条按依赖顺序组织的 API 测试。 |
 | `LEAD-93-405-backend-ac.postman_environment.json` | 无凭证模板环境。 |
-| `postman/.env.example` | 内网测试 MySQL 配置样例；实际 `.env` 不纳入版本控制。 |
+| `postman/mysql-test.env.example` | 内网测试 MySQL 配置样例；实际 `mysql-test.env` 不纳入版本控制。 |
 | `run-lead93-lead405-ac-newman.sh` | 生成集合、运行 Newman、产出调试报告。 |
 | `run-lead93-lead405-ac-with-db.sh` | 内网一键执行 API 分阶段回归、只读 MySQL 断言和合并报告。 |
 | `scripts/generate-lead93-lead405-ac-backend-suite.mjs` | 从当前全量 v2 Collection 复用真实 Endpoint/Header 生成测试集合。 |

@@ -32,7 +32,12 @@ function runtimeValues(file) {
 }
 
 function loadMysqlEnvFile() {
-  const envFile = process.env.MYSQL_ENV_FILE ?? path.resolve(import.meta.dirname, "..", ".env");
+  const postmanDir = path.resolve(import.meta.dirname, "..");
+  const envFile = process.env.MYSQL_ENV_FILE ?? [
+    path.join(postmanDir, "mysql-test.env"),
+    path.join(postmanDir, ".env")
+  ].find(fs.existsSync);
+  if (!envFile) return null;
   if (!fs.existsSync(envFile)) return null;
   for (const originalLine of fs.readFileSync(envFile, "utf8").split(/\r?\n/)) {
     const line = originalLine.trim();
@@ -104,7 +109,7 @@ try {
     const connectionKeys = ["MYSQL_HOST", "MYSQL_PORT", "MYSQL_USER", "MYSQL_DATABASE"];
     const missingConnection = connectionKeys.filter(key => !process.env[key]);
     if (missingConnection.length) {
-      throw new Error(`Configure ${missingConnection.join(", ")} in TestCase/postman/.env, MYSQL_ENV_FILE, or process environment`);
+      throw new Error(`Configure ${missingConnection.join(", ")} in TestCase/postman/mysql-test.env, MYSQL_ENV_FILE, or process environment`);
     }
     if (!process.env.MYSQL_PWD && process.env.MYSQL_ALLOW_EMPTY_PASSWORD !== "true") {
       throw new Error("Set MYSQL_PWD, or set MYSQL_ALLOW_EMPTY_PASSWORD=true only for a passwordless test account");
