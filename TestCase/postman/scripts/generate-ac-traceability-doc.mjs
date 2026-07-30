@@ -14,7 +14,8 @@ for (const criterion of criteria) {
 
 const legend = [
   "- `FULL`：已有 API 和/或数据库断言，运行报告可计算 PASS/FAIL。",
-  "- `PARTIAL`：需求的一部分是后端可测，剩余边界或 UI 行为没有在当前集合覆盖。",
+  "- `BACKEND_SCOPE`：后端可验证规则已覆盖；剩余内容是前端专属交互。",
+  "- `PARTIAL`：已知后端规则只有部分自动化证据，必须继续补齐。",
   "- `CONDITIONAL`：需要额外登录态，例如 Adviser 权限负例。",
   "- `UI`：纯前端交互，不属于本后端回归集合。",
   "- `GAP`：后端可测但当前没有足够确定的接口断言，必须补充后才能宣称 AC 全覆盖。"

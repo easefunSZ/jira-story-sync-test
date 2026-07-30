@@ -61,11 +61,15 @@ function checkpointSql(template, checkpoint) {
   return template.slice(start, next?.index).trim();
 }
 
+function statements(sql) {
+  return sql.split(/;\s*(?:\r?\n|$)/).map(value => value.trim()).filter(Boolean);
+}
+
 const requiredByCheckpoint = {
   template_metadata: ["acActiveEmailCode", "acDraftEmailCode", "acSourceCategoryId", "acTargetCategoryId", "acInvalidPublishName", "acInvalidBatchName"],
   copy: ["acActiveEmailCode", "acCopyEmailCode"],
   lifecycle: ["acActiveEmailCode", "acV2Version"],
-  reassignment: ["acActiveEmailCode", "acSourceCategoryId", "acTargetCategoryId", "acRecreatedCategoryId"],
+  reassignment: ["acActiveEmailCode", "acDraftEmailCode", "acSourceCategoryId", "acTargetCategoryId", "acTargetSubcategoryId1", "acTargetSubcategoryId2", "acRecreatedCategoryId"],
   cleanup: ["acActiveEmailCode", "acDraftEmailCode", "acCopyEmailCode", "acTargetCategoryId", "acRecreatedCategoryId"]
 };
 
@@ -91,16 +95,20 @@ try {
   }
 
   const variablesSql = [
+    "SET NAMES utf8mb4 COLLATE utf8mb4_0900_ai_ci;",
     `SET @active_email_code = ${sqlString(values.acActiveEmailCode ?? "")};`,
     `SET @draft_email_code = ${sqlString(values.acDraftEmailCode ?? "")};`,
     `SET @copy_email_code = ${sqlString(values.acCopyEmailCode ?? "")};`,
     `SET @source_category_id = ${sqlNumber(values.acSourceCategoryId ?? "0", "acSourceCategoryId")};`,
     `SET @target_category_id = ${sqlNumber(values.acTargetCategoryId ?? "0", "acTargetCategoryId")};`,
+    `SET @target_subcategory_id_1 = ${sqlNumber(values.acTargetSubcategoryId1 ?? "0", "acTargetSubcategoryId1")};`,
+    `SET @target_subcategory_id_2 = ${sqlNumber(values.acTargetSubcategoryId2 ?? "0", "acTargetSubcategoryId2")};`,
     `SET @recreated_category_id = ${sqlNumber(values.acRecreatedCategoryId ?? "0", "acRecreatedCategoryId")};`,
     `SET @v2_version = ${sqlString(values.acV2Version ?? "")};`,
     `SET @invalid_publish_name = ${sqlString(values.acInvalidPublishName ?? "")};`,
     `SET @invalid_batch_name = ${sqlString(values.acInvalidBatchName ?? "")};`
-  ].join("\n");
+  ];
+  const assertionStatements = statements(selectedSql);
 
   const mysqlArgs = [];
   if (process.env.MYSQL_DEFAULTS_FILE) {
@@ -119,7 +127,7 @@ try {
   mysqlArgs.push("--batch", "--raw", "--skip-column-names", "--silent", "--default-character-set=utf8mb4");
 
   const execution = spawnSync("mysql", mysqlArgs, {
-    input: `${variablesSql}\n\n${selectedSql}\n`,
+    input: `${variablesSql.join("\n")}\n\n${selectedSql}\n`,
     encoding: "utf8",
     env: process.env
   });
@@ -134,7 +142,21 @@ try {
     throw new Error(`Unexpected MySQL assertion output at ${checkpoint}`);
   }
   const failed = checks.filter(check => check.result === "FAIL");
-  const result = {generatedAt: new Date().toISOString(), checkpoint, status: failed.length ? "FAIL" : "PASS", checks};
+  const statementResults = [
+    ...variablesSql.map(sql => ({sql, columns: [], rows: []})),
+    ...assertionStatements.map((sql, index) => ({
+      sql,
+      columns: ["check_id", "result", "evidence"],
+      rows: checks[index] ? [checks[index]] : []
+    }))
+  ];
+  const result = {
+    generatedAt: new Date().toISOString(),
+    checkpoint,
+    status: failed.length ? "FAIL" : "PASS",
+    checks,
+    statements: statementResults
+  };
   fs.writeFileSync(output, `${JSON.stringify(result, null, 2)}\n`);
   console.log(`Database checkpoint ${checkpoint}: ${result.status} (${checks.length - failed.length}/${checks.length} checks passed)`);
   process.exit(failed.length ? 1 : 0);

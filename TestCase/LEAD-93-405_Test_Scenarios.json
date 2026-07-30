@@ -60,6 +60,15 @@
             {"action": "验证 V2 Active 和 V1 Expired", "evidence": {"type": "DB", "id": "DB-10"}},
             {"action": "验证版本切换后的唯一 Active 状态", "evidence": {"type": "DB", "id": "DB-11"}}
           ]
+        },
+        {
+          "number": 5,
+          "name": "验证 Template Name 长度边界",
+          "acIds": ["LEAD-277 AC2", "LEAD-277 AC8"],
+          "precondition": "写测试已启用。",
+          "steps": [
+            {"action": "提交超过 120 字符的 Template Name 并验证拒绝", "evidence": {"type": "API", "id": 58}}
+          ]
         }
       ]
     },
@@ -77,6 +86,9 @@
             {"action": "验证一次创建超过五个 Subcategory 被拒绝", "evidence": {"type": "API", "id": 10}},
             {"action": "验证无效批量创建不产生部分数据", "evidence": {"type": "API", "id": 11}},
             {"action": "保存同父 Subcategory 的完整排序", "evidence": {"type": "API", "id": 15}},
+            {"action": "验证跨父节点的有效同名 Subcategory 被拒绝", "evidence": {"type": "API", "id": 55}},
+            {"action": "验证超长 Category 名称被拒绝", "evidence": {"type": "API", "id": 56}},
+            {"action": "验证超长 Subcategory 名称被拒绝", "evidence": {"type": "API", "id": 57}},
             {"action": "验证无效批量创建没有部分落库", "evidence": {"type": "DB", "id": "DB-07"}}
           ]
         },
@@ -114,6 +126,17 @@
           "steps": [
             {"action": "按 Category/Subcategory/Tag 组合筛选", "evidence": {"type": "API", "id": 23}},
             {"action": "按已分配 Tag 查询 Published Template", "evidence": {"type": "API", "id": 31}}
+          ]
+        },
+        {
+          "number": 5,
+          "name": "更新已有 Draft 的 Metadata",
+          "acIds": ["LEAD-301 AC6"],
+          "precondition": "V1 Draft、目标 Category 和目标 Subcategory 均有效。",
+          "steps": [
+            {"action": "更新已有 Draft 的 Category/Subcategory", "evidence": {"type": "API", "id": 59}},
+            {"action": "读取并确认 Draft Metadata 立即可见且状态不变", "evidence": {"type": "API", "id": 60}},
+            {"action": "验证 Draft Metadata 已落库且仍为 Draft", "evidence": {"type": "DB", "id": "DB-20"}}
           ]
         }
       ]
@@ -164,7 +187,7 @@
           "acIds": ["LEAD-306 AC5"],
           "precondition": "已配置 Adviser 登录态并启用权限测试。",
           "steps": [
-            {"action": "使用 Adviser 身份创建 Template 并验证拒绝", "evidence": {"type": "API", "id": 56}}
+            {"action": "使用 Adviser 身份创建 Template 并验证拒绝", "evidence": {"type": "API", "id": 65}}
           ]
         }
       ]
@@ -202,7 +225,20 @@
             {"action": "确认 Template 已移动到目标 Category", "evidence": {"type": "API", "id": 52}},
             {"action": "确认源 Category 已从树隐藏", "evidence": {"type": "API", "id": 53}},
             {"action": "验证源 Category 和子节点软删除", "evidence": {"type": "DB", "id": "DB-12"}},
-            {"action": "验证 Template 当前关系指向目标 Category", "evidence": {"type": "DB", "id": "DB-13"}}
+            {"action": "验证 Template 当前关系指向目标 Category", "evidence": {"type": "DB", "id": "DB-13"}},
+            {"action": "验证 Category 删除历史已写入", "evidence": {"type": "DB", "id": "DB-21"}}
+          ]
+        },
+        {
+          "number": 4,
+          "name": "迁移并删除有引用 Subcategory",
+          "acIds": ["LEAD-307 AC5"],
+          "precondition": "目标 Category 下存在一个被 Active Template 引用的 Subcategory 及一个有效替代 Subcategory。",
+          "steps": [
+            {"action": "评估有引用 Subcategory 的删除影响", "evidence": {"type": "API", "id": 61}},
+            {"action": "迁移当前引用并软删除该 Subcategory", "evidence": {"type": "API", "id": 62}},
+            {"action": "确认 Template 已使用替代 Subcategory", "evidence": {"type": "API", "id": 63}},
+            {"action": "验证原 Subcategory 已软删除且有效关系已迁移", "evidence": {"type": "DB", "id": "DB-22"}}
           ]
         }
       ]
@@ -272,11 +308,22 @@
         },
         {
           "number": 6,
+          "name": "修改已有 Draft 的分类",
+          "acIds": ["LEAD-276 AC7"],
+          "precondition": "V1 Draft 和目标分类均有效。",
+          "steps": [
+            {"action": "保存已有 Draft 的分类修改", "evidence": {"type": "API", "id": 59}},
+            {"action": "确认 Draft 详情立即返回新分类", "evidence": {"type": "API", "id": 60}},
+            {"action": "验证 Draft 分类关系已持久化", "evidence": {"type": "DB", "id": "DB-20"}}
+          ]
+        },
+        {
+          "number": 7,
           "name": "验证 Metadata 修改权限",
           "acIds": ["LEAD-276 AC10"],
           "precondition": "已配置 Adviser 登录态并启用权限测试。",
           "steps": [
-            {"action": "使用 Adviser 身份修改 Metadata/Tag 并验证拒绝", "evidence": {"type": "API", "id": 57}}
+            {"action": "使用 Adviser 身份修改 Metadata/Tag 并验证拒绝", "evidence": {"type": "API", "id": 66}}
           ]
         }
       ]
@@ -351,13 +398,16 @@
         {
           "number": 2,
           "name": "验证 Category/Subcategory 创建约束和原子性",
-          "acIds": ["LEAD-293 AC3", "LEAD-293 AC6"],
+          "acIds": ["LEAD-293 AC2", "LEAD-293 AC3", "LEAD-293 AC6"],
           "precondition": "源 Category 已创建。",
           "steps": [
             {"action": "验证空 Category 名称被拒绝", "evidence": {"type": "API", "id": 5}},
             {"action": "验证重复有效 Category 名称被拒绝", "evidence": {"type": "API", "id": 9}},
             {"action": "验证一次创建超过五个 Subcategory 被拒绝", "evidence": {"type": "API", "id": 10}},
             {"action": "验证无效批量创建不产生部分数据", "evidence": {"type": "API", "id": 11}},
+            {"action": "验证跨父节点同名 Subcategory 被拒绝", "evidence": {"type": "API", "id": 55}},
+            {"action": "验证超长 Category/Subcategory 名称被拒绝", "evidence": {"type": "API", "id": 56}},
+            {"action": "验证超长 Subcategory 名称被拒绝", "evidence": {"type": "API", "id": 57}},
             {"action": "验证批量失败没有部分落库", "evidence": {"type": "DB", "id": "DB-07"}}
           ]
         },
@@ -378,7 +428,16 @@
           "acIds": ["LEAD-293 AC7"],
           "precondition": "已配置 Adviser 登录态并启用权限测试。",
           "steps": [
-            {"action": "使用 Adviser 身份创建 Category 并验证拒绝", "evidence": {"type": "API", "id": 55}}
+            {"action": "使用 Adviser 身份创建 Category 并验证拒绝", "evidence": {"type": "API", "id": 64}}
+          ]
+        },
+        {
+          "number": 5,
+          "name": "验证 Category 创建留痕字段",
+          "acIds": ["LEAD-293 AC8"],
+          "precondition": "测试根 Category 已创建。",
+          "steps": [
+            {"action": "验证创建人和创建时间已持久化", "evidence": {"type": "DB", "id": "DB-19"}}
           ]
         }
       ]
@@ -445,7 +504,7 @@
           "acIds": ["LEAD-300 8"],
           "precondition": "已配置 Adviser 登录态并启用权限测试。",
           "steps": [
-            {"action": "使用 Adviser 身份修改 Metadata/Tag 并验证拒绝", "evidence": {"type": "API", "id": 57}}
+            {"action": "使用 Adviser 身份修改 Metadata/Tag 并验证拒绝", "evidence": {"type": "API", "id": 66}}
           ]
         }
       ]

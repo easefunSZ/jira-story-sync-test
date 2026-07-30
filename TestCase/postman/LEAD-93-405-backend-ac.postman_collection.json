@@ -61,7 +61,7 @@
           "if (!pm.variables.get('authorization')) pm.request.headers.remove('authorization');",
           "if (!pm.variables.get('xApigwApiId')) pm.request.headers.remove('x-apigw-api-id');",
           "const now = Date.now();",
-          "if (!pm.environment.get('acRunId')) { const runId = `AC_${now}`; pm.environment.set('acRunId', runId); pm.environment.set('acSourceCategoryName', `LEAD93 AC Source ${runId}`); pm.environment.set('acSourceCategoryUpdatedName', `LEAD93 AC Source Updated ${runId}`); pm.environment.set('acTargetCategoryName', `LEAD93 AC Target ${runId}`); pm.environment.set('acUnusedCategoryName', `LEAD93 AC Unused ${runId}`); pm.environment.set('acSourceSubcategoryName1', `LEAD93 AC Source One ${runId}`); pm.environment.set('acSourceSubcategoryName2', `LEAD93 AC Source Two ${runId}`); pm.environment.set('acTargetSubcategoryName1', `LEAD93 AC Target One ${runId}`); pm.environment.set('acTargetSubcategoryName2', `LEAD93 AC Target Two ${runId}`); pm.environment.set('acTooManyPrefix', `LEAD93 AC TooMany ${runId} `); pm.environment.set('acInvalidBatchName', `LEAD93 AC InvalidBatch ${runId}`); pm.environment.set('acDraftTemplateName', `LEAD93 AC Draft ${runId}`); pm.environment.set('acActiveTemplateName', `LEAD93 AC Active ${runId}`); pm.environment.set('acCopyTemplateName', `LEAD93 AC Copy ${runId}`); pm.environment.set('acInvalidDraftName', ''); pm.environment.set('acInvalidPublishName', `LEAD93 AC Invalid Publish ${runId}`); pm.environment.set('acPermissionCategoryName', `LEAD93 AC Permission ${runId}`); const future = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' '); pm.environment.set('acFutureEffectiveFrom', future); }",
+          "if (!pm.environment.get('acRunId')) { const runId = `AC_${now}`; pm.environment.set('acRunId', runId); pm.environment.set('acSourceCategoryName', `LEAD93 AC Source ${runId}`); pm.environment.set('acSourceCategoryUpdatedName', `LEAD93 AC Source Updated ${runId}`); pm.environment.set('acTargetCategoryName', `LEAD93 AC Target ${runId}`); pm.environment.set('acUnusedCategoryName', `LEAD93 AC Unused ${runId}`); pm.environment.set('acSourceSubcategoryName1', `LEAD93 AC Source One ${runId}`); pm.environment.set('acSourceSubcategoryName2', `LEAD93 AC Source Two ${runId}`); pm.environment.set('acTargetSubcategoryName1', `LEAD93 AC Target One ${runId}`); pm.environment.set('acTargetSubcategoryName2', `LEAD93 AC Target Two ${runId}`); pm.environment.set('acTooManyPrefix', `LEAD93 AC TooMany ${runId} `); pm.environment.set('acInvalidBatchName', `LEAD93 AC InvalidBatch ${runId}`); pm.environment.set('acDraftTemplateName', `LEAD93 AC Draft ${runId}`); pm.environment.set('acActiveTemplateName', `LEAD93 AC Active ${runId}`); pm.environment.set('acCopyTemplateName', `LEAD93 AC Copy ${runId}`); pm.environment.set('acInvalidDraftName', ''); pm.environment.set('acInvalidPublishName', `LEAD93 AC Invalid Publish ${runId}`); pm.environment.set('acPermissionCategoryName', `LEAD93 AC Permission ${runId}`); pm.environment.set('acOverlongCategoryName', `C${'x'.repeat(100)}`); pm.environment.set('acOverlongSubcategoryName', `S${'x'.repeat(100)}`); pm.environment.set('acOverlongTemplateName', `T${'x'.repeat(120)}`); const future = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' '); pm.environment.set('acFutureEffectiveFrom', future); }",
           "if (!pm.environment.get('acEmailContent')) { const baseUrl = String(pm.variables.get('baseUrl') || ''); const key = String(pm.variables.get('aesSecretKey') || '1234567890123456').padEnd(16, '0').slice(0, 16); if (baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1')) { pm.environment.set('acEmailContent', 'MOCK_AES_CONTENT'); pm.environment.set('acEmailContentKey', key); } else { const CryptoJS = require('crypto-js'); const parsedKey = CryptoJS.enc.Utf8.parse(key); const cipher = CryptoJS.AES.encrypt('<p>LEAD-93/405 backend AC content</p>', parsedKey, {mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7}).toString(); pm.environment.set('acEmailContent', cipher); pm.environment.set('acEmailContentKey', key); } }"
         ]
       }
@@ -351,7 +351,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"\",\n  \"description\": null,\n  \"parentId\": \"0\"\n}",
+              "raw": "{\n  \"categoryId\": null,\n  \"categoryName\": \"\",\n  \"description\": null,\n  \"subcategories\": [\n    {\n      \"name\": \"{{acInvalidBatchName}}\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -379,8 +379,10 @@
                   "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
                   "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
                   "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
-                  "pm.test('Business response is a parameter validation failure', () => pm.expect(json.responseCode).to.eql('00000006'));",
-                  "pm.test('Parameter validation has no payload', () => pm.expect(json.data).to.eql(null));"
+                  "pm.test('Business response is a field validation failure', () => pm.expect(json.responseCode).to.eql('00000006'));",
+                  "pm.test('All field errors are returned together', () => { pm.expect(json.data).to.be.an('object'); pm.expect(json.data.fieldErrors).to.be.an('array').and.not.empty; pm.expect(json.data.invalidFieldCount).to.eql(json.data.fieldErrors.length); });",
+                  "pm.test('Expected invalid fields are represented', () => { const actual = json.data.fieldErrors.map(item => String(item.field || '')); for (const expected of [\"categoryName\"]) pm.expect(actual.some(field => field.includes(expected))).to.eql(true, 'Missing field error: ' + expected); });",
+                  "pm.test('Field errors are displayable', () => json.data.fieldErrors.forEach(item => { pm.expect(item.code).to.be.a('string').and.not.empty; pm.expect(item.message).to.be.a('string').and.not.empty; }));"
                 ]
               }
             }
@@ -425,7 +427,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"{{acSourceCategoryName}}\",\n  \"description\": \"Source category for AC regression\",\n  \"parentId\": \"0\"\n}",
+              "raw": "{\n  \"categoryId\": null,\n  \"categoryName\": \"{{acSourceCategoryName}}\",\n  \"description\": \"Source category for AC regression\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acSourceSubcategoryName1}}\",\n      \"description\": \"Source one\"\n    },\n    {\n      \"name\": \"{{acSourceSubcategoryName2}}\",\n      \"description\": \"Source two\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -456,7 +458,7 @@
                   "pm.test('Business response is successful', () => pm.expect(json.responseCode).to.eql('00000000'));",
                   "pm.test('Response time is below 10 seconds', () => pm.expect(pm.response.responseTime).to.be.below(10000));",
                   "pm.test('Source Category ID is a decimal string', () => { pm.expect(json.data.id).to.be.a('string').and.match(/^\\d+$/); pm.expect(json.data.parentId).to.eql('0'); });",
-                  "pm.environment.set('acSourceCategoryId', String(json.data.id));",
+                  "pm.environment.set('acSourceCategoryId', String(json.data.id)); pm.environment.set('acSourceSubcategoryId1', String(json.data.children[0].id)); pm.environment.set('acSourceSubcategoryId2', String(json.data.children[1].id));",
                   "const blockingJson = (() => { try { return pm.response.json(); } catch { return null; } })();",
                   "if (pm.response.code !== 200 || !blockingJson || blockingJson.responseCode !== '00000000') { pm.environment.set('acBlockingFailure', pm.info.requestName); console.error('Blocking prerequisite failure: ' + pm.info.requestName); pm.execution.setNextRequest(null); }"
                 ]
@@ -503,7 +505,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"{{acTargetCategoryName}}\",\n  \"description\": \"Target category for AC regression\",\n  \"parentId\": \"0\"\n}",
+              "raw": "{\n  \"categoryId\": null,\n  \"categoryName\": \"{{acTargetCategoryName}}\",\n  \"description\": \"Target category for AC regression\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acTargetSubcategoryName1}}\",\n      \"description\": \"Target one\"\n    },\n    {\n      \"name\": \"{{acTargetSubcategoryName2}}\",\n      \"description\": \"Target two\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -533,7 +535,7 @@
                   "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
                   "pm.test('Business response is successful', () => pm.expect(json.responseCode).to.eql('00000000'));",
                   "pm.test('Response time is below 10 seconds', () => pm.expect(pm.response.responseTime).to.be.below(10000));",
-                  "pm.environment.set('acTargetCategoryId', String(json.data.id));",
+                  "pm.environment.set('acTargetCategoryId', String(json.data.id)); pm.environment.set('acTargetSubcategoryId1', String(json.data.children[0].id)); pm.environment.set('acTargetSubcategoryId2', String(json.data.children[1].id));",
                   "const blockingJson = (() => { try { return pm.response.json(); } catch { return null; } })();",
                   "if (pm.response.code !== 200 || !blockingJson || blockingJson.responseCode !== '00000000') { pm.environment.set('acBlockingFailure', pm.info.requestName); console.error('Blocking prerequisite failure: ' + pm.info.requestName); pm.execution.setNextRequest(null); }"
                 ]
@@ -580,7 +582,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"{{acUnusedCategoryName}}\",\n  \"description\": null,\n  \"parentId\": \"0\"\n}",
+              "raw": "{\n  \"categoryId\": null,\n  \"categoryName\": \"{{acUnusedCategoryName}}\",\n  \"description\": null,\n  \"subcategories\": [\n    {\n      \"name\": \"{{acTooManyPrefix}}Unused\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -657,7 +659,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"{{acSourceCategoryName}}\",\n  \"description\": null,\n  \"parentId\": \"0\"\n}",
+              "raw": "{\n  \"categoryId\": null,\n  \"categoryName\": \"{{acSourceCategoryName}}\",\n  \"description\": null,\n  \"subcategories\": [\n    {\n      \"name\": \"{{acInvalidBatchName}}\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -685,15 +687,17 @@
                   "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
                   "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
                   "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
-                  "pm.test('Business response is rejected', () => pm.expect(json.responseCode).to.not.eql('00000000'));",
-                  "pm.test('Rejected command has no success payload', () => pm.expect(json.data === null || typeof json.data === 'object').to.eql(true));"
+                  "pm.test('Business response is a field validation failure', () => pm.expect(json.responseCode).to.eql('00000006'));",
+                  "pm.test('All field errors are returned together', () => { pm.expect(json.data).to.be.an('object'); pm.expect(json.data.fieldErrors).to.be.an('array').and.not.empty; pm.expect(json.data.invalidFieldCount).to.eql(json.data.fieldErrors.length); });",
+                  "pm.test('Expected invalid fields are represented', () => { const actual = json.data.fieldErrors.map(item => String(item.field || '')); for (const expected of [\"categoryName\"]) pm.expect(actual.some(field => field.includes(expected))).to.eql(true, 'Missing field error: ' + expected); });",
+                  "pm.test('Field errors are displayable', () => json.data.fieldErrors.forEach(item => { pm.expect(item.code).to.be.a('string').and.not.empty; pm.expect(item.message).to.be.a('string').and.not.empty; }));"
                 ]
               }
             }
           ]
         },
         {
-          "name": "10 NEW-08 rejects more than five Subcategories atomically",
+          "name": "10 NEW-02 rejects more than five Subcategories atomically",
           "request": {
             "method": "POST",
             "header": [
@@ -728,10 +732,10 @@
                 "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"parentId\": \"{{acSourceCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acTooManyPrefix}}1\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}2\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}3\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}4\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}5\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}6\"\n    }\n  ]\n}",
+              "raw": "{\n  \"categoryId\": \"{{acSourceCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acTooManyPrefix}}1\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}2\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}3\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}4\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}5\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}6\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -769,7 +773,7 @@
           ]
         },
         {
-          "name": "11 NEW-08 rejects invalid batch without partial create",
+          "name": "11 NEW-02 rejects invalid aggregate without partial create",
           "request": {
             "method": "POST",
             "header": [
@@ -804,10 +808,10 @@
                 "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"parentId\": \"{{acSourceCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acInvalidBatchName}}\"\n    },\n    {\n      \"name\": \"\"\n    }\n  ]\n}",
+              "raw": "{\n  \"categoryId\": \"{{acSourceCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acInvalidBatchName}}\"\n    },\n    {\n      \"name\": \"\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -845,7 +849,7 @@
           ]
         },
         {
-          "name": "12 NEW-08 creates two Source Subcategories",
+          "name": "12 NEW-02 appends two Source Subcategories",
           "request": {
             "method": "POST",
             "header": [
@@ -880,10 +884,10 @@
                 "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"parentId\": \"{{acSourceCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acSourceSubcategoryName1}}\",\n      \"description\": \"Source one\"\n    },\n    {\n      \"name\": \"{{acSourceSubcategoryName2}}\",\n      \"description\": \"Source two\"\n    }\n  ]\n}",
+              "raw": "{\n  \"categoryId\": \"{{acSourceCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acTooManyPrefix}}SourceA\",\n      \"description\": \"Source one\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}SourceB\",\n      \"description\": \"Source two\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -913,8 +917,7 @@
                   "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
                   "pm.test('Business response is successful', () => pm.expect(json.responseCode).to.eql('00000000'));",
                   "pm.test('Response time is below 10 seconds', () => pm.expect(pm.response.responseTime).to.be.below(10000));",
-                  "pm.test('Two Subcategories are returned in request order', () => pm.expect(json.data).to.be.an('array').with.lengthOf(2));",
-                  "pm.environment.set('acSourceSubcategoryId1', String(json.data[0].id)); pm.environment.set('acSourceSubcategoryId2', String(json.data[1].id));",
+                  "pm.test('Aggregate append returns the Category tree node', () => pm.expect(json.data.children).to.be.an('array').with.length.at.least(2));",
                   "const blockingJson = (() => { try { return pm.response.json(); } catch { return null; } })();",
                   "if (pm.response.code !== 200 || !blockingJson || blockingJson.responseCode !== '00000000') { pm.environment.set('acBlockingFailure', pm.info.requestName); console.error('Blocking prerequisite failure: ' + pm.info.requestName); pm.execution.setNextRequest(null); }"
                 ]
@@ -923,7 +926,7 @@
           ]
         },
         {
-          "name": "13 NEW-08 creates Target Subcategories",
+          "name": "13 NEW-02 appends two Target Subcategories",
           "request": {
             "method": "POST",
             "header": [
@@ -958,10 +961,10 @@
                 "type": "text"
               }
             ],
-            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/batch-subcategories",
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"parentId\": \"{{acTargetCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acTargetSubcategoryName1}}\",\n      \"description\": \"Target one\"\n    },\n    {\n      \"name\": \"{{acTargetSubcategoryName2}}\",\n      \"description\": \"Target two\"\n    }\n  ]\n}",
+              "raw": "{\n  \"categoryId\": \"{{acTargetCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acTooManyPrefix}}TargetA\",\n      \"description\": \"Target one\"\n    },\n    {\n      \"name\": \"{{acTooManyPrefix}}TargetB\",\n      \"description\": \"Target two\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -991,8 +994,7 @@
                   "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
                   "pm.test('Business response is successful', () => pm.expect(json.responseCode).to.eql('00000000'));",
                   "pm.test('Response time is below 10 seconds', () => pm.expect(pm.response.responseTime).to.be.below(10000));",
-                  "pm.test('Two Target Subcategories are returned', () => pm.expect(json.data).to.be.an('array').with.lengthOf(2));",
-                  "pm.environment.set('acTargetSubcategoryId1', String(json.data[0].id)); pm.environment.set('acTargetSubcategoryId2', String(json.data[1].id));",
+                  "pm.test('Aggregate append returns the Category tree node', () => pm.expect(json.data.children).to.be.an('array').with.length.at.least(2));",
                   "const blockingJson = (() => { try { return pm.response.json(); } catch { return null; } })();",
                   "if (pm.response.code !== 200 || !blockingJson || blockingJson.responseCode !== '00000000') { pm.environment.set('acBlockingFailure', pm.info.requestName); console.error('Blocking prerequisite failure: ' + pm.info.requestName); pm.execution.setNextRequest(null); }"
                 ]
@@ -3908,7 +3910,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"{{acSourceCategoryUpdatedName}}\",\n  \"description\": \"Recreated after soft delete\",\n  \"parentId\": \"0\"\n}",
+              "raw": "{\n  \"categoryId\": null,\n  \"categoryName\": \"{{acSourceCategoryUpdatedName}}\",\n  \"description\": \"Recreated after soft delete\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acTooManyPrefix}}Recreated\"\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3947,7 +3949,667 @@
           ]
         },
         {
-          "name": "55 Permission: Adviser cannot create Category",
+          "name": "55 NEW-02 rejects an active Subcategory name used under another Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"{{acRecreatedCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acTargetSubcategoryName1}}\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') { console.warn('Write request skipped. Set enableWriteTests=true.'); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let json;",
+                  "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
+                  "pm.test('Business response is a field validation failure', () => pm.expect(json.responseCode).to.eql('00000006'));",
+                  "pm.test('All field errors are returned together', () => { pm.expect(json.data).to.be.an('object'); pm.expect(json.data.fieldErrors).to.be.an('array').and.not.empty; pm.expect(json.data.invalidFieldCount).to.eql(json.data.fieldErrors.length); });",
+                  "pm.test('Expected invalid fields are represented', () => { const actual = json.data.fieldErrors.map(item => String(item.field || '')); for (const expected of [\"subcategories[0].name\"]) pm.expect(actual.some(field => field.includes(expected))).to.eql(true, 'Missing field error: ' + expected); });",
+                  "pm.test('Field errors are displayable', () => json.data.fieldErrors.forEach(item => { pm.expect(item.code).to.be.a('string').and.not.empty; pm.expect(item.message).to.be.a('string').and.not.empty; }));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "56 NEW-02 rejects Category name longer than 100 characters",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": null,\n  \"categoryName\": \"{{acOverlongCategoryName}}\",\n  \"description\": null,\n  \"subcategories\": [\n    {\n      \"name\": \"{{acTooManyPrefix}}Overlong\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') { console.warn('Write request skipped. Set enableWriteTests=true.'); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let json;",
+                  "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
+                  "pm.test('Business response is a field validation failure', () => pm.expect(json.responseCode).to.eql('00000006'));",
+                  "pm.test('All field errors are returned together', () => { pm.expect(json.data).to.be.an('object'); pm.expect(json.data.fieldErrors).to.be.an('array').and.not.empty; pm.expect(json.data.invalidFieldCount).to.eql(json.data.fieldErrors.length); });",
+                  "pm.test('Expected invalid fields are represented', () => { const actual = json.data.fieldErrors.map(item => String(item.field || '')); for (const expected of [\"categoryName\"]) pm.expect(actual.some(field => field.includes(expected))).to.eql(true, 'Missing field error: ' + expected); });",
+                  "pm.test('Field errors are displayable', () => json.data.fieldErrors.forEach(item => { pm.expect(item.code).to.be.a('string').and.not.empty; pm.expect(item.message).to.be.a('string').and.not.empty; }));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "57 NEW-02 rejects Subcategory name longer than 100 characters",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"{{acRecreatedCategoryId}}\",\n  \"subcategories\": [\n    {\n      \"name\": \"{{acOverlongSubcategoryName}}\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') { console.warn('Write request skipped. Set enableWriteTests=true.'); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let json;",
+                  "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
+                  "pm.test('Business response is a field validation failure', () => pm.expect(json.responseCode).to.eql('00000006'));",
+                  "pm.test('All field errors are returned together', () => { pm.expect(json.data).to.be.an('object'); pm.expect(json.data.fieldErrors).to.be.an('array').and.not.empty; pm.expect(json.data.invalidFieldCount).to.eql(json.data.fieldErrors.length); });",
+                  "pm.test('Expected invalid fields are represented', () => { const actual = json.data.fieldErrors.map(item => String(item.field || '')); for (const expected of [\"subcategories[0].name\"]) pm.expect(actual.some(field => field.includes(expected))).to.eql(true, 'Missing field error: ' + expected); });",
+                  "pm.test('Field errors are displayable', () => json.data.fieldErrors.forEach(item => { pm.expect(item.code).to.be.a('string').and.not.empty; pm.expect(item.message).to.be.a('string').and.not.empty; }));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "58 EX-05 rejects Template Name longer than 120 characters",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/add",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"moduleCode\": \"COMMUNICATION\",\n  \"moduleCodeName\": \"Communications\",\n  \"scenarioCode\": \"TEMPLATE_LIBRARY\",\n  \"emailName\": \"{{acOverlongTemplateName}}\",\n  \"description\": null,\n  \"title\": null,\n  \"editMode\": \"HTML\",\n  \"emailContent\": \"{{acEmailContent}}\",\n  \"textContent\": null,\n  \"fileKeys\": \"\",\n  \"emailContentKey\": \"{{acEmailContentKey}}\",\n  \"isDraft\": \"1\",\n  \"effectiveWay\": 1,\n  \"effectiveFrom\": \"{{acFutureEffectiveFrom}}\",\n  \"effectiveUntil\": null,\n  \"thumbnailKey\": null,\n  \"channelMap\": {},\n  \"isCustomBranding\": \"0\",\n  \"categoryId\": null,\n  \"subCategoryIds\": [],\n  \"tagGroups\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') { console.warn('Write request skipped. Set enableWriteTests=true.'); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let json;",
+                  "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
+                  "pm.test('Business response is a field validation failure', () => pm.expect(json.responseCode).to.eql('00000006'));",
+                  "pm.test('All field errors are returned together', () => { pm.expect(json.data).to.be.an('object'); pm.expect(json.data.fieldErrors).to.be.an('array').and.not.empty; pm.expect(json.data.invalidFieldCount).to.eql(json.data.fieldErrors.length); });",
+                  "pm.test('Expected invalid fields are represented', () => { const actual = json.data.fieldErrors.map(item => String(item.field || '')); for (const expected of [\"emailName\"]) pm.expect(actual.some(field => field.includes(expected))).to.eql(true, 'Missing field error: ' + expected); });",
+                  "pm.test('Field errors are displayable', () => json.data.fieldErrors.forEach(item => { pm.expect(item.code).to.be.a('string').and.not.empty; pm.expect(item.message).to.be.a('string').and.not.empty; }));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "59 EX-06 updates Metadata for an existing Draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/update",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{acDraftEmailCode}}\",\n  \"emailName\": \"{{acDraftTemplateName}}\",\n  \"description\": null,\n  \"channelMap\": {},\n  \"categoryId\": \"{{acTargetCategoryId}}\",\n  \"subCategoryIds\": [\n    \"{{acTargetSubcategoryId2}}\"\n  ],\n  \"tagGroups\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') { console.warn('Write request skipped. Set enableWriteTests=true.'); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let json;",
+                  "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
+                  "pm.test('Business response is successful', () => pm.expect(json.responseCode).to.eql('00000000'));",
+                  "pm.test('Response time is below 10 seconds', () => pm.expect(pm.response.responseTime).to.be.below(10000));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "60 EX-03 confirms Draft Metadata is immediately readable",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/detail",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{acDraftEmailCode}}\",\n  \"version\": \"V1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let json;",
+                  "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
+                  "pm.test('Business response is successful', () => pm.expect(json.responseCode).to.eql('00000000'));",
+                  "pm.test('Response time is below 10 seconds', () => pm.expect(pm.response.responseTime).to.be.below(10000));",
+                  "pm.test('Draft uses the saved target Category and Subcategory', () => { pm.expect(String(json.data.categoryId)).to.eql(pm.environment.get('acTargetCategoryId')); pm.expect((json.data.subCategoryIds || []).map(String)).to.include(pm.environment.get('acTargetSubcategoryId2')); });",
+                  "pm.test('Draft remains Draft after Metadata update', () => pm.expect(Number(json.data.versionStatus)).to.eql(3));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "61 NEW-12 reports impact before deleting referenced Subcategory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCategoryId\": \"{{acTargetSubcategoryId1}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') { console.warn('Write request skipped. Set enableWriteTests=true.'); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let json;",
+                  "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
+                  "pm.test('Business response is successful', () => pm.expect(json.responseCode).to.eql('00000000'));",
+                  "pm.test('Response time is below 10 seconds', () => pm.expect(pm.response.responseTime).to.be.below(10000));",
+                  "pm.test('Referenced Subcategory requires reassignment', () => { pm.expect(json.data.reassignRequired).to.eql(true); pm.expect(Number(json.data.affectedTemplateCount)).to.be.at.least(1); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "62 NEW-12 reassigns referenced Subcategory then soft-deletes it",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/delete",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sourceCategoryId\": \"{{acTargetSubcategoryId1}}\",\n  \"targetCategoryId\": \"{{acTargetCategoryId}}\",\n  \"targetSubcategoryIds\": [\n    \"{{acTargetSubcategoryId2}}\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.variables.get('enableWriteTests') !== 'true') { console.warn('Write request skipped. Set enableWriteTests=true.'); pm.execution.skipRequest(); }"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let json;",
+                  "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
+                  "pm.test('Business response is successful', () => pm.expect(json.responseCode).to.eql('00000000'));",
+                  "pm.test('Response time is below 10 seconds', () => pm.expect(pm.response.responseTime).to.be.below(10000));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "63 EX-03 confirms referenced Subcategory was replaced",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/detail",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{acActiveEmailCode}}\",\n  \"version\": \"{{acV2Version}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "let json;",
+                  "pm.test('HTTP status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Response is JSON', () => { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', () => { pm.expect(json).to.include.all.keys('requestId', 'responseCode', 'responseMessage', 'data'); });",
+                  "pm.test('Business response is successful', () => pm.expect(json.responseCode).to.eql('00000000'));",
+                  "pm.test('Response time is below 10 seconds', () => pm.expect(pm.response.responseTime).to.be.below(10000));",
+                  "pm.test('Active Template now uses the replacement Subcategory', () => { const selected = (json.data.subCategoryIds || []).map(String); pm.expect(selected).to.include(pm.environment.get('acTargetSubcategoryId2')); pm.expect(selected).to.not.include(pm.environment.get('acTargetSubcategoryId1')); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "64 Permission: Adviser cannot create Category",
           "request": {
             "method": "POST",
             "header": [
@@ -3985,7 +4647,7 @@
             "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"categoryName\": \"{{acPermissionCategoryName}}\",\n  \"description\": null,\n  \"parentId\": \"0\"\n}",
+              "raw": "{\n  \"categoryId\": null,\n  \"categoryName\": \"{{acPermissionCategoryName}}\",\n  \"description\": null,\n  \"subcategories\": [\n    {\n      \"name\": \"{{acInvalidBatchName}}\",\n      \"description\": null\n    }\n  ]\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -4022,7 +4684,7 @@
           ]
         },
         {
-          "name": "56 Permission: Adviser cannot create Template",
+          "name": "65 Permission: Adviser cannot create Template",
           "request": {
             "method": "POST",
             "header": [
@@ -4097,7 +4759,7 @@
           ]
         },
         {
-          "name": "57 Permission: Adviser cannot update Template Metadata or Tags",
+          "name": "66 Permission: Adviser cannot update Template Metadata or Tags",
           "request": {
             "method": "POST",
             "header": [
@@ -4177,7 +4839,7 @@
       "name": "99 Cleanup",
       "item": [
         {
-          "name": "58 Cleanup: delete lenient Draft Template",
+          "name": "67 Cleanup: delete lenient Draft Template",
           "request": {
             "method": "POST",
             "header": [
@@ -4251,7 +4913,7 @@
           ]
         },
         {
-          "name": "59 Cleanup: delete primary Template",
+          "name": "68 Cleanup: delete primary Template",
           "request": {
             "method": "POST",
             "header": [
@@ -4325,7 +4987,7 @@
           ]
         },
         {
-          "name": "60 Cleanup: delete recreated Category",
+          "name": "69 Cleanup: delete recreated Category",
           "request": {
             "method": "POST",
             "header": [
@@ -4399,7 +5061,7 @@
           ]
         },
         {
-          "name": "61 Cleanup: delete Target Category cascade",
+          "name": "70 Cleanup: delete Target Category cascade",
           "request": {
             "method": "POST",
             "header": [
@@ -4473,7 +5135,7 @@
           ]
         },
         {
-          "name": "62 NEW-01 confirms no temporary Categories remain",
+          "name": "71 NEW-01 confirms no temporary Categories remain",
           "request": {
             "method": "GET",
             "header": [

@@ -33,12 +33,6 @@
       "verification": "VERIFIED",
       "source": "CHG-20260729-05 当前代码变更记录"
     },
-    "/web/msg/template/email/v2/category/batch-subcategories": {
-      "requestModel": "BatchSubcategoryRequest",
-      "successDataModel": "List<CategoryTreeNodeVO>",
-      "verification": "CODE_SNAPSHOT",
-      "source": "real_code_ananly/api-v2.md"
-    },
     "/web/msg/template/email/v2/category/update": {
       "requestModel": "UpdateCategoryRequest",
       "successDataModel": "Void",

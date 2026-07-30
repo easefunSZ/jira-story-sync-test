@@ -147,27 +147,25 @@ const preflight = [
 ];
 
 const categorySetup = [
-  item("05 NEW-02 rejects blank Category name", "Create Source Category", {categoryName: "", description: null, parentId: "0"}, parameterFailure(), writeGuard),
-  item("06 NEW-02 creates Source Category", "Create Source Category", {categoryName: "{{acSourceCategoryName}}", description: "Source category for AC regression", parentId: "0"}, success([
+  item("05 NEW-02 rejects blank Category name", "Create Source Category and Subcategories", {categoryId: null, categoryName: "", description: null, subcategories: [{name: "{{acInvalidBatchName}}"}]}, fieldFailure(["categoryName"]), writeGuard),
+  item("06 NEW-02 creates Source Category", "Create Source Category and Subcategories", {categoryId: null, categoryName: "{{acSourceCategoryName}}", description: "Source category for AC regression", subcategories: [{name: "{{acSourceSubcategoryName1}}", description: "Source one"},{name: "{{acSourceSubcategoryName2}}", description: "Source two"}]}, success([
     "pm.test('Source Category ID is a decimal string', () => { pm.expect(json.data.id).to.be.a('string').and.match(/^\\d+$/); pm.expect(json.data.parentId).to.eql('0'); });",
-    "pm.environment.set('acSourceCategoryId', String(json.data.id));"
+    "pm.environment.set('acSourceCategoryId', String(json.data.id)); pm.environment.set('acSourceSubcategoryId1', String(json.data.children[0].id)); pm.environment.set('acSourceSubcategoryId2', String(json.data.children[1].id));"
   ]), writeGuard),
-  item("07 NEW-02 creates Target Category", "Create Target Category", {categoryName: "{{acTargetCategoryName}}", description: "Target category for AC regression", parentId: "0"}, success([
-    "pm.environment.set('acTargetCategoryId', String(json.data.id));"
+  item("07 NEW-02 creates Target Category", "Create Target Category and Subcategories", {categoryId: null, categoryName: "{{acTargetCategoryName}}", description: "Target category for AC regression", subcategories: [{name: "{{acTargetSubcategoryName1}}", description: "Target one"},{name: "{{acTargetSubcategoryName2}}", description: "Target two"}]}, success([
+    "pm.environment.set('acTargetCategoryId', String(json.data.id)); pm.environment.set('acTargetSubcategoryId1', String(json.data.children[0].id)); pm.environment.set('acTargetSubcategoryId2', String(json.data.children[1].id));"
   ]), writeGuard),
-  item("08 NEW-02 creates Unused Category", "Create Unused Category", {categoryName: "{{acUnusedCategoryName}}", description: null, parentId: "0"}, success([
+  item("08 NEW-02 creates Unused Category", "Create Unused Category", {categoryId: null, categoryName: "{{acUnusedCategoryName}}", description: null, subcategories: [{name: "{{acTooManyPrefix}}Unused"}]}, success([
     "pm.environment.set('acUnusedCategoryId', String(json.data.id));"
   ]), writeGuard),
-  item("09 NEW-02 rejects duplicate active Category name", "Create Source Category", {categoryName: "{{acSourceCategoryName}}", description: null, parentId: "0"}, businessFailure(), writeGuard),
-  item("10 NEW-08 rejects more than five Subcategories atomically", "Batch Create Source Subcategories", {parentId: "{{acSourceCategoryId}}", subcategories: [{name: "{{acTooManyPrefix}}1"},{name: "{{acTooManyPrefix}}2"},{name: "{{acTooManyPrefix}}3"},{name: "{{acTooManyPrefix}}4"},{name: "{{acTooManyPrefix}}5"},{name: "{{acTooManyPrefix}}6"}]}, fieldFailure(["subcategories"]), writeGuard),
-  item("11 NEW-08 rejects invalid batch without partial create", "Batch Create Source Subcategories", {parentId: "{{acSourceCategoryId}}", subcategories: [{name: "{{acInvalidBatchName}}"},{name: ""}]}, fieldFailure(["subcategories[1].name"]), writeGuard),
-  item("12 NEW-08 creates two Source Subcategories", "Batch Create Source Subcategories", {parentId: "{{acSourceCategoryId}}", subcategories: [{name: "{{acSourceSubcategoryName1}}", description: "Source one"},{name: "{{acSourceSubcategoryName2}}", description: "Source two"}]}, success([
-    "pm.test('Two Subcategories are returned in request order', () => pm.expect(json.data).to.be.an('array').with.lengthOf(2));",
-    "pm.environment.set('acSourceSubcategoryId1', String(json.data[0].id)); pm.environment.set('acSourceSubcategoryId2', String(json.data[1].id));"
+  item("09 NEW-02 rejects duplicate active Category name", "Create Source Category and Subcategories", {categoryId: null, categoryName: "{{acSourceCategoryName}}", description: null, subcategories: [{name: "{{acInvalidBatchName}}"}]}, fieldFailure(["categoryName"]), writeGuard),
+  item("10 NEW-02 rejects more than five Subcategories atomically", "Create Source Category and Subcategories", {categoryId: "{{acSourceCategoryId}}", subcategories: [{name: "{{acTooManyPrefix}}1"},{name: "{{acTooManyPrefix}}2"},{name: "{{acTooManyPrefix}}3"},{name: "{{acTooManyPrefix}}4"},{name: "{{acTooManyPrefix}}5"},{name: "{{acTooManyPrefix}}6"}]}, fieldFailure(["subcategories"]), writeGuard),
+  item("11 NEW-02 rejects invalid aggregate without partial create", "Create Source Category and Subcategories", {categoryId: "{{acSourceCategoryId}}", subcategories: [{name: "{{acInvalidBatchName}}"},{name: ""}]}, fieldFailure(["subcategories[1].name"]), writeGuard),
+  item("12 NEW-02 appends two Source Subcategories", "Create Source Category and Subcategories", {categoryId: "{{acSourceCategoryId}}", subcategories: [{name: "{{acTooManyPrefix}}SourceA", description: "Source one"},{name: "{{acTooManyPrefix}}SourceB", description: "Source two"}]}, success([
+    "pm.test('Aggregate append returns the Category tree node', () => pm.expect(json.data.children).to.be.an('array').with.length.at.least(2));"
   ]), writeGuard),
-  item("13 NEW-08 creates Target Subcategories", "Batch Create Target Subcategory", {parentId: "{{acTargetCategoryId}}", subcategories: [{name: "{{acTargetSubcategoryName1}}", description: "Target one"}, {name: "{{acTargetSubcategoryName2}}", description: "Target two"}]}, success([
-    "pm.test('Two Target Subcategories are returned', () => pm.expect(json.data).to.be.an('array').with.lengthOf(2));",
-    "pm.environment.set('acTargetSubcategoryId1', String(json.data[0].id)); pm.environment.set('acTargetSubcategoryId2', String(json.data[1].id));"
+  item("13 NEW-02 appends two Target Subcategories", "Create Target Category and Subcategories", {categoryId: "{{acTargetCategoryId}}", subcategories: [{name: "{{acTooManyPrefix}}TargetA", description: "Target one"}, {name: "{{acTooManyPrefix}}TargetB", description: "Target two"}]}, success([
+    "pm.test('Aggregate append returns the Category tree node', () => pm.expect(json.data.children).to.be.an('array').with.length.at.least(2));"
   ]), writeGuard),
   item("14 NEW-03 updates Category name and description", "Update Source Category", {categoryId: "{{acSourceCategoryId}}", categoryName: "{{acSourceCategoryUpdatedName}}", description: "Updated source category description"}, success(), writeGuard),
   item("15 NEW-05 persists complete Source Subcategory order", "Save Complete Root Category Order", [{categoryId: "{{acSourceSubcategoryId2}}", sortOrder: 1}, {categoryId: "{{acSourceSubcategoryId1}}", sortOrder: 2}], success(), writeGuard),
@@ -256,14 +254,30 @@ const reassignmentAndDelete = [
   item("53 NEW-01 hides deleted Source Category", "Preflight - Category Tree and Initialise Run", undefined, success([
     "pm.test('Deleted Source is absent from tree', () => { const names = (json.data || []).map(node => node.categoryName); pm.expect(names).to.not.include(pm.environment.get('acSourceCategoryUpdatedName')); });"
   ])),
-  item("54 NEW-02 permits reusing a soft-deleted Category name", "Create Source Category", {categoryName: "{{acSourceCategoryUpdatedName}}", description: "Recreated after soft delete", parentId: "0"}, success([
+  item("54 NEW-02 permits reusing a soft-deleted Category name", "Create Source Category and Subcategories", {categoryId: null, categoryName: "{{acSourceCategoryUpdatedName}}", description: "Recreated after soft delete", subcategories: [{name: "{{acTooManyPrefix}}Recreated"}]}, success([
     "pm.environment.set('acRecreatedCategoryId', String(json.data.id));"
-  ]), writeGuard)
+  ]), writeGuard),
+  item("55 NEW-02 rejects an active Subcategory name used under another Category", "Create Target Category and Subcategories", {categoryId: "{{acRecreatedCategoryId}}", subcategories: [{name: "{{acTargetSubcategoryName1}}"}]}, fieldFailure(["subcategories[0].name"]), writeGuard),
+  item("56 NEW-02 rejects Category name longer than 100 characters", "Create Source Category and Subcategories", {categoryId: null, categoryName: "{{acOverlongCategoryName}}", description: null, subcategories: [{name: "{{acTooManyPrefix}}Overlong"}]}, fieldFailure(["categoryName"]), writeGuard),
+  item("57 NEW-02 rejects Subcategory name longer than 100 characters", "Create Target Category and Subcategories", {categoryId: "{{acRecreatedCategoryId}}", subcategories: [{name: "{{acOverlongSubcategoryName}}"}]}, fieldFailure(["subcategories[0].name"]), writeGuard),
+  item("58 EX-05 rejects Template Name longer than 120 characters", "Create Temporary V1 Active", {...draftTemplateBody, emailName: "{{acOverlongTemplateName}}"}, fieldFailure(["emailName"]), writeGuard),
+  item("59 EX-06 updates Metadata for an existing Draft", "Update Template Metadata", {emailCode: "{{acDraftEmailCode}}", emailName: "{{acDraftTemplateName}}", description: null, channelMap: {}, categoryId: "{{acTargetCategoryId}}", subCategoryIds: ["{{acTargetSubcategoryId2}}"], tagGroups: []}, success(), writeGuard),
+  item("60 EX-03 confirms Draft Metadata is immediately readable", "Verify EX-06 Metadata Persistence by Detail", {emailCode: "{{acDraftEmailCode}}", version: "V1"}, success([
+    "pm.test('Draft uses the saved target Category and Subcategory', () => { pm.expect(String(json.data.categoryId)).to.eql(pm.environment.get('acTargetCategoryId')); pm.expect((json.data.subCategoryIds || []).map(String)).to.include(pm.environment.get('acTargetSubcategoryId2')); });",
+    "pm.test('Draft remains Draft after Metadata update', () => pm.expect(Number(json.data.versionStatus)).to.eql(3));"
+  ])),
+  item("61 NEW-12 reports impact before deleting referenced Subcategory", "Check Referenced Source Category Impact", {sourceCategoryId: "{{acTargetSubcategoryId1}}"}, success([
+    "pm.test('Referenced Subcategory requires reassignment', () => { pm.expect(json.data.reassignRequired).to.eql(true); pm.expect(Number(json.data.affectedTemplateCount)).to.be.at.least(1); });"
+  ]), writeGuard),
+  item("62 NEW-12 reassigns referenced Subcategory then soft-deletes it", "Reassign References and Delete Source Category", {sourceCategoryId: "{{acTargetSubcategoryId1}}", targetCategoryId: "{{acTargetCategoryId}}", targetSubcategoryIds: ["{{acTargetSubcategoryId2}}"]}, success(), writeGuard),
+  item("63 EX-03 confirms referenced Subcategory was replaced", "Verify EX-06 Metadata Persistence by Detail", {emailCode: "{{acActiveEmailCode}}", version: "{{acV2Version}}"}, success([
+    "pm.test('Active Template now uses the replacement Subcategory', () => { const selected = (json.data.subCategoryIds || []).map(String); pm.expect(selected).to.include(pm.environment.get('acTargetSubcategoryId2')); pm.expect(selected).to.not.include(pm.environment.get('acTargetSubcategoryId1')); });"
+  ]))
 ];
 
 const permissions = [
-  item("55 Permission: Adviser cannot create Category", "Create Source Category", {categoryName: "{{acPermissionCategoryName}}", description: null, parentId: "0"}, businessFailure(), [...writeGuard, ...permissionGuard], {
-    headers: requestFrom("Create Source Category").header.map(header => header.key.toLowerCase() === "authorization" ? {...header, value: "{{adviserAuthorization}}"} : header)
+  item("55 Permission: Adviser cannot create Category", "Create Source Category and Subcategories", {categoryId: null, categoryName: "{{acPermissionCategoryName}}", description: null, subcategories: [{name: "{{acInvalidBatchName}}", description: null}]}, businessFailure(), [...writeGuard, ...permissionGuard], {
+    headers: requestFrom("Create Source Category and Subcategories").header.map(header => header.key.toLowerCase() === "authorization" ? {...header, value: "{{adviserAuthorization}}"} : header)
   }),
   item("56 Permission: Adviser cannot create Template", "Create Temporary V1 Active", activeTemplateBody, businessFailure(), [...writeGuard, ...permissionGuard], {
     headers: requestFrom("Create Temporary V1 Active").header.map(header => header.key.toLowerCase() === "authorization" ? {...header, value: "{{adviserAuthorization}}"} : header)
@@ -306,7 +320,7 @@ const collection = {
     "if (!pm.variables.get('authorization')) pm.request.headers.remove('authorization');",
     "if (!pm.variables.get('xApigwApiId')) pm.request.headers.remove('x-apigw-api-id');",
     "const now = Date.now();",
-    "if (!pm.environment.get('acRunId')) { const runId = `AC_${now}`; pm.environment.set('acRunId', runId); pm.environment.set('acSourceCategoryName', `LEAD93 AC Source ${runId}`); pm.environment.set('acSourceCategoryUpdatedName', `LEAD93 AC Source Updated ${runId}`); pm.environment.set('acTargetCategoryName', `LEAD93 AC Target ${runId}`); pm.environment.set('acUnusedCategoryName', `LEAD93 AC Unused ${runId}`); pm.environment.set('acSourceSubcategoryName1', `LEAD93 AC Source One ${runId}`); pm.environment.set('acSourceSubcategoryName2', `LEAD93 AC Source Two ${runId}`); pm.environment.set('acTargetSubcategoryName1', `LEAD93 AC Target One ${runId}`); pm.environment.set('acTargetSubcategoryName2', `LEAD93 AC Target Two ${runId}`); pm.environment.set('acTooManyPrefix', `LEAD93 AC TooMany ${runId} `); pm.environment.set('acInvalidBatchName', `LEAD93 AC InvalidBatch ${runId}`); pm.environment.set('acDraftTemplateName', `LEAD93 AC Draft ${runId}`); pm.environment.set('acActiveTemplateName', `LEAD93 AC Active ${runId}`); pm.environment.set('acCopyTemplateName', `LEAD93 AC Copy ${runId}`); pm.environment.set('acInvalidDraftName', ''); pm.environment.set('acInvalidPublishName', `LEAD93 AC Invalid Publish ${runId}`); pm.environment.set('acPermissionCategoryName', `LEAD93 AC Permission ${runId}`); const future = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' '); pm.environment.set('acFutureEffectiveFrom', future); }",
+    "if (!pm.environment.get('acRunId')) { const runId = `AC_${now}`; pm.environment.set('acRunId', runId); pm.environment.set('acSourceCategoryName', `LEAD93 AC Source ${runId}`); pm.environment.set('acSourceCategoryUpdatedName', `LEAD93 AC Source Updated ${runId}`); pm.environment.set('acTargetCategoryName', `LEAD93 AC Target ${runId}`); pm.environment.set('acUnusedCategoryName', `LEAD93 AC Unused ${runId}`); pm.environment.set('acSourceSubcategoryName1', `LEAD93 AC Source One ${runId}`); pm.environment.set('acSourceSubcategoryName2', `LEAD93 AC Source Two ${runId}`); pm.environment.set('acTargetSubcategoryName1', `LEAD93 AC Target One ${runId}`); pm.environment.set('acTargetSubcategoryName2', `LEAD93 AC Target Two ${runId}`); pm.environment.set('acTooManyPrefix', `LEAD93 AC TooMany ${runId} `); pm.environment.set('acInvalidBatchName', `LEAD93 AC InvalidBatch ${runId}`); pm.environment.set('acDraftTemplateName', `LEAD93 AC Draft ${runId}`); pm.environment.set('acActiveTemplateName', `LEAD93 AC Active ${runId}`); pm.environment.set('acCopyTemplateName', `LEAD93 AC Copy ${runId}`); pm.environment.set('acInvalidDraftName', ''); pm.environment.set('acInvalidPublishName', `LEAD93 AC Invalid Publish ${runId}`); pm.environment.set('acPermissionCategoryName', `LEAD93 AC Permission ${runId}`); pm.environment.set('acOverlongCategoryName', `C${'x'.repeat(100)}`); pm.environment.set('acOverlongSubcategoryName', `S${'x'.repeat(100)}`); pm.environment.set('acOverlongTemplateName', `T${'x'.repeat(120)}`); const future = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' '); pm.environment.set('acFutureEffectiveFrom', future); }",
     "if (!pm.environment.get('acEmailContent')) { const baseUrl = String(pm.variables.get('baseUrl') || ''); const key = String(pm.variables.get('aesSecretKey') || '1234567890123456').padEnd(16, '0').slice(0, 16); if (baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1')) { pm.environment.set('acEmailContent', 'MOCK_AES_CONTENT'); pm.environment.set('acEmailContentKey', key); } else { const CryptoJS = require('crypto-js'); const parsedKey = CryptoJS.enc.Utf8.parse(key); const cipher = CryptoJS.AES.encrypt('<p>LEAD-93/405 backend AC content</p>', parsedKey, {mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7}).toString(); pm.environment.set('acEmailContent', cipher); pm.environment.set('acEmailContentKey', key); } }"
   ]}}],
   item: [

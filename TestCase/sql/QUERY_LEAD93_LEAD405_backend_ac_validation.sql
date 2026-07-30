@@ -113,8 +113,8 @@ FROM iic_msg_email_config_version
 WHERE email_code = @active_email_code
 GROUP BY email_code;
 
--- 08. NEW-08 atomic invalid-batch assertion.
--- Expected: zero rows. The invalid batch must never create its otherwise-valid item.
+-- 08. NEW-02 atomic aggregate-create assertion.
+-- Expected: zero rows. An invalid aggregate request must never create its otherwise-valid item.
 SELECT id, category_name, parent_id, is_deleted, created_date
 FROM iic_msg_email_category
 WHERE category_name = @invalid_batch_name;
