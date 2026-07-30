@@ -22,6 +22,15 @@ mkdir -p "$REPORT_DIR" "$PRIVATE_DIR"
 chmod 700 "$PRIVATE_DIR"
 : > "$MANIFEST"
 
+manifest_reference() {
+  local artifact="$1"
+  case "$artifact" in
+    "$PRIVATE_DIR"/*) printf '%s' "${artifact#"$PRIVATE_DIR"/}" ;;
+    "$REPORT_DIR"/*) printf '../reports/%s' "${artifact#"$REPORT_DIR"/}" ;;
+    *) printf '%s' "$artifact" ;;
+  esac
+}
+
 finalize() {
   local status=$?
   node "$POSTMAN_DIR/scripts/generate-combined-ac-report.mjs" "$MANIFEST" "$FINAL_REPORT" || true
@@ -68,7 +77,7 @@ run_api_phase() {
   fi
   local result
   result="$(node -e 'const fs=require("fs"); const p=process.argv[1]; console.log(fs.existsSync(p) ? JSON.parse(fs.readFileSync(p,"utf8")).status : "BLOCKED")' "$classification")"
-  printf '%s\tapi\t%s\t%s\t%s\t%s\t%s\n' "$stage" "$result" "$raw" "$debug" "$summary" "$classification" >> "$MANIFEST"
+  printf '%s\tapi\t%s\t%s\t%s\t%s\t%s\n' "$stage" "$result" "$(manifest_reference "$raw")" "$(manifest_reference "$debug")" "$(manifest_reference "$summary")" "$(manifest_reference "$classification")" >> "$MANIFEST"
   if [[ "$result" == "BLOCKED" ]]; then
     echo "Blocking prerequisite failure in $stage; dependent phases are not executed." >&2
     exit 1
@@ -94,7 +103,7 @@ run_db_checkpoint() {
   set -e
   local result="PASS"
   [[ "$status" -eq 0 ]] || result="FAIL"
-  printf '%s\tdb\t%s\t%s\n' "$checkpoint" "$result" "$output" >> "$MANIFEST"
+  printf '%s\tdb\t%s\t%s\n' "$checkpoint" "$result" "$(manifest_reference "$output")" >> "$MANIFEST"
   if [[ "$status" -ne 0 ]]; then
     HAS_CONTRACT_ISSUES=1
     echo "Database assertion issues in $checkpoint; continuing to the next API phase." >&2

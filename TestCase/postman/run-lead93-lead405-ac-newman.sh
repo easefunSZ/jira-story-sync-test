@@ -23,6 +23,15 @@ node "$POSTMAN_DIR/scripts/generate-lead93-lead405-ac-backend-suite.mjs"
 mkdir -p "$REPORT_DIR" "$PRIVATE_DIR"
 chmod 700 "$PRIVATE_DIR"
 
+manifest_reference() {
+  local artifact="$1"
+  case "$artifact" in
+    "$PRIVATE_DIR"/*) printf '%s' "${artifact#"$PRIVATE_DIR"/}" ;;
+    "$REPORT_DIR"/*) printf '../reports/%s' "${artifact#"$REPORT_DIR"/}" ;;
+    *) printf '%s' "$artifact" ;;
+  esac
+}
+
 if command -v newman >/dev/null 2>&1; then
   NEWMAN=(newman)
 else
@@ -46,7 +55,7 @@ echo "Summary: $SUMMARY_JSON"
 echo "Classification: $CLASSIFICATION_JSON"
 
 CLASSIFICATION_STATUS="$(node -e 'const fs=require("fs"); console.log(JSON.parse(fs.readFileSync(process.argv[1],"utf8")).status)' "$CLASSIFICATION_JSON")"
-printf '%s\tapi\t%s\t%s\t%s\t%s\t%s\n' "API-only full collection" "$CLASSIFICATION_STATUS" "$RAW_JSON" "$DEBUG_HTML" "$SUMMARY_JSON" "$CLASSIFICATION_JSON" > "$MANIFEST"
+printf '%s\tapi\t%s\t%s\t%s\t%s\t%s\n' "API-only full collection" "$CLASSIFICATION_STATUS" "$(manifest_reference "$RAW_JSON")" "$(manifest_reference "$DEBUG_HTML")" "$(manifest_reference "$SUMMARY_JSON")" "$(manifest_reference "$CLASSIFICATION_JSON")" > "$MANIFEST"
 node "$POSTMAN_DIR/scripts/generate-combined-ac-report.mjs" "$MANIFEST" "$AC_REPORT"
 echo "AC traceability report: $AC_REPORT"
 if [[ "$CLASSIFICATION_STATUS" == "BLOCKED" ]]; then

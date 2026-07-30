@@ -1,11 +1,20 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const [manifestPath, outputPath] = process.argv.slice(2);
-if (!manifestPath || !outputPath) {
+const [manifestPathArgument, outputPathArgument] = process.argv.slice(2);
+if (!manifestPathArgument || !outputPathArgument) {
   console.error("Usage: node generate-combined-ac-report.mjs <manifest.tsv> <report.html>");
   process.exit(2);
 }
+
+function normalizeHostPath(value) {
+  const msysDrivePath = String(value).match(/^\/([A-Za-z])\/(.*)$/);
+  if (process.platform === "win32" && msysDrivePath) return `${msysDrivePath[1].toUpperCase()}:/${msysDrivePath[2]}`;
+  return value;
+}
+
+const manifestPath = normalizeHostPath(manifestPathArgument);
+const outputPath = normalizeHostPath(outputPathArgument);
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -40,6 +49,12 @@ function artifactLink(file) {
   return relativeLink(file);
 }
 
+function resolveManifestArtifact(file) {
+  const normalized = normalizeHostPath(file);
+  if (path.isAbsolute(normalized) || /^[A-Za-z]:[\\/]/.test(normalized)) return normalized;
+  return path.resolve(path.dirname(manifestPath), normalized);
+}
+
 function reasonHtml(value) {
   return String(value ?? "-")
     .split(" | ")
@@ -50,7 +65,7 @@ function reasonHtml(value) {
 const entries = fs.existsSync(manifestPath)
   ? fs.readFileSync(manifestPath, "utf8").trim().split("\n").filter(Boolean).map(line => {
       const [stage, type, status, ...files] = line.split("\t");
-      return {stage, type, status, files};
+      return {stage, type, status, files: files.map(resolveManifestArtifact)};
     })
   : [];
 
@@ -233,7 +248,13 @@ function stepStatus(step) {
     return {label: "FAIL", css: "fail", reason: result.reason || "接口执行或断言失败。"};
   }
   const result = dbResults.get(canonicalDbCheckId(step.evidence.id));
-  if (!result) return {label: "NOT RUN", css: "na", reason: "未取得该数据库检查的执行记录。"};
+  if (!result) {
+    const checkpoint = checkpointForDbCheck(step.evidence.id);
+    if (checkpoint && dbCheckpointErrors.has(checkpoint)) {
+      return {label: "FAIL", css: "fail", reason: `数据库检查点 ${checkpoint} 执行失败：${dbCheckpointErrors.get(checkpoint)}`};
+    }
+    return {label: "NOT RUN", css: "na", reason: "未取得该数据库检查的执行记录。"};
+  }
   return result.status === "PASS"
     ? {label: "PASS", css: "pass", reason: result.reason || "数据库断言通过。"}
     : {label: "FAIL", css: "fail", reason: result.reason || "数据库断言失败。"};

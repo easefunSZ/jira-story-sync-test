@@ -2,6 +2,49 @@ import fs from "node:fs";
 import path from "node:path";
 import {spawnSync} from "node:child_process";
 
+const RESULT_MARKER_START = "__LEAD93_DB_RESULT__";
+const RESULT_MARKER_END = "__LEAD93_DB_RESULT_END__";
+const PYMYSQL_RUNNER = String.raw`import base64
+import json
+import sys
+
+def emit(value):
+    encoded = base64.b64encode(json.dumps(value, ensure_ascii=False, default=str).encode("utf-8")).decode("ascii")
+    print("${RESULT_MARKER_START}" + encoded + "${RESULT_MARKER_END}")
+
+
+try:
+    import pymysql
+    payload = json.load(sys.stdin)
+    connection = pymysql.connect(
+        host=payload["host"],
+        port=int(payload["port"]),
+        user=payload["user"],
+        password=payload["password"],
+        database=payload["database"],
+        charset="utf8mb4",
+        autocommit=True,
+    )
+    checks = []
+    statement_results = []
+    with connection.cursor() as cursor:
+        for statement in payload["statements"]:
+            cursor.execute(statement)
+            if not cursor.description:
+                statement_results.append({"sql": statement, "columns": [], "rows": []})
+                continue
+            columns = [column[0] for column in cursor.description]
+            rows = [dict(zip(columns, row)) for row in cursor.fetchall()]
+            statement_results.append({"sql": statement, "columns": columns, "rows": rows})
+            for row in rows:
+                if {"check_id", "result", "evidence"}.issubset(row):
+                    checks.append({"checkId": str(row["check_id"]), "result": str(row["result"]), "evidence": str(row["evidence"])})
+    connection.close()
+    emit({"checks": checks, "statements": statement_results})
+except Exception as error:
+    emit({"error": str(error)})
+`;
+
 function parseArgs(args) {
   const options = {};
   for (let index = 0; index < args.length; index += 2) {
@@ -65,6 +108,39 @@ function statements(sql) {
   return sql.split(/;\s*(?:\r?\n|$)/).map(value => value.trim()).filter(Boolean);
 }
 
+function pythonCommands() {
+  if (process.env.PYTHON_COMMAND) return [{command: process.env.PYTHON_COMMAND, args: []}];
+  return [
+    {command: "python", args: []},
+    {command: "python3", args: []},
+    {command: "py", args: ["-3"]}
+  ];
+}
+
+function runPyMySql(payload) {
+  let lastMissingCommand;
+  for (const candidate of pythonCommands()) {
+    const execution = spawnSync(candidate.command, [...candidate.args, "-c", PYMYSQL_RUNNER], {
+      input: JSON.stringify(payload),
+      encoding: "utf8"
+    });
+    if (execution.error?.code === "ENOENT") {
+      lastMissingCommand = candidate.command;
+      continue;
+    }
+    if (execution.error) throw execution.error;
+    const output = `${execution.stdout ?? ""}\n${execution.stderr ?? ""}`;
+    const marker = output.match(new RegExp(`${RESULT_MARKER_START}([A-Za-z0-9+/=]+)${RESULT_MARKER_END}`));
+    if (!marker) {
+      throw new Error(`Python database fallback failed: ${output.trim() || `python exited ${execution.status}`}`);
+    }
+    const result = JSON.parse(Buffer.from(marker[1], "base64").toString("utf8"));
+    if (result.error) throw new Error(`Python database fallback failed: ${result.error}`);
+    return result;
+  }
+  throw new Error(`mysql command is unavailable and no Python executable was found (last tried: ${lastMissingCommand ?? "python"}). Install a MySQL client, or install Python with PyMySQL.`);
+}
+
 const requiredByCheckpoint = {
   template_metadata: ["acActiveEmailCode", "acDraftEmailCode", "acSourceCategoryId", "acTargetCategoryId", "acInvalidPublishName", "acInvalidBatchName"],
   copy: ["acActiveEmailCode", "acCopyEmailCode"],
@@ -126,30 +202,48 @@ try {
   }
   mysqlArgs.push("--batch", "--raw", "--skip-column-names", "--silent", "--default-character-set=utf8mb4");
 
-  const execution = spawnSync("mysql", mysqlArgs, {
+  const mysqlExecution = spawnSync("mysql", mysqlArgs, {
     input: `${variablesSql.join("\n")}\n\n${selectedSql}\n`,
     encoding: "utf8",
     env: process.env
   });
-  if (execution.error) throw execution.error;
-  if (execution.status !== 0) throw new Error(`mysql exited ${execution.status}: ${(execution.stderr || "").trim()}`);
-
-  const checks = execution.stdout.trim().split("\n").filter(Boolean).map(line => {
-    const [checkId, result, ...evidence] = line.split("\t");
-    return {checkId, result, evidence: evidence.join("\t")};
-  });
+  let checks;
+  let statementResults;
+  if (mysqlExecution.error?.code === "ENOENT") {
+    if (process.env.MYSQL_DEFAULTS_FILE) {
+      throw new Error("mysql command is unavailable. Python fallback requires MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_DATABASE and MYSQL_PWD instead of MYSQL_DEFAULTS_FILE.");
+    }
+    const pythonResult = runPyMySql({
+      host: process.env.MYSQL_HOST,
+      port: process.env.MYSQL_PORT,
+      user: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PWD ?? "",
+      database: process.env.MYSQL_DATABASE,
+      statements: [...variablesSql, ...assertionStatements]
+    });
+    checks = pythonResult.checks ?? [];
+    statementResults = pythonResult.statements ?? [];
+    console.log("mysql command not found; database assertions executed through Python PyMySQL fallback.");
+  } else {
+    if (mysqlExecution.error) throw mysqlExecution.error;
+    if (mysqlExecution.status !== 0) throw new Error(`mysql exited ${mysqlExecution.status}: ${(mysqlExecution.stderr || "").trim()}`);
+    checks = mysqlExecution.stdout.trim().split("\n").filter(Boolean).map(line => {
+      const [checkId, result, ...evidence] = line.split("\t");
+      return {checkId, result, evidence: evidence.join("\t")};
+    });
+    statementResults = [
+      ...variablesSql.map(sql => ({sql, columns: [], rows: []})),
+      ...assertionStatements.map((sql, index) => ({
+        sql,
+        columns: ["check_id", "result", "evidence"],
+        rows: checks[index] ? [checks[index]] : []
+      }))
+    ];
+  }
   if (!checks.length || checks.some(check => !check.checkId || !["PASS", "FAIL"].includes(check.result))) {
     throw new Error(`Unexpected MySQL assertion output at ${checkpoint}`);
   }
   const failed = checks.filter(check => check.result === "FAIL");
-  const statementResults = [
-    ...variablesSql.map(sql => ({sql, columns: [], rows: []})),
-    ...assertionStatements.map((sql, index) => ({
-      sql,
-      columns: ["check_id", "result", "evidence"],
-      rows: checks[index] ? [checks[index]] : []
-    }))
-  ];
   const result = {
     generatedAt: new Date().toISOString(),
     checkpoint,
