@@ -1,0 +1,603 @@
+{
+  "info": {
+    "_postman_id": "dd6d8a88-7c79-4d95-bfdf-605243f62aaf",
+    "name": "LEAD-308 / LEAD-407 Adviser AC Verification",
+    "description": "Generated from the frozen LEAD-308 v2 Contract collection. Numeric prefixes make the requests traceable in the shared Newman report pipeline.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 Library Bootstrap",
+      "description": "The three read requests used when Adviser Template Library first opens.",
+      "item": [
+        {
+          "name": "101 NEW-01 Category Tree - Adviser Navigation",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/tree",
+            "description": "Category tree nodes return the static publishedTemplateCount for all Published Templates. Counts are calculated by unique emailCode and do not change with Search or Tag filters."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json = {};",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Category tree exists', function () { pm.expect(json.data).to.be.an('array'); });",
+                  "pm.test('Category tree exposes static published counts', function () { function check(nodes) { (nodes || []).forEach(function (node) { pm.expect(node.publishedTemplateCount).to.be.a('number'); check(node.children); }); } check(json.data); });",
+                  "pm.test('Category IDs are JavaScript-safe strings', function () { (json.data || []).forEach(function (parent) { pm.expect(parent.id).to.be.a('string'); pm.expect(String(parent.parentId)).to.eql('0'); pm.expect(parent.children).to.be.an('array'); parent.children.forEach(function (child) { pm.expect(child.id).to.be.a('string'); pm.expect(String(child.parentId)).to.eql(String(parent.id)); }); }); });",
+                  "const parent = (json.data || []).find(function (item) { return item.children?.length; }) || (json.data || [])[0]; if (parent?.id) { pm.collectionVariables.set('categoryId', String(parent.id)); const child = (parent.children || [])[0]; if (child?.id) pm.collectionVariables.set('subcategoryId', String(child.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "102 NEW-06 Tag Taxonomy - Four Mandatory Groups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/category/taxonomy",
+            "description": "LEAD-308 Adviser UI uses only CONTENT_TYPE, TRIGGER, LIFECYCLE_STAGE and FINANCIAL_NEED; Optional groups are not displayed or filtered."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json = {};",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Four LEAD-308 mandatory groups exist', function () { const codes = (json.data || []).map(function (group) { return group.groupCode; }); ['CONTENT_TYPE','TRIGGER','LIFECYCLE_STAGE','FINANCIAL_NEED'].forEach(function (code) { pm.expect(codes).to.include(code); }); });",
+                  "const group = (json.data || []).find(function (item) { return ['CONTENT_TYPE','TRIGGER','LIFECYCLE_STAGE','FINANCIAL_NEED'].includes(item.groupCode) && item.tagValues?.length; }); if (group) { pm.collectionVariables.set('tagGroupCode', String(group.groupCode)); pm.collectionVariables.set('tagCode', String(group.tagValues[0].tagCode)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "103 EX-01 Published List - Email Adviser Cards",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
+            "description": "Base LEAD-308 card query. LEAD-93 v2 fixes is_campaign=0; Adviser does not send or consume isCampaign.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"keyWords\": \"\",\n  \"categoryId\": null,\n  \"subCategoryIds\": [],\n  \"tagGroups\": [],\n  \"querySort\": 0,\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json = {};",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Page response exists', function () { pm.expect(json.data).to.be.an('object'); pm.expect(json.data.pageNo).to.be.a('number'); pm.expect(json.data.pageSize).to.be.a('number'); pm.expect(json.data.totalCount).to.be.a('number'); pm.expect(json.data.totalPage).to.be.a('number'); pm.expect(json.data.dataList).to.be.an('array'); });",
+                  "pm.test('Every returned Template is Active Published', function () { (json.data.dataList || []).forEach(function (row) { pm.expect(Number(row.versionStatus)).to.eql(1); pm.expect(Number(row.emailStatus)).to.eql(1); pm.expect(String(row.emailCode)).to.match(/^\\d+$/); }); });",
+                  "const first = (json.data.dataList || [])[0]; if (first?.emailCode) { pm.collectionVariables.set('emailCode', String(first.emailCode)); if (first.emailName) pm.collectionVariables.set('searchKeyword', String(first.emailName)); if (first.categoryId) pm.collectionVariables.set('categoryId', String(first.categoryId)); const sub = (first.subCategoryIds || [])[0]; if (sub) pm.collectionVariables.set('subcategoryId', String(sub)); const groups = first.tagMap || {}; const groupCode = Object.keys(groups).find(function (code) { return ['CONTENT_TYPE','TRIGGER','LIFECYCLE_STAGE','FINANCIAL_NEED'].includes(code) && (groups[code] || []).length; }); if (groupCode) { pm.collectionVariables.set('tagGroupCode', groupCode); pm.collectionVariables.set('tagCode', String(groups[groupCode][0])); } }"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 Search and Filter",
+      "description": "All scenarios reuse EX-01. Status/version/includeDraft are deliberately absent.",
+      "item": [
+        {
+          "name": "104 EX-01 Search - Template Name Title Description or Tag Name",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"keyWords\": \"{{searchKeyword}}\",\n  \"categoryId\": null,\n  \"subCategoryIds\": [],\n  \"tagGroups\": [],\n  \"querySort\": 0,\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json = {};",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Page response exists', function () { pm.expect(json.data).to.be.an('object'); pm.expect(json.data.pageNo).to.be.a('number'); pm.expect(json.data.pageSize).to.be.a('number'); pm.expect(json.data.totalCount).to.be.a('number'); pm.expect(json.data.totalPage).to.be.a('number'); pm.expect(json.data.dataList).to.be.an('array'); });",
+                  "pm.test('Every returned Template is Active Published', function () { (json.data.dataList || []).forEach(function (row) { pm.expect(Number(row.versionStatus)).to.eql(1); pm.expect(Number(row.emailStatus)).to.eql(1); pm.expect(String(row.emailCode)).to.match(/^\\d+$/); }); });",
+                  "pm.test('Search result contains the seeded Template Name keyword', function () { const keyword = String(pm.collectionVariables.get('searchKeyword') || '').toLowerCase(); (json.data.dataList || []).forEach(function (row) { pm.expect([row.emailName || '', row.title || '', row.description || ''].join(' ').toLowerCase()).to.include(keyword); }); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "105 EX-01 Category and Subcategory Filter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"keyWords\": \"\",\n  \"categoryId\": \"{{categoryId}}\",\n  \"subCategoryIds\": [\n    \"{{subcategoryId}}\"\n  ],\n  \"tagGroups\": [],\n  \"querySort\": 0,\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json = {};",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Page response exists', function () { pm.expect(json.data).to.be.an('object'); pm.expect(json.data.pageNo).to.be.a('number'); pm.expect(json.data.pageSize).to.be.a('number'); pm.expect(json.data.totalCount).to.be.a('number'); pm.expect(json.data.totalPage).to.be.a('number'); pm.expect(json.data.dataList).to.be.an('array'); });",
+                  "pm.test('Every returned Template is Active Published', function () { (json.data.dataList || []).forEach(function (row) { pm.expect(Number(row.versionStatus)).to.eql(1); pm.expect(Number(row.emailStatus)).to.eql(1); pm.expect(String(row.emailCode)).to.match(/^\\d+$/); }); });",
+                  "pm.test('Returned metadata matches Category filters', function () { const categoryId = String(pm.collectionVariables.get('categoryId')); const subcategoryId = String(pm.collectionVariables.get('subcategoryId')); (json.data.dataList || []).forEach(function (row) { pm.expect(String(row.categoryId)).to.eql(categoryId); pm.expect((row.subCategoryIds || []).map(String)).to.include(subcategoryId); }); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "106 EX-01 Tag Filter - Same Group OR Cross Group AND Contract",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/queryList",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"keyWords\": \"\",\n  \"categoryId\": null,\n  \"subCategoryIds\": [],\n  \"tagGroups\": [\n    {\n      \"groupCode\": \"{{tagGroupCode}}\",\n      \"tagCodes\": [\n        \"{{tagCode}}\"\n      ]\n    }\n  ],\n  \"querySort\": 0,\n  \"pageNum\": 1,\n  \"pageSize\": 20\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json = {};",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Page response exists', function () { pm.expect(json.data).to.be.an('object'); pm.expect(json.data.pageNo).to.be.a('number'); pm.expect(json.data.pageSize).to.be.a('number'); pm.expect(json.data.totalCount).to.be.a('number'); pm.expect(json.data.totalPage).to.be.a('number'); pm.expect(json.data.dataList).to.be.an('array'); });",
+                  "pm.test('Every returned Template is Active Published', function () { (json.data.dataList || []).forEach(function (row) { pm.expect(Number(row.versionStatus)).to.eql(1); pm.expect(Number(row.emailStatus)).to.eql(1); pm.expect(String(row.emailCode)).to.match(/^\\d+$/); }); });",
+                  "pm.test('Returned metadata matches Tag filter', function () { const groupCode = String(pm.collectionVariables.get('tagGroupCode')); const tagCode = String(pm.collectionVariables.get('tagCode')); (json.data.dataList || []).forEach(function (row) { pm.expect((row.tagMap || {})[groupCode] || []).to.include(tagCode); }); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 Detail and Preview",
+      "description": "EX-04 is called for Detail and Preview. Send Email reuses the existing v1 Send Email path and is not a v2 EX-04 preflight scenario.",
+      "item": [
+        {
+          "name": "107 EX-04 已发布详情（含 Metadata） - Resolve Current Active",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/published/detail",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{emailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json = {};",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Active published detail is returned', function () { pm.expect(json.data).to.be.an('object'); pm.expect(String(json.data.emailCode)).to.eql(String(pm.collectionVariables.get('emailCode'))); pm.expect(Number(json.data.versionStatus)).to.eql(1); pm.expect(Number(json.data.emailStatus)).to.eql(1); });",
+                  "pm.test('Detail contains current Template metadata', function () { pm.expect(json.data).to.have.property('categoryId'); pm.expect(json.data.subCategoryIds).to.be.an('array'); pm.expect(json.data.tagMap).to.be.an('object'); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "108 EX-04 Preview Context - Body and Metadata Only",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "authorization",
+                "value": "{{authorization}}",
+                "type": "text"
+              },
+              {
+                "key": "x-apigw-api-id",
+                "value": "{{xApigwApiId}}",
+                "type": "text"
+              },
+              {
+                "key": "language",
+                "value": "{{language}}",
+                "type": "text"
+              },
+              {
+                "key": "requestid",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{baseUrl}}{{gatewayPrefix}}/iic-dae-msg/web/msg/template/email/v2/published/detail",
+            "description": "Preview reuses EX-04 and the existing Renderer. fileKeys/fileInfos may be returned but LEAD-308 Preview must ignore them.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"emailCode\": \"{{emailCode}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP status is 200', function () { pm.response.to.have.status(200); });",
+                  "let json = {};",
+                  "pm.test('Response is JSON', function () { json = pm.response.json(); pm.expect(json).to.be.an('object'); });",
+                  "pm.test('IIC response envelope exists', function () { pm.expect(json).to.have.property('requestId'); pm.expect(json).to.have.property('responseCode'); pm.expect(json).to.have.property('responseMessage'); pm.expect(json).to.have.property('data'); });",
+                  "pm.test('Business response is successful', function () { pm.expect(json.responseCode).to.eql('00000000'); });",
+                  "pm.test('Response time is below 10 seconds', function () { pm.expect(pm.response.responseTime).to.be.below(10000); });",
+                  "pm.test('Preview context is current Active', function () { pm.expect(Number(json.data.versionStatus)).to.eql(1); pm.expect(json.data.emailContent).to.exist; });",
+                  "pm.test('Preview metadata is available', function () { pm.expect(json.data).to.have.property('categoryId'); pm.expect(json.data.subCategoryIds).to.be.an('array'); pm.expect(json.data.tagMap).to.be.an('object'); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:31093",
+      "type": "string"
+    },
+    {
+      "key": "gatewayPrefix",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "authorization",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "xApigwApiId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "language",
+      "value": "en-US",
+      "type": "string"
+    },
+    {
+      "key": "emailCode",
+      "value": "815645091883520000",
+      "type": "string"
+    },
+    {
+      "key": "searchKeyword",
+      "value": "retirement",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "1001",
+      "type": "string"
+    },
+    {
+      "key": "subcategoryId",
+      "value": "1101",
+      "type": "string"
+    },
+    {
+      "key": "tagGroupCode",
+      "value": "CONTENT_TYPE",
+      "type": "string"
+    },
+    {
+      "key": "tagCode",
+      "value": "EMAIL",
+      "type": "string"
+    }
+  ]
+}
